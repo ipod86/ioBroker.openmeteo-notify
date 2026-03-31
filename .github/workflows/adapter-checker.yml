@@ -14,7 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run ioBroker Adapter Checker
-        uses: ioBroker/action-adapter-checker@v1
+      - uses: actions/setup-node@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 22.x
+      - run: npm ci
+      - name: Run ioBroker Adapter Checker
+        run: npx @iobroker/adapter-checker --input . --createIssues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -93,8 +93,12 @@ function normalizeId(name) {
  * @returns {number}
  */
 function precipitationType(code) {
-	if (RAIN_CODES.has(code)) return 1;
-	if (SNOW_CODES.has(code)) return 2;
+	if (RAIN_CODES.has(code)) {
+		return 1;
+	}
+	if (SNOW_CODES.has(code)) {
+		return 2;
+	}
 	return 0;
 }
 
@@ -119,20 +123,23 @@ class Openmeteo extends utils.Adapter {
 		await this.runUpdate();
 
 		// Danach stündlich wiederholen
-		this.updateInterval = this.setInterval(async () => {
-			await this.runUpdate();
-		}, 60 * 60 * 1000);
+		this.updateInterval = this.setInterval(
+			async () => {
+				await this.runUpdate();
+			},
+			60 * 60 * 1000,
+		);
 	}
 
 	/**
 	 * Runs a full weather update for all configured locations
 	 */
 	async runUpdate() {
-		const locations       = this.config.locations;
-		const daysCount       = this.config.daysCount       || 7;
-		const hourlyDays      = this.config.hourlyDays      || 3;
+		const locations = this.config.locations;
+		const daysCount = this.config.daysCount || 7;
+		const hourlyDays = this.config.hourlyDays || 3;
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
-		const windspeedUnit   = this.config.windspeedUnit   || "kmh";
+		const windspeedUnit = this.config.windspeedUnit || "kmh";
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
@@ -147,23 +154,31 @@ class Openmeteo extends utils.Adapter {
 			return;
 		}
 
-		const tempUnit   = temperatureUnit === "fahrenheit" ? "°F" : "°C";
-		const windUnit   = windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
+		const tempUnit = temperatureUnit === "fahrenheit" ? "°F" : "°C";
+		const windUnit =
+			windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
 		const precipUnit = precipitationUnit === "inch" ? "inch" : "mm";
-		const units      = { tempUnit, windUnit, precipUnit };
+		const units = { tempUnit, windUnit, precipUnit };
 
-		const validLocationIds = new Set(
-			locations.map(loc => normalizeId(loc.name)).filter(id => id.length > 0),
-		);
+		const validLocationIds = new Set(locations.map(loc => normalizeId(loc.name)).filter(id => id.length > 0));
 
 		let anySuccess = false;
 
 		for (const loc of locations) {
 			const locId = normalizeId(loc.name);
-			if (!locId) continue;
+			if (!locId) {
+				continue;
+			}
 
 			try {
-				const data = await this.fetchWeather(loc.lat, loc.lon, daysCount, temperatureUnit, windspeedUnit, precipitationUnit);
+				const data = await this.fetchWeather(
+					loc.lat,
+					loc.lon,
+					daysCount,
+					temperatureUnit,
+					windspeedUnit,
+					precipitationUnit,
+				);
 
 				await this.setObjectNotExistsAsync(locId, {
 					type: "channel",
@@ -271,15 +286,57 @@ class Openmeteo extends utils.Adapter {
 				native: {},
 			});
 
-			await this.setDP(`${locId}.current.temperature`,   Math.round(cur.temperature_2m * 10) / 10,       { name: "Temperatur",    type: "number", unit: tempUnit,  role: "value.temperature" });
-			await this.setDP(`${locId}.current.feels_like`,    Math.round(cur.apparent_temperature * 10) / 10, { name: "Gefühlt",       type: "number", unit: tempUnit,  role: "value.temperature.feelslike" });
-			await this.setDP(`${locId}.current.weathercode`,   curCode,                                        { name: "Wettercode",    type: "number",                  role: "value" });
-			await this.setDP(`${locId}.current.icon`,          curIcon,                                        { name: "Icon",          type: "string",                  role: "weather.icon.name" });
-			await this.setDP(`${locId}.current.description`,   curDesc,                                        { name: "Beschreibung",  type: "string",                  role: "weather.state" });
-			await this.setDP(`${locId}.current.windspeed`,     cur.windspeed_10m,                              { name: "Wind",          type: "number", unit: windUnit,  role: "value.speed.wind" });
-			await this.setDP(`${locId}.current.windgusts`,     cur.windgusts_10m,                              { name: "Windböen",      type: "number", unit: windUnit,  role: "value.speed.wind.gust" });
-			await this.setDP(`${locId}.current.precipitation`, cur.precipitation,                              { name: "Niederschlag",  type: "number", unit: precipUnit, role: "value.precipitation.hour" });
-			await this.setDP(`${locId}.current.cloudcover`,    cur.cloudcover,                                 { name: "Bewölkung",     type: "number", unit: "%",       role: "value.clouds" });
+			await this.setDP(`${locId}.current.temperature`, Math.round(cur.temperature_2m * 10) / 10, {
+				name: "Temperatur",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature",
+			});
+			await this.setDP(`${locId}.current.feels_like`, Math.round(cur.apparent_temperature * 10) / 10, {
+				name: "Gefühlt",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.feelslike",
+			});
+			await this.setDP(`${locId}.current.weathercode`, curCode, {
+				name: "Wettercode",
+				type: "number",
+				role: "value",
+			});
+			await this.setDP(`${locId}.current.icon`, curIcon, {
+				name: "Icon",
+				type: "string",
+				role: "weather.icon.name",
+			});
+			await this.setDP(`${locId}.current.description`, curDesc, {
+				name: "Beschreibung",
+				type: "string",
+				role: "weather.state",
+			});
+			await this.setDP(`${locId}.current.windspeed`, cur.windspeed_10m, {
+				name: "Wind",
+				type: "number",
+				unit: windUnit,
+				role: "value.speed.wind",
+			});
+			await this.setDP(`${locId}.current.windgusts`, cur.windgusts_10m, {
+				name: "Windböen",
+				type: "number",
+				unit: windUnit,
+				role: "value.speed.wind.gust",
+			});
+			await this.setDP(`${locId}.current.precipitation`, cur.precipitation, {
+				name: "Niederschlag",
+				type: "number",
+				unit: precipUnit,
+				role: "value.precipitation.hour",
+			});
+			await this.setDP(`${locId}.current.cloudcover`, cur.cloudcover, {
+				name: "Bewölkung",
+				type: "number",
+				unit: "%",
+				role: "value.clouds",
+			});
 		}
 
 		// --- Group hourly values by date ---
@@ -287,7 +344,9 @@ class Openmeteo extends utils.Adapter {
 		for (let i = 0; i < h.time.length; i++) {
 			const dateKey = h.time[i].substring(0, 10);
 			const hour = parseInt(h.time[i].substring(11, 13));
-			if (!hoursByDate[dateKey]) hoursByDate[dateKey] = [];
+			if (!hoursByDate[dateKey]) {
+				hoursByDate[dateKey] = [];
+			}
 			hoursByDate[dateKey][hour] = {
 				temperature: Math.round(h.temperature_2m[i] * 10) / 10,
 				feels_like: Math.round(h.apparent_temperature[i] * 10) / 10,
@@ -322,25 +381,99 @@ class Openmeteo extends utils.Adapter {
 				native: {},
 			});
 
-			await this.setDP(`${prefix}.date`,                 d.time[i],                           { name: "Datum",              type: "string", role: "date" });
-			await this.setDP(`${prefix}.weekday`,              weekday,                              { name: "Wochentag",          type: "string", role: "dayofweek" });
-			await this.setDP(`${prefix}.icon`,                 icon,                                 { name: "Icon",               type: "string", role: "weather.icon.name" });
-			await this.setDP(`${prefix}.description`,          desc,                                 { name: "Beschreibung",       type: "string", role: "weather.state" });
-			await this.setDP(`${prefix}.temp_max`,             tempMax,                              { name: "Temp. Max",          type: "number", unit: tempUnit,   role: "value.temperature.max" });
-			await this.setDP(`${prefix}.temp_min`,             tempMin,                              { name: "Temp. Min",          type: "number", unit: tempUnit,   role: "value.temperature.min" });
-			await this.setDP(`${prefix}.feels_like_max`,       feelsMax,                             { name: "Gefühlt Max",        type: "number", unit: tempUnit,   role: "value.temperature.feelslike" });
-			await this.setDP(`${prefix}.feels_like_min`,       feelsMin,                             { name: "Gefühlt Min",        type: "number", unit: tempUnit,   role: "value.temperature.feelslike" });
-			await this.setDP(`${prefix}.weathercode`,          d.weathercode[i],                    { name: "Wettercode",         type: "number",                   role: "value" });
-			await this.setDP(`${prefix}.precipitation_type`,   precipType,                           { name: "Niederschlagsart",   type: "number",                   role: "value.precipitation.type" });
-			await this.setDP(`${prefix}.precipitation`,        d.precipitation_sum[i],              { name: "Niederschlag",       type: "number", unit: precipUnit,  role: "value.precipitation" });
-			await this.setDP(`${prefix}.rain_probability`,     d.precipitation_probability_max[i],  { name: "Regenwahrsch.",      type: "number", unit: "%",         role: "value.precipitation.chance" });
-			await this.setDP(`${prefix}.windspeed`,            d.windspeed_10m_max[i],              { name: "Wind Max",           type: "number", unit: windUnit,   role: "value.speed.max.wind" });
-			await this.setDP(`${prefix}.windgusts`,            d.windgusts_10m_max[i],              { name: "Windböen Max",       type: "number", unit: windUnit,   role: "value.speed.wind.gust" });
-			await this.setDP(`${prefix}.winddirection`,        d.winddirection_10m_dominant[i],     { name: "Windrichtung",       type: "number", unit: "°",         role: "value.direction.wind" });
-			await this.setDP(`${prefix}.sunrise`,              d.sunrise[i],                        { name: "Sonnenaufgang",      type: "string",                   role: "date.sunrise" });
-			await this.setDP(`${prefix}.sunset`,               d.sunset[i],                         { name: "Sonnenuntergang",    type: "string",                   role: "date.sunset" });
-			await this.setDP(`${prefix}.uv_index`,             d.uv_index_max[i],                   { name: "UV-Index",           type: "number",                   role: "value.uv" });
-			await this.setDP(`${prefix}.sunshine_hours`,       sunH,                                { name: "Sonnenstunden",      type: "number", unit: "h",         role: "value" });
+			await this.setDP(`${prefix}.date`, d.time[i], { name: "Datum", type: "string", role: "date" });
+			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
+			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
+			await this.setDP(`${prefix}.description`, desc, {
+				name: "Beschreibung",
+				type: "string",
+				role: "weather.state",
+			});
+			await this.setDP(`${prefix}.temp_max`, tempMax, {
+				name: "Temp. Max",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.max",
+			});
+			await this.setDP(`${prefix}.temp_min`, tempMin, {
+				name: "Temp. Min",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.min",
+			});
+			await this.setDP(`${prefix}.feels_like_max`, feelsMax, {
+				name: "Gefühlt Max",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.feelslike",
+			});
+			await this.setDP(`${prefix}.feels_like_min`, feelsMin, {
+				name: "Gefühlt Min",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.feelslike",
+			});
+			await this.setDP(`${prefix}.weathercode`, d.weathercode[i], {
+				name: "Wettercode",
+				type: "number",
+				role: "value",
+			});
+			await this.setDP(`${prefix}.precipitation_type`, precipType, {
+				name: "Niederschlagsart",
+				type: "number",
+				role: "value.precipitation.type",
+			});
+			await this.setDP(`${prefix}.precipitation`, d.precipitation_sum[i], {
+				name: "Niederschlag",
+				type: "number",
+				unit: precipUnit,
+				role: "value.precipitation",
+			});
+			await this.setDP(`${prefix}.rain_probability`, d.precipitation_probability_max[i], {
+				name: "Regenwahrsch.",
+				type: "number",
+				unit: "%",
+				role: "value.precipitation.chance",
+			});
+			await this.setDP(`${prefix}.windspeed`, d.windspeed_10m_max[i], {
+				name: "Wind Max",
+				type: "number",
+				unit: windUnit,
+				role: "value.speed.max.wind",
+			});
+			await this.setDP(`${prefix}.windgusts`, d.windgusts_10m_max[i], {
+				name: "Windböen Max",
+				type: "number",
+				unit: windUnit,
+				role: "value.speed.wind.gust",
+			});
+			await this.setDP(`${prefix}.winddirection`, d.winddirection_10m_dominant[i], {
+				name: "Windrichtung",
+				type: "number",
+				unit: "°",
+				role: "value.direction.wind",
+			});
+			await this.setDP(`${prefix}.sunrise`, d.sunrise[i], {
+				name: "Sonnenaufgang",
+				type: "string",
+				role: "date.sunrise",
+			});
+			await this.setDP(`${prefix}.sunset`, d.sunset[i], {
+				name: "Sonnenuntergang",
+				type: "string",
+				role: "date.sunset",
+			});
+			await this.setDP(`${prefix}.uv_index`, d.uv_index_max[i], {
+				name: "UV-Index",
+				type: "number",
+				role: "value.uv",
+			});
+			await this.setDP(`${prefix}.sunshine_hours`, sunH, {
+				name: "Sonnenstunden",
+				type: "number",
+				unit: "h",
+				role: "value",
+			});
 
 			// Hourly values (only for days ≤ hourlyDays)
 			if (i < hourlyDays) {
@@ -353,7 +486,9 @@ class Openmeteo extends utils.Adapter {
 				const hours = hoursByDate[d.time[i]] || [];
 				for (let hh = 0; hh < 24; hh++) {
 					const hData = hours[hh];
-					if (!hData) continue;
+					if (!hData) {
+						continue;
+					}
 					const hKey = `h${String(hh).padStart(2, "0")}`;
 					const hPath = `${prefix}.hourly.${hKey}`;
 
@@ -363,15 +498,57 @@ class Openmeteo extends utils.Adapter {
 						native: {},
 					});
 
-					await this.setDP(`${hPath}.temperature`,   hData.temperature,   { name: "Temperatur",    type: "number", unit: tempUnit,   role: "value.temperature" });
-					await this.setDP(`${hPath}.feels_like`,    hData.feels_like,    { name: "Gefühlt",       type: "number", unit: tempUnit,   role: "value.temperature.feelslike" });
-					await this.setDP(`${hPath}.precipitation`, hData.precipitation, { name: "Niederschlag",  type: "number", unit: precipUnit, role: "value.precipitation.hour" });
-					await this.setDP(`${hPath}.rain_prob`,     hData.rain_prob,     { name: "Regenwahrsch.", type: "number", unit: "%",        role: "value.precipitation.chance" });
-					await this.setDP(`${hPath}.windspeed`,     hData.windspeed,     { name: "Wind",          type: "number", unit: windUnit,  role: "value.speed.wind" });
-					await this.setDP(`${hPath}.cloudcover`,    hData.cloudcover,    { name: "Bewölkung",     type: "number", unit: "%",        role: "value.clouds" });
-					await this.setDP(`${hPath}.weathercode`,   hData.weathercode,   { name: "Wettercode",    type: "number",                  role: "value" });
-					await this.setDP(`${hPath}.icon`,          hData.icon,          { name: "Icon",          type: "string",                  role: "weather.icon.name" });
-					await this.setDP(`${hPath}.description`,   hData.description,   { name: "Beschreibung",  type: "string",                  role: "weather.state" });
+					await this.setDP(`${hPath}.temperature`, hData.temperature, {
+						name: "Temperatur",
+						type: "number",
+						unit: tempUnit,
+						role: "value.temperature",
+					});
+					await this.setDP(`${hPath}.feels_like`, hData.feels_like, {
+						name: "Gefühlt",
+						type: "number",
+						unit: tempUnit,
+						role: "value.temperature.feelslike",
+					});
+					await this.setDP(`${hPath}.precipitation`, hData.precipitation, {
+						name: "Niederschlag",
+						type: "number",
+						unit: precipUnit,
+						role: "value.precipitation.hour",
+					});
+					await this.setDP(`${hPath}.rain_prob`, hData.rain_prob, {
+						name: "Regenwahrsch.",
+						type: "number",
+						unit: "%",
+						role: "value.precipitation.chance",
+					});
+					await this.setDP(`${hPath}.windspeed`, hData.windspeed, {
+						name: "Wind",
+						type: "number",
+						unit: windUnit,
+						role: "value.speed.wind",
+					});
+					await this.setDP(`${hPath}.cloudcover`, hData.cloudcover, {
+						name: "Bewölkung",
+						type: "number",
+						unit: "%",
+						role: "value.clouds",
+					});
+					await this.setDP(`${hPath}.weathercode`, hData.weathercode, {
+						name: "Wettercode",
+						type: "number",
+						role: "value",
+					});
+					await this.setDP(`${hPath}.icon`, hData.icon, {
+						name: "Icon",
+						type: "string",
+						role: "weather.icon.name",
+					});
+					await this.setDP(`${hPath}.description`, hData.description, {
+						name: "Beschreibung",
+						type: "string",
+						role: "weather.state",
+					});
 				}
 			}
 
@@ -426,7 +603,9 @@ class Openmeteo extends utils.Adapter {
 			// Find top-level channels (only one dot beyond the namespace)
 			const topLevelIds = new Set();
 			for (const fullId of Object.keys(allObjects)) {
-				if (!fullId.startsWith(namespace)) continue;
+				if (!fullId.startsWith(namespace)) {
+					continue;
+				}
 				const relative = fullId.slice(namespace.length);
 				// Top-level: no dots in relative path
 				if (!relative.includes(".")) {
@@ -435,8 +614,12 @@ class Openmeteo extends utils.Adapter {
 			}
 
 			for (const channelId of topLevelIds) {
-				if (channelId === "info") continue;
-				if (validLocationIds.has(channelId)) continue;
+				if (channelId === "info") {
+					continue;
+				}
+				if (validLocationIds.has(channelId)) {
+					continue;
+				}
 
 				try {
 					await this.delObjectAsync(channelId, { recursive: true });
@@ -457,7 +640,9 @@ class Openmeteo extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-			if (this.updateInterval) this.clearInterval(this.updateInterval);
+			if (this.updateInterval) {
+				this.clearInterval(this.updateInterval);
+			}
 			callback();
 		} catch (error) {
 			this.log.error(`Error during unloading: ${error.message}`);
