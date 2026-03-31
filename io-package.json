@@ -1,8 +1,16 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.1",
+		"version": "0.0.3",
 		"news": {
+			"0.0.3": {
+				"en": "fix repository URL format and JSDoc warnings",
+				"de": "Repository-URL-Format und JSDoc-Warnungen behoben"
+			},
+			"0.0.2": {
+				"en": "switch to daemon mode for immediate fetch on start",
+				"de": "Wechsel zu Daemon-Modus für sofortigen Abruf beim Start"
+			},
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
