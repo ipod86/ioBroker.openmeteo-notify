@@ -1,0 +1,116 @@
+{
+	"common": {
+		"name": "openmeteo",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "OpenMeteo Weather",
+			"de": "OpenMeteo-Wetter",
+			"ru": "Погода OpenMeteo",
+			"pt": "Tempo OpenMeteo",
+			"nl": "OpenMeteo-weer",
+			"fr": "Météo OpenMeteo",
+			"it": "OpenMeteo Meteo",
+			"es": "OpenMeteo Tiempo",
+			"pl": "Pogoda OpenMeteo",
+			"uk": "Погода OpenMeteo",
+			"zh-cn": "OpenMeteo 天气"
+		},
+		"desc": {
+			"en": "Free weather forecast from Open-Meteo API",
+			"de": "Kostenlose Wettervorhersage von Open-Meteo API",
+			"ru": "Бесплатный прогноз погоды от Open-Meteo API",
+			"pt": "Previsão do tempo gratuita da API Open-Meteo",
+			"nl": "Gratis weersvoorspelling van Open-Meteo API",
+			"fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
+			"it": "Previsioni meteo gratuite dall'API Open-Meteo",
+			"es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
+			"pl": "Darmowa prognoza pogody z Open-Meteo API",
+			"uk": "Безкоштовний прогноз погоди від Open-Meteo API",
+			"zh-cn": "来自 Open-Meteo API 的免费天气预报"
+		},
+		"authors": [
+			"David G. <david@graef.email>"
+		],
+		"keywords": [
+			"weather",
+			"forecast",
+			"openmeteo",
+			"open-meteo"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "openmeteo.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
+		"readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "schedule",
+		"schedule": "0 * * * *",
+		"type": "weather",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=7.0.23"
+			}
+		]
+	},
+	"native": {
+		"lat": 51.0009,
+		"lon": 8.1074,
+		"daysCount": 7,
+		"hourlyDays": 3
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}

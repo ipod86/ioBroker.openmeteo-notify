@@ -1,0 +1,64 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"_locationHeader": {
+			"type": "header",
+			"text": "location",
+			"newLine": true
+		},
+		"lat": {
+			"type": "number",
+			"label": "latitude",
+			"min": -90,
+			"max": 90,
+			"newLine": true,
+			"xs": 12,
+			"sm": 6,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
+		},
+		"lon": {
+			"type": "number",
+			"label": "longitude",
+			"min": -180,
+			"max": 180,
+			"xs": 12,
+			"sm": 6,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
+		},
+		"_forecastHeader": {
+			"type": "header",
+			"text": "forecast",
+			"newLine": true
+		},
+		"daysCount": {
+			"type": "number",
+			"label": "daysCount",
+			"help": "daysCountHelp",
+			"min": 1,
+			"max": 16,
+			"newLine": true,
+			"xs": 12,
+			"sm": 6,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
+		},
+		"hourlyDays": {
+			"type": "number",
+			"label": "hourlyDays",
+			"help": "hourlyDaysHelp",
+			"min": 0,
+			"max": 16,
+			"xs": 12,
+			"sm": 6,
+			"md": 6,
+			"lg": 4,
+			"xl": 4
+		}
+	}
+}
