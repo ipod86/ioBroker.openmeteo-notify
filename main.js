@@ -107,6 +107,7 @@ class Openmeteo extends utils.Adapter {
 			...options,
 			name: "openmeteo",
 		});
+		this.updateInterval = null;
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
@@ -114,39 +115,43 @@ class Openmeteo extends utils.Adapter {
 	async onReady() {
 		await this.setState("info.connection", false, true);
 
-		const locations = this.config.locations;
-		const daysCount = this.config.daysCount || 7;
-		const hourlyDays = this.config.hourlyDays || 3;
+		// Sofort beim Start abrufen
+		await this.runUpdate();
+
+		// Danach stündlich wiederholen
+		this.updateInterval = this.setInterval(async () => {
+			await this.runUpdate();
+		}, 60 * 60 * 1000);
+	}
+
+	/**
+	 * Runs a full weather update for all configured locations
+	 */
+	async runUpdate() {
+		const locations       = this.config.locations;
+		const daysCount       = this.config.daysCount       || 7;
+		const hourlyDays      = this.config.hourlyDays      || 3;
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
-		const windspeedUnit = this.config.windspeedUnit || "kmh";
+		const windspeedUnit   = this.config.windspeedUnit   || "kmh";
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
-			this.log.error("Keine Standorte konfiguriert. Bitte mindestens einen Standort in den Einstellungen angeben.");
-			this.terminate();
+			this.log.error("Keine Standorte konfiguriert.");
+			await this.setState("info.connection", false, true);
 			return;
 		}
 
 		if (hourlyDays > daysCount) {
-			this.log.error(
-				`hourlyDays (${hourlyDays}) darf nicht größer als daysCount (${daysCount}) sein!`,
-			);
-			this.terminate();
+			this.log.error(`hourlyDays (${hourlyDays}) darf nicht größer als daysCount (${daysCount}) sein!`);
+			await this.setState("info.connection", false, true);
 			return;
 		}
 
-		// Determine unit labels
-		const tempUnit = temperatureUnit === "fahrenheit" ? "°F" : "°C";
-		const windUnit =
-			windspeedUnit === "ms" ? "m/s" :
-			windspeedUnit === "mph" ? "mph" :
-			windspeedUnit === "kn" ? "kn" :
-			"km/h";
+		const tempUnit   = temperatureUnit === "fahrenheit" ? "°F" : "°C";
+		const windUnit   = windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
 		const precipUnit = precipitationUnit === "inch" ? "inch" : "mm";
+		const units      = { tempUnit, windUnit, precipUnit };
 
-		const units = { tempUnit, windUnit, precipUnit };
-
-		// Build set of valid location IDs for cleanup
 		const validLocationIds = new Set(
 			locations.map(loc => normalizeId(loc.name)).filter(id => id.length > 0),
 		);
@@ -155,20 +160,10 @@ class Openmeteo extends utils.Adapter {
 
 		for (const loc of locations) {
 			const locId = normalizeId(loc.name);
-			if (!locId) {
-				this.log.warn(`Standortname "${loc.name}" ergibt eine leere ID – wird übersprungen.`);
-				continue;
-			}
+			if (!locId) continue;
 
 			try {
-				const data = await this.fetchWeather(
-					loc.lat,
-					loc.lon,
-					daysCount,
-					temperatureUnit,
-					windspeedUnit,
-					precipitationUnit,
-				);
+				const data = await this.fetchWeather(loc.lat, loc.lon, daysCount, temperatureUnit, windspeedUnit, precipitationUnit);
 
 				await this.setObjectNotExistsAsync(locId, {
 					type: "channel",
@@ -179,20 +174,14 @@ class Openmeteo extends utils.Adapter {
 				await this.processData(data, locId, daysCount, hourlyDays, units);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 				anySuccess = true;
-				this.log.info(
-					`OpenMeteo aktualisiert: ${loc.name} (${daysCount} Tage, ${hourlyDays} davon stündlich)`,
-				);
+				this.log.info(`OpenMeteo aktualisiert: ${loc.name} (${daysCount} Tage, ${hourlyDays} davon stündlich)`);
 			} catch (err) {
 				this.log.error(`Fehler beim Abrufen der Wetterdaten für "${loc.name}": ${err.message}`);
 			}
 		}
 
 		await this.setState("info.connection", anySuccess, true);
-
-		// Cleanup orphaned location channels
 		await this.cleanupOrphanedLocations(validLocationIds);
-
-		this.terminate();
 	}
 
 	/**
@@ -468,6 +457,7 @@ class Openmeteo extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			if (this.updateInterval) this.clearInterval(this.updateInterval);
 			callback();
 		} catch (error) {
 			this.log.error(`Error during unloading: ${error.message}`);
