@@ -1,0 +1,11 @@
+{
+	"openmeteo adapter settings": "OpenMeteo adapter settings",
+	"location": "Location",
+	"latitude": "Latitude",
+	"longitude": "Longitude",
+	"forecast": "Forecast",
+	"daysCount": "Number of days (1–16)",
+	"daysCountHelp": "How many days to fetch (max. 16)",
+	"hourlyDays": "Days with hourly data (0–16)",
+	"hourlyDaysHelp": "For how many days hourly values should be stored (must be ≤ number of days)"
+}

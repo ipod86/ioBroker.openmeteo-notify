@@ -1,0 +1,69 @@
+{
+	"cli": true,
+	"target": "directory",
+	"adapterName": "openmeteo",
+	"title": "OpenMeteo Weather",
+	"description": "Free weather forecast from Open-Meteo API",
+	"authorName": "David G.",
+	"authorEmail": "david@graef.email",
+	"authorGithub": "ipod86",
+	"language": "JavaScript",
+	"features": [
+		"adapter"
+	],
+	"adminUi": "json",
+	"i18n": "JSON",
+	"tools": [
+		"ESLint"
+	],
+	"nodeVersion": "22",
+	"type": "weather",
+	"startMode": "schedule",
+	"connectionIndicator": "yes",
+	"connectionType": "cloud",
+	"dataSource": "poll",
+	"license": "MIT License",
+	"licenseInformation": {
+		"type": "free"
+	},
+	"indentation": "Tab",
+	"quotes": "double",
+	"gitRemoteProtocol": "HTTPS",
+	"defaultBranch": "main",
+	"dependabot": "yes",
+	"releaseScript": "yes",
+	"gitCommit": "no",
+	"devServer": "no",
+	"expert": "no",
+	"adapterSettings": [
+		{
+			"key": "lat",
+			"inputType": "number",
+			"label": "Latitude",
+			"defaultValue": 51.0009
+		},
+		{
+			"key": "lon",
+			"inputType": "number",
+			"label": "Longitude",
+			"defaultValue": 8.1074
+		},
+		{
+			"key": "daysCount",
+			"inputType": "number",
+			"label": "Days (1-16)",
+			"defaultValue": 7
+		},
+		{
+			"key": "hourlyDays",
+			"inputType": "number",
+			"label": "Hourly Days (0-16)",
+			"defaultValue": 3
+		}
+	],
+	"replay": "/root/.create-adapter.json",
+	"adminFeatures": [],
+	"scheduleStartOnChange": "no",
+	"eslintConfig": "official",
+	"creatorVersion": "3.1.2"
+}
