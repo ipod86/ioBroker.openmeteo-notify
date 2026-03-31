@@ -135,7 +135,7 @@ class Openmeteo extends utils.Adapter {
 	 * Runs a full weather update for all configured locations
 	 */
 	async runUpdate() {
-		const locations = this.config.locations;
+		let locations = this.config.locations;
 		const daysCount = this.config.daysCount || 7;
 		const hourlyDays = this.config.hourlyDays || 3;
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
@@ -143,9 +143,21 @@ class Openmeteo extends utils.Adapter {
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
-			this.log.error("Keine Standorte konfiguriert.");
-			await this.setState("info.connection", false, true);
-			return;
+			// Fallback: use ioBroker system coordinates from system.config
+			const sysConfig = await this.getForeignObjectAsync("system.config");
+			const lat = sysConfig && sysConfig.common && sysConfig.common.latitude;
+			const lon = sysConfig && sysConfig.common && sysConfig.common.longitude;
+			const city = (sysConfig && sysConfig.common && sysConfig.common.city) || "Home";
+			if (lat != null && lon != null) {
+				this.log.info(
+					`Keine Standorte konfiguriert – verwende ioBroker-Systemstandort: ${city} (${lat}, ${lon})`,
+				);
+				locations = [{ name: city, lat, lon }];
+			} else {
+				this.log.error("Keine Standorte konfiguriert und kein Systemstandort in ioBroker hinterlegt.");
+				await this.setState("info.connection", false, true);
+				return;
+			}
 		}
 
 		if (hourlyDays > daysCount) {

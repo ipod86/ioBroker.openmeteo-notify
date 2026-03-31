@@ -100,13 +100,7 @@
 		]
 	},
 	"native": {
-		"locations": [
-			{
-				"name": "Hilchenbach",
-				"lat": 51.0009,
-				"lon": 8.1074
-			}
-		],
+		"locations": [],
 		"daysCount": 7,
 		"hourlyDays": 3,
 		"temperatureUnit": "celsius",

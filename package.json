@@ -1,6 +1,6 @@
 {
   "name": "iobroker.openmeteo",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Free weather forecast from Open-Meteo API",
   "author": {
     "name": "David G.",
