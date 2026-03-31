@@ -10,27 +10,30 @@
 		"locations": {
 			"type": "table",
 			"newLine": true,
-			"items": {
-				"name": {
+			"items": [
+				{
 					"type": "text",
-					"label": "locationName",
+					"attr": "name",
+					"title": "locationName",
 					"width": "40%"
 				},
-				"lat": {
+				{
 					"type": "number",
-					"label": "latitude",
+					"attr": "lat",
+					"title": "latitude",
 					"min": -90,
 					"max": 90,
 					"width": "30%"
 				},
-				"lon": {
+				{
 					"type": "number",
-					"label": "longitude",
+					"attr": "lon",
+					"title": "longitude",
 					"min": -180,
 					"max": 180,
 					"width": "30%"
 				}
-			}
+			]
 		},
 		"_forecastHeader": {
 			"type": "header",
