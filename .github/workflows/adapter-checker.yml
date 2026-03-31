@@ -1,0 +1,20 @@
+name: Adapter Checker
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Run every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  adapter-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ioBroker Adapter Checker
+        uses: ioBroker/action-adapter-checker@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
