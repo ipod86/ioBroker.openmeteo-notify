@@ -71,7 +71,7 @@ const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
  * Normalizes a location name to a valid ioBroker object ID segment
  *
  * @param {string} name - Location name
- * @returns {string}
+ * @returns {string} Normalized ID string safe for use as ioBroker object ID
  */
 function normalizeId(name) {
 	return name
@@ -90,7 +90,7 @@ function normalizeId(name) {
  * 0 = none, 1 = rain, 2 = snow
  *
  * @param {number} code - WMO weathercode
- * @returns {number}
+ * @returns {number} 0 = none, 1 = rain, 2 = snow
  */
 function precipitationType(code) {
 	if (RAIN_CODES.has(code)) {
@@ -208,7 +208,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} temperatureUnit - Temperature unit
 	 * @param {string} windspeedUnit - Wind speed unit
 	 * @param {string} precipitationUnit - Precipitation unit
-	 * @returns {Promise<object>}
+	 * @returns {Promise<object>} Parsed JSON response from Open-Meteo API
 	 */
 	fetchWeather(lat, lon, daysCount, temperatureUnit, windspeedUnit, precipitationUnit) {
 		return new Promise((resolve, reject) => {
