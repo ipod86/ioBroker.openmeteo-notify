@@ -305,6 +305,8 @@ class Openmeteo extends utils.Adapter {
 		const enableAirQuality = this.config.enableAirQuality !== false;
 		const enableAstronomy = this.config.enableAstronomy !== false;
 		const enableAgriculture = !!this.config.enableAgriculture;
+		const enableAgricultureHourly = enableAgriculture && !!this.config.enableAgricultureHourly;
+		const enablePollenHourly = this.config.enablePollenHourly !== false;
 
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config
@@ -362,13 +364,13 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 
-				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAgriculture);
+				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAgriculture, enableAgricultureHourly);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 
 				if (enablePollen || enableAirQuality) {
 					try {
 						const aq = await this.fetchAirQuality(loc.lat, loc.lon);
-						await this.processPollen(aq, locId, hourlyDays, enablePollen, enableAirQuality);
+						await this.processPollen(aq, locId, hourlyDays, enablePollen, enableAirQuality, enablePollenHourly);
 					} catch (err) {
 						this.log.warn(`Pollen/Luftqualität-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
@@ -504,7 +506,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {object} units - Unit labels { tempUnit, windUnit, precipUnit }
 	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
 	 */
-	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAgriculture) {
+	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAgriculture, enableAgricultureHourly) {
 		const { tempUnit, windUnit, precipUnit, windspeedUnit } = units;
 		const d = data.daily;
 		const h = data.hourly;
@@ -1114,7 +1116,7 @@ class Openmeteo extends utils.Adapter {
 						unit: "cm",
 						role: "value.precipitation.snow",
 					});
-					if (enableAgriculture) {
+					if (enableAgricultureHourly) {
 						await this.setObjectNotExistsAsync(`${hPath}.agriculture`, {
 							type: "channel",
 							common: { name: "Agrar/Solar" },
@@ -1215,7 +1217,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - Location ID
 	 * @param {number} hourlyDays - Number of days with hourly channels
 	 */
-	async processPollen(data, locId, hourlyDays, enablePollen, enableAirQuality) {
+	async processPollen(data, locId, hourlyDays, enablePollen, enableAirQuality, enablePollenHourly) {
 		// --- AQI current data ---
 		if (enableAirQuality && data.current) {
 			const c = data.current;
@@ -1346,8 +1348,14 @@ class Openmeteo extends utils.Adapter {
 				});
 			}
 
-			// Hourly values under dayX.hourly.hXX.pollen (only if hourly channel exists)
-			if (i < hourlyDays) {
+			// Hourly values under dayX.hourly.hXX.pollen (only if hourly channel exists and hourly pollen enabled)
+			if (!enablePollenHourly) {
+				// Clean up any existing hourly pollen channels for this day
+				for (let hh = 0; hh < 24; hh++) {
+					const hKey = `h${String(hh).padStart(2, "0")}`;
+					try { await this.delObjectAsync(`${locId}.day${dayNum}.hourly.${hKey}.pollen`, { recursive: true }); } catch { /* ok */ }
+				}
+			} else if (i < hourlyDays) {
 				for (const [hourStr, vals] of Object.entries(dayData.hours)) {
 					const hKey = `h${String(hourStr).padStart(2, "0")}`;
 					const hPollenPrefix = `${locId}.day${dayNum}.hourly.${hKey}.pollen`;

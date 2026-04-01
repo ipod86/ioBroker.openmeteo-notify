@@ -32,5 +32,6 @@
 	"enableAgriculture": "Agrar / Solar",
 	"enableAgricultureHelp": "Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung unter *.agriculture (Standard: aus)",
 	"enablePollen": "Pollen (nur Europa, 4-Tage-Prognose)",
-	"enablePollenHelp": "Pollendaten von der Air Quality API. Nur für Europa verfügbar."
+	"enablePollenHelp": "Pollendaten von der Air Quality API. Nur für Europa verfügbar.",
+	"alsoHourly": "auch stündlich"
 }

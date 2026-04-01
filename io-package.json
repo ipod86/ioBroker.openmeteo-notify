@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.26",
+		"version": "0.0.27",
 		"news": {
+			"0.0.27": {
+				"en": "per-category hourly toggle for agriculture and pollen",
+				"de": "Stündlich-Option pro Kategorie für Agrar/Solar und Pollen"
+			},
 			"0.0.26": {
 				"en": "optional data groups: air quality, astronomy, agriculture/solar with auto-cleanup",
 				"de": "Optionale Datengruppen: Luftqualität, Astronomie, Agrar/Solar mit automatischer Bereinigung"
@@ -134,7 +138,9 @@
 		"enableAirQuality": true,
 		"enableAstronomy": true,
 		"enableAgriculture": false,
-		"enablePollen": false
+		"enableAgricultureHourly": false,
+		"enablePollen": false,
+		"enablePollenHourly": true
 	},
 	"objects": [],
 	"instanceObjects": [
