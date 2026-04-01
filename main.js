@@ -324,7 +324,7 @@ class Openmeteo extends utils.Adapter {
 		const enableAstronomyHourly = enableAstronomy && !!this.config.enableAstronomyHourly;
 		const enableAgriculture = !!this.config.enableAgriculture;
 		const enableAgricultureHourly = enableAgriculture && !!this.config.enableAgricultureHourly;
-		const enablePollenHourly = this.config.enablePollenHourly !== false;
+		const enablePollenHourly = enablePollen && !!this.config.enablePollenHourly;
 
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config
@@ -393,8 +393,20 @@ class Openmeteo extends utils.Adapter {
 						this.log.warn(`Pollen/Luftqualität-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
 				} else {
-					// Clean up air_quality channel if both are disabled
+					// Both pollen and air quality disabled – clean up all related channels
 					try { await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true }); } catch { /* ok */ }
+					try { await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true }); } catch { /* ok */ }
+					for (let d = 1; d <= daysCount; d++) {
+						try { await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true }); } catch { /* ok */ }
+						try { await this.delObjectAsync(`${locId}.day${d}.air_quality`, { recursive: true }); } catch { /* ok */ }
+					}
+					for (let d = 1; d <= hourlyDays; d++) {
+						for (let hh = 0; hh < 24; hh++) {
+							const _hk = `h${String(hh).padStart(2, "0")}`;
+							try { await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.pollen`, { recursive: true }); } catch { /* ok */ }
+							try { await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.air_quality`, { recursive: true }); } catch { /* ok */ }
+						}
+					}
 				}
 
 				anySuccess = true;
@@ -1334,8 +1346,8 @@ class Openmeteo extends utils.Adapter {
 			}
 		}
 
-		// Hourly data needed for both pollen (if enabled) and AQ hourly (if enabled)
-		if (!enablePollenHourly && !enableAirQualityHourly) {
+		// Hourly data needed for daily max calculation and/or hourly display
+		if (!enablePollenHourly && !enableAirQualityHourly && !enablePollen && !enableAirQuality) {
 			return;
 		}
 
@@ -1369,7 +1381,7 @@ class Openmeteo extends utils.Adapter {
 			const dateKey = h.time[i].substring(0, 10);
 			const hour = parseInt(h.time[i].substring(11, 13));
 			if (!byDate[dateKey]) {
-				byDate[dateKey] = { hours: {}, max: {} };
+				byDate[dateKey] = { hours: {}, max: {}, aqMax: {} };
 			}
 			const vals = {};
 			for (const { key } of types) {
@@ -1381,7 +1393,11 @@ class Openmeteo extends utils.Adapter {
 			}
 			const aqVals = {};
 			for (const { key } of aqHourlyFields) {
-				aqVals[key] = h[key] ? h[key][i] : null;
+				const aqVal = h[key] ? h[key][i] : null;
+				aqVals[key] = aqVal;
+				if (aqVal != null) {
+					byDate[dateKey].aqMax[key] = Math.max(byDate[dateKey].aqMax[key] ?? 0, aqVal);
+				}
 			}
 			vals._aq = aqVals;
 			byDate[dateKey].hours[hour] = vals;
@@ -1447,6 +1463,26 @@ class Openmeteo extends utils.Adapter {
 						role: "text",
 					});
 				}
+			}
+
+			// Daily max air quality under dayX.air_quality (only if air quality enabled)
+			if (enableAirQuality) {
+				const aqDayPrefix = `${locId}.day${dayNum}.air_quality`;
+				await this.setObjectNotExistsAsync(aqDayPrefix, {
+					type: "channel",
+					common: { name: `Luftqualität Tag ${dayNum} (Tagesmax)` },
+					native: {},
+				});
+				for (const f of aqHourlyFields) {
+					await this.setDP(`${aqDayPrefix}.${f.key}_max`, dayData.aqMax?.[f.key] ?? null, {
+						name: `${f.name} (Tagesmax)`,
+						type: "number",
+						unit: f.unit,
+						role: "value",
+					});
+				}
+			} else {
+				try { await this.delObjectAsync(`${locId}.day${dayNum}.air_quality`, { recursive: true }); } catch { /* ok */ }
 			}
 
 			// Hourly pollen + AQ under dayX.hourly.hXX.*

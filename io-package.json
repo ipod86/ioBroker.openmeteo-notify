@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.31",
+		"version": "0.0.32",
 		"news": {
+			"0.0.32": {
+				"en": "fix: pollen cleanup not running when hourly disabled; add daily air quality max (dayX.air_quality)",
+				"de": "Fix: Pollen-Cleanup lief nicht wenn stündlich deaktiviert; tägliche Luftqualitäts-Maximalwerte (dayX.air_quality)"
+			},
 			"0.0.31": {
 				"en": "remove sentry dependency; fix admin minVersion; README English-only with README.de.md",
 				"de": "Sentry-Abhängigkeit entfernt; Admin-Mindestversion korrigiert; README nur Englisch mit README.de.md"
@@ -26,10 +30,6 @@
 			"0.0.26": {
 				"en": "optional data groups: air quality, astronomy, agriculture/solar with auto-cleanup",
 				"de": "Optionale Datengruppen: Luftqualität, Astronomie, Agrar/Solar mit automatischer Bereinigung"
-			},
-			"0.0.25": {
-				"en": "moon phase, AQI, pollen text, night icons, configurable update interval, additional DPs",
-				"de": "Mondphase, AQI, Pollen-Textstufe, Nacht-Icons, konfigurierbares Aktualisierungsintervall, weitere Datenpunkte"
 			}
 		},
 		"titleLang": {

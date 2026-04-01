@@ -123,6 +123,7 @@ The adapter creates data points under `openmeteo.<instance>.<location>`.
 | `sunshine_hours` / `daylight_hours` | Sunshine / daylight duration | h |
 | `cloud_cover_max` | Max cloud cover | % |
 | `dew_point_mean` / `humidity_mean` / `pressure_mean` | Daily mean values | |
+| `air_quality.european_aqi_max` … `ozone_max` | Daily max AQI, PM10, PM2.5, NO₂, CO, dust, ozone *(if enabled)* | |
 | `astronomy.sunrise` / `astronomy.sunset` | Sunrise / sunset *(if enabled)* | |
 | `astronomy.moon_phase_val` / `_text` / `_icon_url` | Moon phase *(if enabled)* | |
 | `astronomy.moonrise` / `astronomy.moonset` | Moon rise / set *(if enabled)* | |
@@ -159,6 +160,12 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
+
+### 0.0.32
+* Fix: pollen channels not deleted when "pollen hourly" was disabled (early return prevented cleanup)
+* Fix: `enablePollenHourly` defaulted to `true` on upgrades from old config – now correctly defaults to `false`
+* Fix: when both pollen and air quality disabled, leftover channels now properly cleaned up
+* New: daily air quality max values under `dayX.air_quality` (european_aqi_max, pm10_max, pm2_5_max, …)
 
 ### 0.0.31
 * Remove `@iobroker/plugin-sentry` dependency (not needed)
