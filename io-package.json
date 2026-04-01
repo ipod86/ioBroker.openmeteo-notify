@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.7",
+		"version": "0.0.8",
 		"news": {
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
@@ -31,6 +31,10 @@
 			"0.0.7": {
 				"en": "add Basmilius icon set and configurable icon selection",
 				"de": "Basmilius Icon-Set und konfigurierbare Icon-Auswahl hinzugefügt"
+			},
+			"0.0.8": {
+				"en": "add animated SVG icon set (Basmilius/Meteocons animated)",
+				"de": "Animiertes SVG Icon-Set (Basmilius/Meteocons animiert) hinzugefügt"
 			}
 		},
 		"titleLang": {

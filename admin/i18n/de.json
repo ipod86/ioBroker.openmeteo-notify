@@ -19,5 +19,6 @@
 	"iconSet": "Icon-Set",
 	"iconSetHelp": "Welches Icon-Set für den icon_url Datenpunkt verwendet werden soll",
 	"iconPreviewWmo": "Vorschau: WMO-Icons (OGC WorldWeatherSymbols, CC BY 4.0)",
-	"iconPreviewBasmilius": "Vorschau: Basmilius / Meteocons (MIT)"
+	"iconPreviewBasmilius": "Vorschau: Basmilius / Meteocons statisch PNG (MIT)",
+	"iconPreviewAnimated": "Vorschau: Basmilius / Meteocons animiert SVG (MIT)"
 }

@@ -96,12 +96,13 @@ function normalizeId(name) {
  * Returns the relative URL to the weather icon for the given weathercode and icon set
  *
  * @param {number} code - WMO weathercode
- * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
+ * @param {string} iconSet - Icon set: "wmo", "basmilius" or "basmilius_animated"
  * @returns {string} Relative URL path to the icon file
  */
 function weatherIconUrl(code, iconSet) {
 	const padded = String(code).padStart(2, "0");
-	return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.png`;
+	const ext = iconSet === "basmilius_animated" ? "svg" : "png";
+	return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.${ext}`;
 }
 
 function precipitationType(code) {

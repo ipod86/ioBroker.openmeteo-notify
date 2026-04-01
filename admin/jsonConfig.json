@@ -123,7 +123,8 @@
 			"help": "iconSetHelp",
 			"options": [
 				{ "label": "WMO (OGC)", "value": "wmo" },
-				{ "label": "Basmilius / Meteocons", "value": "basmilius" }
+				{ "label": "Basmilius / Meteocons (statisch)", "value": "basmilius" },
+				{ "label": "Basmilius / Meteocons (animiert SVG)", "value": "basmilius_animated" }
 			],
 			"newLine": true,
 			"xs": 12,
@@ -143,6 +144,12 @@
 			"newLine": true,
 			"text": "iconPreviewBasmilius",
 			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreviewAnimated": {
+			"type": "staticText",
+			"newLine": true,
+			"text": "iconPreviewAnimated",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
 		}
 	}
 }
