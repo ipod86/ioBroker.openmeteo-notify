@@ -105,6 +105,29 @@ function weatherIconUrl(code, iconSet) {
 	return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.${ext}`;
 }
 
+const COMPASS_DIRS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+
+/**
+ * Converts wind direction in degrees to compass text (N, NE, E, …)
+ *
+ * @param {number} deg - Wind direction in degrees (0–360)
+ * @returns {string} Compass direction abbreviation
+ */
+function degreesToCompass(deg) {
+	const idx = Math.round((((deg % 360) + 360) % 360) / 45) % 8;
+	return COMPASS_DIRS[idx];
+}
+
+/**
+ * Returns the relative URL to the wind direction arrow icon
+ *
+ * @param {number} deg - Wind direction in degrees (0–360)
+ * @returns {string} Relative URL path to the SVG arrow icon
+ */
+function windDirIconUrl(deg) {
+	return `/openmeteo.admin/icons/wind/${degreesToCompass(deg)}.svg`;
+}
+
 function precipitationType(code) {
 	if (RAIN_CODES.has(code)) {
 		return 1;
@@ -245,9 +268,9 @@ class Openmeteo extends utils.Adapter {
 				`,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max,windgusts_10m_max` +
 				`,winddirection_10m_dominant,sunrise,sunset,uv_index_max,sunshine_duration` +
 				`&hourly=temperature_2m,apparent_temperature,precipitation_probability` +
-				`,precipitation,weathercode,windspeed_10m,cloudcover` +
+				`,precipitation,weathercode,windspeed_10m,winddirection_10m,cloudcover` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
-				`,windspeed_10m,windgusts_10m,cloudcover` +
+				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`&timezone=Europe/Berlin&forecast_days=${daysCount}` +
 				`&temperature_unit=${temperatureUnit}` +
 				`&windspeed_unit=${windspeedUnit}` +
@@ -357,6 +380,22 @@ class Openmeteo extends utils.Adapter {
 				unit: windUnit,
 				role: "value.speed.wind.gust",
 			});
+			await this.setDP(`${locId}.current.winddirection`, cur.winddirection_10m, {
+				name: "Windrichtung",
+				type: "number",
+				unit: "°",
+				role: "value.direction.wind",
+			});
+			await this.setDP(`${locId}.current.winddirection_text`, degreesToCompass(cur.winddirection_10m), {
+				name: "Windrichtung Text",
+				type: "string",
+				role: "weather.direction.wind",
+			});
+			await this.setDP(`${locId}.current.winddirection_icon_url`, windDirIconUrl(cur.winddirection_10m), {
+				name: "Windrichtung Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
 			await this.setDP(`${locId}.current.precipitation`, cur.precipitation, {
 				name: "Niederschlag",
 				type: "number",
@@ -385,6 +424,7 @@ class Openmeteo extends utils.Adapter {
 				precipitation: h.precipitation[i],
 				rain_prob: h.precipitation_probability[i],
 				windspeed: h.windspeed_10m[i],
+				winddirection: h.winddirection_10m[i],
 				cloudcover: h.cloudcover[i],
 				weathercode: h.weathercode[i],
 				icon: ICONS[h.weathercode[i]] || "🌡️",
@@ -490,6 +530,16 @@ class Openmeteo extends utils.Adapter {
 				unit: "°",
 				role: "value.direction.wind",
 			});
+			await this.setDP(`${prefix}.winddirection_text`, degreesToCompass(d.winddirection_10m_dominant[i]), {
+				name: "Windrichtung Text",
+				type: "string",
+				role: "weather.direction.wind",
+			});
+			await this.setDP(`${prefix}.winddirection_icon_url`, windDirIconUrl(d.winddirection_10m_dominant[i]), {
+				name: "Windrichtung Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
 			await this.setDP(`${prefix}.sunrise`, d.sunrise[i], {
 				name: "Sonnenaufgang",
 				type: "string",
@@ -564,6 +614,22 @@ class Openmeteo extends utils.Adapter {
 						type: "number",
 						unit: windUnit,
 						role: "value.speed.wind",
+					});
+					await this.setDP(`${hPath}.winddirection`, hData.winddirection, {
+						name: "Windrichtung",
+						type: "number",
+						unit: "°",
+						role: "value.direction.wind",
+					});
+					await this.setDP(`${hPath}.winddirection_text`, degreesToCompass(hData.winddirection), {
+						name: "Windrichtung Text",
+						type: "string",
+						role: "weather.direction.wind",
+					});
+					await this.setDP(`${hPath}.winddirection_icon_url`, windDirIconUrl(hData.winddirection), {
+						name: "Windrichtung Icon URL",
+						type: "string",
+						role: "weather.icon",
 					});
 					await this.setDP(`${hPath}.cloudcover`, hData.cloudcover, {
 						name: "Bewölkung",
