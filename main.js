@@ -8,37 +8,153 @@ const utils = require("@iobroker/adapter-core");
 const https = require("node:https");
 const SunCalc = require("suncalc");
 
-const WEEKDAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+const I18N_WEEKDAYS = {
+	de: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+	en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+	fr: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+	it: ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],
+	es: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+	pt: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+	nl: ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"],
+	pl: ["Nd", "Pn", "Wt", "Śr", "Cz", "Pt", "Sb"],
+	ru: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+	uk: ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+	"zh-cn": ["日", "一", "二", "三", "四", "五", "六"],
+};
 
-const DESCRIPTIONS = {
-	0: "Klar",
-	1: "Überwiegend klar",
-	2: "Teilweise bewölkt",
-	3: "Bedeckt",
-	45: "Nebel",
-	48: "Gefrierender Nebel",
-	51: "Leichter Nieselregen",
-	53: "Nieselregen",
-	55: "Starker Nieselregen",
-	56: "Leichter gefrierender Nieselregen",
-	57: "Gefrierender Nieselregen",
-	61: "Leichter Regen",
-	63: "Regen",
-	65: "Starker Regen",
-	66: "Leichter Eisregen",
-	67: "Eisregen",
-	71: "Leichter Schnee",
-	73: "Schnee",
-	75: "Starker Schnee",
-	77: "Schneekörner",
-	80: "Leichte Schauer",
-	81: "Schauer",
-	82: "Starke Schauer",
-	85: "Leichte Schneeschauer",
-	86: "Schneeschauer",
-	95: "Gewitter",
-	96: "Gewitter mit Hagel",
-	99: "Schweres Gewitter",
+const I18N_DESCRIPTIONS = {
+	de: {
+		0: "Klar", 1: "Überwiegend klar", 2: "Teilweise bewölkt", 3: "Bedeckt",
+		45: "Nebel", 48: "Gefrierender Nebel",
+		51: "Leichter Nieselregen", 53: "Nieselregen", 55: "Starker Nieselregen",
+		56: "Leichter gefrierender Nieselregen", 57: "Gefrierender Nieselregen",
+		61: "Leichter Regen", 63: "Regen", 65: "Starker Regen",
+		66: "Leichter Eisregen", 67: "Eisregen",
+		71: "Leichter Schnee", 73: "Schnee", 75: "Starker Schnee", 77: "Schneekörner",
+		80: "Leichte Schauer", 81: "Schauer", 82: "Starke Schauer",
+		85: "Leichte Schneeschauer", 86: "Schneeschauer",
+		95: "Gewitter", 96: "Gewitter mit Hagel", 99: "Schweres Gewitter",
+	},
+	en: {
+		0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
+		45: "Fog", 48: "Freezing fog",
+		51: "Light drizzle", 53: "Drizzle", 55: "Heavy drizzle",
+		56: "Light freezing drizzle", 57: "Freezing drizzle",
+		61: "Light rain", 63: "Rain", 65: "Heavy rain",
+		66: "Light freezing rain", 67: "Freezing rain",
+		71: "Light snow", 73: "Snow", 75: "Heavy snow", 77: "Snow grains",
+		80: "Light showers", 81: "Showers", 82: "Heavy showers",
+		85: "Light snow showers", 86: "Snow showers",
+		95: "Thunderstorm", 96: "Thunderstorm with hail", 99: "Heavy thunderstorm",
+	},
+	fr: {
+		0: "Ciel dégagé", 1: "Principalement dégagé", 2: "Partiellement nuageux", 3: "Couvert",
+		45: "Brouillard", 48: "Brouillard givrant",
+		51: "Bruine légère", 53: "Bruine", 55: "Bruine forte",
+		56: "Bruine verglaçante légère", 57: "Bruine verglaçante",
+		61: "Pluie légère", 63: "Pluie", 65: "Pluie forte",
+		66: "Pluie verglaçante légère", 67: "Pluie verglaçante",
+		71: "Neige légère", 73: "Neige", 75: "Neige forte", 77: "Grains de neige",
+		80: "Averses légères", 81: "Averses", 82: "Averses fortes",
+		85: "Averses de neige légères", 86: "Averses de neige",
+		95: "Orage", 96: "Orage avec grêle", 99: "Orage violent",
+	},
+	it: {
+		0: "Sereno", 1: "Prevalentemente sereno", 2: "Parzialmente nuvoloso", 3: "Coperto",
+		45: "Nebbia", 48: "Nebbia ghiacciata",
+		51: "Pioggerella leggera", 53: "Pioggerella", 55: "Pioggerella intensa",
+		56: "Pioggerella gelata leggera", 57: "Pioggerella gelata",
+		61: "Pioggia leggera", 63: "Pioggia", 65: "Pioggia intensa",
+		66: "Pioggia gelata leggera", 67: "Pioggia gelata",
+		71: "Neve leggera", 73: "Neve", 75: "Neve intensa", 77: "Granelli di neve",
+		80: "Rovesci leggeri", 81: "Rovesci", 82: "Rovesci intensi",
+		85: "Rovesci di neve leggeri", 86: "Rovesci di neve",
+		95: "Temporale", 96: "Temporale con grandine", 99: "Temporale intenso",
+	},
+	es: {
+		0: "Despejado", 1: "Principalmente despejado", 2: "Parcialmente nublado", 3: "Nublado",
+		45: "Niebla", 48: "Niebla helada",
+		51: "Llovizna ligera", 53: "Llovizna", 55: "Llovizna intensa",
+		56: "Llovizna helada ligera", 57: "Llovizna helada",
+		61: "Lluvia ligera", 63: "Lluvia", 65: "Lluvia intensa",
+		66: "Lluvia helada ligera", 67: "Lluvia helada",
+		71: "Nieve ligera", 73: "Nieve", 75: "Nieve intensa", 77: "Granos de nieve",
+		80: "Chubascos ligeros", 81: "Chubascos", 82: "Chubascos intensos",
+		85: "Chubascos de nieve ligeros", 86: "Chubascos de nieve",
+		95: "Tormenta", 96: "Tormenta con granizo", 99: "Tormenta intensa",
+	},
+	pt: {
+		0: "Céu limpo", 1: "Principalmente limpo", 2: "Parcialmente nublado", 3: "Nublado",
+		45: "Nevoeiro", 48: "Nevoeiro gelado",
+		51: "Garoa leve", 53: "Garoa", 55: "Garoa intensa",
+		56: "Garoa gelada leve", 57: "Garoa gelada",
+		61: "Chuva leve", 63: "Chuva", 65: "Chuva intensa",
+		66: "Chuva gelada leve", 67: "Chuva gelada",
+		71: "Neve leve", 73: "Neve", 75: "Neve intensa", 77: "Grãos de neve",
+		80: "Aguaceiros leves", 81: "Aguaceiros", 82: "Aguaceiros intensos",
+		85: "Aguaceiros de neve leves", 86: "Aguaceiros de neve",
+		95: "Tempestade", 96: "Tempestade com granizo", 99: "Tempestade intensa",
+	},
+	nl: {
+		0: "Helder", 1: "Overwegend helder", 2: "Gedeeltelijk bewolkt", 3: "Bewolkt",
+		45: "Mist", 48: "Bevriezende mist",
+		51: "Lichte motregen", 53: "Motregen", 55: "Zware motregen",
+		56: "Lichte bevriezende motregen", 57: "Bevriezende motregen",
+		61: "Lichte regen", 63: "Regen", 65: "Zware regen",
+		66: "Lichte ijsregen", 67: "IJsregen",
+		71: "Lichte sneeuw", 73: "Sneeuw", 75: "Zware sneeuw", 77: "Sneeuwkorrels",
+		80: "Lichte buien", 81: "Buien", 82: "Zware buien",
+		85: "Lichte sneeuwbuien", 86: "Sneeuwbuien",
+		95: "Onweer", 96: "Onweer met hagel", 99: "Zwaar onweer",
+	},
+	pl: {
+		0: "Bezchmurnie", 1: "Głównie bezchmurnie", 2: "Częściowe zachmurzenie", 3: "Zachmurzenie całkowite",
+		45: "Mgła", 48: "Marznąca mgła",
+		51: "Lekka mżawka", 53: "Mżawka", 55: "Silna mżawka",
+		56: "Lekka marznąca mżawka", 57: "Marznąca mżawka",
+		61: "Lekki deszcz", 63: "Deszcz", 65: "Silny deszcz",
+		66: "Lekki marznący deszcz", 67: "Marznący deszcz",
+		71: "Lekki śnieg", 73: "Śnieg", 75: "Silny śnieg", 77: "Ziarnisty śnieg",
+		80: "Słabe opady", 81: "Opady", 82: "Silne opady",
+		85: "Słabe opady śniegu", 86: "Opady śniegu",
+		95: "Burza", 96: "Burza z gradem", 99: "Silna burza",
+	},
+	ru: {
+		0: "Ясно", 1: "Преимущественно ясно", 2: "Переменная облачность", 3: "Пасмурно",
+		45: "Туман", 48: "Ледяной туман",
+		51: "Слабая морось", 53: "Морось", 55: "Сильная морось",
+		56: "Слабый ледяной дождь", 57: "Ледяной дождь (морось)",
+		61: "Слабый дождь", 63: "Дождь", 65: "Сильный дождь",
+		66: "Слабый ледяной дождь", 67: "Ледяной дождь",
+		71: "Слабый снег", 73: "Снег", 75: "Сильный снег", 77: "Снежная крупа",
+		80: "Слабые ливни", 81: "Ливни", 82: "Сильные ливни",
+		85: "Слабые снежные ливни", 86: "Снежные ливни",
+		95: "Гроза", 96: "Гроза с градом", 99: "Сильная гроза",
+	},
+	uk: {
+		0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Хмарно",
+		45: "Туман", 48: "Крижаний туман",
+		51: "Слабка мряка", 53: "Мряка", 55: "Сильна мряка",
+		56: "Слабкий крижаний дощ", 57: "Крижаний дощ (мряка)",
+		61: "Слабкий дощ", 63: "Дощ", 65: "Сильний дощ",
+		66: "Слабкий крижаний дощ", 67: "Крижаний дощ",
+		71: "Слабкий сніг", 73: "Сніг", 75: "Сильний сніг", 77: "Снігова крупа",
+		80: "Слабкі зливи", 81: "Зливи", 82: "Сильні зливи",
+		85: "Слабкі снігові зливи", 86: "Снігові зливи",
+		95: "Гроза", 96: "Гроза з градом", 99: "Сильна гроза",
+	},
+	"zh-cn": {
+		0: "晴天", 1: "大部晴朗", 2: "多云", 3: "阴天",
+		45: "雾", 48: "冻雾",
+		51: "小毛毛雨", 53: "毛毛雨", 55: "大毛毛雨",
+		56: "轻度冻毛毛雨", 57: "冻毛毛雨",
+		61: "小雨", 63: "中雨", 65: "大雨",
+		66: "轻度冻雨", 67: "冻雨",
+		71: "小雪", 73: "中雪", 75: "大雪", 77: "雪粒",
+		80: "小阵雨", 81: "阵雨", 82: "大阵雨",
+		85: "小阵雪", 86: "阵雪",
+		95: "雷暴", 96: "冰雹雷暴", 99: "强雷暴",
+	},
 };
 
 const ICONS = {
@@ -140,37 +256,59 @@ function weatherIconUrl(code, iconSet, isDay) {
 	return `/openmeteo.admin/icons/wmo/wmo_${String(wmoCode).padStart(2, "0")}.png`;
 }
 
+const I18N_MOON_PHASES = {
+	de: ["Neumond", "Zunehmende Sichel", "Erstes Viertel", "Zunehmender Mond", "Vollmond", "Abnehmender Mond", "Letztes Viertel", "Abnehmende Sichel"],
+	en: ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"],
+	fr: ["Nouvelle Lune", "Croissant Montant", "Premier Quartier", "Lune Gibbeuse Croissante", "Pleine Lune", "Lune Gibbeuse Décroissante", "Dernier Quartier", "Croissant Décroissant"],
+	it: ["Luna Nuova", "Luna Crescente", "Primo Quarto", "Gibbosa Crescente", "Luna Piena", "Gibbosa Calante", "Ultimo Quarto", "Luna Calante"],
+	es: ["Luna Nueva", "Creciente Cóncava", "Cuarto Creciente", "Creciente Convexa", "Luna Llena", "Menguante Convexa", "Cuarto Menguante", "Menguante Cóncava"],
+	pt: ["Lua Nova", "Crescente Côncava", "Quarto Crescente", "Crescente Convexa", "Lua Cheia", "Minguante Convexa", "Quarto Minguante", "Minguante Côncava"],
+	nl: ["Nieuwe Maan", "Wassende Sikkel", "Eerste Kwartier", "Wassende Maan", "Volle Maan", "Afnemende Maan", "Laatste Kwartier", "Afnemende Sikkel"],
+	pl: ["Nów", "Przybywający Sierp", "Pierwsza Kwadra", "Przybywający Księżyc", "Pełnia", "Ubywający Księżyc", "Ostatnia Kwadra", "Ubywający Sierp"],
+	ru: ["Новолуние", "Молодой Месяц", "Первая Четверть", "Прибывающая Луна", "Полнолуние", "Убывающая Луна", "Последняя Четверть", "Убывающий Месяц"],
+	uk: ["Новий Місяць", "Молодий Місяць", "Перша Чверть", "Зростаючий Місяць", "Повний Місяць", "Спадаючий Місяць", "Остання Чверть", "Старіючий Місяць"],
+	"zh-cn": ["新月", "峨眉月", "上弦月", "盈凸月", "满月", "亏凸月", "下弦月", "残月"],
+};
+
 /**
  * Returns moon phase text from SunCalc phase value (0–1)
  *
  * @param {number} phase - Moon phase value 0–1
+ * @param {string} lang - Language code
  * @returns {{ text: string, idx: number }} Phase text and icon index (0–7)
  */
-function moonPhaseInfo(phase) {
-	const PHASES = [
-		{ idx: 0, text: "Neumond" },
-		{ idx: 1, text: "Zunehmende Sichel" },
-		{ idx: 2, text: "Erstes Viertel" },
-		{ idx: 3, text: "Zunehmender Mond" },
-		{ idx: 4, text: "Vollmond" },
-		{ idx: 5, text: "Abnehmender Mond" },
-		{ idx: 6, text: "Letztes Viertel" },
-		{ idx: 7, text: "Abnehmende Sichel" },
-	];
+function moonPhaseInfo(phase, lang) {
+	const phases = I18N_MOON_PHASES[lang] || I18N_MOON_PHASES.en;
 	const idx = Math.round(phase * 8) % 8;
-	return PHASES[idx];
+	return { idx, text: phases[idx] };
 }
+
+const I18N_POLLEN_LEVELS = {
+	de: { levels: ["Keine", "Niedrig", "Mittel", "Hoch"], na: "k.A." },
+	en: { levels: ["None", "Low", "Moderate", "High"], na: "N/A" },
+	fr: { levels: ["Aucun", "Faible", "Modéré", "Élevé"], na: "N/D" },
+	it: { levels: ["Nessuno", "Basso", "Moderato", "Alto"], na: "N/D" },
+	es: { levels: ["Ninguno", "Bajo", "Moderado", "Alto"], na: "N/D" },
+	pt: { levels: ["Nenhum", "Baixo", "Moderado", "Alto"], na: "N/D" },
+	nl: { levels: ["Geen", "Laag", "Matig", "Hoog"], na: "N/B" },
+	pl: { levels: ["Brak", "Niski", "Umiarkowany", "Wysoki"], na: "N/D" },
+	ru: { levels: ["Нет", "Низкий", "Умеренный", "Высокий"], na: "Н/Д" },
+	uk: { levels: ["Немає", "Низький", "Помірний", "Високий"], na: "Н/Д" },
+	"zh-cn": { levels: ["无", "低", "中", "高"], na: "N/A" },
+};
 
 /**
  * Converts a pollen value (Grains/m³) to a human-readable level text
  *
  * @param {number|null} value - Pollen concentration in Grains/m³
  * @param {string} type - Pollen type key (e.g. "grass_pollen")
- * @returns {string} Level text: Keine / Niedrig / Mittel / Hoch
+ * @param {string} lang - Language code
+ * @returns {string} Level text in the requested language
  */
-function pollenLevelText(value, type) {
+function pollenLevelText(value, type, lang) {
+	const { levels, na } = I18N_POLLEN_LEVELS[lang] || I18N_POLLEN_LEVELS.en;
 	if (value == null) {
-		return "k.A.";
+		return na;
 	}
 	// Thresholds differ by pollen type (source: German pollen forecast service)
 	const thresholds = {
@@ -182,16 +320,10 @@ function pollenLevelText(value, type) {
 		olive_pollen:   [1, 10, 100],
 	};
 	const [low, mid, high] = thresholds[type] || [1, 10, 50];
-	if (value < low) {
-		return "Keine";
-	}
-	if (value < mid) {
-		return "Niedrig";
-	}
-	if (value < high) {
-		return "Mittel";
-	}
-	return "Hoch";
+	if (value < low) return levels[0];
+	if (value < mid) return levels[1];
+	if (value < high) return levels[2];
+	return levels[3];
 }
 
 const COMPASS_DIRS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -340,12 +472,19 @@ class Openmeteo extends utils.Adapter {
 		const enableAgricultureHourly = enableAgriculture && !!this.config.enableAgricultureHourly;
 		const enablePollenHourly = enablePollen && !!this.config.enablePollenHourly;
 
+		// Read system.config once for language, timezone and location fallback
+		const sysConfig = await this.getForeignObjectAsync("system.config");
+		const rawLang = (sysConfig?.common?.language || "en").toLowerCase();
+		const SUPPORTED_LANGS = ["de", "en", "fr", "it", "es", "pt", "nl", "pl", "ru", "uk", "zh-cn"];
+		const lang = SUPPORTED_LANGS.includes(rawLang) ? rawLang :
+			(SUPPORTED_LANGS.includes(rawLang.split("-")[0]) ? rawLang.split("-")[0] : "en");
+		const timezone = sysConfig?.common?.timezone || "auto";
+
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config
-			const sysConfig = await this.getForeignObjectAsync("system.config");
-			const lat = sysConfig && sysConfig.common && sysConfig.common.latitude;
-			const lon = sysConfig && sysConfig.common && sysConfig.common.longitude;
-			const city = (sysConfig && sysConfig.common && sysConfig.common.city) || "Home";
+			const lat = sysConfig?.common?.latitude;
+			const lon = sysConfig?.common?.longitude;
+			const city = sysConfig?.common?.city || "Home";
 			if (lat != null && lon != null) {
 				this.log.info(
 					`Keine Standorte konfiguriert – verwende ioBroker-Systemstandort: ${city} (${lat}, ${lon})`,
@@ -388,6 +527,7 @@ class Openmeteo extends utils.Adapter {
 					temperatureUnit,
 					windspeedUnit,
 					precipitationUnit,
+					timezone,
 				);
 
 				await this.setObjectNotExistsAsync(locId, {
@@ -396,13 +536,13 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 
-				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly);
+				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly, lang);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 
 				if (enablePollen || enableAirQuality) {
 					try {
-						const aq = await this.fetchAirQuality(loc.lat, loc.lon);
-						await this.processPollen(aq, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly);
+						const aq = await this.fetchAirQuality(loc.lat, loc.lon, timezone);
+						await this.processPollen(aq, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly, lang);
 					} catch (err) {
 						this.log.warn(`Pollen/Luftqualität-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
@@ -451,9 +591,10 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} temperatureUnit - Temperature unit
 	 * @param {string} windspeedUnit - Wind speed unit
 	 * @param {string} precipitationUnit - Precipitation unit
+	 * @param {string} timezone - Timezone string (e.g. "Europe/Berlin" or "auto")
 	 * @returns {Promise<object>} Parsed JSON response from Open-Meteo API
 	 */
-	fetchWeather(lat, lon, daysCount, temperatureUnit, windspeedUnit, precipitationUnit) {
+	fetchWeather(lat, lon, daysCount, temperatureUnit, windspeedUnit, precipitationUnit, timezone) {
 		return new Promise((resolve, reject) => {
 			const url =
 				`https://api.open-meteo.com/v1/forecast` +
@@ -471,7 +612,7 @@ class Openmeteo extends utils.Adapter {
 				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
 				`,rain,snowfall,snow_depth,shortwave_radiation,cape,soil_temperature_0cm,global_tilted_irradiance` +
-				`&timezone=Europe/Berlin&forecast_days=${daysCount}` +
+				`&timezone=${encodeURIComponent(timezone)}&forecast_days=${daysCount}` +
 				`&temperature_unit=${temperatureUnit}` +
 				`&windspeed_unit=${windspeedUnit}` +
 				`&precipitation_unit=${precipitationUnit}`;
@@ -497,9 +638,10 @@ class Openmeteo extends utils.Adapter {
 	 *
 	 * @param {number} lat - Latitude
 	 * @param {number} lon - Longitude
+	 * @param {string} timezone - Timezone string (e.g. "Europe/Berlin" or "auto")
 	 * @returns {Promise<object>} Parsed JSON response from Open-Meteo Air Quality API
 	 */
-	fetchAirQuality(lat, lon) {
+	fetchAirQuality(lat, lon, timezone) {
 		return new Promise((resolve, reject) => {
 			const url =
 				`https://air-quality-api.open-meteo.com/v1/air-quality` +
@@ -507,7 +649,7 @@ class Openmeteo extends utils.Adapter {
 				`&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
 			`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
 			`,european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
-				`&timezone=Europe/Berlin&forecast_days=4`;
+				`&timezone=${encodeURIComponent(timezone)}&forecast_days=4`;
 
 			https
 				.get(url, res => {
@@ -551,8 +693,10 @@ class Openmeteo extends utils.Adapter {
 	 * @param {object} units - Unit labels { tempUnit, windUnit, precipUnit }
 	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
 	 */
-	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly) {
+	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly, lang) {
 		const { tempUnit, windUnit, precipUnit, windspeedUnit } = units;
+		const descriptions = I18N_DESCRIPTIONS[lang] || I18N_DESCRIPTIONS.en;
+		const weekdays = I18N_WEEKDAYS[lang] || I18N_WEEKDAYS.en;
 		const d = data.daily;
 		const h = data.hourly;
 		const cur = data.current;
@@ -561,7 +705,7 @@ class Openmeteo extends utils.Adapter {
 		if (cur) {
 			const curCode = cur.weathercode;
 			const curIcon = ICONS[curCode] || "🌡️";
-			const curDesc = DESCRIPTIONS[curCode] || "Unbekannt";
+			const curDesc = descriptions[curCode] || descriptions[0] || "?";
 
 			await this.setObjectNotExistsAsync(`${locId}.current`, {
 				type: "channel",
@@ -751,7 +895,7 @@ class Openmeteo extends utils.Adapter {
 				cloudcover: h.cloudcover[i],
 				weathercode: h.weathercode[i],
 				icon: ICONS[h.weathercode[i]] || "🌡️",
-				description: DESCRIPTIONS[h.weathercode[i]] || "Unbekannt",
+				description: descriptions[h.weathercode[i]] || "?",
 				humidity: h.relative_humidity_2m[i],
 				dew_point: Math.round(h.dew_point_2m[i] * 10) / 10,
 				pressure: Math.round(h.pressure_msl[i] * 10) / 10,
@@ -771,9 +915,9 @@ class Openmeteo extends utils.Adapter {
 
 		for (let i = 0; i < d.time.length; i++) {
 			const date = new Date(d.time[i]);
-			const weekday = WEEKDAYS[date.getDay()];
+			const weekday = weekdays[date.getDay()];
 			const icon = ICONS[d.weathercode[i]] || "🌡️";
-			const desc = DESCRIPTIONS[d.weathercode[i]] || "Unbekannt";
+			const desc = descriptions[d.weathercode[i]] || "?";
 			const prefix = `${locId}.day${i + 1}`;
 			const tempMax = Math.round(d.temperature_2m_max[i] * 10) / 10;
 			const tempMin = Math.round(d.temperature_2m_min[i] * 10) / 10;
@@ -992,7 +1136,7 @@ class Openmeteo extends utils.Adapter {
 				const moonDate = new Date(`${d.time[i]}T12:00:00`);
 				const moonIllum = SunCalc.getMoonIllumination(moonDate);
 				const moonTimes = SunCalc.getMoonTimes(moonDate, loc.lat, loc.lon);
-				const { text: moonText, idx: moonIdx } = moonPhaseInfo(moonIllum.phase);
+				const { text: moonText, idx: moonIdx } = moonPhaseInfo(moonIllum.phase, lang);
 				astroData = {
 					sunrise: d.sunrise[i],
 					sunset: d.sunset[i],
@@ -1322,7 +1466,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - Location ID
 	 * @param {number} hourlyDays - Number of days with hourly channels
 	 */
-	async processPollen(data, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly) {
+	async processPollen(data, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly, lang) {
 		// --- AQI current data ---
 		if (enableAirQuality && data.current) {
 			const c = data.current;
@@ -1438,7 +1582,7 @@ class Openmeteo extends utils.Adapter {
 						unit: "Grains/m³",
 						role: "value",
 					});
-					await this.setDP(`${locId}.current.pollen.${dpKey}_text`, pollenLevelText(val, key), {
+					await this.setDP(`${locId}.current.pollen.${dpKey}_text`, pollenLevelText(val, key, lang), {
 						name: `${name} (Text)`,
 						type: "string",
 						unit: "",
@@ -1470,7 +1614,7 @@ class Openmeteo extends utils.Adapter {
 						unit: "Grains/m³",
 						role: "value",
 					});
-					await this.setDP(`${pollenPrefix}.${dpKey}_text`, pollenLevelText(val, key), {
+					await this.setDP(`${pollenPrefix}.${dpKey}_text`, pollenLevelText(val, key, lang), {
 						name: `${name} (Text)`,
 						type: "string",
 						unit: "",
@@ -1522,7 +1666,7 @@ class Openmeteo extends utils.Adapter {
 								unit: "Grains/m³",
 								role: "value",
 							});
-							await this.setDP(`${hPollenPrefix}.${dpKey}_text`, pollenLevelText(hVal, key), {
+							await this.setDP(`${hPollenPrefix}.${dpKey}_text`, pollenLevelText(hVal, key, lang), {
 								name: `${name} (Text)`,
 								type: "string",
 								unit: "",

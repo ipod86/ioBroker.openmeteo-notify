@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.35",
+		"version": "0.0.36",
 		"news": {
+			"0.0.36": {
+				"en": "multilingual weather descriptions, moon phases and pollen levels (11 languages); timezone from ioBroker system config",
+				"de": "Mehrsprachige Wetterbeschreibungen, Mondphasen und Pollenstufen (11 Sprachen); Zeitzone aus ioBroker-Systemkonfiguration"
+			},
 			"0.0.35": {
 				"en": "add real Basmilius sleet icons for WMO codes 56/57/66/67 (day + night + animated)",
 				"de": "Echte Basmilius Sleet-Icons für WMO-Codes 56/57/66/67 (Tag + Nacht + animiert)"

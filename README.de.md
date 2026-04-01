@@ -150,6 +150,13 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 
 Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Meteo sind Eigentum der jeweiligen Inhaber. Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbindung zu Open-Meteo.
 
+## Changelog
+
+### 0.0.36
+* Mehrsprachige Wetterbeschreibungen, Mondphasen und Pollenstufen (11 Sprachen: de, en, fr, it, es, pt, nl, pl, ru, uk, zh-cn)
+* Wochentagsabkürzungen pro Sprache lokalisiert
+* Zeitzone wird aus der ioBroker-Systemkonfiguration gelesen (`system.config.common.timezone`); Fallback: `auto`
+
 ## Lizenz
 
 MIT License

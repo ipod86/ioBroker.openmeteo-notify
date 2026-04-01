@@ -161,6 +161,11 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ## Changelog
 
+### 0.0.36
+* Multilingual weather descriptions, moon phases and pollen levels (11 languages: de, en, fr, it, es, pt, nl, pl, ru, uk, zh-cn)
+* Weekday abbreviations localized per language
+* Timezone now read from ioBroker system config (`system.config.common.timezone`); fallback: `auto`
+
 ### 0.0.35
 * Add real Basmilius Meteocons sleet icons for WMO codes 56/57/66/67 (day, night, animated)
 * Previously these codes had placeholder/missing icons; now using correct partly-cloudy/overcast sleet variants
