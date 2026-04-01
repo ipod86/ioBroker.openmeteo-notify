@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.24",
+		"version": "0.0.25",
 		"news": {
+			"0.0.25": {
+				"en": "moon phase, AQI, pollen text, night icons, configurable update interval, additional DPs",
+				"de": "Mondphase, AQI, Pollen-Textstufe, Nacht-Icons, konfigurierbares Aktualisierungsintervall, weitere Datenpunkte"
+			},
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
 				"de": "io-package.json Version mit package.json synchronisiert"
@@ -122,7 +126,8 @@
 		"windspeedUnit": "kmh",
 		"precipitationUnit": "mm",
 		"iconSet": "basmilius",
-		"enablePollen": false
+		"enablePollen": false,
+		"updateInterval": 60
 	},
 	"objects": [],
 	"instanceObjects": [

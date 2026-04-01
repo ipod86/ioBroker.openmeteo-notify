@@ -13,4 +13,5 @@ export interface OpenMeteoConfig {
     precipitationUnit: 'mm' | 'inch';
     iconSet: 'wmo' | 'basmilius' | 'basmilius_animated';
     enablePollen: boolean;
+    updateInterval: number;
 }

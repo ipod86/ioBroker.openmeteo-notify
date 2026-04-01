@@ -112,6 +112,25 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
 
             <Divider />
 
+            {/* Update interval */}
+            <Box>
+                <Typography variant="h6" gutterBottom>{I18n.t('updateInterval')}</Typography>
+                <FormControl sx={{ width: 200 }}>
+                    <InputLabel>{I18n.t('updateInterval')}</InputLabel>
+                    <Select
+                        value={native.updateInterval || 60}
+                        label={I18n.t('updateInterval')}
+                        onChange={e => update('updateInterval', Number(e.target.value))}
+                    >
+                        <MenuItem value={15}>15 {I18n.t('minutes')}</MenuItem>
+                        <MenuItem value={30}>30 {I18n.t('minutes')}</MenuItem>
+                        <MenuItem value={60}>60 {I18n.t('minutes')}</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
+            <Divider />
+
             {/* Pollen */}
             <Box>
                 <Typography variant="h6" gutterBottom>{I18n.t('pollen')}</Typography>

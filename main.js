@@ -6,6 +6,7 @@
 
 const utils = require("@iobroker/adapter-core");
 const https = require("https");
+const SunCalc = require("suncalc");
 
 const WEEKDAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 
@@ -99,10 +100,84 @@ function normalizeId(name) {
  * @param {string} iconSet - Icon set: "wmo", "basmilius" or "basmilius_animated"
  * @returns {string} Relative URL path to the icon file
  */
-function weatherIconUrl(code, iconSet) {
+/**
+ * WMO codes that have distinct night variants in Basmilius icon set
+ */
+const WMO_HAS_NIGHT = new Set([0, 1, 2, 3, 45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]);
+
+/**
+ * Returns the relative URL to the weather icon for the given weathercode and icon set
+ *
+ * @param {number} code - WMO weathercode
+ * @param {string} iconSet - Icon set: "wmo", "basmilius" or "basmilius_animated"
+ * @param {boolean} isDay - Whether it is currently daytime
+ * @returns {string} Relative URL path to the icon file
+ */
+function weatherIconUrl(code, iconSet, isDay) {
 	const padded = String(code).padStart(2, "0");
+	if (iconSet === "basmilius" || iconSet === "basmilius_animated") {
+		if (!isDay && WMO_HAS_NIGHT.has(code)) {
+			const ext = iconSet === "basmilius_animated" ? "svg" : "png";
+			const nightSet = iconSet === "basmilius_animated" ? "basmilius_animated_night" : "basmilius_night";
+			return `/openmeteo.admin/icons/${nightSet}/wmo_${padded}.${ext}`;
+		}
+	}
 	const ext = iconSet === "basmilius_animated" ? "svg" : "png";
 	return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.${ext}`;
+}
+
+/**
+ * Returns moon phase text from SunCalc phase value (0–1)
+ *
+ * @param {number} phase - Moon phase value 0–1
+ * @returns {{ text: string, idx: number }} Phase text and icon index (0–7)
+ */
+function moonPhaseInfo(phase) {
+	const PHASES = [
+		{ idx: 0, text: "Neumond" },
+		{ idx: 1, text: "Zunehmende Sichel" },
+		{ idx: 2, text: "Erstes Viertel" },
+		{ idx: 3, text: "Zunehmender Mond" },
+		{ idx: 4, text: "Vollmond" },
+		{ idx: 5, text: "Abnehmender Mond" },
+		{ idx: 6, text: "Letztes Viertel" },
+		{ idx: 7, text: "Abnehmende Sichel" },
+	];
+	const idx = Math.round(phase * 8) % 8;
+	return PHASES[idx];
+}
+
+/**
+ * Converts a pollen value (Grains/m³) to a human-readable level text
+ *
+ * @param {number|null} value - Pollen concentration in Grains/m³
+ * @param {string} type - Pollen type key (e.g. "grass_pollen")
+ * @returns {string} Level text: Keine / Niedrig / Mittel / Hoch / Sehr hoch
+ */
+function pollenLevelText(value, type) {
+	if (value == null) {
+		return "k.A.";
+	}
+	// Thresholds differ by pollen type (source: German pollen forecast service)
+	const thresholds = {
+		grass_pollen:   [1, 10, 50],
+		birch_pollen:   [1, 10, 100],
+		alder_pollen:   [1, 10, 100],
+		mugwort_pollen: [1, 10, 50],
+		ragweed_pollen: [1, 5, 20],
+		olive_pollen:   [1, 10, 100],
+	};
+	const [low, mid, high] = thresholds[type] || [1, 10, 50];
+	if (value < low) {
+		return "Keine";
+	}
+	if (value < mid) {
+		return "Niedrig";
+	}
+	if (value < high) {
+		return "Mittel";
+	}
+	return "Hoch";
 }
 
 const COMPASS_DIRS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -206,11 +281,12 @@ class Openmeteo extends utils.Adapter {
 		await this.runUpdate();
 
 		// Danach stündlich wiederholen
+		const intervalMinutes = this.config.updateInterval || 60;
 		this.updateInterval = this.setInterval(
 			async () => {
 				await this.runUpdate();
 			},
-			60 * 60 * 1000,
+			intervalMinutes * 60 * 1000,
 		);
 	}
 
@@ -283,7 +359,7 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 
-				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet);
+				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 
 				if (enablePollen) {
@@ -303,6 +379,14 @@ class Openmeteo extends utils.Adapter {
 		}
 
 		await this.setState("info.connection", anySuccess, true);
+		if (anySuccess) {
+			await this.setObjectNotExistsAsync("info.lastUpdate", {
+				type: "state",
+				common: { name: "Letztes Update", type: "string", role: "date", read: true, write: false },
+				native: {},
+			});
+			await this.setState("info.lastUpdate", new Date().toISOString(), true);
+		}
 		await this.cleanupOrphanedLocations(validLocationIds);
 	}
 
@@ -326,14 +410,15 @@ class Openmeteo extends utils.Adapter {
 				`,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max,windgusts_10m_max` +
 				`,winddirection_10m_dominant,sunrise,sunset,uv_index_max,sunshine_duration` +
 				`,rain_sum,snowfall_sum,daylight_duration,shortwave_radiation_sum,et0_fao_evapotranspiration` +
+			`,cloud_cover_max,dew_point_2m_mean,relative_humidity_2m_mean,pressure_msl_mean` +
 				`&hourly=temperature_2m,apparent_temperature,precipitation_probability` +
 				`,precipitation,weathercode,windspeed_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
-				`,rain,snowfall,snow_depth,shortwave_radiation,cape` +
+				`,rain,snowfall,snow_depth,shortwave_radiation,cape,soil_temperature_0cm,global_tilted_irradiance` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
 				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
-				`,rain,snowfall,snow_depth,shortwave_radiation,cape` +
+				`,rain,snowfall,snow_depth,shortwave_radiation,cape,soil_temperature_0cm,global_tilted_irradiance` +
 				`&timezone=Europe/Berlin&forecast_days=${daysCount}` +
 				`&temperature_unit=${temperatureUnit}` +
 				`&windspeed_unit=${windspeedUnit}` +
@@ -367,7 +452,8 @@ class Openmeteo extends utils.Adapter {
 			const url =
 				`https://air-quality-api.open-meteo.com/v1/air-quality` +
 				`?latitude=${lat}&longitude=${lon}` +
-				`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
+				`&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
+			`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
 				`&timezone=Europe/Berlin&forecast_days=4`;
 
 			https
@@ -412,7 +498,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {object} units - Unit labels { tempUnit, windUnit, precipUnit }
 	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
 	 */
-	async processData(data, locId, daysCount, hourlyDays, units, iconSet) {
+	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc) {
 		const { tempUnit, windUnit, precipUnit, windspeedUnit } = units;
 		const d = data.daily;
 		const h = data.hourly;
@@ -452,7 +538,7 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
-			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet), {
+			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet, cur.is_day === 1), {
 				name: "Icon URL",
 				type: "string",
 				role: "weather.icon",
@@ -608,6 +694,8 @@ class Openmeteo extends utils.Adapter {
 				snow_depth: Math.round(h.snow_depth[i] * 100),
 				solar_radiation: h.shortwave_radiation[i],
 				cape: h.cape[i],
+				soil_temp: h.soil_temperature_0cm ? Math.round(h.soil_temperature_0cm[i] * 10) / 10 : null,
+				irradiance: h.global_tilted_irradiance ? h.global_tilted_irradiance[i] : null,
 			};
 		}
 
@@ -636,7 +724,7 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${prefix}.date`, d.time[i], { name: "Datum", type: "string", role: "date" });
 			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
 			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
-			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet), {
+			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet, true), {
 				name: "Icon URL",
 				type: "string",
 				role: "weather.icon",
@@ -787,6 +875,65 @@ class Openmeteo extends utils.Adapter {
 				unit: "mm",
 				role: "value",
 			});
+			await this.setDP(`${prefix}.cloud_cover_max`, d.cloud_cover_max[i], {
+				name: "Bewölkung Max",
+				type: "number",
+				unit: "%",
+				role: "value.clouds",
+			});
+			await this.setDP(`${prefix}.dew_point_mean`, Math.round(d.dew_point_2m_mean[i] * 10) / 10, {
+				name: "Taupunkt Mittel",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.dewpoint",
+			});
+			await this.setDP(`${prefix}.humidity_mean`, d.relative_humidity_2m_mean[i], {
+				name: "Luftfeuchtigkeit Mittel",
+				type: "number",
+				unit: "%",
+				role: "value.humidity",
+			});
+			await this.setDP(`${prefix}.pressure_mean`, Math.round(d.pressure_msl_mean[i] * 10) / 10, {
+				name: "Luftdruck Mittel",
+				type: "number",
+				unit: "hPa",
+				role: "value.pressure",
+			});
+
+			// Moon phase
+			const moonDate = new Date(`${d.time[i]}T12:00:00`);
+			const moonIllum = SunCalc.getMoonIllumination(moonDate);
+			const moonTimes = SunCalc.getMoonTimes(moonDate, loc.lat, loc.lon);
+			const { text: moonText, idx: moonIdx } = moonPhaseInfo(moonIllum.phase);
+			await this.setDP(`${prefix}.moon_phase_val`, Math.round(moonIllum.phase * 100) / 100, {
+				name: "Mondphase (0–1)",
+				type: "number",
+				role: "value",
+			});
+			await this.setDP(`${prefix}.moon_phase_text`, moonText, {
+				name: "Mondphase Text",
+				type: "string",
+				role: "weather.state",
+			});
+			await this.setDP(`${prefix}.moon_phase_icon_url`, `/openmeteo.admin/icons/moon/${moonIdx}.png`, {
+				name: "Mondphase Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
+			if (moonTimes.rise) {
+				await this.setDP(`${prefix}.moonrise`, moonTimes.rise.toISOString(), {
+					name: "Mondaufgang",
+					type: "string",
+					role: "date.sunrise",
+				});
+			}
+			if (moonTimes.set) {
+				await this.setDP(`${prefix}.moonset`, moonTimes.set.toISOString(), {
+					name: "Monduntergang",
+					type: "string",
+					role: "date.sunset",
+				});
+			}
 
 			// Hourly values (only for days ≤ hourlyDays)
 			if (i < hourlyDays) {
@@ -938,6 +1085,18 @@ class Openmeteo extends utils.Adapter {
 						unit: "J/kg",
 						role: "value",
 					});
+					await this.setDP(`${hPath}.soil_temp`, hData.soil_temp, {
+						name: "Bodentemperatur 0cm",
+						type: "number",
+						unit: tempUnit,
+						role: "value.temperature",
+					});
+					await this.setDP(`${hPath}.irradiance`, hData.irradiance, {
+						name: "Globalstrahlung (geneigt)",
+						type: "number",
+						unit: "W/m²",
+						role: "value.radiation",
+					});
 					await this.setDP(`${hPath}.weathercode`, hData.weathercode, {
 						name: "Wettercode",
 						type: "number",
@@ -948,7 +1107,7 @@ class Openmeteo extends utils.Adapter {
 						type: "string",
 						role: "weather.icon.name",
 					});
-					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet), {
+					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet, hData.is_day), {
 						name: "Icon URL",
 						type: "string",
 						role: "weather.icon",
@@ -1007,6 +1166,33 @@ class Openmeteo extends utils.Adapter {
 	 * @param {number} hourlyDays - Number of days with hourly channels
 	 */
 	async processPollen(data, locId, hourlyDays) {
+		// --- AQI current data ---
+		if (data.current) {
+			const c = data.current;
+			await this.setObjectNotExistsAsync(`${locId}.current.air_quality`, {
+				type: "channel",
+				common: { name: "Luftqualität aktuell" },
+				native: {},
+			});
+			const aqiFields = [
+				{ key: "european_aqi", name: "Europäischer Luftqualitätsindex", unit: "" },
+				{ key: "pm10", name: "PM10", unit: "µg/m³" },
+				{ key: "pm2_5", name: "PM2.5", unit: "µg/m³" },
+				{ key: "nitrogen_dioxide", name: "Stickstoffdioxid (NO₂)", unit: "µg/m³" },
+				{ key: "carbon_monoxide", name: "Kohlenmonoxid (CO)", unit: "µg/m³" },
+				{ key: "dust", name: "Staub", unit: "µg/m³" },
+				{ key: "ozone", name: "Ozon", unit: "µg/m³" },
+			];
+			for (const f of aqiFields) {
+				await this.setDP(`${locId}.current.air_quality.${f.key}`, c[f.key] ?? null, {
+					name: f.name,
+					type: "number",
+					unit: f.unit,
+					role: "value",
+				});
+			}
+		}
+
 		const h = data.hourly;
 		if (!h || !h.time) {
 			return;
@@ -1053,11 +1239,18 @@ class Openmeteo extends utils.Adapter {
 			});
 			for (const { key, name } of types) {
 				const dpKey = key.replace("_pollen", "");
-				await this.setDP(`${locId}.current.pollen.${dpKey}`, currentHourVals[key] ?? null, {
+				const val = currentHourVals[key] ?? null;
+				await this.setDP(`${locId}.current.pollen.${dpKey}`, val, {
 					name,
 					type: "number",
 					unit: "Grains/m³",
 					role: "value",
+				});
+				await this.setDP(`${locId}.current.pollen.${dpKey}_text`, pollenLevelText(val, key), {
+					name: `${name} (Text)`,
+					type: "string",
+					unit: "",
+					role: "text",
 				});
 			}
 		}
@@ -1076,11 +1269,18 @@ class Openmeteo extends utils.Adapter {
 			});
 			for (const { key, name } of types) {
 				const dpKey = key.replace("_pollen", "");
-				await this.setDP(`${pollenPrefix}.${dpKey}`, dayData.max[key] ?? null, {
+				const val = dayData.max[key] ?? null;
+				await this.setDP(`${pollenPrefix}.${dpKey}`, val, {
 					name,
 					type: "number",
 					unit: "Grains/m³",
 					role: "value",
+				});
+				await this.setDP(`${pollenPrefix}.${dpKey}_text`, pollenLevelText(val, key), {
+					name: `${name} (Text)`,
+					type: "string",
+					unit: "",
+					role: "text",
 				});
 			}
 
@@ -1096,11 +1296,18 @@ class Openmeteo extends utils.Adapter {
 					});
 					for (const { key, name } of types) {
 						const dpKey = key.replace("_pollen", "");
-						await this.setDP(`${hPollenPrefix}.${dpKey}`, vals[key] ?? null, {
+						const hVal = vals[key] ?? null;
+						await this.setDP(`${hPollenPrefix}.${dpKey}`, hVal, {
 							name,
 							type: "number",
 							unit: "Grains/m³",
 							role: "value",
+						});
+						await this.setDP(`${hPollenPrefix}.${dpKey}_text`, pollenLevelText(hVal, key), {
+							name: `${name} (Text)`,
+							type: "string",
+							unit: "",
+							role: "text",
 						});
 					}
 				}

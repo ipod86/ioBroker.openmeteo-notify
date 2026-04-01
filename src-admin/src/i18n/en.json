@@ -22,6 +22,8 @@
 	"iconPreviewBasmilius": "Preview: Basmilius / Meteocons static PNG (MIT)",
 	"iconPreviewAnimated": "Preview: Basmilius / Meteocons animated SVG (MIT)",
 	"addLocation": "Add location",
+	"updateInterval": "Update interval",
+	"minutes": "min",
 	"pollen": "Pollen & Air Quality",
 	"enablePollen": "Enable pollen data (Europe only, 4-day forecast)",
 	"enablePollenHelp": "Fetches pollen data from Open-Meteo Air Quality API. Available for Europe only."
