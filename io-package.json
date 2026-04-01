@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.4",
+		"version": "0.0.7",
 		"news": {
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
@@ -27,6 +27,10 @@
 				"pl": "Pierwsze wydanie",
 				"uk": "Початкова версія",
 				"zh-cn": "首次出版"
+			},
+			"0.0.7": {
+				"en": "add Basmilius icon set and configurable icon selection",
+				"de": "Basmilius Icon-Set und konfigurierbare Icon-Auswahl hinzugefügt"
 			}
 		},
 		"titleLang": {
@@ -105,7 +109,8 @@
 		"hourlyDays": 3,
 		"temperatureUnit": "celsius",
 		"windspeedUnit": "kmh",
-		"precipitationUnit": "mm"
+		"precipitationUnit": "mm",
+		"iconSet": "wmo"
 	},
 	"objects": [],
 	"instanceObjects": [

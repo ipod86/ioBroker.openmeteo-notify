@@ -93,14 +93,15 @@ function normalizeId(name) {
  * @returns {number} 0 = none, 1 = rain, 2 = snow
  */
 /**
- * Returns the relative URL to the WMO icon for the given weathercode
+ * Returns the relative URL to the weather icon for the given weathercode and icon set
  *
  * @param {number} code - WMO weathercode
+ * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
  * @returns {string} Relative URL path to the icon file
  */
-function wmoIconUrl(code) {
+function weatherIconUrl(code, iconSet) {
 	const padded = String(code).padStart(2, "0");
-	return `/openmeteo.admin/icons/wmo_${padded}.png`;
+	return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.png`;
 }
 
 function precipitationType(code) {
@@ -152,6 +153,7 @@ class Openmeteo extends utils.Adapter {
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
 		const windspeedUnit = this.config.windspeedUnit || "kmh";
 		const precipitationUnit = this.config.precipitationUnit || "mm";
+		const iconSet = this.config.iconSet || "wmo";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config
@@ -209,7 +211,7 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 
-				await this.processData(data, locId, daysCount, hourlyDays, units);
+				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 				anySuccess = true;
 				this.log.info(`OpenMeteo aktualisiert: ${loc.name} (${daysCount} Tage, ${hourlyDays} davon stündlich)`);
@@ -290,8 +292,9 @@ class Openmeteo extends utils.Adapter {
 	 * @param {number} daysCount - Number of days
 	 * @param {number} hourlyDays - Number of days with hourly data
 	 * @param {object} units - Unit labels { tempUnit, windUnit, precipUnit }
+	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
 	 */
-	async processData(data, locId, daysCount, hourlyDays, units) {
+	async processData(data, locId, daysCount, hourlyDays, units, iconSet) {
 		const { tempUnit, windUnit, precipUnit } = units;
 		const d = data.daily;
 		const h = data.hourly;
@@ -331,7 +334,7 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
-			await this.setDP(`${locId}.current.icon_url`, wmoIconUrl(curCode), {
+			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet), {
 				name: "Icon URL",
 				type: "string",
 				role: "weather.icon",
@@ -412,7 +415,7 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${prefix}.date`, d.time[i], { name: "Datum", type: "string", role: "date" });
 			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
 			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
-			await this.setDP(`${prefix}.icon_url`, wmoIconUrl(d.weathercode[i]), {
+			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet), {
 				name: "Icon URL",
 				type: "string",
 				role: "weather.icon",
@@ -577,7 +580,7 @@ class Openmeteo extends utils.Adapter {
 						type: "string",
 						role: "weather.icon.name",
 					});
-					await this.setDP(`${hPath}.icon_url`, wmoIconUrl(hData.weathercode), {
+					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet), {
 						name: "Icon URL",
 						type: "string",
 						role: "weather.icon",

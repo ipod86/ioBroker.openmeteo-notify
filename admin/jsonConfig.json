@@ -111,6 +111,38 @@
 			"md": 4,
 			"lg": 3,
 			"xl": 3
+		},
+		"_iconsHeader": {
+			"type": "header",
+			"text": "icons",
+			"newLine": true
+		},
+		"iconSet": {
+			"type": "select",
+			"label": "iconSet",
+			"help": "iconSetHelp",
+			"options": [
+				{ "label": "WMO (OGC)", "value": "wmo" },
+				{ "label": "Basmilius / Meteocons", "value": "basmilius" }
+			],
+			"newLine": true,
+			"xs": 12,
+			"sm": 6,
+			"md": 4,
+			"lg": 3,
+			"xl": 3
+		},
+		"_iconPreview": {
+			"type": "staticText",
+			"newLine": true,
+			"text": "iconPreviewWmo",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreviewBasmilius": {
+			"type": "staticText",
+			"newLine": true,
+			"text": "iconPreviewBasmilius",
+			"hidden": "data.iconSet !== 'basmilius'"
 		}
 	}
 }

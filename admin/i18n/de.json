@@ -14,5 +14,10 @@
 	"windspeedUnit": "Windgeschwindigkeitseinheit",
 	"precipitationUnit": "Niederschlagseinheit",
 	"celsius": "Celsius (°C)",
-	"fahrenheit": "Fahrenheit (°F)"
+	"fahrenheit": "Fahrenheit (°F)",
+	"icons": "Wetter-Icons",
+	"iconSet": "Icon-Set",
+	"iconSetHelp": "Welches Icon-Set für den icon_url Datenpunkt verwendet werden soll",
+	"iconPreviewWmo": "Vorschau: WMO-Icons (OGC WorldWeatherSymbols, CC BY 4.0)",
+	"iconPreviewBasmilius": "Vorschau: Basmilius / Meteocons (MIT)"
 }
