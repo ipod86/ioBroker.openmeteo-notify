@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.13",
+		"version": "0.0.14",
 		"news": {
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
@@ -102,11 +102,6 @@
 		"dataSource": "poll",
 		"adminUI": {
 			"config": "materialize"
-		},
-		"plugins": {
-			"sentry": {
-				"dsn": ""
-			}
 		},
 		"dependencies": [
 			{
