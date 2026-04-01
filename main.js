@@ -92,6 +92,17 @@ function normalizeId(name) {
  * @param {number} code - WMO weathercode
  * @returns {number} 0 = none, 1 = rain, 2 = snow
  */
+/**
+ * Returns the relative URL to the WMO icon for the given weathercode
+ *
+ * @param {number} code - WMO weathercode
+ * @returns {string} Relative URL path to the icon file
+ */
+function wmoIconUrl(code) {
+	const padded = String(code).padStart(2, "0");
+	return `/openmeteo.admin/icons/wmo_${padded}.png`;
+}
+
 function precipitationType(code) {
 	if (RAIN_CODES.has(code)) {
 		return 1;
@@ -320,6 +331,11 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
+			await this.setDP(`${locId}.current.icon_url`, wmoIconUrl(curCode), {
+				name: "Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
 			await this.setDP(`${locId}.current.description`, curDesc, {
 				name: "Beschreibung",
 				type: "string",
@@ -396,6 +412,11 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${prefix}.date`, d.time[i], { name: "Datum", type: "string", role: "date" });
 			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
 			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
+			await this.setDP(`${prefix}.icon_url`, wmoIconUrl(d.weathercode[i]), {
+				name: "Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
 			await this.setDP(`${prefix}.description`, desc, {
 				name: "Beschreibung",
 				type: "string",
@@ -555,6 +576,11 @@ class Openmeteo extends utils.Adapter {
 						name: "Icon",
 						type: "string",
 						role: "weather.icon.name",
+					});
+					await this.setDP(`${hPath}.icon_url`, wmoIconUrl(hData.weathercode), {
+						name: "Icon URL",
+						type: "string",
+						role: "weather.icon",
 					});
 					await this.setDP(`${hPath}.description`, hData.description, {
 						name: "Beschreibung",
