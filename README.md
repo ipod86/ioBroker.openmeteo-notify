@@ -149,3 +149,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Credits
+
+Weather icons: [OGC Meteorology and Oceanography Domain Working Group – WorldWeatherSymbols](https://github.com/OGCMetOceanDWG/WorldWeatherSymbols), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0).
