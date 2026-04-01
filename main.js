@@ -1040,6 +1040,28 @@ class Openmeteo extends utils.Adapter {
 			byDate[dateKey].hours[hour] = vals;
 		}
 
+		// Current hour pollen under current.pollen
+		const now = new Date();
+		const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+		const currentHour = now.getHours();
+		const currentHourVals = byDate[todayKey]?.hours[currentHour];
+		if (currentHourVals) {
+			await this.setObjectNotExistsAsync(`${locId}.current.pollen`, {
+				type: "channel",
+				common: { name: "Pollen aktuell" },
+				native: {},
+			});
+			for (const { key, name } of types) {
+				const dpKey = key.replace("_pollen", "");
+				await this.setDP(`${locId}.current.pollen.${dpKey}`, currentHourVals[key] ?? null, {
+					name,
+					type: "number",
+					unit: "Grains/m³",
+					role: "value",
+				});
+			}
+		}
+
 		const dates = Object.keys(byDate).sort();
 		for (let i = 0; i < dates.length; i++) {
 			const dayNum = i + 1;
