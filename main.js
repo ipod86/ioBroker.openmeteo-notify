@@ -254,7 +254,7 @@ class Openmeteo extends utils.Adapter {
 		const windUnit =
 			windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
 		const precipUnit = precipitationUnit === "inch" ? "inch" : "mm";
-		const units = { tempUnit, windUnit, precipUnit };
+		const units = { tempUnit, windUnit, precipUnit, windspeedUnit };
 
 		const validLocationIds = new Set(locations.map(loc => normalizeId(loc.name)).filter(id => id.length > 0));
 
@@ -366,7 +366,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
 	 */
 	async processData(data, locId, daysCount, hourlyDays, units, iconSet) {
-		const { tempUnit, windUnit, precipUnit } = units;
+		const { tempUnit, windUnit, precipUnit, windspeedUnit } = units;
 		const d = data.daily;
 		const h = data.hourly;
 		const cur = data.current;
