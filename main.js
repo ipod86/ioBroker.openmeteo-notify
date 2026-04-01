@@ -154,7 +154,7 @@ class Openmeteo extends utils.Adapter {
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
 		const windspeedUnit = this.config.windspeedUnit || "kmh";
 		const precipitationUnit = this.config.precipitationUnit || "mm";
-		const iconSet = this.config.iconSet || "wmo";
+		const iconSet = this.config.iconSet || "basmilius";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config

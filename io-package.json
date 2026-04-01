@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.11",
+		"version": "0.0.12",
 		"news": {
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
@@ -126,7 +126,7 @@
 		"temperatureUnit": "celsius",
 		"windspeedUnit": "kmh",
 		"precipitationUnit": "mm",
-		"iconSet": "wmo"
+		"iconSet": "basmilius"
 	},
 	"objects": [],
 	"instanceObjects": [

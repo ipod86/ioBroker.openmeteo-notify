@@ -10,13 +10,13 @@ interface Props {
 const PREVIEW_CODES = ['00', '01', '03', '45', '61', '63', '73', '80', '95', '99'];
 
 const ICON_SETS = [
-    { value: 'wmo', label: 'WMO (OGC)', ext: 'png' },
-    { value: 'basmilius', label: 'Basmilius / Meteocons (statisch)', ext: 'png' },
-    { value: 'basmilius_animated', label: 'Basmilius / Meteocons (animiert SVG)', ext: 'svg' },
+    { value: 'basmilius', label: 'Meteocons (statisch)', ext: 'png' },
+    { value: 'basmilius_animated', label: 'Meteocons (animiert SVG)', ext: 'svg' },
+    { value: 'wmo', label: 'WMO OGC (meteorologische Symbole)', ext: 'png' },
 ];
 
 const IconSetPicker: React.FC<Props> = ({ iconSet, onChange }) => {
-    const current = ICON_SETS.find(s => s.value === iconSet) || ICON_SETS[0];
+    const current = ICON_SETS.find(s => s.value === iconSet) || ICON_SETS.find(s => s.value === 'basmilius')!;
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

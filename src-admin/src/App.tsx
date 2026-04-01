@@ -33,20 +33,22 @@ class App extends GenericApp<GenericAppProps, AppState> {
         return (
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={this.state.theme}>
-                    <div style={{ margin: 16, width: 'calc(100% - 32px)' }}>
-                        <SettingsPanel
-                            native={this.state.native as OpenMeteoConfig}
-                            onChange={(newNative: OpenMeteoConfig) => {
-                                this.setState({
-                                    native: newNative as any,
-                                    changed: this.getIsChanged(newNative as any),
-                                });
-                            }}
-                            themeType={this.state.themeType}
-                        />
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+                        <div style={{ flex: 1, overflowY: 'auto', margin: 16, width: 'calc(100% - 32px)', paddingBottom: 8 }}>
+                            <SettingsPanel
+                                native={this.state.native as OpenMeteoConfig}
+                                onChange={(newNative: OpenMeteoConfig) => {
+                                    this.setState({
+                                        native: newNative as any,
+                                        changed: this.getIsChanged(newNative as any),
+                                    });
+                                }}
+                                themeType={this.state.themeType}
+                            />
+                        </div>
+                        {this.renderError()}
+                        {this.renderSaveCloseButtons()}
                     </div>
-                    {this.renderError()}
-                    {this.renderSaveCloseButtons()}
                 </ThemeProvider>
             </StyledEngineProvider>
         );

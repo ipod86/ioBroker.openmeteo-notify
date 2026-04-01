@@ -105,7 +105,7 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
             <Box>
                 <Typography variant="h6" gutterBottom>{I18n.t('icons')}</Typography>
                 <IconSetPicker
-                    iconSet={native.iconSet || 'wmo'}
+                    iconSet={native.iconSet || 'basmilius'}
                     onChange={val => update('iconSet', val)}
                 />
             </Box>
