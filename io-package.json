@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.10",
+		"version": "0.0.11",
 		"news": {
 			"0.0.4": {
 				"en": "sync io-package.json version with package.json",
@@ -43,6 +43,10 @@
 			"0.0.10": {
 				"en": "custom React admin UI with icon set preview",
 				"de": "Eigene React-Admin-Oberfläche mit Icon-Set-Vorschau"
+			},
+			"0.0.11": {
+				"en": "fix adminUI config for custom React admin page",
+				"de": "adminUI-Konfiguration für React-Admin-Seite korrigiert"
 			}
 		},
 		"titleLang": {
@@ -97,7 +101,7 @@
 		"connectionType": "cloud",
 		"dataSource": "poll",
 		"adminUI": {
-			"config": "custom"
+			"config": "materialize"
 		},
 		"plugins": {
 			"sentry": {
