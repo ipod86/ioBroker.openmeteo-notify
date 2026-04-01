@@ -16,5 +16,7 @@ export interface OpenMeteoConfig {
     enableAirQuality: boolean;
     enableAstronomy: boolean;
     enableAgriculture: boolean;
+    enableAgricultureHourly: boolean;
     enablePollen: boolean;
+    enablePollenHourly: boolean;
 }

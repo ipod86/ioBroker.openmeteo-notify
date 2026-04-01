@@ -32,5 +32,6 @@
 	"enableAgriculture": "Agriculture / Solar",
 	"enableAgricultureHelp": "Solar radiation, CAPE, soil temperature, irradiance under *.agriculture (default off)",
 	"enablePollen": "Pollen (Europe only, 4-day forecast)",
-	"enablePollenHelp": "Pollen data from Air Quality API. Europe only."
+	"enablePollenHelp": "Pollen data from Air Quality API. Europe only.",
+	"alsoHourly": "also hourly"
 }

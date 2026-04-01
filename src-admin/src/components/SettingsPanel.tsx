@@ -134,55 +134,68 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
             {/* Optional data */}
             <Box>
                 <Typography variant="h6" gutterBottom>{I18n.t('optionalData')}</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={native.enableAirQuality !== false}
-                                onChange={e => update('enableAirQuality', e.target.checked)}
-                            />
-                        }
-                        label={I18n.t('enableAirQuality')}
-                    />
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mt: -0.5, display: 'block' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+
+                    {/* Air Quality */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+                        <FormControlLabel
+                            control={<Switch checked={native.enableAirQuality !== false} onChange={e => update('enableAirQuality', e.target.checked)} />}
+                            label={I18n.t('enableAirQuality')}
+                            sx={{ minWidth: 280 }}
+                        />
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
                         {I18n.t('enableAirQualityHelp')}
                     </Typography>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={native.enableAstronomy !== false}
-                                onChange={e => update('enableAstronomy', e.target.checked)}
-                            />
-                        }
-                        label={I18n.t('enableAstronomy')}
-                    />
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mt: -0.5, display: 'block' }}>
+
+                    {/* Astronomy */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+                        <FormControlLabel
+                            control={<Switch checked={native.enableAstronomy !== false} onChange={e => update('enableAstronomy', e.target.checked)} />}
+                            label={I18n.t('enableAstronomy')}
+                            sx={{ minWidth: 280 }}
+                        />
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
                         {I18n.t('enableAstronomyHelp')}
                     </Typography>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={!!native.enableAgriculture}
-                                onChange={e => update('enableAgriculture', e.target.checked)}
+
+                    {/* Agriculture */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+                        <FormControlLabel
+                            control={<Switch checked={!!native.enableAgriculture} onChange={e => update('enableAgriculture', e.target.checked)} />}
+                            label={I18n.t('enableAgriculture')}
+                            sx={{ minWidth: 280 }}
+                        />
+                        {native.enableAgriculture && (
+                            <FormControlLabel
+                                control={<Switch checked={!!native.enableAgricultureHourly} onChange={e => update('enableAgricultureHourly', e.target.checked)} />}
+                                label={I18n.t('alsoHourly')}
                             />
-                        }
-                        label={I18n.t('enableAgriculture')}
-                    />
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mt: -0.5, display: 'block' }}>
+                        )}
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
                         {I18n.t('enableAgricultureHelp')}
                     </Typography>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={!!native.enablePollen}
-                                onChange={e => update('enablePollen', e.target.checked)}
+
+                    {/* Pollen */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+                        <FormControlLabel
+                            control={<Switch checked={!!native.enablePollen} onChange={e => update('enablePollen', e.target.checked)} />}
+                            label={I18n.t('enablePollen')}
+                            sx={{ minWidth: 280 }}
+                        />
+                        {native.enablePollen && (
+                            <FormControlLabel
+                                control={<Switch checked={native.enablePollenHourly !== false} onChange={e => update('enablePollenHourly', e.target.checked)} />}
+                                label={I18n.t('alsoHourly')}
                             />
-                        }
-                        label={I18n.t('enablePollen')}
-                    />
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mt: -0.5, display: 'block' }}>
+                        )}
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
                         {I18n.t('enablePollenHelp')}
                     </Typography>
+
                 </Box>
             </Box>
         </Box>
