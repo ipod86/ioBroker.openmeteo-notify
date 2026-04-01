@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": ["ES2018", "DOM"],
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "jsx": "react",
+        "strict": false,
+        "strictNullChecks": true,
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "sourceMap": true
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx"]
+}
