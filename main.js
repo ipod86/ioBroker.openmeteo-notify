@@ -289,7 +289,7 @@ class Openmeteo extends utils.Adapter {
 				if (enablePollen) {
 					try {
 						const aq = await this.fetchAirQuality(loc.lat, loc.lon);
-						await this.processPollen(aq, locId);
+						await this.processPollen(aq, locId, hourlyDays);
 					} catch (err) {
 						this.log.warn(`Pollen-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
@@ -1000,12 +1000,13 @@ class Openmeteo extends utils.Adapter {
 	}
 
 	/**
-	 * Processes pollen data and writes datapoints under dayX.pollen
+	 * Processes pollen data and writes datapoints under dayX.pollen and dayX.hourly.hXX.pollen
 	 *
 	 * @param {object} data - Air quality API response
 	 * @param {string} locId - Location ID
+	 * @param {number} hourlyDays - Number of days with hourly channels
 	 */
-	async processPollen(data, locId) {
+	async processPollen(data, locId, hourlyDays) {
 		const h = data.hourly;
 		if (!h || !h.time) {
 			return;
@@ -1020,41 +1021,67 @@ class Openmeteo extends utils.Adapter {
 			{ key: "ragweed_pollen", name: "Ambrosia" },
 		];
 
-		// Group hourly pollen values by date and compute daily max
-		const dailyMax = {};
+		// Group hourly pollen values by date
+		const byDate = {};
 		for (let i = 0; i < h.time.length; i++) {
 			const dateKey = h.time[i].substring(0, 10);
-			if (!dailyMax[dateKey]) {
-				dailyMax[dateKey] = {};
+			const hour = parseInt(h.time[i].substring(11, 13));
+			if (!byDate[dateKey]) {
+				byDate[dateKey] = { hours: {}, max: {} };
 			}
+			const vals = {};
 			for (const { key } of types) {
 				const val = h[key] ? h[key][i] : null;
+				vals[key] = val;
 				if (val != null) {
-					dailyMax[dateKey][key] = Math.max(dailyMax[dateKey][key] ?? 0, val);
+					byDate[dateKey].max[key] = Math.max(byDate[dateKey].max[key] ?? 0, val);
 				}
 			}
+			byDate[dateKey].hours[hour] = vals;
 		}
 
-		const dates = Object.keys(dailyMax).sort();
+		const dates = Object.keys(byDate).sort();
 		for (let i = 0; i < dates.length; i++) {
 			const dayNum = i + 1;
-			const prefix = `${locId}.day${dayNum}.pollen`;
-			const dayData = dailyMax[dates[i]];
+			const dayData = byDate[dates[i]];
 
-			await this.setObjectNotExistsAsync(prefix, {
+			// Daily max under dayX.pollen
+			const pollenPrefix = `${locId}.day${dayNum}.pollen`;
+			await this.setObjectNotExistsAsync(pollenPrefix, {
 				type: "channel",
-				common: { name: `Pollen Tag ${dayNum}` },
+				common: { name: `Pollen Tag ${dayNum} (Tagesmax)` },
 				native: {},
 			});
-
 			for (const { key, name } of types) {
 				const dpKey = key.replace("_pollen", "");
-				await this.setDP(`${prefix}.${dpKey}`, dayData[key] ?? null, {
+				await this.setDP(`${pollenPrefix}.${dpKey}`, dayData.max[key] ?? null, {
 					name,
 					type: "number",
 					unit: "Grains/m³",
 					role: "value",
 				});
+			}
+
+			// Hourly values under dayX.hourly.hXX.pollen (only if hourly channel exists)
+			if (i < hourlyDays) {
+				for (const [hourStr, vals] of Object.entries(dayData.hours)) {
+					const hKey = `h${String(hourStr).padStart(2, "0")}`;
+					const hPollenPrefix = `${locId}.day${dayNum}.hourly.${hKey}.pollen`;
+					await this.setObjectNotExistsAsync(hPollenPrefix, {
+						type: "channel",
+						common: { name: "Pollen" },
+						native: {},
+					});
+					for (const { key, name } of types) {
+						const dpKey = key.replace("_pollen", "");
+						await this.setDP(`${hPollenPrefix}.${dpKey}`, vals[key] ?? null, {
+							name,
+							type: "number",
+							unit: "Grains/m³",
+							role: "value",
+						});
+					}
+				}
 			}
 		}
 
