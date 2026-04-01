@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.29",
+		"version": "0.0.30",
 		"news": {
+			"0.0.30": {
+				"en": "fix: hourly air quality not written when pollen disabled; fix JSDoc; fix timer ref cleanup",
+				"de": "Fix: Stündliche Luftqualität wurde nicht geschrieben wenn Pollen deaktiviert; JSDoc-Fix; Timer-Ref-Fix"
+			},
 			"0.0.29": {
 				"en": "pollen hourly default off; updated README with full changelog",
 				"de": "Pollen stündlich Standard aus; README mit vollständigem Changelog aktualisiert"

@@ -152,7 +152,7 @@ function moonPhaseInfo(phase) {
  *
  * @param {number|null} value - Pollen concentration in Grains/m³
  * @param {string} type - Pollen type key (e.g. "grass_pollen")
- * @returns {string} Level text: Keine / Niedrig / Mittel / Hoch / Sehr hoch
+ * @returns {string} Level text: Keine / Niedrig / Mittel / Hoch
  */
 function pollenLevelText(value, type) {
 	if (value == null) {
@@ -293,6 +293,7 @@ class Openmeteo extends utils.Adapter {
 				return next - now;
 			};
 			this.updateTimeout = this.setTimeout(async () => {
+				this.updateTimeout = null;
 				await this.runUpdate();
 				this.updateInterval = this.setInterval(async () => {
 					await this.runUpdate();
@@ -1325,13 +1326,16 @@ class Openmeteo extends utils.Adapter {
 			try { await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true }); } catch { /* ok */ }
 		}
 
+		// Clean up pollen channels if pollen is disabled
 		if (!enablePollen) {
-			// Clean up pollen channels
 			try { await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true }); } catch { /* ok */ }
-			// dayX.pollen cleanup happens in cleanupLocation iteration, but do a broad sweep:
 			for (let d = 1; d <= 16; d++) {
 				try { await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true }); } catch { /* ok */ }
 			}
+		}
+
+		// Hourly data needed for both pollen (if enabled) and AQ hourly (if enabled)
+		if (!enablePollenHourly && !enableAirQualityHourly) {
 			return;
 		}
 
@@ -1383,32 +1387,34 @@ class Openmeteo extends utils.Adapter {
 			byDate[dateKey].hours[hour] = vals;
 		}
 
-		// Current hour pollen under current.pollen
-		const now = new Date();
-		const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-		const currentHour = now.getHours();
-		const currentHourVals = byDate[todayKey]?.hours[currentHour];
-		if (currentHourVals) {
-			await this.setObjectNotExistsAsync(`${locId}.current.pollen`, {
-				type: "channel",
-				common: { name: "Pollen aktuell" },
-				native: {},
-			});
-			for (const { key, name } of types) {
-				const dpKey = key.replace("_pollen", "");
-				const val = currentHourVals[key] ?? null;
-				await this.setDP(`${locId}.current.pollen.${dpKey}`, val, {
-					name,
-					type: "number",
-					unit: "Grains/m³",
-					role: "value",
+		// Current hour pollen under current.pollen (only if pollen enabled)
+		if (enablePollen) {
+			const now = new Date();
+			const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+			const currentHour = now.getHours();
+			const currentHourVals = byDate[todayKey]?.hours[currentHour];
+			if (currentHourVals) {
+				await this.setObjectNotExistsAsync(`${locId}.current.pollen`, {
+					type: "channel",
+					common: { name: "Pollen aktuell" },
+					native: {},
 				});
-				await this.setDP(`${locId}.current.pollen.${dpKey}_text`, pollenLevelText(val, key), {
-					name: `${name} (Text)`,
-					type: "string",
-					unit: "",
-					role: "text",
-				});
+				for (const { key, name } of types) {
+					const dpKey = key.replace("_pollen", "");
+					const val = currentHourVals[key] ?? null;
+					await this.setDP(`${locId}.current.pollen.${dpKey}`, val, {
+						name,
+						type: "number",
+						unit: "Grains/m³",
+						role: "value",
+					});
+					await this.setDP(`${locId}.current.pollen.${dpKey}_text`, pollenLevelText(val, key), {
+						name: `${name} (Text)`,
+						type: "string",
+						unit: "",
+						role: "text",
+					});
+				}
 			}
 		}
 
@@ -1417,28 +1423,30 @@ class Openmeteo extends utils.Adapter {
 			const dayNum = i + 1;
 			const dayData = byDate[dates[i]];
 
-			// Daily max under dayX.pollen
-			const pollenPrefix = `${locId}.day${dayNum}.pollen`;
-			await this.setObjectNotExistsAsync(pollenPrefix, {
-				type: "channel",
-				common: { name: `Pollen Tag ${dayNum} (Tagesmax)` },
-				native: {},
-			});
-			for (const { key, name } of types) {
-				const dpKey = key.replace("_pollen", "");
-				const val = dayData.max[key] ?? null;
-				await this.setDP(`${pollenPrefix}.${dpKey}`, val, {
-					name,
-					type: "number",
-					unit: "Grains/m³",
-					role: "value",
+			// Daily max under dayX.pollen (only if pollen enabled)
+			if (enablePollen) {
+				const pollenPrefix = `${locId}.day${dayNum}.pollen`;
+				await this.setObjectNotExistsAsync(pollenPrefix, {
+					type: "channel",
+					common: { name: `Pollen Tag ${dayNum} (Tagesmax)` },
+					native: {},
 				});
-				await this.setDP(`${pollenPrefix}.${dpKey}_text`, pollenLevelText(val, key), {
-					name: `${name} (Text)`,
-					type: "string",
-					unit: "",
-					role: "text",
-				});
+				for (const { key, name } of types) {
+					const dpKey = key.replace("_pollen", "");
+					const val = dayData.max[key] ?? null;
+					await this.setDP(`${pollenPrefix}.${dpKey}`, val, {
+						name,
+						type: "number",
+						unit: "Grains/m³",
+						role: "value",
+					});
+					await this.setDP(`${pollenPrefix}.${dpKey}_text`, pollenLevelText(val, key), {
+						name: `${name} (Text)`,
+						type: "string",
+						unit: "",
+						role: "text",
+					});
+				}
 			}
 
 			// Hourly pollen + AQ under dayX.hourly.hXX.*
