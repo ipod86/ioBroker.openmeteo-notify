@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { OpenMeteoConfig } from '../types';
 import LocationsTable from './LocationsTable';
@@ -108,6 +108,25 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                     iconSet={native.iconSet || 'basmilius'}
                     onChange={val => update('iconSet', val)}
                 />
+            </Box>
+
+            <Divider />
+
+            {/* Pollen */}
+            <Box>
+                <Typography variant="h6" gutterBottom>{I18n.t('pollen')}</Typography>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={!!native.enablePollen}
+                            onChange={e => update('enablePollen', e.target.checked)}
+                        />
+                    }
+                    label={I18n.t('enablePollen')}
+                />
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                    {I18n.t('enablePollenHelp')}
+                </Typography>
             </Box>
         </Box>
     );

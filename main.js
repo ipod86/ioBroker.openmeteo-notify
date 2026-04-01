@@ -225,6 +225,7 @@ class Openmeteo extends utils.Adapter {
 		const windspeedUnit = this.config.windspeedUnit || "kmh";
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 		const iconSet = this.config.iconSet || "basmilius";
+		const enablePollen = !!this.config.enablePollen;
 
 		if (!Array.isArray(locations) || locations.length === 0) {
 			// Fallback: use ioBroker system coordinates from system.config
@@ -284,6 +285,16 @@ class Openmeteo extends utils.Adapter {
 
 				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
+
+				if (enablePollen) {
+					try {
+						const aq = await this.fetchAirQuality(loc.lat, loc.lon);
+						await this.processPollen(aq, locId);
+					} catch (err) {
+						this.log.warn(`Pollen-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
+					}
+				}
+
 				anySuccess = true;
 				this.log.info(`OpenMeteo aktualisiert: ${loc.name} (${daysCount} Tage, ${hourlyDays} davon stündlich)`);
 			} catch (err) {
@@ -314,14 +325,50 @@ class Openmeteo extends utils.Adapter {
 				`&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min` +
 				`,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max,windgusts_10m_max` +
 				`,winddirection_10m_dominant,sunrise,sunset,uv_index_max,sunshine_duration` +
+				`,rain_sum,snowfall_sum,daylight_duration,shortwave_radiation_sum,et0_fao_evapotranspiration` +
 				`&hourly=temperature_2m,apparent_temperature,precipitation_probability` +
 				`,precipitation,weathercode,windspeed_10m,winddirection_10m,cloudcover` +
+				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
+				`,rain,snowfall,snow_depth,shortwave_radiation,cape` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
 				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
+				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
+				`,rain,snowfall,snow_depth,shortwave_radiation,cape` +
 				`&timezone=Europe/Berlin&forecast_days=${daysCount}` +
 				`&temperature_unit=${temperatureUnit}` +
 				`&windspeed_unit=${windspeedUnit}` +
 				`&precipitation_unit=${precipitationUnit}`;
+
+			https
+				.get(url, res => {
+					let raw = "";
+					res.on("data", c => (raw += c));
+					res.on("end", () => {
+						try {
+							resolve(JSON.parse(raw));
+						} catch (e) {
+							reject(e);
+						}
+					});
+				})
+				.on("error", reject);
+		});
+	}
+
+	/**
+	 * Fetches pollen and air quality data from Open-Meteo Air Quality API
+	 *
+	 * @param {number} lat - Latitude
+	 * @param {number} lon - Longitude
+	 * @returns {Promise<object>} Parsed JSON response from Open-Meteo Air Quality API
+	 */
+	fetchAirQuality(lat, lon) {
+		return new Promise((resolve, reject) => {
+			const url =
+				`https://air-quality-api.open-meteo.com/v1/air-quality` +
+				`?latitude=${lat}&longitude=${lon}` +
+				`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
+				`&timezone=Europe/Berlin&forecast_days=4`;
 
 			https
 				.get(url, res => {
@@ -471,6 +518,65 @@ class Openmeteo extends utils.Adapter {
 				unit: "%",
 				role: "value.clouds",
 			});
+			await this.setDP(`${locId}.current.humidity`, cur.relative_humidity_2m, {
+				name: "Luftfeuchtigkeit",
+				type: "number",
+				unit: "%",
+				role: "value.humidity",
+			});
+			await this.setDP(`${locId}.current.dew_point`, Math.round(cur.dew_point_2m * 10) / 10, {
+				name: "Taupunkt",
+				type: "number",
+				unit: tempUnit,
+				role: "value.temperature.dewpoint",
+			});
+			await this.setDP(`${locId}.current.pressure`, Math.round(cur.pressure_msl * 10) / 10, {
+				name: "Luftdruck",
+				type: "number",
+				unit: "hPa",
+				role: "value.pressure",
+			});
+			await this.setDP(`${locId}.current.visibility`, cur.visibility, {
+				name: "Sichtweite",
+				type: "number",
+				unit: "m",
+				role: "value.distance.visibility",
+			});
+			await this.setDP(`${locId}.current.is_day`, cur.is_day === 1, {
+				name: "Tag",
+				type: "boolean",
+				role: "indicator.day",
+			});
+			await this.setDP(`${locId}.current.rain`, cur.rain, {
+				name: "Regen",
+				type: "number",
+				unit: precipUnit,
+				role: "value.precipitation.hour",
+			});
+			await this.setDP(`${locId}.current.snowfall`, cur.snowfall, {
+				name: "Schneefall",
+				type: "number",
+				unit: "cm",
+				role: "value.precipitation.snow",
+			});
+			await this.setDP(`${locId}.current.snow_depth`, Math.round(cur.snow_depth * 100), {
+				name: "Schneehöhe",
+				type: "number",
+				unit: "cm",
+				role: "value.precipitation.snow",
+			});
+			await this.setDP(`${locId}.current.solar_radiation`, cur.shortwave_radiation, {
+				name: "Solarstrahlung",
+				type: "number",
+				unit: "W/m²",
+				role: "value.radiation",
+			});
+			await this.setDP(`${locId}.current.cape`, cur.cape, {
+				name: "Gewitterpotenzial (CAPE)",
+				type: "number",
+				unit: "J/kg",
+				role: "value",
+			});
 		}
 
 		// --- Group hourly values by date ---
@@ -492,6 +598,16 @@ class Openmeteo extends utils.Adapter {
 				weathercode: h.weathercode[i],
 				icon: ICONS[h.weathercode[i]] || "🌡️",
 				description: DESCRIPTIONS[h.weathercode[i]] || "Unbekannt",
+				humidity: h.relative_humidity_2m[i],
+				dew_point: Math.round(h.dew_point_2m[i] * 10) / 10,
+				pressure: Math.round(h.pressure_msl[i] * 10) / 10,
+				visibility: h.visibility[i],
+				is_day: h.is_day[i] === 1,
+				rain: h.rain[i],
+				snowfall: h.snowfall[i],
+				snow_depth: Math.round(h.snow_depth[i] * 100),
+				solar_radiation: h.shortwave_radiation[i],
+				cape: h.cape[i],
 			};
 		}
 
@@ -508,6 +624,7 @@ class Openmeteo extends utils.Adapter {
 			const feelsMax = Math.round(d.apparent_temperature_max[i] * 10) / 10;
 			const feelsMin = Math.round(d.apparent_temperature_min[i] * 10) / 10;
 			const sunH = Math.round(d.sunshine_duration[i] / 360) / 10;
+			const daylightH = Math.round(d.daylight_duration[i] / 360) / 10;
 			const precipType = precipitationType(d.weathercode[i]);
 
 			await this.setObjectNotExistsAsync(prefix, {
@@ -640,6 +757,36 @@ class Openmeteo extends utils.Adapter {
 				unit: "h",
 				role: "value",
 			});
+			await this.setDP(`${prefix}.daylight_hours`, daylightH, {
+				name: "Tageslichtdauer",
+				type: "number",
+				unit: "h",
+				role: "value",
+			});
+			await this.setDP(`${prefix}.rain`, d.rain_sum[i], {
+				name: "Regen",
+				type: "number",
+				unit: precipUnit,
+				role: "value.precipitation",
+			});
+			await this.setDP(`${prefix}.snowfall`, d.snowfall_sum[i], {
+				name: "Schneefall",
+				type: "number",
+				unit: "cm",
+				role: "value.precipitation.snow",
+			});
+			await this.setDP(`${prefix}.solar_radiation_sum`, Math.round(d.shortwave_radiation_sum[i] * 10) / 10, {
+				name: "Solarstrahlung gesamt",
+				type: "number",
+				unit: "MJ/m²",
+				role: "value.radiation",
+			});
+			await this.setDP(`${prefix}.evapotranspiration`, Math.round(d.et0_fao_evapotranspiration[i] * 10) / 10, {
+				name: "Evapotranspiration",
+				type: "number",
+				unit: "mm",
+				role: "value",
+			});
 
 			// Hourly values (only for days ≤ hourlyDays)
 			if (i < hourlyDays) {
@@ -732,6 +879,65 @@ class Openmeteo extends utils.Adapter {
 						unit: "%",
 						role: "value.clouds",
 					});
+					await this.setDP(`${hPath}.humidity`, hData.humidity, {
+						name: "Luftfeuchtigkeit",
+						type: "number",
+						unit: "%",
+						role: "value.humidity",
+					});
+					await this.setDP(`${hPath}.dew_point`, hData.dew_point, {
+						name: "Taupunkt",
+						type: "number",
+						unit: tempUnit,
+						role: "value.temperature.dewpoint",
+					});
+					await this.setDP(`${hPath}.pressure`, hData.pressure, {
+						name: "Luftdruck",
+						type: "number",
+						unit: "hPa",
+						role: "value.pressure",
+					});
+					await this.setDP(`${hPath}.visibility`, hData.visibility, {
+						name: "Sichtweite",
+						type: "number",
+						unit: "m",
+						role: "value.distance.visibility",
+					});
+					await this.setDP(`${hPath}.is_day`, hData.is_day, {
+						name: "Tag",
+						type: "boolean",
+						role: "indicator.day",
+					});
+					await this.setDP(`${hPath}.rain`, hData.rain, {
+						name: "Regen",
+						type: "number",
+						unit: precipUnit,
+						role: "value.precipitation.hour",
+					});
+					await this.setDP(`${hPath}.snowfall`, hData.snowfall, {
+						name: "Schneefall",
+						type: "number",
+						unit: "cm",
+						role: "value.precipitation.snow",
+					});
+					await this.setDP(`${hPath}.snow_depth`, hData.snow_depth, {
+						name: "Schneehöhe",
+						type: "number",
+						unit: "cm",
+						role: "value.precipitation.snow",
+					});
+					await this.setDP(`${hPath}.solar_radiation`, hData.solar_radiation, {
+						name: "Solarstrahlung",
+						type: "number",
+						unit: "W/m²",
+						role: "value.radiation",
+					});
+					await this.setDP(`${hPath}.cape`, hData.cape, {
+						name: "Gewitterpotenzial (CAPE)",
+						type: "number",
+						unit: "J/kg",
+						role: "value",
+					});
 					await this.setDP(`${hPath}.weathercode`, hData.weathercode, {
 						name: "Wettercode",
 						type: "number",
@@ -790,6 +996,52 @@ class Openmeteo extends utils.Adapter {
 			} catch {
 				// Object didn't exist, ignore
 			}
+		}
+	}
+
+	/**
+	 * Processes pollen data and writes datapoints
+	 *
+	 * @param {object} data - Air quality API response
+	 * @param {string} locId - Location ID
+	 */
+	async processPollen(data, locId) {
+		const h = data.hourly;
+		if (!h) {
+			return;
+		}
+
+		// Find index for current hour
+		const now = new Date();
+		const currentHourStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}T${String(now.getHours()).padStart(2, "0")}:00`;
+		const idx = h.time.findIndex(t => t === currentHourStr);
+		if (idx === -1) {
+			return;
+		}
+
+		await this.setObjectNotExistsAsync(`${locId}.pollen`, {
+			type: "channel",
+			common: { name: "Pollen" },
+			native: {},
+		});
+
+		const types = [
+			{ key: "alder_pollen", name: "Erle" },
+			{ key: "birch_pollen", name: "Birke" },
+			{ key: "grass_pollen", name: "Gräser" },
+			{ key: "mugwort_pollen", name: "Beifuß" },
+			{ key: "olive_pollen", name: "Olive" },
+			{ key: "ragweed_pollen", name: "Ambrosia" },
+		];
+
+		for (const { key, name } of types) {
+			const dpKey = key.replace("_pollen", "");
+			await this.setDP(`${locId}.pollen.${dpKey}`, h[key] ? h[key][idx] : null, {
+				name,
+				type: "number",
+				unit: "Grains/m³",
+				role: "value",
+			});
 		}
 	}
 

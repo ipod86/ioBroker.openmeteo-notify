@@ -21,5 +21,8 @@
 	"iconPreviewWmo": "Preview: WMO icons (OGC WorldWeatherSymbols, CC BY 4.0)",
 	"iconPreviewBasmilius": "Preview: Basmilius / Meteocons static PNG (MIT)",
 	"iconPreviewAnimated": "Preview: Basmilius / Meteocons animated SVG (MIT)",
-	"addLocation": "Add location"
+	"addLocation": "Add location",
+	"pollen": "Pollen & Air Quality",
+	"enablePollen": "Enable pollen data (Europe only, 4-day forecast)",
+	"enablePollenHelp": "Fetches pollen data from Open-Meteo Air Quality API. Available for Europe only."
 }

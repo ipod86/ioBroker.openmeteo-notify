@@ -12,4 +12,5 @@ export interface OpenMeteoConfig {
     windspeedUnit: 'kmh' | 'ms' | 'mph' | 'kn';
     precipitationUnit: 'mm' | 'inch';
     iconSet: 'wmo' | 'basmilius' | 'basmilius_animated';
+    enablePollen: boolean;
 }
