@@ -14,6 +14,7 @@ export default [
 			'*.config.mjs',
 			'build',
 			'dist',
+			'admin/assets/**',
 			'admin/words.js',
 			'admin/admin.d.ts',
 			'admin/blockly.js',
