@@ -10,7 +10,6 @@ const SunCalc = require("suncalc");
 
 const { I18N_WEEKDAYS, I18N_DESCRIPTIONS, I18N_MOON_PHASES, I18N_POLLEN_LEVELS } = require("./lib/i18n");
 
-
 const ICONS = {
 	0: "☀️",
 	1: "🌤️",
@@ -81,7 +80,9 @@ function normalizeId(name) {
 /**
  * WMO codes that have distinct night variants in Basmilius icon set
  */
-const WMO_HAS_NIGHT = new Set([0, 1, 2, 3, 45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]);
+const WMO_HAS_NIGHT = new Set([
+	0, 1, 2, 3, 45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99,
+]);
 
 /**
  * Returns the relative URL to the weather icon for the given weathercode and icon set
@@ -110,7 +111,6 @@ function weatherIconUrl(code, iconSet, isDay) {
 	return `/openmeteo.admin/icons/wmo/wmo_${String(wmoCode).padStart(2, "0")}.png`;
 }
 
-
 /**
  * Returns moon phase text from SunCalc phase value (0–1)
  *
@@ -123,7 +123,6 @@ function moonPhaseInfo(phase, lang) {
 	const idx = Math.round(phase * 8) % 8;
 	return { idx, text: phases[idx] };
 }
-
 
 /**
  * Converts a pollen value (Grains/m³) to a human-readable level text
@@ -140,17 +139,23 @@ function pollenLevelText(value, type, lang) {
 	}
 	// Thresholds differ by pollen type (source: German pollen forecast service)
 	const thresholds = {
-		grass_pollen:   [1, 10, 50],
-		birch_pollen:   [1, 10, 100],
-		alder_pollen:   [1, 10, 100],
+		grass_pollen: [1, 10, 50],
+		birch_pollen: [1, 10, 100],
+		alder_pollen: [1, 10, 100],
 		mugwort_pollen: [1, 10, 50],
 		ragweed_pollen: [1, 5, 20],
-		olive_pollen:   [1, 10, 100],
+		olive_pollen: [1, 10, 100],
 	};
 	const [low, mid, high] = thresholds[type] || [1, 10, 50];
-	if (value < low) return levels[0];
-	if (value < mid) return levels[1];
-	if (value < high) return levels[2];
+	if (value < low) {
+		return levels[0];
+	}
+	if (value < mid) {
+		return levels[1];
+	}
+	if (value < high) {
+		return levels[2];
+	}
 	return levels[3];
 }
 
@@ -263,20 +268,28 @@ class Openmeteo extends utils.Adapter {
 				const now = new Date();
 				const next = new Date();
 				next.setHours(1, 0, 0, 0);
-				if (next <= now) next.setDate(next.getDate() + 1);
+				if (next <= now) {
+					next.setDate(next.getDate() + 1);
+				}
 				return next - now;
 			};
 			this.updateTimeout = this.setTimeout(async () => {
 				this.updateTimeout = null;
 				await this.runUpdate();
-				this.updateInterval = this.setInterval(async () => {
-					await this.runUpdate();
-				}, 24 * 60 * 60 * 1000);
+				this.updateInterval = this.setInterval(
+					async () => {
+						await this.runUpdate();
+					},
+					24 * 60 * 60 * 1000,
+				);
 			}, msUntilNext1am());
 		} else {
-			this.updateInterval = this.setInterval(async () => {
-				await this.runUpdate();
-			}, intervalMinutes * 60 * 1000);
+			this.updateInterval = this.setInterval(
+				async () => {
+					await this.runUpdate();
+				},
+				intervalMinutes * 60 * 1000,
+			);
 		}
 	}
 
@@ -304,8 +317,11 @@ class Openmeteo extends utils.Adapter {
 		const sysConfig = await this.getForeignObjectAsync("system.config");
 		const rawLang = (sysConfig?.common?.language || "en").toLowerCase();
 		const SUPPORTED_LANGS = ["de", "en", "fr", "it", "es", "pt", "nl", "pl", "ru", "uk", "zh-cn"];
-		const lang = SUPPORTED_LANGS.includes(rawLang) ? rawLang :
-			(SUPPORTED_LANGS.includes(rawLang.split("-")[0]) ? rawLang.split("-")[0] : "en");
+		const lang = SUPPORTED_LANGS.includes(rawLang)
+			? rawLang
+			: SUPPORTED_LANGS.includes(rawLang.split("-")[0])
+				? rawLang.split("-")[0]
+				: "en";
 		const timezone = sysConfig?.common?.timezone || "auto";
 
 		if (!Array.isArray(locations) || locations.length === 0) {
@@ -364,29 +380,77 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 
-				await this.processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly, lang);
+				await this.processData(
+					data,
+					locId,
+					daysCount,
+					hourlyDays,
+					units,
+					iconSet,
+					loc,
+					enableAstronomy,
+					enableAstronomyHourly,
+					enableAgriculture,
+					enableAgricultureHourly,
+					lang,
+				);
 				await this.cleanupLocation(locId, daysCount, hourlyDays);
 
 				if (enablePollen || enableAirQuality) {
 					try {
 						const aq = await this.fetchAirQuality(loc.lat, loc.lon, timezone);
-						await this.processPollen(aq, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly, lang);
+						await this.processPollen(
+							aq,
+							locId,
+							hourlyDays,
+							enablePollen,
+							enableAirQuality,
+							enableAirQualityHourly,
+							enablePollenHourly,
+							lang,
+						);
 					} catch (err) {
 						this.log.warn(`Pollen/Luftqualität-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
 				} else {
 					// Both pollen and air quality disabled – clean up all related channels
-					try { await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true }); } catch { /* ok */ }
-					try { await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true }); } catch { /* ok */ }
+					try {
+						await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true });
+					} catch {
+						/* ok */
+					}
+					try {
+						await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true });
+					} catch {
+						/* ok */
+					}
 					for (let d = 1; d <= daysCount; d++) {
-						try { await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true }); } catch { /* ok */ }
-						try { await this.delObjectAsync(`${locId}.day${d}.air_quality`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true });
+						} catch {
+							/* ok */
+						}
+						try {
+							await this.delObjectAsync(`${locId}.day${d}.air_quality`, { recursive: true });
+						} catch {
+							/* ok */
+						}
 					}
 					for (let d = 1; d <= hourlyDays; d++) {
 						for (let hh = 0; hh < 24; hh++) {
 							const _hk = `h${String(hh).padStart(2, "0")}`;
-							try { await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.pollen`, { recursive: true }); } catch { /* ok */ }
-							try { await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.air_quality`, { recursive: true }); } catch { /* ok */ }
+							try {
+								await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.pollen`, { recursive: true });
+							} catch {
+								/* ok */
+							}
+							try {
+								await this.delObjectAsync(`${locId}.day${d}.hourly.${_hk}.air_quality`, {
+									recursive: true,
+								});
+							} catch {
+								/* ok */
+							}
 						}
 					}
 				}
@@ -431,7 +495,7 @@ class Openmeteo extends utils.Adapter {
 				`,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max,windgusts_10m_max` +
 				`,winddirection_10m_dominant,sunrise,sunset,uv_index_max,sunshine_duration` +
 				`,rain_sum,snowfall_sum,daylight_duration,shortwave_radiation_sum,et0_fao_evapotranspiration` +
-			`,cloud_cover_max,dew_point_2m_mean,relative_humidity_2m_mean,pressure_msl_mean` +
+				`,cloud_cover_max,dew_point_2m_mean,relative_humidity_2m_mean,pressure_msl_mean` +
 				`&hourly=temperature_2m,apparent_temperature,precipitation_probability` +
 				`,precipitation,weathercode,windspeed_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
@@ -475,8 +539,8 @@ class Openmeteo extends utils.Adapter {
 				`https://air-quality-api.open-meteo.com/v1/air-quality` +
 				`?latitude=${lat}&longitude=${lon}` +
 				`&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
-			`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
-			`,european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
+				`&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen` +
+				`,european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
 				`&timezone=${encodeURIComponent(timezone)}&forecast_days=4`;
 
 			https
@@ -520,8 +584,27 @@ class Openmeteo extends utils.Adapter {
 	 * @param {number} hourlyDays - Number of days with hourly data
 	 * @param {object} units - Unit labels { tempUnit, windUnit, precipUnit }
 	 * @param {string} iconSet - Icon set to use ("wmo" or "basmilius")
+	 * @param loc
+	 * @param enableAstronomy
+	 * @param enableAstronomyHourly
+	 * @param enableAgriculture
+	 * @param enableAgricultureHourly
+	 * @param lang
 	 */
-	async processData(data, locId, daysCount, hourlyDays, units, iconSet, loc, enableAstronomy, enableAstronomyHourly, enableAgriculture, enableAgricultureHourly, lang) {
+	async processData(
+		data,
+		locId,
+		daysCount,
+		hourlyDays,
+		units,
+		iconSet,
+		loc,
+		enableAstronomy,
+		enableAstronomyHourly,
+		enableAgriculture,
+		enableAgricultureHourly,
+		lang,
+	) {
 		const { tempUnit, windUnit, precipUnit, windspeedUnit } = units;
 		const descriptions = I18N_DESCRIPTIONS[lang] || I18N_DESCRIPTIONS.en;
 		const weekdays = I18N_WEEKDAYS[lang] || I18N_WEEKDAYS.en;
@@ -694,14 +777,22 @@ class Openmeteo extends utils.Adapter {
 					unit: "J/kg",
 					role: "value",
 				});
-				await this.setDP(`${locId}.current.agriculture.soil_temp`, cur.soil_temperature_0cm != null ? Math.round(cur.soil_temperature_0cm * 10) / 10 : null, {
-					name: "Bodentemperatur 0cm",
-					type: "number",
-					unit: units.tempUnit,
-					role: "value.temperature",
-				});
+				await this.setDP(
+					`${locId}.current.agriculture.soil_temp`,
+					cur.soil_temperature_0cm != null ? Math.round(cur.soil_temperature_0cm * 10) / 10 : null,
+					{
+						name: "Bodentemperatur 0cm",
+						type: "number",
+						unit: units.tempUnit,
+						role: "value.temperature",
+					},
+				);
 			} else {
-				try { await this.delObjectAsync(`${locId}.current.agriculture`, { recursive: true }); } catch { /* ok */ }
+				try {
+					await this.delObjectAsync(`${locId}.current.agriculture`, { recursive: true });
+				} catch {
+					/* ok */
+				}
 			}
 		}
 
@@ -881,7 +972,11 @@ class Openmeteo extends utils.Adapter {
 					role: "date.sunset",
 				});
 			} else {
-				try { await this.delObjectAsync(`${prefix}.astronomy`, { recursive: true }); } catch { /* ok */ }
+				try {
+					await this.delObjectAsync(`${prefix}.astronomy`, { recursive: true });
+				} catch {
+					/* ok */
+				}
 			}
 			await this.setDP(`${prefix}.uv_index`, d.uv_index_max[i], {
 				name: "UV-Index",
@@ -918,20 +1013,32 @@ class Openmeteo extends utils.Adapter {
 					common: { name: `Agrar/Solar Tag ${i + 1}` },
 					native: {},
 				});
-				await this.setDP(`${prefix}.agriculture.solar_radiation_sum`, Math.round(d.shortwave_radiation_sum[i] * 10) / 10, {
-					name: "Solarstrahlung gesamt",
-					type: "number",
-					unit: "MJ/m²",
-					role: "value.radiation",
-				});
-				await this.setDP(`${prefix}.agriculture.evapotranspiration`, Math.round(d.et0_fao_evapotranspiration[i] * 10) / 10, {
-					name: "Evapotranspiration",
-					type: "number",
-					unit: "mm",
-					role: "value",
-				});
+				await this.setDP(
+					`${prefix}.agriculture.solar_radiation_sum`,
+					Math.round(d.shortwave_radiation_sum[i] * 10) / 10,
+					{
+						name: "Solarstrahlung gesamt",
+						type: "number",
+						unit: "MJ/m²",
+						role: "value.radiation",
+					},
+				);
+				await this.setDP(
+					`${prefix}.agriculture.evapotranspiration`,
+					Math.round(d.et0_fao_evapotranspiration[i] * 10) / 10,
+					{
+						name: "Evapotranspiration",
+						type: "number",
+						unit: "mm",
+						role: "value",
+					},
+				);
 			} else {
-				try { await this.delObjectAsync(`${prefix}.agriculture`, { recursive: true }); } catch { /* ok */ }
+				try {
+					await this.delObjectAsync(`${prefix}.agriculture`, { recursive: true });
+				} catch {
+					/* ok */
+				}
 			}
 			await this.setDP(`${prefix}.cloud_cover_max`, d.cloud_cover_max[i], {
 				name: "Bewölkung Max",
@@ -1174,7 +1281,11 @@ class Openmeteo extends utils.Adapter {
 							role: "value.radiation",
 						});
 					} else {
-						try { await this.delObjectAsync(`${hPath}.agriculture`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${hPath}.agriculture`, { recursive: true });
+						} catch {
+							/* ok */
+						}
 					}
 					await this.setDP(`${hPath}.weathercode`, hData.weathercode, {
 						name: "Wettercode",
@@ -1244,7 +1355,11 @@ class Openmeteo extends utils.Adapter {
 							});
 						}
 					} else if (!enableAstronomyHourly) {
-						try { await this.delObjectAsync(`${hPath}.astronomy`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${hPath}.astronomy`, { recursive: true });
+						} catch {
+							/* ok */
+						}
 					}
 				}
 			}
@@ -1293,8 +1408,22 @@ class Openmeteo extends utils.Adapter {
 	 * @param {object} data - Air quality API response
 	 * @param {string} locId - Location ID
 	 * @param {number} hourlyDays - Number of days with hourly channels
+	 * @param enablePollen
+	 * @param enableAirQuality
+	 * @param enableAirQualityHourly
+	 * @param enablePollenHourly
+	 * @param lang
 	 */
-	async processPollen(data, locId, hourlyDays, enablePollen, enableAirQuality, enableAirQualityHourly, enablePollenHourly, lang) {
+	async processPollen(
+		data,
+		locId,
+		hourlyDays,
+		enablePollen,
+		enableAirQuality,
+		enableAirQualityHourly,
+		enablePollenHourly,
+		lang,
+	) {
 		// --- AQI current data ---
 		if (enableAirQuality && data.current) {
 			const c = data.current;
@@ -1321,14 +1450,26 @@ class Openmeteo extends utils.Adapter {
 				});
 			}
 		} else if (!enableAirQuality) {
-			try { await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true }); } catch { /* ok */ }
+			try {
+				await this.delObjectAsync(`${locId}.current.air_quality`, { recursive: true });
+			} catch {
+				/* ok */
+			}
 		}
 
 		// Clean up pollen channels if pollen is disabled
 		if (!enablePollen) {
-			try { await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true }); } catch { /* ok */ }
+			try {
+				await this.delObjectAsync(`${locId}.current.pollen`, { recursive: true });
+			} catch {
+				/* ok */
+			}
 			for (let d = 1; d <= 16; d++) {
-				try { await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true }); } catch { /* ok */ }
+				try {
+					await this.delObjectAsync(`${locId}.day${d}.pollen`, { recursive: true });
+				} catch {
+					/* ok */
+				}
 			}
 		}
 
@@ -1468,7 +1609,11 @@ class Openmeteo extends utils.Adapter {
 					});
 				}
 			} else {
-				try { await this.delObjectAsync(`${locId}.day${dayNum}.air_quality`, { recursive: true }); } catch { /* ok */ }
+				try {
+					await this.delObjectAsync(`${locId}.day${dayNum}.air_quality`, { recursive: true });
+				} catch {
+					/* ok */
+				}
 			}
 
 			// Hourly pollen + AQ under dayX.hourly.hXX.*
@@ -1502,7 +1647,11 @@ class Openmeteo extends utils.Adapter {
 							});
 						}
 					} else {
-						try { await this.delObjectAsync(`${hBase}.pollen`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${hBase}.pollen`, { recursive: true });
+						} catch {
+							/* ok */
+						}
 					}
 
 					// Air quality hourly
@@ -1522,7 +1671,11 @@ class Openmeteo extends utils.Adapter {
 							});
 						}
 					} else {
-						try { await this.delObjectAsync(`${hBase}.air_quality`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${hBase}.air_quality`, { recursive: true });
+						} catch {
+							/* ok */
+						}
 					}
 				}
 			} else {
@@ -1530,13 +1683,25 @@ class Openmeteo extends utils.Adapter {
 				if (!enablePollenHourly) {
 					for (let hh = 0; hh < 24; hh++) {
 						const hKey = `h${String(hh).padStart(2, "0")}`;
-						try { await this.delObjectAsync(`${locId}.day${dayNum}.hourly.${hKey}.pollen`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${locId}.day${dayNum}.hourly.${hKey}.pollen`, {
+								recursive: true,
+							});
+						} catch {
+							/* ok */
+						}
 					}
 				}
 				if (!enableAirQualityHourly) {
 					for (let hh = 0; hh < 24; hh++) {
 						const hKey = `h${String(hh).padStart(2, "0")}`;
-						try { await this.delObjectAsync(`${locId}.day${dayNum}.hourly.${hKey}.air_quality`, { recursive: true }); } catch { /* ok */ }
+						try {
+							await this.delObjectAsync(`${locId}.day${dayNum}.hourly.${hKey}.air_quality`, {
+								recursive: true,
+							});
+						} catch {
+							/* ok */
+						}
 					}
 				}
 			}
