@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "openmeteo",
-		"version": "0.0.38",
+		"version": "0.0.39",
 		"news": {
+			"0.0.39": {
+				"en": "Weather summary sentences with DWD-standard thresholds, precipitation amounts, CAPE-based thunderstorm risk and current.summary",
+				"de": "Wettertext-Zusammenfassungen mit DWD-Schwellenwerten, Niederschlagsmengen, CAPE-basierter Gewittergefahr und current.summary",
+				"ru": "Сводки погоды со стандартами DWD, суммы осадков, угроза грозы по CAPE и current.summary",
+				"pt": "Resumos meteorológicos com limiares DWD, totais de precipitação, risco de trovoada por CAPE e current.summary",
+				"nl": "Weerssamenvattingen met DWD-drempelwaarden, neerslaghoeveelheden, CAPE-onweersrisico en current.summary",
+				"fr": "Résumés météo avec seuils DWD, totaux de précipitations, risque d'orage par CAPE et current.summary",
+				"it": "Riepiloghi meteo con soglie DWD, totali precipitazioni, rischio temporali CAPE e current.summary",
+				"es": "Resúmenes meteorológicos con umbrales DWD, totales de precipitación, riesgo de tormenta CAPE y current.summary",
+				"pl": "Podsumowania pogody z progami DWD, sumami opadów, ryzykiem burzy CAPE i current.summary",
+				"zh-cn": "包含DWD标准阈值、降水量、CAPE雷暴风险和current.summary的天气摘要",
+				"uk": "Зведення погоди зі стандартами DWD, кількістю опадів, ризиком грози CAPE та current.summary"
+			},
 			"0.0.38": {
 				"en": "DWD-standard precipitation intensity/frequency, temperature and wind thresholds for weather summaries",
 				"de": "DWD-konforme Schwellenwerte für Niederschlagsintensität/-häufigkeit, Temperatur und Wind in Kurzzusammenfassungen",
