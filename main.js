@@ -263,11 +263,16 @@ function generateSummary(hours, lang, isNight) {
 	const precipIntensity = maxMm => (maxMm >= 10 ? "heavy" : maxMm >= 2.5 ? "moderate" : "light");
 
 	let weather;
+	let precipSuffix = null;
 	if (hasCode(95, 96, 99)) {
 		weather = t.thunderstorm;
 	} else if (hasCode(56, 57, 66, 67)) {
 		weather = t.freezing;
 	} else if (snowHours.length > 0) {
+		const totalSnowCm = Math.round(snowHours.reduce((s, h) => s + (h.snowfall || 0), 0) * 10) / 10;
+		if (totalSnowCm > 0) {
+			precipSuffix = `${totalSnowCm} cm`;
+		}
 		if (hasCode(75, 86)) {
 			weather = t.snow_heavy;
 		} else {
@@ -275,6 +280,10 @@ function generateSummary(hours, lang, isNight) {
 		}
 	} else if (rainHours.length > 0) {
 		const maxRainPrecip = Math.max(...rainHours.map(h => h.precipitation || 0));
+		const totalRainMm = Math.round(rainHours.reduce((s, h) => s + (h.precipitation || 0), 0) * 10) / 10;
+		if (totalRainMm > 0) {
+			precipSuffix = `${totalRainMm} mm`;
+		}
 		const freq = precipFreq(rainHours.length);
 		const inten = precipIntensity(maxRainPrecip);
 		weather = t[`rain_${freq}_${inten}`];
@@ -335,7 +344,8 @@ function generateSummary(hours, lang, isNight) {
 		windPart = t.breezy;
 	}
 
-	return [weather, tempPart, windPart].filter(Boolean).join(", ");
+	const weatherPart = precipSuffix ? `${weather} (${precipSuffix})` : weather;
+	return [weatherPart, tempPart, windPart].filter(Boolean).join(", ");
 }
 
 function precipitationType(code) {
