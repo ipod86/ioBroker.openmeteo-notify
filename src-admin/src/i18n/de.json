@@ -50,7 +50,7 @@
 	"addWidget": "Widget hinzufügen",
 	"inputMode": "Eingabemodus",
 	"inputCoords": "Koordinaten",
-	"inputAddress": "Adresse",
+	"inputAddress": "Adresssuche",
 	"addressSearch": "Adresse / Ort",
 	"geocode": "Koordinaten ermitteln",
 	"locationNameRequired": "Name ist erforderlich"

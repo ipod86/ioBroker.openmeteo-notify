@@ -729,6 +729,7 @@ class Openmeteo extends utils.Adapter {
 <tr>
 <td width="75px"><img src="${host}${curIcon}" style="width:75px;height:75px;display:block;"></td>
 <td style="padding-left:10px;vertical-align:middle;">
+<div style="font-size:13px;font-weight:600;color:${textColor};margin-bottom:2px;">${widget.locationName}</div>
 <div style="font-size:15px;font-weight:400;color:${subColor};">${curDesc}</div>
 <div style="font-size:12px;color:${fadeColor};margin-top:2px;">${curSummary}</div>
 </td>
@@ -781,7 +782,7 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
 				const border = i > start ? `border-left:2px solid ${divColor};` : "";
-				html += `<td style="font-size:11px;color:${fadeColor};padding-top:0;${border}">${dayData[i][4]}<span style="font-size:9px;margin-left:1px;">%</span></td>`;
+				html += `<td style="font-size:11px;color:${fadeColor};padding-top:0;${border}"><span style="margin-right:2px;">🌧️</span>${dayData[i][4]}<span style="font-size:9px;margin-left:1px;">%</span></td>`;
 			}
 			html += `</tr></table>`;
 		}

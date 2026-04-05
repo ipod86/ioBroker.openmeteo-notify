@@ -50,7 +50,7 @@
 	"addWidget": "Add widget",
 	"inputMode": "Input mode",
 	"inputCoords": "Coordinates",
-	"inputAddress": "Address",
+	"inputAddress": "Address search",
 	"addressSearch": "Address / place",
 	"geocode": "Look up coordinates",
 	"locationNameRequired": "Name is required"
