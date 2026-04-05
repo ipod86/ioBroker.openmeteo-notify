@@ -23,26 +23,6 @@ class App extends GenericApp<GenericAppProps, AppState> {
         } as any);
     }
 
-    async componentDidUpdate(prevProps: GenericAppProps, prevState: AppState): Promise<void> {
-        if (!prevState.loaded && this.state.loaded) {
-            const native = this.state.native as OpenMeteoConfig;
-            if (!native.locations || native.locations.length === 0) {
-                try {
-                    const sysConfig = await (this.socket as any).getObject('system.config');
-                    const lat = sysConfig?.common?.latitude;
-                    const lon = sysConfig?.common?.longitude;
-                    const city: string = sysConfig?.common?.city || sysConfig?.common?.location || 'Home';
-                    if (lat != null && lon != null) {
-                        const newNative = { ...native, locations: [{ name: city, lat, lon }] };
-                        this.setState({ native: newNative as any, changed: true } as any);
-                    }
-                } catch {
-                    // ignore
-                }
-            }
-        }
-    }
-
     onPrepareSave(settings: Record<string, any>): boolean {
         super.onPrepareSave(settings);
         const native = settings as OpenMeteoConfig;
