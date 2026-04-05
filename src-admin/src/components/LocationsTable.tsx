@@ -95,8 +95,9 @@ const LocationsTable: React.FC<Props> = ({ locations, onChange }) => {
                 updateRow(index, { geocoding: false, geoError: 'Adresse nicht gefunden' });
                 return;
             }
+            const currentName = locations[index]?.name?.trim();
             onChange(locations.map((loc, i) =>
-                i === index ? { name: result.displayName, lat: result.lat, lon: result.lon } : loc
+                i === index ? { name: currentName || result.displayName, lat: result.lat, lon: result.lon } : loc
             ));
             updateRow(index, { geocoding: false, geoError: '' });
         } catch {

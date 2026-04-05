@@ -1306,8 +1306,8 @@ class Openmeteo extends utils.Adapter {
 				unit: precipUnit,
 				role: "value.precipitation",
 			});
-			await this.setDP(`${prefix}.rain_probability`, d.precipitation_probability_max[i], {
-				name: "Regenwahrsch.",
+			await this.setDP(`${prefix}.precipitation_probability`, d.precipitation_probability_max[i], {
+				name: "Niederschlagswahrsch.",
 				type: "number",
 				unit: "%",
 				role: "value.precipitation.chance",
@@ -1591,8 +1591,8 @@ class Openmeteo extends utils.Adapter {
 						unit: precipUnit,
 						role: "value.precipitation.hour",
 					});
-					await this.setDP(`${hPath}.rain_prob`, hData.rain_prob, {
-						name: "Regenwahrsch.",
+					await this.setDP(`${hPath}.precip_prob`, hData.rain_prob, {
+						name: "Niederschlagswahrsch.",
 						type: "number",
 						unit: "%",
 						role: "value.precipitation.chance",

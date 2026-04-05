@@ -1,248 +1,248 @@
 {
-	"common": {
-		"name": "openmeteo",
-		"version": "0.0.40",
-		"news": {
-			"0.0.40": {
-				"en": "amCharts animated/static SVG icons (CC BY 4.0), HTML widget DPs with light/dark theme, OSM map preview and address geocoding in location settings",
-				"de": "amCharts animierte/statische SVG-Icons (CC BY 4.0), HTML-Widget-Datenpunkte mit Hell/Dunkel-Design, OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen"
-			},
-			"0.0.39": {
-				"en": "Weather summary sentences with DWD-standard thresholds, precipitation amounts, CAPE-based thunderstorm risk and current.summary",
-				"de": "Wettertext-Zusammenfassungen mit DWD-Schwellenwerten, Niederschlagsmengen, CAPE-basierter Gewittergefahr und current.summary",
-				"ru": "Сводки погоды со стандартами DWD, суммы осадков, угроза грозы по CAPE и current.summary",
-				"pt": "Resumos meteorológicos com limiares DWD, totais de precipitação, risco de trovoada por CAPE e current.summary",
-				"nl": "Weerssamenvattingen met DWD-drempelwaarden, neerslaghoeveelheden, CAPE-onweersrisico en current.summary",
-				"fr": "Résumés météo avec seuils DWD, totaux de précipitations, risque d'orage par CAPE et current.summary",
-				"it": "Riepiloghi meteo con soglie DWD, totali precipitazioni, rischio temporali CAPE e current.summary",
-				"es": "Resúmenes meteorológicos con umbrales DWD, totales de precipitación, riesgo de tormenta CAPE y current.summary",
-				"pl": "Podsumowania pogody z progami DWD, sumami opadów, ryzykiem burzy CAPE i current.summary",
-				"zh-cn": "包含DWD标准阈值、降水量、CAPE雷暴风险和current.summary的天气摘要",
-				"uk": "Зведення погоди зі стандартами DWD, кількістю опадів, ризиком грози CAPE та current.summary"
-			},
-			"0.0.38": {
-				"en": "DWD-standard precipitation intensity/frequency, temperature and wind thresholds for weather summaries",
-				"de": "DWD-konforme Schwellenwerte für Niederschlagsintensität/-häufigkeit, Temperatur und Wind in Kurzzusammenfassungen",
-				"ru": "Пороги DWD для интенсивности/частоты осадков, температуры и ветра в сводках погоды",
-				"pt": "Limiares padrão DWD para intensidade/frequência de precipitação, temperatura e vento nos resumos",
-				"nl": "DWD-standaard drempelwaarden voor neerslagintensiteit/-frequentie, temperatuur en wind in samenvattingen",
-				"fr": "Seuils standard DWD pour l'intensité/fréquence des précipitations, température et vent dans les résumés",
-				"it": "Soglie standard DWD per intensità/frequenza delle precipitazioni, temperatura e vento nei riepiloghi",
-				"es": "Umbrales estándar DWD para intensidad/frecuencia de precipitación, temperatura y viento en los resúmenes",
-				"pl": "Progi standardu DWD dla intensywności/częstotliwości opadów, temperatury i wiatru w podsumowaniach",
-				"zh-cn": "气象摘要采用德国气象局(DWD)标准降水强度/频率、温度和风力阈值",
-				"uk": "Порогові значення DWD для інтенсивності/частоти опадів, температури та вітру в зведеннях погоди"
-			},
-			"0.0.37": {
-				"en": "add day/night weather summary texts for each forecast day (11 languages)",
-				"de": "Tages- und Nacht-Kurzzusammenfassungen für jeden Vorhersetag (11 Sprachen)",
-				"ru": "Добавлены краткие сводки погоды для дня и ночи (11 языков)",
-				"pt": "Resumos meteorológicos de dia/noite para cada dia de previsão (11 idiomas)",
-				"nl": "Dag/nacht weerssamenvattingen toegevoegd per voorspellingsdag (11 talen)",
-				"fr": "Résumés météo jour/nuit pour chaque jour de prévision (11 langues)",
-				"it": "Riepiloghi meteo giorno/notte per ogni giorno di previsione (11 lingue)",
-				"es": "Resúmenes meteorológicos de día/noche por día de previsión (11 idiomas)",
-				"pl": "Podsumowania pogody dzień/noc dla każdego dnia prognozy (11 języków)",
-				"uk": "Короткі зведення погоди на день/ніч для кожного дня прогнозу (11 мов)",
-				"zh-cn": "为每个预报日添加昼夜天气摘要（11种语言）"
-			},
-			"0.0.36": {
-				"en": "multilingual weather descriptions, moon phases and pollen levels (11 languages); timezone from ioBroker system config",
-				"de": "Mehrsprachige Wetterbeschreibungen, Mondphasen und Pollenstufen (11 Sprachen); Zeitzone aus ioBroker-Systemkonfiguration",
-				"ru": "Многоязычные описания погоды, фазы луны и уровни пыльцы (11 языков); часовой пояс из системной конфигурации ioBroker",
-				"pt": "Descrições de tempo multilingues, fases da lua e níveis de pólen (11 idiomas); fuso horário da configuração do sistema ioBroker",
-				"nl": "Meertalige weerbeschrijvingen, maanfasen en pollenniveaus (11 talen); tijdzone uit ioBroker-systeemconfiguratie",
-				"fr": "Descriptions météo multilingues, phases lunaires et niveaux de pollen (11 langues); fuseau horaire depuis la config système ioBroker",
-				"it": "Descrizioni meteo multilingua, fasi lunari e livelli di polline (11 lingue); fuso orario dalla configurazione di sistema ioBroker",
-				"es": "Descripciones meteorológicas multilingüe, fases lunares y niveles de polen (11 idiomas); zona horaria desde la configuración del sistema ioBroker",
-				"pl": "Wielojęzyczne opisy pogody, fazy księżyca i poziomy pyłków (11 języków); strefa czasowa z konfiguracji systemu ioBroker",
-				"uk": "Багатомовні описи погоди, фази місяця та рівні пилку (11 мов); часовий пояс із системної конфігурації ioBroker",
-				"zh-cn": "多语言天气描述、月相和花粉等级（11种语言）；时区来自ioBroker系统配置"
-			},
-			"0.0.35": {
-				"en": "add real Basmilius sleet icons for WMO codes 56/57/66/67 (day + night + animated)",
-				"de": "Echte Basmilius Sleet-Icons für WMO-Codes 56/57/66/67 (Tag + Nacht + animiert)",
-				"ru": "Добавлены настоящие иконки Basmilius для WMO-кодов 56/57/66/67 (день + ночь + анимация)",
-				"pt": "Adicionados ícones reais de granizo Basmilius para códigos WMO 56/57/66/67 (dia + noite + animado)",
-				"nl": "Echte Basmilius-ijsregenicons toegevoegd voor WMO-codes 56/57/66/67 (dag + nacht + geanimeerd)",
-				"fr": "Ajout d'icônes Basmilius réelles pour les codes WMO 56/57/66/67 (jour + nuit + animé)",
-				"it": "Aggiunte icone Basmilius reali per i codici WMO 56/57/66/67 (giorno + notte + animato)",
-				"es": "Añadidos iconos reales de aguanieve Basmilius para los códigos WMO 56/57/66/67 (día + noche + animado)",
-				"pl": "Dodano prawdziwe ikony śniegu z deszczem Basmilius dla kodów WMO 56/57/66/67 (dzień + noc + animacja)",
-				"uk": "Додано справжні іконки мокрого снігу Basmilius для WMO-кодів 56/57/66/67 (день + ніч + анімація)",
-				"zh-cn": "为WMO代码56/57/66/67添加真实的Basmilius雨夹雪图标（白天+夜晚+动画）"
-			},
-			"0.0.34": {
-				"en": "add missing WMO codes 56/57 (freezing drizzle) and 66/67 (freezing rain) with descriptions, icons and emoji",
-				"de": "Fehlende WMO-Codes 56/57 (gefrierender Nieselregen) und 66/67 (Eisregen) mit Beschreibung, Icons und Emoji ergänzt",
-				"ru": "Добавлены отсутствующие WMO-коды 56/57 (ледяная морось) и 66/67 (ледяной дождь) с описаниями, иконками и эмодзи",
-				"pt": "Adicionados códigos WMO ausentes 56/57 (garoa gelada) e 66/67 (chuva gelada) com descrições, ícones e emoji",
-				"nl": "Ontbrekende WMO-codes 56/57 (bevriezende motregen) en 66/67 (ijsregen) toegevoegd met beschrijvingen, iconen en emoji",
-				"fr": "Ajout des codes WMO manquants 56/57 (bruine verglaçante) et 66/67 (pluie verglaçante) avec descriptions, icônes et emoji",
-				"it": "Aggiunti i codici WMO mancanti 56/57 (pioggerella gelata) e 66/67 (pioggia gelata) con descrizioni, icone ed emoji",
-				"es": "Añadidos los códigos WMO faltantes 56/57 (llovizna helada) y 66/67 (lluvia helada) con descripciones, iconos y emoji",
-				"pl": "Dodano brakujące kody WMO 56/57 (marznąca mżawka) i 66/67 (marznący deszcz) z opisami, ikonami i emoji",
-				"uk": "Додано відсутні WMO-коди 56/57 (крижана мряка) та 66/67 (крижаний дощ) з описами, іконками та emoji",
-				"zh-cn": "添加缺失的WMO代码56/57（冻毛毛雨）和66/67（冻雨），含描述、图标和表情"
-			},
-			"0.0.33": {
-				"en": "fix: hourlyDays=0 was ignored due to falsy check (|| 3), hourly folders not cleaned up",
-				"de": "Fix: hourlyDays=0 wurde durch Falsy-Check (|| 3) ignoriert, stündliche Ordner nicht bereinigt",
-				"ru": "Исправление: hourlyDays=0 игнорировался из-за проверки falsy (|| 3), почасовые папки не очищались",
-				"pt": "Correção: hourlyDays=0 era ignorado devido à verificação falsy (|| 3), pastas horárias não limpas",
-				"nl": "Fix: hourlyDays=0 werd genegeerd door falsy-controle (|| 3), uurlijkse mappen niet opgeschoond",
-				"fr": "Correction: hourlyDays=0 était ignoré à cause du test falsy (|| 3), les dossiers horaires n'étaient pas nettoyés",
-				"it": "Correzione: hourlyDays=0 veniva ignorato per il controllo falsy (|| 3), cartelle orarie non pulite",
-				"es": "Corrección: hourlyDays=0 era ignorado por la comprobación falsy (|| 3), carpetas horarias no limpiadas",
-				"pl": "Poprawka: hourlyDays=0 był ignorowany przez sprawdzanie falsy (|| 3), katalogi godzinowe nie były czyszczone",
-				"uk": "Виправлення: hourlyDays=0 ігнорувався через хибну перевірку (|| 3), погодинні папки не очищались",
-				"zh-cn": "修复：由于falsy检查（|| 3），hourlyDays=0被忽略，小时文件夹未清理"
-			},
-			"0.0.32": {
-				"en": "fix: pollen cleanup not running when hourly disabled; add daily air quality max (dayX.air_quality)",
-				"de": "Fix: Pollen-Cleanup lief nicht wenn stündlich deaktiviert; tägliche Luftqualitäts-Maximalwerte (dayX.air_quality)",
-				"ru": "Исправление: очистка пыльцы не выполнялась при отключённом почасовом режиме; добавлен дневной макс. качества воздуха",
-				"pt": "Correção: limpeza de pólen não executava quando horário desativado; adicionado máximo diário de qualidade do ar",
-				"nl": "Fix: pollenopruiming liep niet als uurlijks uitgeschakeld; dagelijks max. luchtkwaliteit toegevoegd",
-				"fr": "Correction: nettoyage pollen ne s'exécutait pas si horaire désactivé; ajout max qualité d'air journalier",
-				"it": "Correzione: pulizia polline non eseguita se orario disabilitato; aggiunto max qualità dell'aria giornaliero",
-				"es": "Corrección: limpieza de polen no se ejecutaba con horario desactivado; añadido máximo diario de calidad del aire",
-				"pl": "Poprawka: czyszczenie pyłków nie działało gdy godzinowe wyłączone; dodano dzienny maks. jakości powietrza",
-				"uk": "Виправлення: очищення пилку не виконувалось при вимкненому погодинному режимі; додано денний макс. якості повітря",
-				"zh-cn": "修复：禁用小时模式时花粉清理未运行；添加每日空气质量最大值"
-			},
-			"0.0.31": {
-				"en": "remove sentry dependency; fix admin minVersion; README English-only with README.de.md",
-				"de": "Sentry-Abhängigkeit entfernt; Admin-Mindestversion korrigiert; README nur Englisch mit README.de.md",
-				"ru": "Удалена зависимость sentry; исправлена минимальная версия admin; README только на английском с README.de.md",
-				"pt": "Removida dependência sentry; corrigida minVersion do admin; README apenas em inglês com README.de.md",
-				"nl": "Sentry-afhankelijkheid verwijderd; admin minVersion gecorrigeerd; README alleen Engels met README.de.md",
-				"fr": "Suppression dépendance sentry; correction minVersion admin; README anglais uniquement avec README.de.md",
-				"it": "Rimossa dipendenza sentry; corretta minVersion admin; README solo inglese con README.de.md",
-				"es": "Eliminada dependencia sentry; corregida minVersion de admin; README solo en inglés con README.de.md",
-				"pl": "Usunięto zależność sentry; poprawiono minVersion admina; README tylko po angielsku z README.de.md",
-				"uk": "Видалено залежність sentry; виправлено minVersion admin; README лише англійською з README.de.md",
-				"zh-cn": "移除sentry依赖；修复admin最低版本；README仅英文，含README.de.md"
-			},
-			"0.0.30": {
-				"en": "fix: hourly air quality not written when pollen disabled; fix JSDoc; fix timer ref cleanup",
-				"de": "Fix: Stündliche Luftqualität wurde nicht geschrieben wenn Pollen deaktiviert; JSDoc-Fix; Timer-Ref-Fix",
-				"ru": "Исправление: почасовое качество воздуха не записывалось при отключённой пыльце; исправление JSDoc; исправление таймера",
-				"pt": "Correção: qualidade do ar horária não gravada quando pólen desativado; correção JSDoc; limpeza de ref. de timer",
-				"nl": "Fix: uurlijkse luchtkwaliteit niet geschreven als pollen uitgeschakeld; JSDoc-fix; timer ref opruimen",
-				"fr": "Correction: qualité d'air horaire non écrite si pollen désactivé; correction JSDoc; nettoyage ref timer",
-				"it": "Correzione: qualità dell'aria oraria non scritta se polline disabilitato; correzione JSDoc; pulizia ref timer",
-				"es": "Corrección: calidad del aire horaria no escrita si polen desactivado; corrección JSDoc; limpieza ref timer",
-				"pl": "Poprawka: jakość powietrza godzinowa nie była zapisywana gdy pyłki wyłączone; poprawka JSDoc; czyszczenie timera",
-				"uk": "Виправлення: погодинна якість повітря не записувалась при вимкненому пилку; виправлення JSDoc; очищення таймера",
-				"zh-cn": "修复：禁用花粉时未写入每小时空气质量；修复JSDoc；修复计时器引用清理"
-			}
-		},
-		"titleLang": {
-			"en": "OpenMeteo Weather",
-			"de": "OpenMeteo-Wetter",
-			"ru": "Погода OpenMeteo",
-			"pt": "Tempo OpenMeteo",
-			"nl": "OpenMeteo-weer",
-			"fr": "Météo OpenMeteo",
-			"it": "OpenMeteo Meteo",
-			"es": "OpenMeteo Tiempo",
-			"pl": "Pogoda OpenMeteo",
-			"uk": "Погода OpenMeteo",
-			"zh-cn": "OpenMeteo 天气"
-		},
-		"desc": {
-			"en": "Free weather forecast from Open-Meteo API",
-			"de": "Kostenlose Wettervorhersage von Open-Meteo API",
-			"ru": "Бесплатный прогноз погоды от Open-Meteo API",
-			"pt": "Previsão do tempo gratuita da API Open-Meteo",
-			"nl": "Gratis weersvoorspelling van Open-Meteo API",
-			"fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
-			"it": "Previsioni meteo gratuite dall'API Open-Meteo",
-			"es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
-			"pl": "Darmowa prognoza pogody z Open-Meteo API",
-			"uk": "Безкоштовний прогноз погоди від Open-Meteo API",
-			"zh-cn": "来自 Open-Meteo API 的免费天气预报"
-		},
-		"authors": [
-			"David G. <david@graef.email>"
-		],
-		"keywords": [
-			"weather",
-			"forecast",
-			"openmeteo",
-			"open-meteo"
-		],
-		"licenseInformation": {
-			"type": "free",
-			"license": "MIT"
-		},
-		"platform": "Javascript/Node.js",
-		"icon": "openmeteo.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
-		"readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"mode": "daemon",
-		"type": "weather",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "materialize"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=6.0.11"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=7.6.20"
-			}
-		]
-	},
-	"native": {
-		"locations": [],
-		"daysCount": 7,
-		"hourlyDays": 3,
-		"temperatureUnit": "celsius",
-		"windspeedUnit": "kmh",
-		"precipitationUnit": "mm",
-		"iconSet": "basmilius",
-		"updateInterval": 60,
-		"enableAirQuality": true,
-		"enableAirQualityHourly": false,
-		"enableAstronomy": true,
-		"enableAstronomyHourly": false,
-		"enableAgriculture": false,
-		"enableAgricultureHourly": false,
-		"enablePollen": false,
-		"enablePollenHourly": false
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+    "common": {
+        "name": "openmeteo",
+        "version": "0.0.41",
+        "news": {
+            "0.0.40": {
+                "en": "amCharts animated/static SVG icons (CC BY 4.0), HTML widget DPs with light/dark theme, OSM map preview and address geocoding in location settings",
+                "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0), HTML-Widget-Datenpunkte mit Hell/Dunkel-Design, OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen"
+            },
+            "0.0.39": {
+                "en": "Weather summary sentences with DWD-standard thresholds, precipitation amounts, CAPE-based thunderstorm risk and current.summary",
+                "de": "Wettertext-Zusammenfassungen mit DWD-Schwellenwerten, Niederschlagsmengen, CAPE-basierter Gewittergefahr und current.summary",
+                "ru": "Сводки погоды со стандартами DWD, суммы осадков, угроза грозы по CAPE и current.summary",
+                "pt": "Resumos meteorológicos com limiares DWD, totais de precipitação, risco de trovoada por CAPE e current.summary",
+                "nl": "Weerssamenvattingen met DWD-drempelwaarden, neerslaghoeveelheden, CAPE-onweersrisico en current.summary",
+                "fr": "Résumés météo avec seuils DWD, totaux de précipitations, risque d'orage par CAPE et current.summary",
+                "it": "Riepiloghi meteo con soglie DWD, totali precipitazioni, rischio temporali CAPE e current.summary",
+                "es": "Resúmenes meteorológicos con umbrales DWD, totales de precipitación, riesgo de tormenta CAPE y current.summary",
+                "pl": "Podsumowania pogody z progami DWD, sumami opadów, ryzykiem burzy CAPE i current.summary",
+                "zh-cn": "包含DWD标准阈值、降水量、CAPE雷暴风险和current.summary的天气摘要",
+                "uk": "Зведення погоди зі стандартами DWD, кількістю опадів, ризиком грози CAPE та current.summary"
+            },
+            "0.0.38": {
+                "en": "DWD-standard precipitation intensity/frequency, temperature and wind thresholds for weather summaries",
+                "de": "DWD-konforme Schwellenwerte für Niederschlagsintensität/-häufigkeit, Temperatur und Wind in Kurzzusammenfassungen",
+                "ru": "Пороги DWD для интенсивности/частоты осадков, температуры и ветра в сводках погоды",
+                "pt": "Limiares padrão DWD para intensidade/frequência de precipitação, temperatura e vento nos resumos",
+                "nl": "DWD-standaard drempelwaarden voor neerslagintensiteit/-frequentie, temperatuur en wind in samenvattingen",
+                "fr": "Seuils standard DWD pour l'intensité/fréquence des précipitations, température et vent dans les résumés",
+                "it": "Soglie standard DWD per intensità/frequenza delle precipitazioni, temperatura e vento nei riepiloghi",
+                "es": "Umbrales estándar DWD para intensidad/frecuencia de precipitación, temperatura y viento en los resúmenes",
+                "pl": "Progi standardu DWD dla intensywności/częstotliwości opadów, temperatury i wiatru w podsumowaniach",
+                "zh-cn": "气象摘要采用德国气象局(DWD)标准降水强度/频率、温度和风力阈值",
+                "uk": "Порогові значення DWD для інтенсивності/частоти опадів, температури та вітру в зведеннях погоди"
+            },
+            "0.0.37": {
+                "en": "add day/night weather summary texts for each forecast day (11 languages)",
+                "de": "Tages- und Nacht-Kurzzusammenfassungen für jeden Vorhersetag (11 Sprachen)",
+                "ru": "Добавлены краткие сводки погоды для дня и ночи (11 языков)",
+                "pt": "Resumos meteorológicos de dia/noite para cada dia de previsão (11 idiomas)",
+                "nl": "Dag/nacht weerssamenvattingen toegevoegd per voorspellingsdag (11 talen)",
+                "fr": "Résumés météo jour/nuit pour chaque jour de prévision (11 langues)",
+                "it": "Riepiloghi meteo giorno/notte per ogni giorno di previsione (11 lingue)",
+                "es": "Resúmenes meteorológicos de día/noche por día de previsión (11 idiomas)",
+                "pl": "Podsumowania pogody dzień/noc dla każdego dnia prognozy (11 języków)",
+                "uk": "Короткі зведення погоди на день/ніч для кожного дня прогнозу (11 мов)",
+                "zh-cn": "为每个预报日添加昼夜天气摘要（11种语言）"
+            },
+            "0.0.36": {
+                "en": "multilingual weather descriptions, moon phases and pollen levels (11 languages); timezone from ioBroker system config",
+                "de": "Mehrsprachige Wetterbeschreibungen, Mondphasen und Pollenstufen (11 Sprachen); Zeitzone aus ioBroker-Systemkonfiguration",
+                "ru": "Многоязычные описания погоды, фазы луны и уровни пыльцы (11 языков); часовой пояс из системной конфигурации ioBroker",
+                "pt": "Descrições de tempo multilingues, fases da lua e níveis de pólen (11 idiomas); fuso horário da configuração do sistema ioBroker",
+                "nl": "Meertalige weerbeschrijvingen, maanfasen en pollenniveaus (11 talen); tijdzone uit ioBroker-systeemconfiguratie",
+                "fr": "Descriptions météo multilingues, phases lunaires et niveaux de pollen (11 langues); fuseau horaire depuis la config système ioBroker",
+                "it": "Descrizioni meteo multilingua, fasi lunari e livelli di polline (11 lingue); fuso orario dalla configurazione di sistema ioBroker",
+                "es": "Descripciones meteorológicas multilingüe, fases lunares y niveles de polen (11 idiomas); zona horaria desde la configuración del sistema ioBroker",
+                "pl": "Wielojęzyczne opisy pogody, fazy księżyca i poziomy pyłków (11 języków); strefa czasowa z konfiguracji systemu ioBroker",
+                "uk": "Багатомовні описи погоди, фази місяця та рівні пилку (11 мов); часовий пояс із системної конфігурації ioBroker",
+                "zh-cn": "多语言天气描述、月相和花粉等级（11种语言）；时区来自ioBroker系统配置"
+            },
+            "0.0.35": {
+                "en": "add real Basmilius sleet icons for WMO codes 56/57/66/67 (day + night + animated)",
+                "de": "Echte Basmilius Sleet-Icons für WMO-Codes 56/57/66/67 (Tag + Nacht + animiert)",
+                "ru": "Добавлены настоящие иконки Basmilius для WMO-кодов 56/57/66/67 (день + ночь + анимация)",
+                "pt": "Adicionados ícones reais de granizo Basmilius para códigos WMO 56/57/66/67 (dia + noite + animado)",
+                "nl": "Echte Basmilius-ijsregenicons toegevoegd voor WMO-codes 56/57/66/67 (dag + nacht + geanimeerd)",
+                "fr": "Ajout d'icônes Basmilius réelles pour les codes WMO 56/57/66/67 (jour + nuit + animé)",
+                "it": "Aggiunte icone Basmilius reali per i codici WMO 56/57/66/67 (giorno + notte + animato)",
+                "es": "Añadidos iconos reales de aguanieve Basmilius para los códigos WMO 56/57/66/67 (día + noche + animado)",
+                "pl": "Dodano prawdziwe ikony śniegu z deszczem Basmilius dla kodów WMO 56/57/66/67 (dzień + noc + animacja)",
+                "uk": "Додано справжні іконки мокрого снігу Basmilius для WMO-кодів 56/57/66/67 (день + ніч + анімація)",
+                "zh-cn": "为WMO代码56/57/66/67添加真实的Basmilius雨夹雪图标（白天+夜晚+动画）"
+            },
+            "0.0.34": {
+                "en": "add missing WMO codes 56/57 (freezing drizzle) and 66/67 (freezing rain) with descriptions, icons and emoji",
+                "de": "Fehlende WMO-Codes 56/57 (gefrierender Nieselregen) und 66/67 (Eisregen) mit Beschreibung, Icons und Emoji ergänzt",
+                "ru": "Добавлены отсутствующие WMO-коды 56/57 (ледяная морось) и 66/67 (ледяной дождь) с описаниями, иконками и эмодзи",
+                "pt": "Adicionados códigos WMO ausentes 56/57 (garoa gelada) e 66/67 (chuva gelada) com descrições, ícones e emoji",
+                "nl": "Ontbrekende WMO-codes 56/57 (bevriezende motregen) en 66/67 (ijsregen) toegevoegd met beschrijvingen, iconen en emoji",
+                "fr": "Ajout des codes WMO manquants 56/57 (bruine verglaçante) et 66/67 (pluie verglaçante) avec descriptions, icônes et emoji",
+                "it": "Aggiunti i codici WMO mancanti 56/57 (pioggerella gelata) e 66/67 (pioggia gelata) con descrizioni, icone ed emoji",
+                "es": "Añadidos los códigos WMO faltantes 56/57 (llovizna helada) y 66/67 (lluvia helada) con descripciones, iconos y emoji",
+                "pl": "Dodano brakujące kody WMO 56/57 (marznąca mżawka) i 66/67 (marznący deszcz) z opisami, ikonami i emoji",
+                "uk": "Додано відсутні WMO-коди 56/57 (крижана мряка) та 66/67 (крижаний дощ) з описами, іконками та emoji",
+                "zh-cn": "添加缺失的WMO代码56/57（冻毛毛雨）和66/67（冻雨），含描述、图标和表情"
+            },
+            "0.0.33": {
+                "en": "fix: hourlyDays=0 was ignored due to falsy check (|| 3), hourly folders not cleaned up",
+                "de": "Fix: hourlyDays=0 wurde durch Falsy-Check (|| 3) ignoriert, stündliche Ordner nicht bereinigt",
+                "ru": "Исправление: hourlyDays=0 игнорировался из-за проверки falsy (|| 3), почасовые папки не очищались",
+                "pt": "Correção: hourlyDays=0 era ignorado devido à verificação falsy (|| 3), pastas horárias não limpas",
+                "nl": "Fix: hourlyDays=0 werd genegeerd door falsy-controle (|| 3), uurlijkse mappen niet opgeschoond",
+                "fr": "Correction: hourlyDays=0 était ignoré à cause du test falsy (|| 3), les dossiers horaires n'étaient pas nettoyés",
+                "it": "Correzione: hourlyDays=0 veniva ignorato per il controllo falsy (|| 3), cartelle orarie non pulite",
+                "es": "Corrección: hourlyDays=0 era ignorado por la comprobación falsy (|| 3), carpetas horarias no limpiadas",
+                "pl": "Poprawka: hourlyDays=0 był ignorowany przez sprawdzanie falsy (|| 3), katalogi godzinowe nie były czyszczone",
+                "uk": "Виправлення: hourlyDays=0 ігнорувався через хибну перевірку (|| 3), погодинні папки не очищались",
+                "zh-cn": "修复：由于falsy检查（|| 3），hourlyDays=0被忽略，小时文件夹未清理"
+            },
+            "0.0.32": {
+                "en": "fix: pollen cleanup not running when hourly disabled; add daily air quality max (dayX.air_quality)",
+                "de": "Fix: Pollen-Cleanup lief nicht wenn stündlich deaktiviert; tägliche Luftqualitäts-Maximalwerte (dayX.air_quality)",
+                "ru": "Исправление: очистка пыльцы не выполнялась при отключённом почасовом режиме; добавлен дневной макс. качества воздуха",
+                "pt": "Correção: limpeza de pólen não executava quando horário desativado; adicionado máximo diário de qualidade do ar",
+                "nl": "Fix: pollenopruiming liep niet als uurlijks uitgeschakeld; dagelijks max. luchtkwaliteit toegevoegd",
+                "fr": "Correction: nettoyage pollen ne s'exécutait pas si horaire désactivé; ajout max qualité d'air journalier",
+                "it": "Correzione: pulizia polline non eseguita se orario disabilitato; aggiunto max qualità dell'aria giornaliero",
+                "es": "Corrección: limpieza de polen no se ejecutaba con horario desactivado; añadido máximo diario de calidad del aire",
+                "pl": "Poprawka: czyszczenie pyłków nie działało gdy godzinowe wyłączone; dodano dzienny maks. jakości powietrza",
+                "uk": "Виправлення: очищення пилку не виконувалось при вимкненому погодинному режимі; додано денний макс. якості повітря",
+                "zh-cn": "修复：禁用小时模式时花粉清理未运行；添加每日空气质量最大值"
+            },
+            "0.0.31": {
+                "en": "remove sentry dependency; fix admin minVersion; README English-only with README.de.md",
+                "de": "Sentry-Abhängigkeit entfernt; Admin-Mindestversion korrigiert; README nur Englisch mit README.de.md",
+                "ru": "Удалена зависимость sentry; исправлена минимальная версия admin; README только на английском с README.de.md",
+                "pt": "Removida dependência sentry; corrigida minVersion do admin; README apenas em inglês com README.de.md",
+                "nl": "Sentry-afhankelijkheid verwijderd; admin minVersion gecorrigeerd; README alleen Engels met README.de.md",
+                "fr": "Suppression dépendance sentry; correction minVersion admin; README anglais uniquement avec README.de.md",
+                "it": "Rimossa dipendenza sentry; corretta minVersion admin; README solo inglese con README.de.md",
+                "es": "Eliminada dependencia sentry; corregida minVersion de admin; README solo en inglés con README.de.md",
+                "pl": "Usunięto zależność sentry; poprawiono minVersion admina; README tylko po angielsku z README.de.md",
+                "uk": "Видалено залежність sentry; виправлено minVersion admin; README лише англійською з README.de.md",
+                "zh-cn": "移除sentry依赖；修复admin最低版本；README仅英文，含README.de.md"
+            },
+            "0.0.30": {
+                "en": "fix: hourly air quality not written when pollen disabled; fix JSDoc; fix timer ref cleanup",
+                "de": "Fix: Stündliche Luftqualität wurde nicht geschrieben wenn Pollen deaktiviert; JSDoc-Fix; Timer-Ref-Fix",
+                "ru": "Исправление: почасовое качество воздуха не записывалось при отключённой пыльце; исправление JSDoc; исправление таймера",
+                "pt": "Correção: qualidade do ar horária não gravada quando pólen desativado; correção JSDoc; limpeza de ref. de timer",
+                "nl": "Fix: uurlijkse luchtkwaliteit niet geschreven als pollen uitgeschakeld; JSDoc-fix; timer ref opruimen",
+                "fr": "Correction: qualité d'air horaire non écrite si pollen désactivé; correction JSDoc; nettoyage ref timer",
+                "it": "Correzione: qualità dell'aria oraria non scritta se polline disabilitato; correzione JSDoc; pulizia ref timer",
+                "es": "Corrección: calidad del aire horaria no escrita si polen desactivado; corrección JSDoc; limpieza ref timer",
+                "pl": "Poprawka: jakość powietrza godzinowa nie była zapisywana gdy pyłki wyłączone; poprawka JSDoc; czyszczenie timera",
+                "uk": "Виправлення: погодинна якість повітря не записувалась при вимкненому пилку; виправлення JSDoc; очищення таймера",
+                "zh-cn": "修复：禁用花粉时未写入每小时空气质量；修复JSDoc；修复计时器引用清理"
+            }
+        },
+        "titleLang": {
+            "en": "OpenMeteo Weather",
+            "de": "OpenMeteo-Wetter",
+            "ru": "Погода OpenMeteo",
+            "pt": "Tempo OpenMeteo",
+            "nl": "OpenMeteo-weer",
+            "fr": "Météo OpenMeteo",
+            "it": "OpenMeteo Meteo",
+            "es": "OpenMeteo Tiempo",
+            "pl": "Pogoda OpenMeteo",
+            "uk": "Погода OpenMeteo",
+            "zh-cn": "OpenMeteo 天气"
+        },
+        "desc": {
+            "en": "Free weather forecast from Open-Meteo API",
+            "de": "Kostenlose Wettervorhersage von Open-Meteo API",
+            "ru": "Бесплатный прогноз погоды от Open-Meteo API",
+            "pt": "Previsão do tempo gratuita da API Open-Meteo",
+            "nl": "Gratis weersvoorspelling van Open-Meteo API",
+            "fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
+            "it": "Previsioni meteo gratuite dall'API Open-Meteo",
+            "es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
+            "pl": "Darmowa prognoza pogody z Open-Meteo API",
+            "uk": "Безкоштовний прогноз погоди від Open-Meteo API",
+            "zh-cn": "来自 Open-Meteo API 的免费天气预报"
+        },
+        "authors": [
+            "David G. <david@graef.email>"
+        ],
+        "keywords": [
+            "weather",
+            "forecast",
+            "openmeteo",
+            "open-meteo"
+        ],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "openmeteo.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
+        "readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "mode": "daemon",
+        "type": "weather",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=7.6.20"
+            }
+        ]
+    },
+    "native": {
+        "locations": [],
+        "daysCount": 7,
+        "hourlyDays": 3,
+        "temperatureUnit": "celsius",
+        "windspeedUnit": "kmh",
+        "precipitationUnit": "mm",
+        "iconSet": "basmilius",
+        "updateInterval": 60,
+        "enableAirQuality": true,
+        "enableAirQualityHourly": false,
+        "enableAstronomy": true,
+        "enableAstronomyHourly": false,
+        "enableAgriculture": false,
+        "enableAgricultureHourly": false,
+        "enablePollen": false,
+        "enablePollenHourly": false
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }
