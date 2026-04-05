@@ -32,14 +32,18 @@ function osmEmbedUrl(lat: number, lon: number): string {
 
 async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
     if (!lat && !lon) return null;
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'de' } });
-    const item = await res.json();
-    if (!item || item.error) return null;
-    const addr = item.address || {};
-    const city = addr.city || addr.town || addr.village || addr.municipality || '';
-    const road = addr.road || addr.pedestrian || addr.suburb || '';
-    return road ? `${city}, ${road}`.replace(/^, /, '') : city || item.display_name?.split(',')[0] || null;
+    try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+        const res = await fetch(url, { headers: { 'Accept-Language': 'de' } });
+        const item = await res.json();
+        if (!item || item.error) return null;
+        const addr = item.address || {};
+        const city = addr.city || addr.town || addr.village || addr.municipality || '';
+        const road = addr.road || addr.pedestrian || addr.suburb || '';
+        return road ? `${city}, ${road}`.replace(/^, /, '') : city || item.display_name?.split(',')[0] || null;
+    } catch {
+        return null;
+    }
 }
 
 async function geocode(address: string): Promise<{ lat: number; lon: number; displayName: string } | null> {
@@ -185,10 +189,6 @@ const LocationsTable: React.FC<Props> = ({ locations, onChange }) => {
                                             value={loc.lat}
                                             inputProps={{ min: -90, max: 90, step: 0.0001 }}
                                             onChange={e => updateLoc(i, 'lat', e.target.value)}
-                                            onBlur={async () => {
-                                                const addr = await reverseGeocode(loc.lat, loc.lon);
-                                                if (addr) updateRow(i, { addressText: addr });
-                                            }}
                                             sx={{ width: 145 }}
                                             size="small"
                                         />
@@ -198,10 +198,6 @@ const LocationsTable: React.FC<Props> = ({ locations, onChange }) => {
                                             value={loc.lon}
                                             inputProps={{ min: -180, max: 180, step: 0.0001 }}
                                             onChange={e => updateLoc(i, 'lon', e.target.value)}
-                                            onBlur={async () => {
-                                                const addr = await reverseGeocode(loc.lat, loc.lon);
-                                                if (addr) updateRow(i, { addressText: addr });
-                                            }}
                                             sx={{ width: 145 }}
                                             size="small"
                                         />

@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "openmeteo",
-        "version": "0.0.41",
+        "version": "0.0.42",
         "news": {
             "0.0.40": {
                 "en": "amCharts animated/static SVG icons (CC BY 4.0), HTML widget DPs with light/dark theme, OSM map preview and address geocoding in location settings",
