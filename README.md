@@ -14,10 +14,24 @@
 
 This adapter retrieves weather forecast data from the free [Open-Meteo API](https://open-meteo.com) and makes it available as ioBroker data points. No API key is required.
 
+## Highlights
+
+### Configurable HTML widget
+The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
+
+### Full-text address search
+Locations do not have to be entered as raw coordinates. The settings UI offers a **free-text address search** — just type a city, address or region and the coordinates are resolved automatically. An OpenStreetMap preview is shown for each location. Multiple locations can be configured in parallel.
+
+### Up to 16 days forecast
+Depending on the selected weather model, daily forecasts for up to **16 days** are available — significantly more than the typical 5–7 days of most adapters.
+
+### Weather summary texts
+The adapter generates natural-language weather summaries (`current.summary`, `dayX.summary_day`, `dayX.summary_night`) in **11 languages**, using DWD-standard thresholds for temperature, wind and precipitation, including CAPE-based thunderstorm risk.
+
 ## Features
 
 - **Free & no API key** – Open-Meteo is a free, open-source weather API
-- **Multiple locations** – configure as many locations as you like
+- **Multiple locations** – configure as many locations as you like, each with address search and map preview
 - **System location fallback** – uses ioBroker system coordinates if no location is configured
 - **Configurable forecast range** – up to 16 days daily, up to 16 days hourly
 - **Configurable update interval** – 60 min, 120 min, or daily at 01:00
@@ -52,14 +66,20 @@ Install via the ioBroker Admin interface (search for "openmeteo").
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| Locations | Name, latitude, longitude | ioBroker system location |
+| Locations | Name + free-text address search or coordinates; OSM map preview | ioBroker system location |
 | Forecast days | Daily forecast range (1–16) | 7 |
 | Hourly days | Days with hourly data (0–16) | 3 |
 | Temperature unit | °C or °F | °C |
 | Wind speed unit | km/h, m/s, mph, kn | km/h |
 | Precipitation unit | mm or inch | mm |
-| Icon set | Weather icon set | Meteocons static |
+| Icon set | Weather icon set with live preview | Meteocons static |
 | Update interval | 60 min / 120 min / daily at 01:00 | 60 min |
+| Widget theme | Light or dark theme for the HTML widget | light |
+| Widget bg opacity | Background transparency of the HTML widget | 100% |
+| Widget card opacity | Card transparency of the HTML widget | 100% |
+| Widget font size | Font size in the HTML widget | 14px |
+| Widget card color | Card background color | #ffffff |
+| Compact view | Use compact layout in the HTML widget | off |
 | Air Quality | Enable AQI + particulate matter | on |
 | Air Quality – also hourly | Hourly AQI/PM under `hXX.air_quality` | off |
 | Astronomy | Enable sun & moon data | on |
@@ -145,11 +165,15 @@ Optional per hour (if enabled + "also hourly"):
 | `hXX.agriculture` | solar_radiation, CAPE, soil_temp, irradiance |
 | `hXX.pollen` | alder … ragweed + level text (Keine/Niedrig/Mittel/Hoch) |
 
-### Summary
+### Summary & widget
 
 | Data point | Description |
 |-----------|-------------|
+| `current.summary` | Natural-language weather summary for current conditions (11 languages) |
+| `dayX.summary_day` | Daytime weather summary for the forecast day (11 languages) |
+| `dayX.summary_night` | Night-time weather summary for the forecast day (11 languages) |
 | `weather_short` | Short text overview of all forecast days |
+| `widget` | Ready-to-use HTML snippet for VIS / vis-2 / dashboards (configurable appearance) |
 | `info.lastUpdate` | Timestamp of last successful update |
 
 ## Icon credits
