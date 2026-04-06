@@ -161,4 +161,4 @@ Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Mete
 
 MIT License
 
-Copyright (c) 2026 David G. <david@graef.email>
+Copyright (c) 2026 ipod86

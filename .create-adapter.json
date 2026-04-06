@@ -4,7 +4,7 @@
 	"adapterName": "openmeteo",
 	"title": "OpenMeteo Weather",
 	"description": "Free weather forecast from Open-Meteo API",
-	"authorName": "David G.",
+	"authorName": "ipod86",
 	"authorEmail": "david@graef.email",
 	"authorGithub": "ipod86",
 	"language": "JavaScript",

@@ -251,7 +251,7 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 MIT License
 
-Copyright (c) 2026 David G. <david@graef.email>
+Copyright (c) 2026 ipod86
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
