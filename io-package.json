@@ -3,6 +3,45 @@
         "name": "openmeteo",
         "version": "0.0.43",
         "news": {
+            "0.0.43": {
+                "en": "Fix: remove auto-location entry written to system.config on first start",
+                "de": "Fix: automatisch erzeugter Standorteintrag in system.config beim ersten Start wird nicht mehr gespeichert",
+                "ru": "Исправление: автоматическая запись местоположения в system.config при первом запуске удалена",
+                "pt": "Correção: entrada de localização automática em system.config no primeiro início removida",
+                "nl": "Fix: automatische locatie-invoer in system.config bij eerste start verwijderd",
+                "fr": "Correction: suppression de l'entrée de localisation automatique dans system.config au premier démarrage",
+                "it": "Correzione: voce di posizione automatica in system.config al primo avvio rimossa",
+                "es": "Corrección: entrada de ubicación automática en system.config en el primer inicio eliminada",
+                "pl": "Poprawka: automatyczny wpis lokalizacji w system.config przy pierwszym uruchomieniu usunięty",
+                "uk": "Виправлення: автоматичний запис місцезнаходження в system.config при першому запуску видалено",
+                "zh-cn": "修复：首次启动时自动写入system.config的位置条目已移除"
+            },
+            "0.0.42": {
+                "en": "Remove automatic reverse geocoding from location settings table",
+                "de": "Automatisches Reverse-Geocoding aus der Standort-Einstellungstabelle entfernt",
+                "ru": "Удалено автоматическое обратное геокодирование из таблицы настроек местоположений",
+                "pt": "Geocodificação reversa automática removida da tabela de configurações de localização",
+                "nl": "Automatisch omgekeerd geocoderen verwijderd uit de locatie-instellingstabel",
+                "fr": "Suppression du géocodage inverse automatique dans le tableau des paramètres de localisation",
+                "it": "Rimossa la geocodifica inversa automatica dalla tabella delle impostazioni di posizione",
+                "es": "Geocodificación inversa automática eliminada de la tabla de configuración de ubicaciones",
+                "pl": "Usunięto automatyczne odwrotne geokodowanie z tabeli ustawień lokalizacji",
+                "uk": "Видалено автоматичне зворотне геокодування з таблиці налаштувань місцезнаходжень",
+                "zh-cn": "从位置设置表中移除了自动反向地理编码"
+            },
+            "0.0.41": {
+                "en": "Fix: React crash on address search in location settings (setRowStates inside updater)",
+                "de": "Fix: React-Absturz bei Adresssuche in Standorteinstellungen (setRowStates innerhalb Updater)",
+                "ru": "Исправление: сбой React при поиске адреса в настройках местоположения",
+                "pt": "Correção: falha React na pesquisa de endereço nas configurações de localização",
+                "nl": "Fix: React-crash bij adreszoeken in locatie-instellingen",
+                "fr": "Correction: crash React lors de la recherche d'adresse dans les paramètres de localisation",
+                "it": "Correzione: crash React nella ricerca indirizzo nelle impostazioni di posizione",
+                "es": "Corrección: fallo de React en la búsqueda de direcciones en la configuración de ubicaciones",
+                "pl": "Poprawka: awaria React przy wyszukiwaniu adresu w ustawieniach lokalizacji",
+                "uk": "Виправлення: збій React при пошуку адреси в налаштуваннях місцезнаходження",
+                "zh-cn": "修复：位置设置中地址搜索时React崩溃"
+            },
             "0.0.40": {
                 "en": "amCharts animated/static SVG icons (CC BY 4.0), HTML widget DPs with light/dark theme, OSM map preview and address geocoding in location settings",
                 "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0), HTML-Widget-Datenpunkte mit Hell/Dunkel-Design, OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen"
@@ -19,32 +58,6 @@
                 "pl": "Podsumowania pogody z progami DWD, sumami opadów, ryzykiem burzy CAPE i current.summary",
                 "zh-cn": "包含DWD标准阈值、降水量、CAPE雷暴风险和current.summary的天气摘要",
                 "uk": "Зведення погоди зі стандартами DWD, кількістю опадів, ризиком грози CAPE та current.summary"
-            },
-            "0.0.38": {
-                "en": "DWD-standard precipitation intensity/frequency, temperature and wind thresholds for weather summaries",
-                "de": "DWD-konforme Schwellenwerte für Niederschlagsintensität/-häufigkeit, Temperatur und Wind in Kurzzusammenfassungen",
-                "ru": "Пороги DWD для интенсивности/частоты осадков, температуры и ветра в сводках погоды",
-                "pt": "Limiares padrão DWD para intensidade/frequência de precipitação, temperatura e vento nos resumos",
-                "nl": "DWD-standaard drempelwaarden voor neerslagintensiteit/-frequentie, temperatuur en wind in samenvattingen",
-                "fr": "Seuils standard DWD pour l'intensité/fréquence des précipitations, température et vent dans les résumés",
-                "it": "Soglie standard DWD per intensità/frequenza delle precipitazioni, temperatura e vento nei riepiloghi",
-                "es": "Umbrales estándar DWD para intensidad/frecuencia de precipitación, temperatura y viento en los resúmenes",
-                "pl": "Progi standardu DWD dla intensywności/częstotliwości opadów, temperatury i wiatru w podsumowaniach",
-                "zh-cn": "气象摘要采用德国气象局(DWD)标准降水强度/频率、温度和风力阈值",
-                "uk": "Порогові значення DWD для інтенсивності/частоти опадів, температури та вітру в зведеннях погоди"
-            },
-            "0.0.37": {
-                "en": "add day/night weather summary texts for each forecast day (11 languages)",
-                "de": "Tages- und Nacht-Kurzzusammenfassungen für jeden Vorhersetag (11 Sprachen)",
-                "ru": "Добавлены краткие сводки погоды для дня и ночи (11 языков)",
-                "pt": "Resumos meteorológicos de dia/noite para cada dia de previsão (11 idiomas)",
-                "nl": "Dag/nacht weerssamenvattingen toegevoegd per voorspellingsdag (11 talen)",
-                "fr": "Résumés météo jour/nuit pour chaque jour de prévision (11 langues)",
-                "it": "Riepiloghi meteo giorno/notte per ogni giorno di previsione (11 lingue)",
-                "es": "Resúmenes meteorológicos de día/noche por día de previsión (11 idiomas)",
-                "pl": "Podsumowania pogody dzień/noc dla każdego dnia prognozy (11 języków)",
-                "uk": "Короткі зведення погоди на день/ніч для кожного дня прогнозу (11 мов)",
-                "zh-cn": "为每个预报日添加昼夜天气摘要（11种语言）"
             },
             "0.0.36": {
                 "en": "multilingual weather descriptions, moon phases and pollen levels (11 languages); timezone from ioBroker system config",
