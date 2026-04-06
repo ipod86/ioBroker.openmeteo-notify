@@ -52,7 +52,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
         return (
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={this.state.theme}>
-                    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', bgcolor: 'background.default', color: 'text.primary' }}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}>
                             <Tabs value={tab} onChange={(_, v) => this.setState({ tab: v } as any)}>
                                 <Tab label={I18n.t('tabSettings')} />
@@ -77,7 +77,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
                         </div>
                         {this.renderError()}
                         {this.renderSaveCloseButtons()}
-                    </div>
+                    </Box>
                 </ThemeProvider>
             </StyledEngineProvider>
         );
