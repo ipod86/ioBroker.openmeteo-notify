@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "openmeteo",
-        "version": "0.0.44",
+        "version": "0.0.45",
         "news": {
+            "0.0.45": {
+                "en": "Weather warnings (storm/thunderstorm) via ioBroker notification system; configurable Beaufort threshold; daily has_storm/has_thunderstorm datapoints; hourly is_storm/is_thunderstorm datapoints; wind gusts used for storm detection",
+                "de": "Wetterwarnungen (Sturm/Gewitter) über ioBroker-Notification-System; konfigurierbare Beaufort-Schwelle; tägliche has_storm/has_thunderstorm-Datenpunkte; stündliche is_storm/is_thunderstorm-Datenpunkte; Windböen für Sturmerkennung",
+                "ru": "Погодные предупреждения (шторм/гроза) через систему уведомлений ioBroker; настраиваемый порог Бофорта; ежедневные точки данных has_storm/has_thunderstorm; почасовые is_storm/is_thunderstorm; порывы ветра для определения шторма",
+                "pt": "Alertas meteorológicos (tempestade/trovoada) via sistema de notificações ioBroker; limiar Beaufort configurável; pontos de dados diários has_storm/has_thunderstorm; hourly is_storm/is_thunderstorm; rajadas para detecção de tempestade",
+                "nl": "Weerwaarschuwingen (storm/onweer) via ioBroker-notificatiesysteem; instelbare Beaufort-drempel; dagelijkse has_storm/has_thunderstorm-datapunten; uurlijkse is_storm/is_thunderstorm; windstoten voor stormsignaal",
+                "fr": "Alertes météo (tempête/orage) via le système de notification ioBroker; seuil Beaufort configurable; points de données quotidiens has_storm/has_thunderstorm; horaires is_storm/is_thunderstorm; rafales pour la détection de tempête",
+                "it": "Avvisi meteo (tempesta/temporale) tramite sistema di notifiche ioBroker; soglia Beaufort configurabile; punti dati giornalieri has_storm/has_thunderstorm; orari is_storm/is_thunderstorm; raffiche per rilevamento tempesta",
+                "es": "Alertas meteorológicas (tormenta/tormenta eléctrica) vía sistema de notificaciones ioBroker; umbral Beaufort configurable; puntos de datos diarios has_storm/has_thunderstorm; horarios is_storm/is_thunderstorm; ráfagas para detección de tormenta",
+                "pl": "Ostrzeżenia pogodowe (burza/pioruny) przez system powiadomień ioBroker; konfigurowalny próg Beauforta; dzienne punkty danych has_storm/has_thunderstorm; godzinowe is_storm/is_thunderstorm; porywy wiatru do wykrywania burzy",
+                "uk": "Погодні попередження (шторм/гроза) через систему сповіщень ioBroker; налаштований поріг Бофорта; щоденні has_storm/has_thunderstorm; щогодинні is_storm/is_thunderstorm; пориви вітру для визначення шторму",
+                "zh-cn": "通过ioBroker通知系统发送天气预警（风暴/雷暴）；可配置蒲福风级阈值；每日has_storm/has_thunderstorm数据点；每小时is_storm/is_thunderstorm；使用阵风检测风暴"
+            },
             "0.0.44": {
                 "en": "Fix dark theme: set theme-aware background color on root wrapper",
                 "de": "Dark-Theme korrigiert: theme-abhängige Hintergrundfarbe am Root-Element gesetzt",

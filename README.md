@@ -188,6 +188,16 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ## Changelog
 
+### 0.0.45
+* Weather warnings (storm/thunderstorm) via ioBroker notification system
+* Configurable Beaufort threshold for storm warnings (Bft 1–12, default Bft 8)
+* Daily `has_storm` / `has_thunderstorm` datapoints per location
+* Hourly `is_storm` / `is_thunderstorm` datapoints (when hourly data enabled)
+* Storm detection based on wind gusts (`windgusts_10m`)
+* Warning message includes from/to time; day offset shown when event spans midnight
+* Warnings use raw API data — no minimum `hourlyDays` setting required
+* i18n translations for all new settings in 11 languages
+
 ### 0.0.44
 * (ipod86) fix dark theme: set theme-aware background color on root wrapper
 
