@@ -5,5 +5,6 @@
     "warnLeadHours": "Voorlooptijd (uren)",
     "warnLeadHoursHelp": "Hoeveel uur van tevoren moet de waarschuwing worden verzonden?",
     "warnNeedsHourlyInterval": "Waarschuwingen vereisen minimaal elk uur updates. Stel het interval in op 60 minuten.",
-    "warningsViaNotificationManager": "via ioBroker-meldingssysteem"
+    "warningsViaNotificationManager": "via ioBroker-meldingssysteem",
+    "warnStormBft": "Waarschuwen vanaf Beaufort-niveau"
 }

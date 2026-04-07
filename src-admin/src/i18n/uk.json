@@ -5,5 +5,6 @@
     "warnLeadHours": "Час попередження (години)",
     "warnLeadHoursHelp": "За скільки годин до події надсилати попередження?",
     "warnNeedsHourlyInterval": "Попередження потребують оновлень щонайменше кожну годину. Встановіть інтервал 60 хвилин.",
-    "warningsViaNotificationManager": "через систему сповіщень ioBroker"
+    "warningsViaNotificationManager": "через систему сповіщень ioBroker",
+    "warnStormBft": "Попереджати з рівня Бофорта"
 }

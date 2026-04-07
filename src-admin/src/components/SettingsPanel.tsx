@@ -144,6 +144,30 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         control={<Switch checked={!!native.warnStorm} onChange={e => update('warnStorm', e.target.checked)} />}
                         label={I18n.t('warnStorm')}
                     />
+                    {native.warnStorm && (
+                        <FormControl sx={{ width: 360, ml: 2 }} size="small">
+                            <InputLabel>{I18n.t('warnStormBft')}</InputLabel>
+                            <Select
+                                value={native.warnStormBft ?? 8}
+                                label={I18n.t('warnStormBft')}
+                                onChange={e => update('warnStormBft', Number(e.target.value))}
+                            >
+                                {[
+                                    { bft: 6,  kmh: 39,  label: 'Starke Brise' },
+                                    { bft: 7,  kmh: 50,  label: 'Steifer Wind' },
+                                    { bft: 8,  kmh: 62,  label: 'Stürmischer Wind' },
+                                    { bft: 9,  kmh: 75,  label: 'Sturm' },
+                                    { bft: 10, kmh: 89,  label: 'Schwerer Sturm' },
+                                    { bft: 11, kmh: 103, label: 'Orkanartiger Sturm' },
+                                    { bft: 12, kmh: 118, label: 'Orkan' },
+                                ].map(o => (
+                                    <MenuItem key={o.bft} value={o.bft}>
+                                        Bft {o.bft} – {o.label} (≥ {o.kmh} km/h)
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    )}
                     <FormControlLabel
                         control={<Switch checked={!!native.warnThunderstorm} onChange={e => update('warnThunderstorm', e.target.checked)} />}
                         label={I18n.t('warnThunderstorm')}

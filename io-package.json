@@ -248,7 +248,8 @@
         "enablePollenHourly": false,
         "warnStorm": false,
         "warnThunderstorm": false,
-        "warnLeadHours": 2
+        "warnLeadHours": 2,
+        "warnStormBft": 8
     },
     "notifications": [
         {

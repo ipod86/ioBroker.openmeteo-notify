@@ -33,6 +33,7 @@ export interface OpenMeteoConfig {
     enablePollenHourly: boolean;
     widgets: Widget[];
     warnStorm: boolean;
+    warnStormBft: number;
     warnThunderstorm: boolean;
     warnLeadHours: number;
 }

@@ -5,5 +5,6 @@
     "warnLeadHours": "Délai d'alerte (heures)",
     "warnLeadHoursHelp": "Combien d'heures à l'avance envoyer l'alerte?",
     "warnNeedsHourlyInterval": "Les alertes nécessitent des mises à jour au moins toutes les heures. Définissez l'intervalle à 60 minutes.",
-    "warningsViaNotificationManager": "via le système de notification ioBroker"
+    "warningsViaNotificationManager": "via le système de notification ioBroker",
+    "warnStormBft": "Alerter à partir du niveau Beaufort"
 }

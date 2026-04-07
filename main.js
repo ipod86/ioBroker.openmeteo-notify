@@ -754,6 +754,7 @@ class Openmeteo extends utils.Adapter {
 			return;
 		}
 		const leadHours = this.config.warnLeadHours ?? 2;
+		const stormBft = this.config.warnStormBft ?? 8;
 		const now = new Date();
 
 		for (const loc of locations) {
@@ -774,20 +775,20 @@ class Openmeteo extends utils.Adapter {
 
 			try {
 				if (warnStorm) {
-					const isStorm = hData != null && speedToBeaufort(hData.gustKmh, "kmh") >= 8;
+					const isStorm = hData != null && speedToBeaufort(hData.gustKmh, "kmh") >= stormBft;
 					if (isStorm && !this.warnState[stormKey]) {
 						this.warnState[stormKey] = true;
 						const untilStr = this.findEventEnd(
 							hoursByDate,
 							targetTime,
-							hd => speedToBeaufort(hd.gustKmh, "kmh") >= 8,
+							hd => speedToBeaufort(hd.gustKmh, "kmh") >= stormBft,
 						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
 							"openmeteo",
 							"storm",
-							`Sturmwarnung für ${loc.name}: Sturm (Bft ≥ 8) erwartet von ${timeRange} (in ${leadHours} Stunde(n))`,
+							`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet von ${timeRange} (in ${leadHours} Stunde(n))`,
 						);
 					} else if (!isStorm) {
 						this.warnState[stormKey] = false;
