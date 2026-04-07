@@ -1,0 +1,10 @@
+{
+    "warnings": "Avertissements",
+    "warnStorm": "Alerte tempête (Bft ≥ 8)",
+    "warnThunderstorm": "Alerte orage",
+    "warnLeadHours": "Délai d'alerte (heures)",
+    "warnLeadHoursHelp": "Combien d'heures à l'avance envoyer l'alerte?",
+    "warnNeedsHourlyInterval": "Les alertes nécessitent des mises à jour au moins toutes les heures. Définissez l'intervalle à 60 minutes.",
+    "warnNeedsHourlyDays": "Les alertes nécessitent des données horaires. Définissez «Jours horaires» sur au moins 1.",
+    "warningsViaNotificationManager": "via le système de notification ioBroker"
+}

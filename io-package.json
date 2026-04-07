@@ -253,22 +253,94 @@
     "notifications": [
         {
             "scope": "openmeteo",
-            "name": { "en": "OpenMeteo Weather Warnings", "de": "OpenMeteo Wetterwarnungen" },
-            "description": { "en": "Storm and thunderstorm warnings from ioBroker.openmeteo", "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo" },
+            "name": {
+                "en": "OpenMeteo Weather Warnings",
+                "de": "OpenMeteo Wetterwarnungen",
+                "ru": "Погодные предупреждения OpenMeteo",
+                "pt": "Avisos meteorológicos OpenMeteo",
+                "nl": "OpenMeteo weerwaarschuwingen",
+                "fr": "Alertes météo OpenMeteo",
+                "it": "Avvisi meteo OpenMeteo",
+                "es": "Alertas meteorológicas OpenMeteo",
+                "pl": "Ostrzeżenia pogodowe OpenMeteo",
+                "uk": "Погодні попередження OpenMeteo",
+                "zh-cn": "OpenMeteo 天气警告"
+            },
+            "description": {
+                "en": "Storm and thunderstorm warnings from ioBroker.openmeteo",
+                "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo",
+                "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo",
+                "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo",
+                "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo",
+                "fr": "Alertes tempête et orage de ioBroker.openmeteo",
+                "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo",
+                "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo",
+                "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo",
+                "uk": "Попередження про шторм і грозу від ioBroker.openmeteo",
+                "zh-cn": "ioBroker.openmeteo 的风暴和雷暴警告"
+            },
             "categories": [
                 {
                     "category": "storm",
-                    "name": { "en": "Storm warning", "de": "Sturmwarnung" },
+                    "name": {
+                        "en": "Storm warning",
+                        "de": "Sturmwarnung",
+                        "ru": "Предупреждение о шторме",
+                        "pt": "Aviso de tempestade",
+                        "nl": "Stormsignaal",
+                        "fr": "Alerte tempête",
+                        "it": "Avviso tempesta",
+                        "es": "Alerta tormenta",
+                        "pl": "Ostrzeżenie przed burzą",
+                        "uk": "Попередження про шторм",
+                        "zh-cn": "风暴预警"
+                    },
                     "severity": "alert",
-                    "description": { "en": "Wind speed Bft ≥ 8 expected", "de": "Windstärke Bft ≥ 8 erwartet" },
+                    "description": {
+                        "en": "Wind speed Bft ≥ 8 expected",
+                        "de": "Windstärke Bft ≥ 8 erwartet",
+                        "ru": "Ожидается скорость ветра Bft ≥ 8",
+                        "pt": "Velocidade do vento Bft ≥ 8 esperada",
+                        "nl": "Windsnelheid Bft ≥ 8 verwacht",
+                        "fr": "Vitesse de vent Bft ≥ 8 attendue",
+                        "it": "Velocità del vento Bft ≥ 8 prevista",
+                        "es": "Velocidad del viento Bft ≥ 8 esperada",
+                        "pl": "Oczekiwana prędkość wiatru Bft ≥ 8",
+                        "uk": "Очікується швидкість вітру Bft ≥ 8",
+                        "zh-cn": "预计风速 Bft ≥ 8"
+                    },
                     "regex": [],
                     "limit": 10
                 },
                 {
                     "category": "thunderstorm",
-                    "name": { "en": "Thunderstorm warning", "de": "Gewitterwarnung" },
+                    "name": {
+                        "en": "Thunderstorm warning",
+                        "de": "Gewitterwarnung",
+                        "ru": "Предупреждение о грозе",
+                        "pt": "Aviso de trovoada",
+                        "nl": "Onweerswaarschuwing",
+                        "fr": "Alerte orage",
+                        "it": "Avviso temporale",
+                        "es": "Alerta tormenta eléctrica",
+                        "pl": "Ostrzeżenie przed burzą z piorunami",
+                        "uk": "Попередження про грозу",
+                        "zh-cn": "雷暴预警"
+                    },
                     "severity": "alert",
-                    "description": { "en": "Thunderstorm expected (WMO code 95/96/99)", "de": "Gewitter erwartet (WMO-Code 95/96/99)" },
+                    "description": {
+                        "en": "Thunderstorm expected (WMO code 95/96/99)",
+                        "de": "Gewitter erwartet (WMO-Code 95/96/99)",
+                        "ru": "Ожидается гроза (код WMO 95/96/99)",
+                        "pt": "Trovoada esperada (código WMO 95/96/99)",
+                        "nl": "Onweer verwacht (WMO-code 95/96/99)",
+                        "fr": "Orage attendu (code WMO 95/96/99)",
+                        "it": "Temporale previsto (codice WMO 95/96/99)",
+                        "es": "Tormenta eléctrica esperada (código WMO 95/96/99)",
+                        "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
+                        "uk": "Очікується гроза (код WMO 95/96/99)",
+                        "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
+                    },
                     "regex": [],
                     "limit": 10
                 }

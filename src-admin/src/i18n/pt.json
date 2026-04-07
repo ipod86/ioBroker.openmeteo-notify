@@ -1,0 +1,10 @@
+{
+    "warnings": "Avisos",
+    "warnStorm": "Aviso de tempestade (Bft ≥ 8)",
+    "warnThunderstorm": "Aviso de trovoada",
+    "warnLeadHours": "Tempo de antecedência (horas)",
+    "warnLeadHoursHelp": "Quantas horas antes enviar o aviso?",
+    "warnNeedsHourlyInterval": "Os avisos requerem atualizações de pelo menos 1 hora. Defina o intervalo para 60 minutos.",
+    "warnNeedsHourlyDays": "Os avisos requerem dados horários. Defina «Dias horários» para pelo menos 1.",
+    "warningsViaNotificationManager": "via sistema de notificação ioBroker"
+}

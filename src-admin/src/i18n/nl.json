@@ -1,0 +1,10 @@
+{
+    "warnings": "Waarschuwingen",
+    "warnStorm": "Stormsignaal (Bft ≥ 8)",
+    "warnThunderstorm": "Onweerswaarschuwing",
+    "warnLeadHours": "Voorlooptijd (uren)",
+    "warnLeadHoursHelp": "Hoeveel uur van tevoren moet de waarschuwing worden verzonden?",
+    "warnNeedsHourlyInterval": "Waarschuwingen vereisen minimaal elk uur updates. Stel het interval in op 60 minuten.",
+    "warnNeedsHourlyDays": "Waarschuwingen vereisen uurgegevens. Stel «Uurlijkse dagen» in op minimaal 1.",
+    "warningsViaNotificationManager": "via ioBroker-meldingssysteem"
+}

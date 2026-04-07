@@ -1,0 +1,10 @@
+{
+    "warnings": "警告",
+    "warnStorm": "风暴预警 (Bft ≥ 8)",
+    "warnThunderstorm": "雷暴预警",
+    "warnLeadHours": "提前时间（小时）",
+    "warnLeadHoursHelp": "提前多少小时发送警告？",
+    "warnNeedsHourlyInterval": "警告需要至少每小时更新一次。请将间隔设置为60分钟。",
+    "warnNeedsHourlyDays": "警告需要每小时数据。请将每小时天数设置为至少1。",
+    "warningsViaNotificationManager": "通过ioBroker通知系统"
+}

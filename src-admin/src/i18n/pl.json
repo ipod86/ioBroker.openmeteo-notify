@@ -1,0 +1,10 @@
+{
+    "warnings": "Ostrzeżenia",
+    "warnStorm": "Ostrzeżenie przed burzą (Bft ≥ 8)",
+    "warnThunderstorm": "Ostrzeżenie przed burzą z piorunami",
+    "warnLeadHours": "Czas wyprzedzenia (godziny)",
+    "warnLeadHoursHelp": "Ile godzin wcześniej wysłać ostrzeżenie?",
+    "warnNeedsHourlyInterval": "Ostrzeżenia wymagają aktualizacji co najmniej co godzinę. Ustaw interwał na 60 minut.",
+    "warnNeedsHourlyDays": "Ostrzeżenia wymagają danych godzinowych. Ustaw «Dni godzinowe» na co najmniej 1.",
+    "warningsViaNotificationManager": "przez system powiadomień ioBroker"
+}

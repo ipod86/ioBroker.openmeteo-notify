@@ -1,0 +1,10 @@
+{
+    "warnings": "Advertencias",
+    "warnStorm": "Alerta tormenta (Bft ≥ 8)",
+    "warnThunderstorm": "Alerta tormenta eléctrica",
+    "warnLeadHours": "Tiempo de aviso (horas)",
+    "warnLeadHoursHelp": "¿Cuántas horas antes enviar el aviso?",
+    "warnNeedsHourlyInterval": "Los avisos requieren actualizaciones al menos cada hora. Configure el intervalo a 60 minutos.",
+    "warnNeedsHourlyDays": "Los avisos requieren datos por hora. Configure «Días por hora» en al menos 1.",
+    "warningsViaNotificationManager": "a través del sistema de notificaciones ioBroker"
+}
