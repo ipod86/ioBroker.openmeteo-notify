@@ -794,7 +794,13 @@ class Openmeteo extends utils.Adapter {
 					const isStorm = !!stormState?.val;
 					if (isStorm && !this.warnState[stormKey]) {
 						this.warnState[stormKey] = true;
-						const untilStr = await this.findEventEnd(locId, targetDayOffset, targetHour, "is_storm", hourlyDays);
+						const untilStr = await this.findEventEnd(
+							locId,
+							targetDayOffset,
+							targetHour,
+							"is_storm",
+							hourlyDays,
+						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
@@ -812,7 +818,13 @@ class Openmeteo extends utils.Adapter {
 					const isThunder = !!thunderState?.val;
 					if (isThunder && !this.warnState[thunderKey]) {
 						this.warnState[thunderKey] = true;
-						const untilStr = await this.findEventEnd(locId, targetDayOffset, targetHour, "is_thunderstorm", hourlyDays);
+						const untilStr = await this.findEventEnd(
+							locId,
+							targetDayOffset,
+							targetHour,
+							"is_thunderstorm",
+							hourlyDays,
+						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Gewitterwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
@@ -1663,6 +1675,18 @@ class Openmeteo extends utils.Adapter {
 						role: "weather.state",
 					});
 				}
+				const dayHasThunderstorm = allHours.some(hd => [95, 96, 99].includes(hd.weathercode));
+				await this.setDP(`${prefix}.is_thunderstorm`, dayHasThunderstorm, {
+					name: "Gewitter",
+					type: "boolean",
+					role: "indicator.alarm",
+				});
+				const dayHasStorm = allHours.some(hd => speedToBeaufort(hd.windspeedKmh, "kmh") >= 8);
+				await this.setDP(`${prefix}.is_storm`, dayHasStorm, {
+					name: "Sturm (Bft ≥ 8)",
+					type: "boolean",
+					role: "indicator.alarm",
+				});
 			}
 
 			// Astronomy channel (sun + moon)
