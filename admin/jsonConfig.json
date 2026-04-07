@@ -5,7 +5,12 @@
 		"_locationsHeader": {
 			"type": "header",
 			"text": "locations",
-			"newLine": true
+			"newLine": true,
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
 		},
 		"locations": {
 			"type": "table",
@@ -33,12 +38,22 @@
 					"max": 180,
 					"width": "30%"
 				}
-			]
+			],
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
 		},
 		"_forecastHeader": {
 			"type": "header",
 			"text": "forecast",
-			"newLine": true
+			"newLine": true,
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
 		},
 		"daysCount": {
 			"type": "number",
@@ -68,14 +83,25 @@
 		"_unitsHeader": {
 			"type": "header",
 			"text": "units",
-			"newLine": true
+			"newLine": true,
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
 		},
 		"temperatureUnit": {
 			"type": "select",
 			"label": "temperatureUnit",
 			"options": [
-				{ "label": "celsius", "value": "celsius" },
-				{ "label": "fahrenheit", "value": "fahrenheit" }
+				{
+					"label": "celsius",
+					"value": "celsius"
+				},
+				{
+					"label": "fahrenheit",
+					"value": "fahrenheit"
+				}
 			],
 			"newLine": true,
 			"xs": 12,
@@ -88,10 +114,22 @@
 			"type": "select",
 			"label": "windspeedUnit",
 			"options": [
-				{ "label": "km/h", "value": "kmh" },
-				{ "label": "m/s", "value": "ms" },
-				{ "label": "mph", "value": "mph" },
-				{ "label": "kn", "value": "kn" }
+				{
+					"label": "km/h",
+					"value": "kmh"
+				},
+				{
+					"label": "m/s",
+					"value": "ms"
+				},
+				{
+					"label": "mph",
+					"value": "mph"
+				},
+				{
+					"label": "kn",
+					"value": "kn"
+				}
 			],
 			"xs": 12,
 			"sm": 6,
@@ -103,8 +141,14 @@
 			"type": "select",
 			"label": "precipitationUnit",
 			"options": [
-				{ "label": "mm", "value": "mm" },
-				{ "label": "inch", "value": "inch" }
+				{
+					"label": "mm",
+					"value": "mm"
+				},
+				{
+					"label": "inch",
+					"value": "inch"
+				}
 			],
 			"xs": 12,
 			"sm": 6,
@@ -115,16 +159,30 @@
 		"_iconsHeader": {
 			"type": "header",
 			"text": "icons",
-			"newLine": true
+			"newLine": true,
+			"xs": 12,
+			"sm": 12,
+			"md": 12,
+			"lg": 12,
+			"xl": 12
 		},
 		"iconSet": {
 			"type": "select",
 			"label": "iconSet",
 			"help": "iconSetHelp",
 			"options": [
-				{ "label": "WMO (OGC)", "value": "wmo" },
-				{ "label": "Basmilius / Meteocons (statisch)", "value": "basmilius" },
-				{ "label": "Basmilius / Meteocons (animiert SVG)", "value": "basmilius_animated" }
+				{
+					"label": "WMO (OGC)",
+					"value": "wmo"
+				},
+				{
+					"label": "Basmilius / Meteocons (statisch)",
+					"value": "basmilius"
+				},
+				{
+					"label": "Basmilius / Meteocons (animiert SVG)",
+					"value": "basmilius_animated"
+				}
 			],
 			"newLine": true,
 			"xs": 12,
@@ -133,20 +191,113 @@
 			"lg": 3,
 			"xl": 3
 		},
-		"_iconPreview_wmo_0": { "type": "img", "src": "/openmeteo.admin/icons/wmo/wmo_00.png", "newLine": true, "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'wmo'" },
-		"_iconPreview_wmo_1": { "type": "img", "src": "/openmeteo.admin/icons/wmo/wmo_61.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'wmo'" },
-		"_iconPreview_wmo_2": { "type": "img", "src": "/openmeteo.admin/icons/wmo/wmo_63.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'wmo'" },
-		"_iconPreview_wmo_3": { "type": "img", "src": "/openmeteo.admin/icons/wmo/wmo_73.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'wmo'" },
-		"_iconPreview_wmo_4": { "type": "img", "src": "/openmeteo.admin/icons/wmo/wmo_95.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'wmo'" },
-		"_iconPreview_bas_0": { "type": "img", "src": "/openmeteo.admin/icons/basmilius/wmo_00.png", "newLine": true, "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius'" },
-		"_iconPreview_bas_1": { "type": "img", "src": "/openmeteo.admin/icons/basmilius/wmo_61.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius'" },
-		"_iconPreview_bas_2": { "type": "img", "src": "/openmeteo.admin/icons/basmilius/wmo_63.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius'" },
-		"_iconPreview_bas_3": { "type": "img", "src": "/openmeteo.admin/icons/basmilius/wmo_73.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius'" },
-		"_iconPreview_bas_4": { "type": "img", "src": "/openmeteo.admin/icons/basmilius/wmo_95.png", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius'" },
-		"_iconPreview_anim_0": { "type": "img", "src": "/openmeteo.admin/icons/basmilius_animated/wmo_00.svg", "newLine": true, "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius_animated'" },
-		"_iconPreview_anim_1": { "type": "img", "src": "/openmeteo.admin/icons/basmilius_animated/wmo_61.svg", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius_animated'" },
-		"_iconPreview_anim_2": { "type": "img", "src": "/openmeteo.admin/icons/basmilius_animated/wmo_63.svg", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius_animated'" },
-		"_iconPreview_anim_3": { "type": "img", "src": "/openmeteo.admin/icons/basmilius_animated/wmo_73.svg", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius_animated'" },
-		"_iconPreview_anim_4": { "type": "img", "src": "/openmeteo.admin/icons/basmilius_animated/wmo_95.svg", "width": "48px", "height": "48px", "hidden": "data.iconSet !== 'basmilius_animated'" }
+		"_iconPreview_wmo_0": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/wmo/wmo_00.png",
+			"newLine": true,
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreview_wmo_1": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/wmo/wmo_61.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreview_wmo_2": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/wmo/wmo_63.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreview_wmo_3": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/wmo/wmo_73.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreview_wmo_4": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/wmo/wmo_95.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'wmo'"
+		},
+		"_iconPreview_bas_0": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius/wmo_00.png",
+			"newLine": true,
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreview_bas_1": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius/wmo_61.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreview_bas_2": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius/wmo_63.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreview_bas_3": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius/wmo_73.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreview_bas_4": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius/wmo_95.png",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius'"
+		},
+		"_iconPreview_anim_0": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius_animated/wmo_00.svg",
+			"newLine": true,
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
+		},
+		"_iconPreview_anim_1": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius_animated/wmo_61.svg",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
+		},
+		"_iconPreview_anim_2": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius_animated/wmo_63.svg",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
+		},
+		"_iconPreview_anim_3": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius_animated/wmo_73.svg",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
+		},
+		"_iconPreview_anim_4": {
+			"type": "staticImage",
+			"src": "/openmeteo.admin/icons/basmilius_animated/wmo_95.svg",
+			"width": "48px",
+			"height": "48px",
+			"hidden": "data.iconSet !== 'basmilius_animated'"
+		}
 	}
 }
