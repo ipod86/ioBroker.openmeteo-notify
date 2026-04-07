@@ -183,7 +183,7 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                                 label={I18n.t('warnLeadHours')}
                                 type="number"
                                 value={native.warnLeadHours ?? 2}
-                                inputProps={{ min: 1, max: 12 }}
+                                inputProps={{ min: 1, max: 24 }}
                                 onChange={e => update('warnLeadHours', parseInt(e.target.value) || 2)}
                                 helperText={I18n.t('warnLeadHoursHelp')}
                                 sx={{ width: 200, mt: 1 }}
