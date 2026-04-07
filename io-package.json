@@ -298,17 +298,17 @@
                     },
                     "severity": "alert",
                     "description": {
-                        "en": "Wind gusts exceed configured Beaufort threshold",
-                        "de": "Windböen überschreiten konfigurierte Beaufort-Schwelle",
-                        "ru": "Порывы ветра превышают заданный порог Бофорта",
-                        "pt": "Rajadas de vento excedem o limiar Beaufort configurado",
-                        "nl": "Windstoten overschrijden de ingestelde Beaufort-drempel",
-                        "fr": "Les rafales dépassent le seuil Beaufort configuré",
-                        "it": "Le raffiche superano la soglia Beaufort configurata",
-                        "es": "Las ráfagas superan el umbral Beaufort configurado",
-                        "pl": "Porywy wiatru przekraczają skonfigurowany próg Beauforta",
-                        "uk": "Пориви вітру перевищують налаштований поріг Бофорта",
-                        "zh-cn": "阵风超过配置的蒲福风级阈值"
+                        "en": "Storm warning based on wind gusts",
+                        "de": "Sturmwarnung basierend auf Windböen",
+                        "ru": "Предупреждение о шторме на основе порывов ветра",
+                        "pt": "Aviso de tempestade com base em rajadas de vento",
+                        "nl": "Stormsignaal op basis van windstoten",
+                        "fr": "Alerte tempête basée sur les rafales de vent",
+                        "it": "Avviso tempesta basato sulle raffiche di vento",
+                        "es": "Alerta tormenta basada en ráfagas de viento",
+                        "pl": "Ostrzeżenie przed burzą na podstawie porywów wiatru",
+                        "uk": "Попередження про шторм на основі поривів вітру",
+                        "zh-cn": "基于阵风的风暴预警"
                     },
                     "regex": [],
                     "limit": 10
