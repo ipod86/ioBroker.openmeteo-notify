@@ -39,10 +39,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
             this.setConfigurationError(I18n.t('warnNeedsHourlyInterval'));
             return;
         }
-        if (warningsActive && (native.hourlyDays ?? 3) < 1) {
-            this.setConfigurationError(I18n.t('warnNeedsHourlyDays'));
-            return;
-        }
+
         this.setConfigurationError('');
     }
 

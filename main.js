@@ -777,7 +777,11 @@ class Openmeteo extends utils.Adapter {
 					const isStorm = hData != null && speedToBeaufort(hData.windspeedKmh, "kmh") >= 8;
 					if (isStorm && !this.warnState[stormKey]) {
 						this.warnState[stormKey] = true;
-						const untilStr = this.findEventEnd(hoursByDate, targetTime, hd => speedToBeaufort(hd.windspeedKmh, "kmh") >= 8);
+						const untilStr = this.findEventEnd(
+							hoursByDate,
+							targetTime,
+							hd => speedToBeaufort(hd.windspeedKmh, "kmh") >= 8,
+						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
@@ -794,7 +798,9 @@ class Openmeteo extends utils.Adapter {
 					const isThunder = hData != null && [95, 96, 99].includes(hData.weathercode);
 					if (isThunder && !this.warnState[thunderKey]) {
 						this.warnState[thunderKey] = true;
-						const untilStr = this.findEventEnd(hoursByDate, targetTime, hd => [95, 96, 99].includes(hd.weathercode));
+						const untilStr = this.findEventEnd(hoursByDate, targetTime, hd =>
+							[95, 96, 99].includes(hd.weathercode),
+						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Gewitterwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(

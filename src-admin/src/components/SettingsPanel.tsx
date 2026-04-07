@@ -164,11 +164,7 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                                     {I18n.t('warnNeedsHourlyInterval')}
                                 </Alert>
                             )}
-                            {(native.hourlyDays ?? 3) < 1 && (
-                                <Alert severity="error" sx={{ mt: 1 }}>
-                                    {I18n.t('warnNeedsHourlyDays')}
-                                </Alert>
-                            )}
+
                         </>
                     )}
                 </Box>
