@@ -740,6 +740,7 @@ class Openmeteo extends utils.Adapter {
 			const targetHour = targetTime.getHours();
 			const hKey = `h${String(targetHour).padStart(2, "0")}`;
 			const hPath = `${locId}.day${targetDayOffset}.hourly.${hKey}`;
+			const timeStr = `${String(targetTime.getHours()).padStart(2, "0")}:${String(targetTime.getMinutes()).padStart(2, "0")} Uhr`;
 
 			const stormKey = `${locId}_storm`;
 			const thunderKey = `${locId}_thunder`;
@@ -754,7 +755,7 @@ class Openmeteo extends utils.Adapter {
 						await this.registerNotification(
 							"openmeteo",
 							"storm",
-							`Sturmwarnung für ${loc.name}: Sturm (Bft ≥ 8) erwartet in ${leadHours} Stunde(n)`,
+							`Sturmwarnung für ${loc.name}: Sturm (Bft ≥ 8) erwartet um ${timeStr} (in ${leadHours} Stunde(n))`,
 						);
 					} else if (!isStorm) {
 						this.warnState[stormKey] = false;
@@ -770,7 +771,7 @@ class Openmeteo extends utils.Adapter {
 						await this.registerNotification(
 							"openmeteo",
 							"thunderstorm",
-							`Gewitterwarnung für ${loc.name}: Gewitter erwartet in ${leadHours} Stunde(n)`,
+							`Gewitterwarnung für ${loc.name}: Gewitter erwartet um ${timeStr} (in ${leadHours} Stunde(n))`,
 						);
 					} else if (!isThunder) {
 						this.warnState[thunderKey] = false;
