@@ -552,7 +552,9 @@ class Openmeteo extends utils.Adapter {
 					} catch (err) {
 						lastErr = err;
 						if (attempt < 3) {
-							this.log.warn(`Abruf für "${loc.name}" fehlgeschlagen (Versuch ${attempt}/3): ${err.message} – Wiederholung in 5s`);
+							this.log.warn(
+								`Abruf für "${loc.name}" fehlgeschlagen (Versuch ${attempt}/3): ${err.message} – Wiederholung in 5s`,
+							);
 							await new Promise(r => setTimeout(r, 5000));
 						}
 					}
