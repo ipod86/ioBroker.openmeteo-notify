@@ -421,6 +421,7 @@ class Openmeteo extends utils.Adapter {
 		this.updateInterval = null;
 		this.updateTimeout = null;
 		this.consecutiveFailures = 0;
+		this.warnState = {};
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
@@ -703,6 +704,80 @@ class Openmeteo extends utils.Adapter {
 			}
 			// Cleanup removed widgets
 			await this.cleanupOrphanedWidgets(validLocationIds, activeWidgetKeys);
+		}
+
+		// Weather warnings
+		if (anySuccess) {
+			await this.checkWeatherWarnings(locations, windspeedUnit);
+		}
+	}
+
+	/**
+	 * Checks upcoming hourly data for storm and thunderstorm warnings and sends notifications once per event.
+	 *
+	 * @param {Array} locations - List of location configs
+	 * @param {string} windspeedUnit - Wind speed unit
+	 */
+	async checkWeatherWarnings(locations, windspeedUnit) {
+		const warnStorm = !!this.config.warnStorm;
+		const warnThunderstorm = !!this.config.warnThunderstorm;
+		if (!warnStorm && !warnThunderstorm) {
+			return;
+		}
+		const leadHours = this.config.warnLeadHours ?? 2;
+		const now = new Date();
+
+		for (const loc of locations) {
+			const locId = normalizeId(loc.name);
+			if (!locId) {
+				continue;
+			}
+
+			// Determine which day and hour slot is "now + leadHours"
+			const targetTime = new Date(now.getTime() + leadHours * 60 * 60 * 1000);
+			const targetDayOffset = Math.floor((targetTime - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / (24 * 60 * 60 * 1000));
+			const targetHour = targetTime.getHours();
+			const hKey = `h${String(targetHour).padStart(2, "0")}`;
+			const hPath = `${locId}.day${targetDayOffset}.hourly.${hKey}`;
+
+			const stormKey = `${locId}_storm`;
+			const thunderKey = `${locId}_thunder`;
+
+			try {
+				if (warnStorm) {
+					const stormState = await this.getStateAsync(`${hPath}.is_storm`);
+					const isStorm = !!stormState?.val;
+					if (isStorm && !this.warnState[stormKey]) {
+						this.warnState[stormKey] = true;
+						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
+						await this.registerNotification(
+							"openmeteo",
+							"storm",
+							`Sturmwarnung für ${loc.name}: Sturm (Bft ≥ 8) erwartet in ${leadHours} Stunde(n)`,
+						);
+					} else if (!isStorm) {
+						this.warnState[stormKey] = false;
+					}
+				}
+
+				if (warnThunderstorm) {
+					const thunderState = await this.getStateAsync(`${hPath}.is_thunderstorm`);
+					const isThunder = !!thunderState?.val;
+					if (isThunder && !this.warnState[thunderKey]) {
+						this.warnState[thunderKey] = true;
+						this.log.warn(`Gewitterwarnung für ${loc.name} in ${leadHours}h`);
+						await this.registerNotification(
+							"openmeteo",
+							"thunderstorm",
+							`Gewitterwarnung für ${loc.name}: Gewitter erwartet in ${leadHours} Stunde(n)`,
+						);
+					} else if (!isThunder) {
+						this.warnState[thunderKey] = false;
+					}
+				}
+			} catch (err) {
+				this.log.error(`Fehler bei Wetterwarnungs-Check für ${loc.name}: ${err.message}`);
+			}
 		}
 	}
 

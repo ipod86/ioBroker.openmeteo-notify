@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
+import { Alert, Box, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { OpenMeteoConfig } from '../types';
 import LocationsTable from './LocationsTable';
@@ -127,6 +127,55 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         <MenuItem value={1440}>{I18n.t('dailyAt1am')}</MenuItem>
                     </Select>
                 </FormControl>
+            </Box>
+
+            <Divider />
+
+            {/* Warnings */}
+            <Box>
+                <Typography variant="h6" gutterBottom>{I18n.t('warnings')}</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <FormControlLabel
+                        control={<Switch checked={!!native.warnStorm} onChange={e => {
+                            const val = e.target.checked;
+                            const update2: Partial<OpenMeteoConfig> = { warnStorm: val };
+                            if (val && (native.updateInterval || 60) > 60) {
+                                update2.updateInterval = 60;
+                            }
+                            onChange({ ...native, ...update2 });
+                        }} />}
+                        label={I18n.t('warnStorm')}
+                    />
+                    <FormControlLabel
+                        control={<Switch checked={!!native.warnThunderstorm} onChange={e => {
+                            const val = e.target.checked;
+                            const update2: Partial<OpenMeteoConfig> = { warnThunderstorm: val };
+                            if (val && (native.updateInterval || 60) > 60) {
+                                update2.updateInterval = 60;
+                            }
+                            onChange({ ...native, ...update2 });
+                        }} />}
+                        label={I18n.t('warnThunderstorm')}
+                    />
+                    {(native.warnStorm || native.warnThunderstorm) && (
+                        <>
+                            <TextField
+                                label={I18n.t('warnLeadHours')}
+                                type="number"
+                                value={native.warnLeadHours ?? 2}
+                                inputProps={{ min: 1, max: 12 }}
+                                onChange={e => update('warnLeadHours', parseInt(e.target.value) || 2)}
+                                helperText={I18n.t('warnLeadHoursHelp')}
+                                sx={{ width: 200, mt: 1 }}
+                            />
+                            {(native.updateInterval || 60) > 60 && (
+                                <Alert severity="warning" sx={{ mt: 1 }}>
+                                    {I18n.t('warnNeedsHourlyInterval')}
+                                </Alert>
+                            )}
+                        </>
+                    )}
+                </Box>
             </Box>
 
             <Divider />

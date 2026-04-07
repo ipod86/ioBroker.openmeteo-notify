@@ -245,8 +245,36 @@
         "enableAgriculture": false,
         "enableAgricultureHourly": false,
         "enablePollen": false,
-        "enablePollenHourly": false
+        "enablePollenHourly": false,
+        "warnStorm": false,
+        "warnThunderstorm": false,
+        "warnLeadHours": 2
     },
+    "notifications": [
+        {
+            "scope": "openmeteo",
+            "name": { "en": "OpenMeteo Weather Warnings", "de": "OpenMeteo Wetterwarnungen" },
+            "description": { "en": "Storm and thunderstorm warnings from ioBroker.openmeteo", "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo" },
+            "categories": [
+                {
+                    "category": "storm",
+                    "name": { "en": "Storm warning", "de": "Sturmwarnung" },
+                    "severity": "alert",
+                    "description": { "en": "Wind speed Bft ≥ 8 expected", "de": "Windstärke Bft ≥ 8 erwartet" },
+                    "regex": [],
+                    "limit": 10
+                },
+                {
+                    "category": "thunderstorm",
+                    "name": { "en": "Thunderstorm warning", "de": "Gewitterwarnung" },
+                    "severity": "alert",
+                    "description": { "en": "Thunderstorm expected (WMO code 95/96/99)", "de": "Gewitter erwartet (WMO-Code 95/96/99)" },
+                    "regex": [],
+                    "limit": 10
+                }
+            ]
+        }
+    ],
     "objects": [],
     "instanceObjects": [
         {
