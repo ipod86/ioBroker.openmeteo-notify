@@ -999,7 +999,7 @@ class Openmeteo extends utils.Adapter {
 				`,rain_sum,snowfall_sum,daylight_duration,shortwave_radiation_sum,et0_fao_evapotranspiration` +
 				`,cloud_cover_max,dew_point_2m_mean,relative_humidity_2m_mean,pressure_msl_mean` +
 				`&hourly=temperature_2m,apparent_temperature,precipitation_probability` +
-				`,precipitation,weathercode,windspeed_10m,winddirection_10m,cloudcover` +
+				`,precipitation,weathercode,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
 				`,rain,snowfall,snow_depth,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
