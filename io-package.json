@@ -69,8 +69,17 @@
                 "zh-cn": "修复：位置设置中地址搜索时React崩溃"
             },
             "0.0.40": {
-                "en": "amCharts animated/static SVG icons (CC BY 4.0), HTML widget DPs with light/dark theme, OSM map preview and address geocoding in location settings",
-                "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0), HTML-Widget-Datenpunkte mit Hell/Dunkel-Design, OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen"
+                "en": "amCharts animated/static SVG icons (CC BY 4.0); HTML widget datapoints with light/dark theme; OSM map preview and address geocoding in location settings",
+                "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0); HTML-Widget-Datenpunkte mit Hell/Dunkel-Theme; OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen",
+                "ru": "Анимированные/статические SVG-иконки amCharts (CC BY 4.0); точки данных HTML-виджета с светлой/тёмной темой; предварительный просмотр карты OSM и геокодирование адресов в настройках местоположения",
+                "pt": "Ícones SVG animados/estáticos amCharts (CC BY 4.0); pontos de dados do widget HTML com tema claro/escuro; pré-visualização do mapa OSM e geocodificação de endereços nas configurações de localização",
+                "nl": "amCharts geanimeerde/statische SVG-iconen (CC BY 4.0); HTML-widget datapunten met licht/donker thema; OSM-kaartvoorvertoning en adresgeocodering in locatie-instellingen",
+                "fr": "Icônes SVG animées/statiques amCharts (CC BY 4.0); points de données du widget HTML avec thème clair/sombre; aperçu de la carte OSM et géocodage d'adresses dans les paramètres de localisation",
+                "it": "Icone SVG animate/statiche amCharts (CC BY 4.0); punti dati widget HTML con tema chiaro/scuro; anteprima mappa OSM e geocodifica indirizzi nelle impostazioni posizione",
+                "es": "Iconos SVG animados/estáticos amCharts (CC BY 4.0); puntos de datos del widget HTML con tema claro/oscuro; vista previa del mapa OSM y geocodificación de direcciones en la configuración de ubicación",
+                "pl": "Animowane/statyczne ikony SVG amCharts (CC BY 4.0); punkty danych widżetu HTML z jasnym/ciemnym motywem; podgląd mapy OSM i geokodowanie adresów w ustawieniach lokalizacji",
+                "uk": "Анімовані/статичні SVG-іконки amCharts (CC BY 4.0); точки даних HTML-віджета зі світлою/темною темою; попередній перегляд карти OSM та геокодування адрес у налаштуваннях місцезнаходження",
+                "zh-cn": "amCharts 动态/静态 SVG 图标 (CC BY 4.0)；HTML 小部件数据点支持亮/暗主题；位置设置中的 OSM 地图预览和地址地理编码"
             },
             "0.0.39": {
                 "en": "Weather summary sentences with DWD-standard thresholds, precipitation amounts, CAPE-based thunderstorm risk and current.summary",
