@@ -153,6 +153,11 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                                 onChange={e => update('warnStormBft', Number(e.target.value))}
                             >
                                 {[
+                                    { bft: 1,  kmh: 1,   label: 'Leiser Zug' },
+                                    { bft: 2,  kmh: 6,   label: 'Leichte Brise' },
+                                    { bft: 3,  kmh: 12,  label: 'Schwache Brise' },
+                                    { bft: 4,  kmh: 20,  label: 'Mäßige Brise' },
+                                    { bft: 5,  kmh: 29,  label: 'Frische Brise' },
                                     { bft: 6,  kmh: 39,  label: 'Starke Brise' },
                                     { bft: 7,  kmh: 50,  label: 'Steifer Wind' },
                                     { bft: 8,  kmh: 62,  label: 'Stürmischer Wind' },
