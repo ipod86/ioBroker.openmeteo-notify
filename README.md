@@ -189,6 +189,7 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 ## Changelog
 
 ### **WORK IN PROGRESS**
+* (ipod86) add CHANGELOG_OLD.md; add release-script
 
 ### 0.0.45
 * Weather warnings (storm/thunderstorm) via ioBroker notification system
