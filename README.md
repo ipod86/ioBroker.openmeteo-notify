@@ -187,8 +187,7 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 0.0.46 (2026-04-08)
 * (ipod86) add CHANGELOG_OLD.md; add release-script
 
 ### 0.0.45
@@ -209,24 +208,6 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ### 0.0.42
 * Remove automatic reverse geocoding from location settings table
-
-### 0.0.41
-* Fix: React crash on address search in location settings (`setRowStates` inside updater)
-
-### 0.0.40
-* amCharts animated/static SVG icons (CC BY 4.0)
-* HTML widget data points with light/dark theme support
-* OSM map preview and address geocoding in location settings
-
-### 0.0.39
-* Weather summary sentences for `current.summary`, `dayX.summary_day` and `dayX.summary_night` in 11 languages
-* DWD-standard precipitation classification: intensity (light/moderate/heavy via mm/h) × frequency (isolated/intermittent/persistent via hour count)
-* Precipitation amounts shown in summary (mm for rain, cm for snow)
-* CAPE-based thunderstorm risk appended to summary (≥500 J/kg: risk, ≥1000: danger, ≥2500: severe)
-* DWD temperature thresholds: hot/warm/mild/cool/cold/frost/hard_frost (30/25/15/5/0/−10°C)
-* DWD wind scale: breezy/fresh/strong/stormy/storm (20/29/50/62/89 km/h, Beaufort 4–10+)
-
-For older changelog entries see [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
 ## License
 

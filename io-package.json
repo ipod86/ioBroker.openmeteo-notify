@@ -1,306 +1,306 @@
 {
-    "common": {
-        "name": "openmeteo",
-        "version": "0.0.45",
-        "news": {
-            "0.0.45": {
-                "en": "Weather warnings (storm/thunderstorm) via ioBroker notification system; configurable Beaufort threshold; daily has_storm/has_thunderstorm datapoints; hourly is_storm/is_thunderstorm datapoints; wind gusts used for storm detection",
-                "de": "Wetterwarnungen (Sturm/Gewitter) über ioBroker-Notification-System; konfigurierbare Beaufort-Schwelle; tägliche has_storm/has_thunderstorm-Datenpunkte; stündliche is_storm/is_thunderstorm-Datenpunkte; Windböen für Sturmerkennung",
-                "ru": "Погодные предупреждения (шторм/гроза) через систему уведомлений ioBroker; настраиваемый порог Бофорта; ежедневные точки данных has_storm/has_thunderstorm; почасовые is_storm/is_thunderstorm; порывы ветра для определения шторма",
-                "pt": "Alertas meteorológicos (tempestade/trovoada) via sistema de notificações ioBroker; limiar Beaufort configurável; pontos de dados diários has_storm/has_thunderstorm; hourly is_storm/is_thunderstorm; rajadas para detecção de tempestade",
-                "nl": "Weerwaarschuwingen (storm/onweer) via ioBroker-notificatiesysteem; instelbare Beaufort-drempel; dagelijkse has_storm/has_thunderstorm-datapunten; uurlijkse is_storm/is_thunderstorm; windstoten voor stormsignaal",
-                "fr": "Alertes météo (tempête/orage) via le système de notification ioBroker; seuil Beaufort configurable; points de données quotidiens has_storm/has_thunderstorm; horaires is_storm/is_thunderstorm; rafales pour la détection de tempête",
-                "it": "Avvisi meteo (tempesta/temporale) tramite sistema di notifiche ioBroker; soglia Beaufort configurabile; punti dati giornalieri has_storm/has_thunderstorm; orari is_storm/is_thunderstorm; raffiche per rilevamento tempesta",
-                "es": "Alertas meteorológicas (tormenta/tormenta eléctrica) vía sistema de notificaciones ioBroker; umbral Beaufort configurable; puntos de datos diarios has_storm/has_thunderstorm; horarios is_storm/is_thunderstorm; ráfagas para detección de tormenta",
-                "pl": "Ostrzeżenia pogodowe (burza/pioruny) przez system powiadomień ioBroker; konfigurowalny próg Beauforta; dzienne punkty danych has_storm/has_thunderstorm; godzinowe is_storm/is_thunderstorm; porywy wiatru do wykrywania burzy",
-                "uk": "Погодні попередження (шторм/гроза) через систему сповіщень ioBroker; налаштований поріг Бофорта; щоденні has_storm/has_thunderstorm; щогодинні is_storm/is_thunderstorm; пориви вітру для визначення шторму",
-                "zh-cn": "通过ioBroker通知系统发送天气预警（风暴/雷暴）；可配置蒲福风级阈值；每日has_storm/has_thunderstorm数据点；每小时is_storm/is_thunderstorm；使用阵风检测风暴"
-            },
-            "0.0.44": {
-                "en": "Fix dark theme: set theme-aware background color on root wrapper",
-                "de": "Dark-Theme korrigiert: theme-abhängige Hintergrundfarbe am Root-Element gesetzt",
-                "ru": "Исправлена тёмная тема: установлен фоновый цвет корневого элемента в зависимости от темы",
-                "pt": "Correção do tema escuro: cor de fundo adaptada ao tema definida no elemento raiz",
-                "nl": "Donker thema gecorrigeerd: thema-afhankelijke achtergrondkleur ingesteld op root-element",
-                "fr": "Correction du thème sombre: couleur de fond adaptée au thème définie sur l'élément racine",
-                "it": "Tema scuro corretto: colore di sfondo adattato al tema impostato sull'elemento radice",
-                "es": "Tema oscuro corregido: color de fondo adaptado al tema establecido en el elemento raíz",
-                "pl": "Poprawka ciemnego motywu: kolor tła zależny od motywu ustawiony na elemencie głównym",
-                "uk": "Виправлена темна тема: встановлено залежний від теми колір фону кореневого елементу",
-                "zh-cn": "修复暗色主题：在根元素上设置主题感知背景颜色"
-            },
-            "0.0.43": {
-                "en": "Fix: remove auto-location entry written to system.config on first start",
-                "de": "Fix: automatisch erzeugter Standorteintrag in system.config beim ersten Start wird nicht mehr gespeichert",
-                "ru": "Исправление: автоматическая запись местоположения в system.config при первом запуске удалена",
-                "pt": "Correção: entrada de localização automática em system.config no primeiro início removida",
-                "nl": "Fix: automatische locatie-invoer in system.config bij eerste start verwijderd",
-                "fr": "Correction: suppression de l'entrée de localisation automatique dans system.config au premier démarrage",
-                "it": "Correzione: voce di posizione automatica in system.config al primo avvio rimossa",
-                "es": "Corrección: entrada de ubicación automática en system.config en el primer inicio eliminada",
-                "pl": "Poprawka: automatyczny wpis lokalizacji w system.config przy pierwszym uruchomieniu usunięty",
-                "uk": "Виправлення: автоматичний запис місцезнаходження в system.config при першому запуску видалено",
-                "zh-cn": "修复：首次启动时自动写入system.config的位置条目已移除"
-            },
-            "0.0.42": {
-                "en": "Remove automatic reverse geocoding from location settings table",
-                "de": "Automatisches Reverse-Geocoding aus der Standort-Einstellungstabelle entfernt",
-                "ru": "Удалено автоматическое обратное геокодирование из таблицы настроек местоположений",
-                "pt": "Geocodificação reversa automática removida da tabela de configurações de localização",
-                "nl": "Automatisch omgekeerd geocoderen verwijderd uit de locatie-instellingstabel",
-                "fr": "Suppression du géocodage inverse automatique dans le tableau des paramètres de localisation",
-                "it": "Rimossa la geocodifica inversa automatica dalla tabella delle impostazioni di posizione",
-                "es": "Geocodificación inversa automática eliminada de la tabla de configuración de ubicaciones",
-                "pl": "Usunięto automatyczne odwrotne geokodowanie z tabeli ustawień lokalizacji",
-                "uk": "Видалено автоматичне зворотне геокодування з таблиці налаштувань місцезнаходжень",
-                "zh-cn": "从位置设置表中移除了自动反向地理编码"
-            },
-            "0.0.41": {
-                "en": "Fix: React crash on address search in location settings (setRowStates inside updater)",
-                "de": "Fix: React-Absturz bei Adresssuche in Standorteinstellungen (setRowStates innerhalb Updater)",
-                "ru": "Исправление: сбой React при поиске адреса в настройках местоположения",
-                "pt": "Correção: falha React na pesquisa de endereço nas configurações de localização",
-                "nl": "Fix: React-crash bij adreszoeken in locatie-instellingen",
-                "fr": "Correction: crash React lors de la recherche d'adresse dans les paramètres de localisation",
-                "it": "Correzione: crash React nella ricerca indirizzo nelle impostazioni di posizione",
-                "es": "Corrección: fallo de React en la búsqueda de direcciones en la configuración de ubicaciones",
-                "pl": "Poprawka: awaria React przy wyszukiwaniu adresu w ustawieniach lokalizacji",
-                "uk": "Виправлення: збій React при пошуку адреси в налаштуваннях місцезнаходження",
-                "zh-cn": "修复：位置设置中地址搜索时React崩溃"
-            },
-            "0.0.40": {
-                "en": "amCharts animated/static SVG icons (CC BY 4.0); HTML widget datapoints with light/dark theme; OSM map preview and address geocoding in location settings",
-                "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0); HTML-Widget-Datenpunkte mit Hell/Dunkel-Theme; OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen",
-                "ru": "Анимированные/статические SVG-иконки amCharts (CC BY 4.0); точки данных HTML-виджета с светлой/тёмной темой; предварительный просмотр карты OSM и геокодирование адресов в настройках местоположения",
-                "pt": "Ícones SVG animados/estáticos amCharts (CC BY 4.0); pontos de dados do widget HTML com tema claro/escuro; pré-visualização do mapa OSM e geocodificação de endereços nas configurações de localização",
-                "nl": "amCharts geanimeerde/statische SVG-iconen (CC BY 4.0); HTML-widget datapunten met licht/donker thema; OSM-kaartvoorvertoning en adresgeocodering in locatie-instellingen",
-                "fr": "Icônes SVG animées/statiques amCharts (CC BY 4.0); points de données du widget HTML avec thème clair/sombre; aperçu de la carte OSM et géocodage d'adresses dans les paramètres de localisation",
-                "it": "Icone SVG animate/statiche amCharts (CC BY 4.0); punti dati widget HTML con tema chiaro/scuro; anteprima mappa OSM e geocodifica indirizzi nelle impostazioni posizione",
-                "es": "Iconos SVG animados/estáticos amCharts (CC BY 4.0); puntos de datos del widget HTML con tema claro/oscuro; vista previa del mapa OSM y geocodificación de direcciones en la configuración de ubicación",
-                "pl": "Animowane/statyczne ikony SVG amCharts (CC BY 4.0); punkty danych widżetu HTML z jasnym/ciemnym motywem; podgląd mapy OSM i geokodowanie adresów w ustawieniach lokalizacji",
-                "uk": "Анімовані/статичні SVG-іконки amCharts (CC BY 4.0); точки даних HTML-віджета зі світлою/темною темою; попередній перегляд карти OSM та геокодування адрес у налаштуваннях місцезнаходження",
-                "zh-cn": "amCharts 动态/静态 SVG 图标 (CC BY 4.0)；HTML 小部件数据点支持亮/暗主题；位置设置中的 OSM 地图预览和地址地理编码"
-            },
-            "0.0.39": {
-                "en": "Weather summary sentences with DWD-standard thresholds, precipitation amounts, CAPE-based thunderstorm risk and current.summary",
-                "de": "Wettertext-Zusammenfassungen mit DWD-Schwellenwerten, Niederschlagsmengen, CAPE-basierter Gewittergefahr und current.summary",
-                "ru": "Сводки погоды со стандартами DWD, суммы осадков, угроза грозы по CAPE и current.summary",
-                "pt": "Resumos meteorológicos com limiares DWD, totais de precipitação, risco de trovoada por CAPE e current.summary",
-                "nl": "Weerssamenvattingen met DWD-drempelwaarden, neerslaghoeveelheden, CAPE-onweersrisico en current.summary",
-                "fr": "Résumés météo avec seuils DWD, totaux de précipitations, risque d'orage par CAPE et current.summary",
-                "it": "Riepiloghi meteo con soglie DWD, totali precipitazioni, rischio temporali CAPE e current.summary",
-                "es": "Resúmenes meteorológicos con umbrales DWD, totales de precipitación, riesgo de tormenta CAPE y current.summary",
-                "pl": "Podsumowania pogody z progami DWD, sumami opadów, ryzykiem burzy CAPE i current.summary",
-                "zh-cn": "包含DWD标准阈值、降水量、CAPE雷暴风险和current.summary的天气摘要",
-                "uk": "Зведення погоди зі стандартами DWD, кількістю опадів, ризиком грози CAPE та current.summary"
-            }
-        },
-        "titleLang": {
-            "en": "OpenMeteo Weather",
-            "de": "OpenMeteo-Wetter",
-            "ru": "Погода OpenMeteo",
-            "pt": "Tempo OpenMeteo",
-            "nl": "OpenMeteo-weer",
-            "fr": "Météo OpenMeteo",
-            "it": "OpenMeteo Meteo",
-            "es": "OpenMeteo Tiempo",
-            "pl": "Pogoda OpenMeteo",
-            "uk": "Погода OpenMeteo",
-            "zh-cn": "OpenMeteo 天气"
-        },
-        "desc": {
-            "en": "Free weather forecast from Open-Meteo API",
-            "de": "Kostenlose Wettervorhersage von Open-Meteo API",
-            "ru": "Бесплатный прогноз погоды от Open-Meteo API",
-            "pt": "Previsão do tempo gratuita da API Open-Meteo",
-            "nl": "Gratis weersvoorspelling van Open-Meteo API",
-            "fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
-            "it": "Previsioni meteo gratuite dall'API Open-Meteo",
-            "es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
-            "pl": "Darmowa prognoza pogody z Open-Meteo API",
-            "uk": "Безкоштовний прогноз погоди від Open-Meteo API",
-            "zh-cn": "来自 Open-Meteo API 的免费天气预报"
-        },
-        "authors": [
-            "ipod86"
-        ],
-        "keywords": [
-            "weather",
-            "forecast",
-            "openmeteo",
-            "open-meteo"
-        ],
-        "licenseInformation": {
-            "type": "free",
-            "license": "MIT"
-        },
-        "platform": "Javascript/Node.js",
-        "icon": "openmeteo.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
-        "readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
-        "loglevel": "info",
-        "tier": 3,
-        "mode": "daemon",
-        "type": "weather",
-        "compact": true,
-        "connectionType": "cloud",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "materialize"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=6.0.11"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=7.6.20"
-            }
-        ]
+  "common": {
+    "name": "openmeteo",
+    "version": "0.0.46",
+    "news": {
+      "0.0.46": {
+        "en": "add CHANGELOG_OLD.md; add release-script",
+        "de": "cHANGELOG OLD.md hinzufügen; Release-script hinzufügen",
+        "ru": "добавить CHANGELOG OLD.md; добавить релиз-скрипт",
+        "pt": "adicionar CHANGELOG OLD.md; adicionar versão-script",
+        "nl": "changelog OLD.md toevoegen; release-script toevoegen",
+        "fr": "ajouter CHANGELOG OLD.md; ajouter release-script",
+        "it": "aggiungere CHANGELOG OLD.md; aggiungere release-script",
+        "es": "añadir CHANGELOG OLD.md; añadir versión-script",
+        "pl": "dodaj CHANGELOG _ OLD.md; dodaj skrypt release- script",
+        "uk": "add CHANGELOG OLD.md; add release-script",
+        "zh-cn": "添加 ChangeGELOG OLD.md; 添加发布标记"
+      },
+      "0.0.45": {
+        "en": "Weather warnings (storm/thunderstorm) via ioBroker notification system; configurable Beaufort threshold; daily has_storm/has_thunderstorm datapoints; hourly is_storm/is_thunderstorm datapoints; wind gusts used for storm detection",
+        "de": "Wetterwarnungen (Sturm/Gewitter) über ioBroker-Notification-System; konfigurierbare Beaufort-Schwelle; tägliche has_storm/has_thunderstorm-Datenpunkte; stündliche is_storm/is_thunderstorm-Datenpunkte; Windböen für Sturmerkennung",
+        "ru": "Погодные предупреждения (шторм/гроза) через систему уведомлений ioBroker; настраиваемый порог Бофорта; ежедневные точки данных has_storm/has_thunderstorm; почасовые is_storm/is_thunderstorm; порывы ветра для определения шторма",
+        "pt": "Alertas meteorológicos (tempestade/trovoada) via sistema de notificações ioBroker; limiar Beaufort configurável; pontos de dados diários has_storm/has_thunderstorm; hourly is_storm/is_thunderstorm; rajadas para detecção de tempestade",
+        "nl": "Weerwaarschuwingen (storm/onweer) via ioBroker-notificatiesysteem; instelbare Beaufort-drempel; dagelijkse has_storm/has_thunderstorm-datapunten; uurlijkse is_storm/is_thunderstorm; windstoten voor stormsignaal",
+        "fr": "Alertes météo (tempête/orage) via le système de notification ioBroker; seuil Beaufort configurable; points de données quotidiens has_storm/has_thunderstorm; horaires is_storm/is_thunderstorm; rafales pour la détection de tempête",
+        "it": "Avvisi meteo (tempesta/temporale) tramite sistema di notifiche ioBroker; soglia Beaufort configurabile; punti dati giornalieri has_storm/has_thunderstorm; orari is_storm/is_thunderstorm; raffiche per rilevamento tempesta",
+        "es": "Alertas meteorológicas (tormenta/tormenta eléctrica) vía sistema de notificaciones ioBroker; umbral Beaufort configurable; puntos de datos diarios has_storm/has_thunderstorm; horarios is_storm/is_thunderstorm; ráfagas para detección de tormenta",
+        "pl": "Ostrzeżenia pogodowe (burza/pioruny) przez system powiadomień ioBroker; konfigurowalny próg Beauforta; dzienne punkty danych has_storm/has_thunderstorm; godzinowe is_storm/is_thunderstorm; porywy wiatru do wykrywania burzy",
+        "uk": "Погодні попередження (шторм/гроза) через систему сповіщень ioBroker; налаштований поріг Бофорта; щоденні has_storm/has_thunderstorm; щогодинні is_storm/is_thunderstorm; пориви вітру для визначення шторму",
+        "zh-cn": "通过ioBroker通知系统发送天气预警（风暴/雷暴）；可配置蒲福风级阈值；每日has_storm/has_thunderstorm数据点；每小时is_storm/is_thunderstorm；使用阵风检测风暴"
+      },
+      "0.0.44": {
+        "en": "Fix dark theme: set theme-aware background color on root wrapper",
+        "de": "Dark-Theme korrigiert: theme-abhängige Hintergrundfarbe am Root-Element gesetzt",
+        "ru": "Исправлена тёмная тема: установлен фоновый цвет корневого элемента в зависимости от темы",
+        "pt": "Correção do tema escuro: cor de fundo adaptada ao tema definida no elemento raiz",
+        "nl": "Donker thema gecorrigeerd: thema-afhankelijke achtergrondkleur ingesteld op root-element",
+        "fr": "Correction du thème sombre: couleur de fond adaptée au thème définie sur l'élément racine",
+        "it": "Tema scuro corretto: colore di sfondo adattato al tema impostato sull'elemento radice",
+        "es": "Tema oscuro corregido: color de fondo adaptado al tema establecido en el elemento raíz",
+        "pl": "Poprawka ciemnego motywu: kolor tła zależny od motywu ustawiony na elemencie głównym",
+        "uk": "Виправлена темна тема: встановлено залежний від теми колір фону кореневого елементу",
+        "zh-cn": "修复暗色主题：在根元素上设置主题感知背景颜色"
+      },
+      "0.0.43": {
+        "en": "Fix: remove auto-location entry written to system.config on first start",
+        "de": "Fix: automatisch erzeugter Standorteintrag in system.config beim ersten Start wird nicht mehr gespeichert",
+        "ru": "Исправление: автоматическая запись местоположения в system.config при первом запуске удалена",
+        "pt": "Correção: entrada de localização automática em system.config no primeiro início removida",
+        "nl": "Fix: automatische locatie-invoer in system.config bij eerste start verwijderd",
+        "fr": "Correction: suppression de l'entrée de localisation automatique dans system.config au premier démarrage",
+        "it": "Correzione: voce di posizione automatica in system.config al primo avvio rimossa",
+        "es": "Corrección: entrada de ubicación automática en system.config en el primer inicio eliminada",
+        "pl": "Poprawka: automatyczny wpis lokalizacji w system.config przy pierwszym uruchomieniu usunięty",
+        "uk": "Виправлення: автоматичний запис місцезнаходження в system.config при першому запуску видалено",
+        "zh-cn": "修复：首次启动时自动写入system.config的位置条目已移除"
+      },
+      "0.0.42": {
+        "en": "Remove automatic reverse geocoding from location settings table",
+        "de": "Automatisches Reverse-Geocoding aus der Standort-Einstellungstabelle entfernt",
+        "ru": "Удалено автоматическое обратное геокодирование из таблицы настроек местоположений",
+        "pt": "Geocodificação reversa automática removida da tabela de configurações de localização",
+        "nl": "Automatisch omgekeerd geocoderen verwijderd uit de locatie-instellingstabel",
+        "fr": "Suppression du géocodage inverse automatique dans le tableau des paramètres de localisation",
+        "it": "Rimossa la geocodifica inversa automatica dalla tabella delle impostazioni di posizione",
+        "es": "Geocodificación inversa automática eliminada de la tabla de configuración de ubicaciones",
+        "pl": "Usunięto automatyczne odwrotne geokodowanie z tabeli ustawień lokalizacji",
+        "uk": "Видалено автоматичне зворотне геокодування з таблиці налаштувань місцезнаходжень",
+        "zh-cn": "从位置设置表中移除了自动反向地理编码"
+      },
+      "0.0.41": {
+        "en": "Fix: React crash on address search in location settings (setRowStates inside updater)",
+        "de": "Fix: React-Absturz bei Adresssuche in Standorteinstellungen (setRowStates innerhalb Updater)",
+        "ru": "Исправление: сбой React при поиске адреса в настройках местоположения",
+        "pt": "Correção: falha React na pesquisa de endereço nas configurações de localização",
+        "nl": "Fix: React-crash bij adreszoeken in locatie-instellingen",
+        "fr": "Correction: crash React lors de la recherche d'adresse dans les paramètres de localisation",
+        "it": "Correzione: crash React nella ricerca indirizzo nelle impostazioni di posizione",
+        "es": "Corrección: fallo de React en la búsqueda de direcciones en la configuración de ubicaciones",
+        "pl": "Poprawka: awaria React przy wyszukiwaniu adresu w ustawieniach lokalizacji",
+        "uk": "Виправлення: збій React при пошуку адреси в налаштуваннях місцезнаходження",
+        "zh-cn": "修复：位置设置中地址搜索时React崩溃"
+      },
+      "0.0.40": {
+        "en": "amCharts animated/static SVG icons (CC BY 4.0); HTML widget datapoints with light/dark theme; OSM map preview and address geocoding in location settings",
+        "de": "amCharts animierte/statische SVG-Icons (CC BY 4.0); HTML-Widget-Datenpunkte mit Hell/Dunkel-Theme; OSM-Kartenvorschau und Adress-Geocodierung in den Standorteinstellungen",
+        "ru": "Анимированные/статические SVG-иконки amCharts (CC BY 4.0); точки данных HTML-виджета с светлой/тёмной темой; предварительный просмотр карты OSM и геокодирование адресов в настройках местоположения",
+        "pt": "Ícones SVG animados/estáticos amCharts (CC BY 4.0); pontos de dados do widget HTML com tema claro/escuro; pré-visualização do mapa OSM e geocodificação de endereços nas configurações de localização",
+        "nl": "amCharts geanimeerde/statische SVG-iconen (CC BY 4.0); HTML-widget datapunten met licht/donker thema; OSM-kaartvoorvertoning en adresgeocodering in locatie-instellingen",
+        "fr": "Icônes SVG animées/statiques amCharts (CC BY 4.0); points de données du widget HTML avec thème clair/sombre; aperçu de la carte OSM et géocodage d'adresses dans les paramètres de localisation",
+        "it": "Icone SVG animate/statiche amCharts (CC BY 4.0); punti dati widget HTML con tema chiaro/scuro; anteprima mappa OSM e geocodifica indirizzi nelle impostazioni posizione",
+        "es": "Iconos SVG animados/estáticos amCharts (CC BY 4.0); puntos de datos del widget HTML con tema claro/oscuro; vista previa del mapa OSM y geocodificación de direcciones en la configuración de ubicación",
+        "pl": "Animowane/statyczne ikony SVG amCharts (CC BY 4.0); punkty danych widżetu HTML z jasnym/ciemnym motywem; podgląd mapy OSM i geokodowanie adresów w ustawieniach lokalizacji",
+        "uk": "Анімовані/статичні SVG-іконки amCharts (CC BY 4.0); точки даних HTML-віджета зі світлою/темною темою; попередній перегляд карти OSM та геокодування адрес у налаштуваннях місцезнаходження",
+        "zh-cn": "amCharts 动态/静态 SVG 图标 (CC BY 4.0)；HTML 小部件数据点支持亮/暗主题；位置设置中的 OSM 地图预览和地址地理编码"
+      }
     },
-    "native": {
-        "locations": [],
-        "daysCount": 7,
-        "hourlyDays": 3,
-        "temperatureUnit": "celsius",
-        "windspeedUnit": "kmh",
-        "precipitationUnit": "mm",
-        "iconSet": "basmilius",
-        "updateInterval": 60,
-        "enableAirQuality": true,
-        "enableAirQualityHourly": false,
-        "enableAstronomy": true,
-        "enableAstronomyHourly": false,
-        "enableAgriculture": false,
-        "enableAgricultureHourly": false,
-        "enablePollen": false,
-        "enablePollenHourly": false,
-        "warnStorm": false,
-        "warnThunderstorm": false,
-        "warnLeadHours": 2,
-        "warnStormBft": 8
+    "titleLang": {
+      "en": "OpenMeteo Weather",
+      "de": "OpenMeteo-Wetter",
+      "ru": "Погода OpenMeteo",
+      "pt": "Tempo OpenMeteo",
+      "nl": "OpenMeteo-weer",
+      "fr": "Météo OpenMeteo",
+      "it": "OpenMeteo Meteo",
+      "es": "OpenMeteo Tiempo",
+      "pl": "Pogoda OpenMeteo",
+      "uk": "Погода OpenMeteo",
+      "zh-cn": "OpenMeteo 天气"
     },
-    "notifications": [
-        {
-            "scope": "openmeteo",
-            "name": {
-                "en": "OpenMeteo Weather Warnings",
-                "de": "OpenMeteo Wetterwarnungen",
-                "ru": "Погодные предупреждения OpenMeteo",
-                "pt": "Avisos meteorológicos OpenMeteo",
-                "nl": "OpenMeteo weerwaarschuwingen",
-                "fr": "Alertes météo OpenMeteo",
-                "it": "Avvisi meteo OpenMeteo",
-                "es": "Alertas meteorológicas OpenMeteo",
-                "pl": "Ostrzeżenia pogodowe OpenMeteo",
-                "uk": "Погодні попередження OpenMeteo",
-                "zh-cn": "OpenMeteo 天气警告"
-            },
-            "description": {
-                "en": "Storm and thunderstorm warnings from ioBroker.openmeteo",
-                "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo",
-                "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo",
-                "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo",
-                "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo",
-                "fr": "Alertes tempête et orage de ioBroker.openmeteo",
-                "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo",
-                "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo",
-                "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo",
-                "uk": "Попередження про шторм і грозу від ioBroker.openmeteo",
-                "zh-cn": "ioBroker.openmeteo 的风暴和雷暴警告"
-            },
-            "categories": [
-                {
-                    "category": "storm",
-                    "name": {
-                        "en": "Storm warning",
-                        "de": "Sturmwarnung",
-                        "ru": "Предупреждение о шторме",
-                        "pt": "Aviso de tempestade",
-                        "nl": "Stormsignaal",
-                        "fr": "Alerte tempête",
-                        "it": "Avviso tempesta",
-                        "es": "Alerta tormenta",
-                        "pl": "Ostrzeżenie przed burzą",
-                        "uk": "Попередження про шторм",
-                        "zh-cn": "风暴预警"
-                    },
-                    "severity": "alert",
-                    "description": {
-                        "en": "Storm warning based on wind gusts",
-                        "de": "Sturmwarnung basierend auf Windböen",
-                        "ru": "Предупреждение о шторме на основе порывов ветра",
-                        "pt": "Aviso de tempestade com base em rajadas de vento",
-                        "nl": "Stormsignaal op basis van windstoten",
-                        "fr": "Alerte tempête basée sur les rafales de vent",
-                        "it": "Avviso tempesta basato sulle raffiche di vento",
-                        "es": "Alerta tormenta basada en ráfagas de viento",
-                        "pl": "Ostrzeżenie przed burzą na podstawie porywów wiatru",
-                        "uk": "Попередження про шторм на основі поривів вітру",
-                        "zh-cn": "基于阵风的风暴预警"
-                    },
-                    "regex": [],
-                    "limit": 10
-                },
-                {
-                    "category": "thunderstorm",
-                    "name": {
-                        "en": "Thunderstorm warning",
-                        "de": "Gewitterwarnung",
-                        "ru": "Предупреждение о грозе",
-                        "pt": "Aviso de trovoada",
-                        "nl": "Onweerswaarschuwing",
-                        "fr": "Alerte orage",
-                        "it": "Avviso temporale",
-                        "es": "Alerta tormenta eléctrica",
-                        "pl": "Ostrzeżenie przed burzą z piorunami",
-                        "uk": "Попередження про грозу",
-                        "zh-cn": "雷暴预警"
-                    },
-                    "severity": "alert",
-                    "description": {
-                        "en": "Thunderstorm expected (WMO code 95/96/99)",
-                        "de": "Gewitter erwartet (WMO-Code 95/96/99)",
-                        "ru": "Ожидается гроза (код WMO 95/96/99)",
-                        "pt": "Trovoada esperada (código WMO 95/96/99)",
-                        "nl": "Onweer verwacht (WMO-code 95/96/99)",
-                        "fr": "Orage attendu (code WMO 95/96/99)",
-                        "it": "Temporale previsto (codice WMO 95/96/99)",
-                        "es": "Tormenta eléctrica esperada (código WMO 95/96/99)",
-                        "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
-                        "uk": "Очікується гроза (код WMO 95/96/99)",
-                        "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
-                    },
-                    "regex": [],
-                    "limit": 10
-                }
-            ]
-        }
+    "desc": {
+      "en": "Free weather forecast from Open-Meteo API",
+      "de": "Kostenlose Wettervorhersage von Open-Meteo API",
+      "ru": "Бесплатный прогноз погоды от Open-Meteo API",
+      "pt": "Previsão do tempo gratuita da API Open-Meteo",
+      "nl": "Gratis weersvoorspelling van Open-Meteo API",
+      "fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
+      "it": "Previsioni meteo gratuite dall'API Open-Meteo",
+      "es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
+      "pl": "Darmowa prognoza pogody z Open-Meteo API",
+      "uk": "Безкоштовний прогноз погоди від Open-Meteo API",
+      "zh-cn": "来自 Open-Meteo API 的免费天气预报"
+    },
+    "authors": [
+      "ipod86"
     ],
-    "objects": [],
-    "instanceObjects": [
+    "keywords": [
+      "weather",
+      "forecast",
+      "openmeteo",
+      "open-meteo"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "openmeteo.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
+    "readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "weather",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.20"
+      }
+    ]
+  },
+  "native": {
+    "locations": [],
+    "daysCount": 7,
+    "hourlyDays": 3,
+    "temperatureUnit": "celsius",
+    "windspeedUnit": "kmh",
+    "precipitationUnit": "mm",
+    "iconSet": "basmilius",
+    "updateInterval": 60,
+    "enableAirQuality": true,
+    "enableAirQualityHourly": false,
+    "enableAstronomy": true,
+    "enableAstronomyHourly": false,
+    "enableAgriculture": false,
+    "enableAgricultureHourly": false,
+    "enablePollen": false,
+    "enablePollenHourly": false,
+    "warnStorm": false,
+    "warnThunderstorm": false,
+    "warnLeadHours": 2,
+    "warnStormBft": 8
+  },
+  "notifications": [
+    {
+      "scope": "openmeteo",
+      "name": {
+        "en": "OpenMeteo Weather Warnings",
+        "de": "OpenMeteo Wetterwarnungen",
+        "ru": "Погодные предупреждения OpenMeteo",
+        "pt": "Avisos meteorológicos OpenMeteo",
+        "nl": "OpenMeteo weerwaarschuwingen",
+        "fr": "Alertes météo OpenMeteo",
+        "it": "Avvisi meteo OpenMeteo",
+        "es": "Alertas meteorológicas OpenMeteo",
+        "pl": "Ostrzeżenia pogodowe OpenMeteo",
+        "uk": "Погодні попередження OpenMeteo",
+        "zh-cn": "OpenMeteo 天气警告"
+      },
+      "description": {
+        "en": "Storm and thunderstorm warnings from ioBroker.openmeteo",
+        "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo",
+        "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo",
+        "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo",
+        "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo",
+        "fr": "Alertes tempête et orage de ioBroker.openmeteo",
+        "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo",
+        "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo",
+        "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo",
+        "uk": "Попередження про шторм і грозу від ioBroker.openmeteo",
+        "zh-cn": "ioBroker.openmeteo 的风暴和雷暴警告"
+      },
+      "categories": [
         {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+          "category": "storm",
+          "name": {
+            "en": "Storm warning",
+            "de": "Sturmwarnung",
+            "ru": "Предупреждение о шторме",
+            "pt": "Aviso de tempestade",
+            "nl": "Stormsignaal",
+            "fr": "Alerte tempête",
+            "it": "Avviso tempesta",
+            "es": "Alerta tormenta",
+            "pl": "Ostrzeżenie przed burzą",
+            "uk": "Попередження про шторм",
+            "zh-cn": "风暴预警"
+          },
+          "severity": "alert",
+          "description": {
+            "en": "Storm warning based on wind gusts",
+            "de": "Sturmwarnung basierend auf Windböen",
+            "ru": "Предупреждение о шторме на основе порывов ветра",
+            "pt": "Aviso de tempestade com base em rajadas de vento",
+            "nl": "Stormsignaal op basis van windstoten",
+            "fr": "Alerte tempête basée sur les rafales de vent",
+            "it": "Avviso tempesta basato sulle raffiche di vento",
+            "es": "Alerta tormenta basada en ráfagas de viento",
+            "pl": "Ostrzeżenie przed burzą na podstawie porywów wiatru",
+            "uk": "Попередження про шторм на основі поривів вітру",
+            "zh-cn": "基于阵风的风暴预警"
+          },
+          "regex": [],
+          "limit": 10
         },
         {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
+          "category": "thunderstorm",
+          "name": {
+            "en": "Thunderstorm warning",
+            "de": "Gewitterwarnung",
+            "ru": "Предупреждение о грозе",
+            "pt": "Aviso de trovoada",
+            "nl": "Onweerswaarschuwing",
+            "fr": "Alerte orage",
+            "it": "Avviso temporale",
+            "es": "Alerta tormenta eléctrica",
+            "pl": "Ostrzeżenie przed burzą z piorunami",
+            "uk": "Попередження про грозу",
+            "zh-cn": "雷暴预警"
+          },
+          "severity": "alert",
+          "description": {
+            "en": "Thunderstorm expected (WMO code 95/96/99)",
+            "de": "Gewitter erwartet (WMO-Code 95/96/99)",
+            "ru": "Ожидается гроза (код WMO 95/96/99)",
+            "pt": "Trovoada esperada (código WMO 95/96/99)",
+            "nl": "Onweer verwacht (WMO-code 95/96/99)",
+            "fr": "Orage attendu (code WMO 95/96/99)",
+            "it": "Temporale previsto (codice WMO 95/96/99)",
+            "es": "Tormenta eléctrica esperada (código WMO 95/96/99)",
+            "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
+            "uk": "Очікується гроза (код WMO 95/96/99)",
+            "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
+          },
+          "regex": [],
+          "limit": 10
         }
-    ]
+      ]
+    }
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
