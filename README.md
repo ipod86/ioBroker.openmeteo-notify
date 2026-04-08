@@ -209,6 +209,8 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 ### 0.0.42
 * Remove automatic reverse geocoding from location settings table
 
+For older changelog entries see [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
+
 ## License
 
 MIT License
