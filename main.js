@@ -1394,7 +1394,8 @@ class Openmeteo extends utils.Adapter {
 				rain: h.rain[i],
 				snowfall: h.snowfall[i],
 				snow_depth: Math.round(h.snow_depth[i] * 100),
-				snowfall_height: h.snowfall_height ? Math.round(h.snowfall_height[i]) : null,
+				snowfall_height:
+					h.snowfall_height && h.snowfall_height[i] !== null ? Math.round(h.snowfall_height[i]) : null,
 				solar_radiation: h.shortwave_radiation[i],
 				cape: h.cape[i],
 				lifted_index: h.lifted_index ? h.lifted_index[i] : null,
