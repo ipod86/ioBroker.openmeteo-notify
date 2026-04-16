@@ -740,12 +740,7 @@ class Openmeteo extends utils.Adapter {
 					}
 				} else {
 					try {
-						await this.delObjectAsync(`${locId}.dwd`, { recursive: true });
-					} catch {
-						/* ok */
-					}
-					try {
-						await this.delObjectAsync(`${locId}.meteoalarm`, { recursive: true });
+						await this.delObjectAsync(`${locId}.warnings`, { recursive: true });
 					} catch {
 						/* ok */
 					}
@@ -1320,12 +1315,13 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - Location channel ID
 	 */
 	async processDwdWarnings(warnings, locId) {
-		const prefix = `${locId}.dwd`;
-		await this.setObjectNotExistsAsync(prefix, {
+		const prefix = `${locId}.warnings`;
+		await this.extendObjectAsync(prefix, {
 			type: "channel",
-			common: { name: "DWD Warnungen" },
+			common: { name: "Amtliche Warnungen" },
 			native: {},
 		});
+		await this.setDP(`${prefix}.source`, "DWD", { name: "Quelle", type: "string", role: "text" });
 
 		const active = warnings.length > 0;
 		const maxLevel = active ? Math.max(...warnings.map(w => w.level || 0)) : 0;
@@ -1420,12 +1416,13 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - Location channel ID
 	 */
 	async processMeteoAlarmWarnings(warnings, locId) {
-		const prefix = `${locId}.meteoalarm`;
-		await this.setObjectNotExistsAsync(prefix, {
+		const prefix = `${locId}.warnings`;
+		await this.extendObjectAsync(prefix, {
 			type: "channel",
-			common: { name: "MeteoAlarm Warnungen" },
+			common: { name: "Amtliche Warnungen" },
 			native: {},
 		});
+		await this.setDP(`${prefix}.source`, "MeteoAlarm", { name: "Quelle", type: "string", role: "text" });
 
 		const active = warnings.length > 0;
 		const maxLevel = active ? Math.max(...warnings.map(w => METEOALARM_SEVERITY[w.severity] || 0)) : 0;
