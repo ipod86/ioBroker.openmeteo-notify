@@ -1216,11 +1216,6 @@ class Openmeteo extends utils.Adapter {
 			type: "string",
 			role: "text",
 		});
-		await this.setDP(`${prefix}.warnings_json`, JSON.stringify(warnings), {
-			name: "Warnungen (JSON)",
-			type: "string",
-			role: "json",
-		});
 
 		// Write up to 5 individual warning slots
 		for (let i = 1; i <= 5; i++) {
