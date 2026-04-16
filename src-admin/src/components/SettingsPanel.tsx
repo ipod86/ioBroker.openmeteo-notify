@@ -208,18 +208,6 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         {I18n.t('enablePollenHelp')}
                     </Typography>
 
-                    {/* DWD Warnungen */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-                        <FormControlLabel
-                            control={<Switch checked={!!native.enableDwd} onChange={e => update('enableDwd', e.target.checked)} />}
-                            label={I18n.t('enableDwd')}
-                            sx={{ minWidth: 280 }}
-                        />
-                    </Box>
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
-                        {I18n.t('enableDwdHelp')}
-                    </Typography>
-
                 </Box>
             </Box>
 
@@ -234,7 +222,20 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                     </Typography>
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <Typography variant="subtitle2" color="text.secondary" sx={{ mt: 0.5 }}>
+
+                    {/* Official warnings */}
+                    <FormControlLabel
+                        control={<Switch checked={!!native.warnOfficial} onChange={e => update('warnOfficial', e.target.checked)} />}
+                        label={I18n.t('warnOfficial')}
+                    />
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 0.5 }}>
+                        {I18n.t('warnOfficialHelp')}
+                    </Typography>
+
+                    <Divider sx={{ my: 1 }} />
+
+                    {/* Open-Meteo calculated warnings */}
+                    <Typography variant="subtitle2" color="text.secondary">
                         {I18n.t('warningsOpenMeteo')}
                     </Typography>
                     <FormControlLabel
@@ -295,22 +296,7 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                                     {I18n.t('warnLeadHoursTooHigh')}
                                 </Alert>
                             )}
-
                         </>
-                    )}
-
-                    {/* DWD Notifications */}
-                    <Typography variant="subtitle2" color="text.secondary" sx={{ mt: 1.5 }}>
-                        {I18n.t('warningsDwd')}
-                    </Typography>
-                    <FormControlLabel
-                        control={<Switch checked={!!native.warnDwd} onChange={e => update('warnDwd', e.target.checked)} />}
-                        label={I18n.t('warnDwd')}
-                    />
-                    {native.warnDwd && !native.enableDwd && (
-                        <Alert severity="error" sx={{ mt: 0.5 }}>
-                            {I18n.t('warnDwdNeedsEnabled')}
-                        </Alert>
                     )}
                 </Box>
             </Box>

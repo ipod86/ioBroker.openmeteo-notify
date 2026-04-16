@@ -45,6 +45,75 @@ const ICONS = {
 const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99]);
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
+// MeteoAlarm country feed names (ISO 3166-1 alpha-2 → feed slug)
+const METEOALARM_COUNTRIES = {
+	at: "austria",
+	be: "belgium",
+	bg: "bulgaria",
+	hr: "croatia",
+	cy: "cyprus",
+	cz: "czechia",
+	dk: "denmark",
+	ee: "estonia",
+	fi: "finland",
+	fr: "france",
+	gr: "greece",
+	hu: "hungary",
+	is: "iceland",
+	ie: "ireland",
+	il: "israel",
+	it: "italy",
+	lv: "latvia",
+	lt: "lithuania",
+	lu: "luxembourg",
+	mt: "malta",
+	md: "moldova",
+	me: "montenegro",
+	nl: "netherlands",
+	mk: "north-macedonia",
+	no: "norway",
+	pl: "poland",
+	pt: "portugal",
+	ro: "romania",
+	rs: "serbia",
+	sk: "slovakia",
+	si: "slovenia",
+	es: "spain",
+	se: "sweden",
+	ch: "switzerland",
+	tr: "turkey",
+	ua: "ukraine",
+	gb: "united-kingdom",
+};
+
+// MeteoAlarm severity to numeric level (mirrors DWD levels 1–4)
+const METEOALARM_SEVERITY = { Minor: 1, Moderate: 2, Severe: 3, Extreme: 4 };
+
+/**
+ * Ray-casting point-in-polygon test.
+ * polygonStr is a MeteoAlarm polygon string: "lat1,lon1 lat2,lon2 ..."
+ *
+ * @param {number} lat
+ * @param {number} lon
+ * @param {string} polygonStr
+ * @returns {boolean}
+ */
+function pointInPolygon(lat, lon, polygonStr) {
+	const pts = polygonStr
+		.trim()
+		.split(/\s+/)
+		.map(p => p.split(",").map(Number));
+	let inside = false;
+	for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+		const [xi, yi] = pts[i];
+		const [xj, yj] = pts[j];
+		if (yi > lon !== yj > lon && lat < ((xj - xi) * (lon - yi)) / (yj - yi) + xi) {
+			inside = !inside;
+		}
+	}
+	return inside;
+}
+
 /**
  * Normalizes a location name to a valid ioBroker object ID segment
  *
@@ -477,8 +546,7 @@ class Openmeteo extends utils.Adapter {
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 		const iconSet = this.config.iconSet || "basmilius";
 		const enablePollen = !!this.config.enablePollen;
-		const enableDwd = !!this.config.enableDwd;
-		const warnDwd = enableDwd && !!this.config.warnDwd;
+		const warnOfficial = !!this.config.warnOfficial;
 		const enableAirQuality = this.config.enableAirQuality !== false;
 		const enableAirQualityHourly = enableAirQuality && !!this.config.enableAirQualityHourly;
 		const enableAstronomy = this.config.enableAstronomy !== false;
@@ -648,26 +716,36 @@ class Openmeteo extends utils.Adapter {
 					}
 				}
 
-				if (enableDwd) {
+				if (warnOfficial) {
 					try {
-						this.log.debug(`DWD: Starte Warncell-ID-Auflösung für "${loc.name}" (${loc.lat},${loc.lon})`);
-						const warncellId = await this.fetchWarncellId(loc.lat, loc.lon);
-						this.log.debug(`DWD: Warncell-ID für "${loc.name}": ${warncellId}`);
-						if (warncellId) {
-							const dwdWarnings = await this.fetchDwdWarnings(warncellId);
+						const locInfo = await this.fetchLocationInfo(loc.lat, loc.lon);
+						this.log.debug(
+							`Standortinfo für "${loc.name}": Land=${locInfo.countryCode}, WarnCell=${locInfo.warncellId}`,
+						);
+						if (locInfo.countryCode === "de" && locInfo.warncellId) {
+							const dwdWarnings = await this.fetchDwdWarnings(locInfo.warncellId);
 							this.log.debug(`DWD: ${dwdWarnings.length} Warnung(en) für "${loc.name}"`);
-							await this.processDwdWarnings(dwdWarnings, locId, warnDwd);
+							await this.processDwdWarnings(dwdWarnings, locId);
+						} else if (METEOALARM_COUNTRIES[locInfo.countryCode]) {
+							const warnings = await this.fetchMeteoAlarmWarnings(loc.lat, loc.lon, locInfo.countryCode);
+							this.log.debug(`MeteoAlarm: ${warnings.length} Warnung(en) für "${loc.name}"`);
+							await this.processMeteoAlarmWarnings(warnings, locId);
 						} else {
-							this.log.warn(
-								`DWD: Kein Warncell-ID für "${loc.name}" ermittelbar (nur Deutschland unterstützt)`,
+							this.log.debug(
+								`Amtliche Warnungen: Kein unterstützter Dienst für Land "${locInfo.countryCode}" (${loc.name})`,
 							);
 						}
 					} catch (err) {
-						this.log.warn(`DWD-Warnungen nicht verfügbar für "${loc.name}": ${err.message}`);
+						this.log.warn(`Amtliche Warnungen nicht verfügbar für "${loc.name}": ${err.message}`);
 					}
 				} else {
 					try {
 						await this.delObjectAsync(`${locId}.dwd`, { recursive: true });
+					} catch {
+						/* ok */
+					}
+					try {
+						await this.delObjectAsync(`${locId}.meteoalarm`, { recursive: true });
 					} catch {
 						/* ok */
 					}
@@ -1108,17 +1186,17 @@ class Openmeteo extends utils.Adapter {
 	}
 
 	/**
-	 * Resolves the DWD Warncell-ID for given coordinates via Nominatim reverse geocoding.
-	 * Result is cached in this._warncellIds to avoid repeated lookups.
+	 * Resolves country code and DWD Warncell-ID for given coordinates via Nominatim.
+	 * Result is cached in this._locationInfo to avoid repeated lookups.
 	 *
 	 * @param {number} lat
 	 * @param {number} lon
-	 * @returns {Promise<string|null>} DWD Warncell-ID or null if not resolvable
+	 * @returns {Promise<{countryCode: string, warncellId: string|null}>}
 	 */
-	fetchWarncellId(lat, lon) {
+	fetchLocationInfo(lat, lon) {
 		const cacheKey = `${lat},${lon}`;
-		if (this._warncellIds && this._warncellIds[cacheKey]) {
-			return Promise.resolve(this._warncellIds[cacheKey]);
+		if (this._locationInfo[cacheKey]) {
+			return Promise.resolve(this._locationInfo[cacheKey]);
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&extratags=1&zoom=9`;
@@ -1130,18 +1208,67 @@ class Openmeteo extends utils.Adapter {
 					res.on("end", () => {
 						try {
 							const d = JSON.parse(raw);
+							const countryCode = ((d.address || {}).country_code || "").toLowerCase();
 							const ags = (d.extratags || {})["de:amtlicher_gemeindeschluessel"];
-							if (!ags) {
-								resolve(null);
-								return;
+							const warncellId = ags ? `1${ags.padEnd(8, "0").substring(0, 8)}` : null;
+							const info = { countryCode, warncellId };
+							this._locationInfo[cacheKey] = info;
+							resolve(info);
+						} catch (e) {
+							reject(e);
+						}
+					});
+				})
+				.on("error", reject);
+		});
+	}
+
+	/**
+	 * Fetches active MeteoAlarm warnings for the given coordinates and country.
+	 * Uses polygon-based point-in-polygon matching.
+	 *
+	 * @param {number} lat
+	 * @param {number} lon
+	 * @param {string} countryCode - ISO 3166-1 alpha-2
+	 * @returns {Promise<Array>} Matched warning info objects
+	 */
+	fetchMeteoAlarmWarnings(lat, lon, countryCode) {
+		const countryName = METEOALARM_COUNTRIES[countryCode];
+		if (!countryName) {
+			return Promise.resolve([]);
+		}
+		return new Promise((resolve, reject) => {
+			const url = `https://feeds.meteoalarm.org/api/v1/warnings/feeds-${countryName}`;
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			https
+				.get(url, options, res => {
+					let raw = "";
+					res.on("data", c => (raw += c));
+					res.on("end", () => {
+						try {
+							const data = JSON.parse(raw);
+							const matched = [];
+							for (const w of data.warnings || []) {
+								for (const info of w.alert.info || []) {
+									let hit = false;
+									for (const area of info.area || []) {
+										for (const poly of area.polygon || []) {
+											if (pointInPolygon(lat, lon, poly)) {
+												hit = true;
+												break;
+											}
+										}
+										if (hit) {
+											break;
+										}
+									}
+									if (hit) {
+										matched.push(info);
+										break; // one info block per alert is enough
+									}
+								}
 							}
-							// DWD Warncell-ID: "1" + 8-digit AGS (pad with trailing zeros)
-							const warncellId = `1${ags.padEnd(8, "0").substring(0, 8)}`;
-							if (!this._warncellIds) {
-								this._warncellIds = {};
-							}
-							this._warncellIds[cacheKey] = warncellId;
-							resolve(warncellId);
+							resolve(matched);
 						} catch (e) {
 							reject(e);
 						}
@@ -1184,16 +1311,15 @@ class Openmeteo extends utils.Adapter {
 		});
 	}
 
-	_warncellIds = {};
+	_locationInfo = {};
 
 	/**
-	 * Writes DWD warning states for a location.
+	 * Writes DWD warning states for a location and sends notifications.
 	 *
 	 * @param {Array} warnings - Array of DWD warning objects
 	 * @param {string} locId - Location channel ID
-	 * @param {boolean} warnDwd - Whether to send notifications for DWD warnings
 	 */
-	async processDwdWarnings(warnings, locId, warnDwd) {
+	async processDwdWarnings(warnings, locId) {
 		const prefix = `${locId}.dwd`;
 		await this.setObjectNotExistsAsync(prefix, {
 			type: "channel",
@@ -1267,30 +1393,111 @@ class Openmeteo extends utils.Adapter {
 		}
 
 		// Send notifications for new DWD warnings
-		if (warnDwd) {
-			const activeKeys = new Set();
-			for (const w of warnings) {
-				const key = `${locId}_dwd_${w.event}_${w.start}`;
-				activeKeys.add(key);
-				if (!this.warnState[key]) {
-					this.warnState[key] = true;
-					const levelTexts = {
-						1: "Vorinformation",
-						2: "Warnung",
-						3: "Markante Warnung",
-						4: "Extreme Warnung",
-					};
-					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
-					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}`;
-					this.log.warn(msg);
-					await this.registerNotification("openmeteo", "dwd_warning", msg);
-				}
+		const activeKeys = new Set();
+		for (const w of warnings) {
+			const key = `${locId}_dwd_${w.event}_${w.start}`;
+			activeKeys.add(key);
+			if (!this.warnState[key]) {
+				this.warnState[key] = true;
+				const levelTexts = { 1: "Vorinformation", 2: "Warnung", 3: "Markante Warnung", 4: "Extreme Warnung" };
+				const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
+				const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}`;
+				this.log.warn(msg);
+				await this.registerNotification("openmeteo", "official_warning", msg);
 			}
-			// Clear warnState for DWD keys of this location that are no longer active
-			for (const key of Object.keys(this.warnState)) {
-				if (key.startsWith(`${locId}_dwd_`) && !activeKeys.has(key)) {
-					delete this.warnState[key];
-				}
+		}
+		for (const key of Object.keys(this.warnState)) {
+			if (key.startsWith(`${locId}_dwd_`) && !activeKeys.has(key)) {
+				delete this.warnState[key];
+			}
+		}
+	}
+
+	/**
+	 * Writes MeteoAlarm warning states for a location and sends notifications.
+	 *
+	 * @param {Array} warnings - Array of matched MeteoAlarm info objects
+	 * @param {string} locId - Location channel ID
+	 */
+	async processMeteoAlarmWarnings(warnings, locId) {
+		const prefix = `${locId}.meteoalarm`;
+		await this.setObjectNotExistsAsync(prefix, {
+			type: "channel",
+			common: { name: "MeteoAlarm Warnungen" },
+			native: {},
+		});
+
+		const active = warnings.length > 0;
+		const maxLevel = active ? Math.max(...warnings.map(w => METEOALARM_SEVERITY[w.severity] || 0)) : 0;
+		const levelTexts = { 1: "Minor", 2: "Moderate", 3: "Severe", 4: "Extreme" };
+
+		await this.setDP(`${prefix}.active`, active, {
+			name: "Warnung aktiv",
+			type: "boolean",
+			role: "indicator.alarm",
+		});
+		await this.setDP(`${prefix}.count`, warnings.length, {
+			name: "Anzahl Warnungen",
+			type: "number",
+			role: "value",
+		});
+		await this.setDP(`${prefix}.max_level`, maxLevel, { name: "Höchste Warnstufe", type: "number", role: "value" });
+		await this.setDP(`${prefix}.max_level_text`, levelTexts[maxLevel] || "keine", {
+			name: "Höchste Warnstufe Text",
+			type: "string",
+			role: "text",
+		});
+
+		for (let i = 1; i <= 5; i++) {
+			const w = warnings[i - 1] || null;
+			const wp = `${prefix}.warning_${i}`;
+			await this.setObjectNotExistsAsync(wp, { type: "channel", common: { name: `Warnung ${i}` }, native: {} });
+			const level = w ? METEOALARM_SEVERITY[w.severity] || 0 : 0;
+			await this.setDP(`${wp}.active`, !!w, { name: "Aktiv", type: "boolean", role: "indicator.alarm" });
+			await this.setDP(`${wp}.level`, level, { name: "Warnstufe", type: "number", role: "value" });
+			await this.setDP(`${wp}.level_text`, w ? w.severity || "" : "", {
+				name: "Warnstufe Text",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.event`, w ? w.event || "" : "", { name: "Ereignis", type: "string", role: "text" });
+			await this.setDP(`${wp}.headline`, w ? w.headline || "" : "", {
+				name: "Überschrift",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.description`, w ? w.description || "" : "", {
+				name: "Beschreibung",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.start`, w ? w.onset || "" : "", {
+				name: "Gültig ab",
+				type: "string",
+				role: "date",
+			});
+			await this.setDP(`${wp}.end`, w ? w.expires || "" : "", {
+				name: "Gültig bis",
+				type: "string",
+				role: "date",
+			});
+		}
+
+		// Send notifications for new MeteoAlarm warnings
+		const activeKeys = new Set();
+		for (const w of warnings) {
+			const key = `${locId}_meteoalarm_${w.event}_${w.onset}`;
+			activeKeys.add(key);
+			if (!this.warnState[key]) {
+				this.warnState[key] = true;
+				const msg = `MeteoAlarm ${w.severity} für ${locId}: ${w.headline || w.event}`;
+				this.log.warn(msg);
+				await this.registerNotification("openmeteo", "official_warning", msg);
+			}
+		}
+		for (const key of Object.keys(this.warnState)) {
+			if (key.startsWith(`${locId}_meteoalarm_`) && !activeKeys.has(key)) {
+				delete this.warnState[key];
 			}
 		}
 	}
