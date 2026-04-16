@@ -229,6 +229,13 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ## Changelog
 ### **WORK IN PROGRESS**
+* (ipod86) Official weather warnings: DE uses DWD, EU countries use MeteoAlarm – auto-detected from coordinates
+* (ipod86) Unified `location.warnings.*` folder for all official warnings with `source` data point
+* (ipod86) Single `warnOfficial` toggle replaces separate `enableDwd` / `warnDwd` settings
+* (ipod86) New daily data points: `temp_mean`, `feels_like_mean`, `precipitation_hours`, `showers`, `uv_index_clear_sky`, `snowfall_height_min`
+* (ipod86) New hourly data points: `snowfall_height`, `freezing_level_height`, `uv_index`
+* (ipod86) Astronomy: added `solar_noon` and `solar_elevation_max` (computed via SunCalc)
+* (ipod86) Fix: day channel names no longer frozen to creation date
 
 ### 0.0.46 (2026-04-08)
 * (ipod86) add CHANGELOG_OLD.md; add release-script

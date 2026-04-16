@@ -233,6 +233,13 @@ Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Mete
 ## Changelog
 
 ### **WORK IN PROGRESS**
+* (ipod86) Amtliche Warnungen: DE über DWD, EU über MeteoAlarm – automatische Erkennung per Koordinaten
+* (ipod86) Einheitlicher `standort.warnings.*`-Ordner für alle amtlichen Warnungen mit `source`-Datenpunkt
+* (ipod86) Einzelner `warnOfficial`-Schalter ersetzt die separaten Einstellungen `enableDwd` / `warnDwd`
+* (ipod86) Neue tägliche Datenpunkte: `temp_mean`, `feels_like_mean`, `precipitation_hours`, `showers`, `uv_index_clear_sky`, `snowfall_height_min`
+* (ipod86) Neue stündliche Datenpunkte: `snowfall_height`, `freezing_level_height`, `uv_index`
+* (ipod86) Astronomie: `solar_noon` und `solar_elevation_max` ergänzt (via SunCalc berechnet)
+* (ipod86) Fix: Tageskanal-Namen nicht mehr eingefroren auf Erstellungsdatum
 
 ### 0.0.46 (2026-04-08)
 * (ipod86) CHANGELOG_OLD.md hinzugefügt; release-script eingerichtet
