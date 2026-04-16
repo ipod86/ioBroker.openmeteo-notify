@@ -282,12 +282,30 @@
           "category": "dwd_warning",
           "name": {
             "en": "DWD weather warning",
-            "de": "DWD Unwetterwarnung"
+            "de": "DWD Unwetterwarnung",
+            "ru": "Предупреждение DWD о погоде",
+            "pt": "Aviso meteorológico DWD",
+            "nl": "DWD weerwaarschuwing",
+            "fr": "Alerte météo DWD",
+            "it": "Avviso meteo DWD",
+            "es": "Alerta meteorológica DWD",
+            "pl": "Ostrzeżenie pogodowe DWD",
+            "uk": "Погодне попередження DWD",
+            "zh-cn": "DWD 天气预警"
           },
           "severity": "alert",
           "description": {
             "en": "Official weather warning from Deutscher Wetterdienst (DWD)",
-            "de": "Amtliche Unwetterwarnung des Deutschen Wetterdienstes (DWD)"
+            "de": "Amtliche Unwetterwarnung des Deutschen Wetterdienstes (DWD)",
+            "ru": "Официальное предупреждение о погоде от Немецкой метеорологической службы (DWD)",
+            "pt": "Aviso meteorológico oficial do Serviço Meteorológico Alemão (DWD)",
+            "nl": "Officiële weerwaarschuwing van de Duitse Meteorologische Dienst (DWD)",
+            "fr": "Alerte météo officielle du Service météorologique allemand (DWD)",
+            "it": "Avviso meteo ufficiale del Servizio meteorologico tedesco (DWD)",
+            "es": "Alerta meteorológica oficial del Servicio Meteorológico Alemán (DWD)",
+            "pl": "Oficjalne ostrzeżenie pogodowe Niemieckiej Służby Meteorologicznej (DWD)",
+            "uk": "Офіційне погодне попередження Німецької метеорологічної служби (DWD)",
+            "zh-cn": "德国气象局 (DWD) 官方天气预警"
           },
           "regex": [],
           "limit": 10
