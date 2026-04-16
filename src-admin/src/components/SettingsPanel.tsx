@@ -140,6 +140,9 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                     </Typography>
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ mt: 0.5 }}>
+                        {I18n.t('warningsOpenMeteo')}
+                    </Typography>
                     <FormControlLabel
                         control={<Switch checked={!!native.warnStorm} onChange={e => update('warnStorm', e.target.checked)} />}
                         label={I18n.t('warnStorm')}
@@ -200,6 +203,20 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                             )}
 
                         </>
+                    )}
+
+                    {/* DWD Notifications */}
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ mt: 1.5 }}>
+                        {I18n.t('warningsDwd')}
+                    </Typography>
+                    <FormControlLabel
+                        control={<Switch checked={!!native.warnDwd} onChange={e => update('warnDwd', e.target.checked)} />}
+                        label={I18n.t('warnDwd')}
+                    />
+                    {native.warnDwd && !native.enableDwd && (
+                        <Alert severity="error" sx={{ mt: 0.5 }}>
+                            {I18n.t('warnDwdNeedsEnabled')}
+                        </Alert>
                     )}
                 </Box>
             </Box>

@@ -478,6 +478,7 @@ class Openmeteo extends utils.Adapter {
 		const iconSet = this.config.iconSet || "basmilius";
 		const enablePollen = !!this.config.enablePollen;
 		const enableDwd = !!this.config.enableDwd;
+		const warnDwd = enableDwd && !!this.config.warnDwd;
 		const enableAirQuality = this.config.enableAirQuality !== false;
 		const enableAirQualityHourly = enableAirQuality && !!this.config.enableAirQualityHourly;
 		const enableAstronomy = this.config.enableAstronomy !== false;
@@ -655,7 +656,7 @@ class Openmeteo extends utils.Adapter {
 						if (warncellId) {
 							const dwdWarnings = await this.fetchDwdWarnings(warncellId);
 							this.log.debug(`DWD: ${dwdWarnings.length} Warnung(en) für "${loc.name}"`);
-							await this.processDwdWarnings(dwdWarnings, locId);
+							await this.processDwdWarnings(dwdWarnings, locId, warnDwd);
 						} else {
 							this.log.warn(
 								`DWD: Kein Warncell-ID für "${loc.name}" ermittelbar (nur Deutschland unterstützt)`,
@@ -1190,8 +1191,9 @@ class Openmeteo extends utils.Adapter {
 	 *
 	 * @param {Array} warnings - Array of DWD warning objects
 	 * @param {string} locId - Location channel ID
+	 * @param {boolean} warnDwd - Whether to send notifications for DWD warnings
 	 */
-	async processDwdWarnings(warnings, locId) {
+	async processDwdWarnings(warnings, locId, warnDwd) {
 		const prefix = `${locId}.dwd`;
 		await this.setObjectNotExistsAsync(prefix, {
 			type: "channel",
@@ -1262,6 +1264,34 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "date",
 			});
+		}
+
+		// Send notifications for new DWD warnings
+		if (warnDwd) {
+			const activeKeys = new Set();
+			for (const w of warnings) {
+				const key = `${locId}_dwd_${w.event}_${w.start}`;
+				activeKeys.add(key);
+				if (!this.warnState[key]) {
+					this.warnState[key] = true;
+					const levelTexts = {
+						1: "Vorinformation",
+						2: "Warnung",
+						3: "Markante Warnung",
+						4: "Extreme Warnung",
+					};
+					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
+					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}`;
+					this.log.warn(msg);
+					await this.registerNotification("openmeteo", "dwd_warning", msg);
+				}
+			}
+			// Clear warnState for DWD keys of this location that are no longer active
+			for (const key of Object.keys(this.warnState)) {
+				if (key.startsWith(`${locId}_dwd_`) && !activeKeys.has(key)) {
+					delete this.warnState[key];
+				}
+			}
 		}
 	}
 

@@ -43,6 +43,10 @@ class App extends GenericApp<GenericAppProps, AppState> {
             this.setConfigurationError(I18n.t('warnLeadHoursTooHigh'));
             return;
         }
+        if (native.warnDwd && !native.enableDwd) {
+            this.setConfigurationError(I18n.t('warnDwdNeedsEnabled'));
+            return;
+        }
 
         this.setConfigurationError('');
     }

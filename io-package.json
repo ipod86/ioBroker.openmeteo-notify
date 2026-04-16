@@ -178,6 +178,7 @@
     "enablePollen": false,
     "enablePollenHourly": false,
     "enableDwd": false,
+    "warnDwd": false,
     "warnStorm": false,
     "warnThunderstorm": false,
     "warnLeadHours": 2,
@@ -273,6 +274,20 @@
             "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
             "uk": "Очікується гроза (код WMO 95/96/99)",
             "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
+          },
+          "regex": [],
+          "limit": 10
+        },
+        {
+          "category": "dwd_warning",
+          "name": {
+            "en": "DWD weather warning",
+            "de": "DWD Unwetterwarnung"
+          },
+          "severity": "alert",
+          "description": {
+            "en": "Official weather warning from Deutscher Wetterdienst (DWD)",
+            "de": "Amtliche Unwetterwarnung des Deutschen Wetterdienstes (DWD)"
           },
           "regex": [],
           "limit": 10
