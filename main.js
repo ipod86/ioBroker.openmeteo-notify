@@ -1615,9 +1615,9 @@ class Openmeteo extends utils.Adapter {
 			const daylightH = Math.round(d.daylight_duration[i] / 360) / 10;
 			const precipType = precipitationType(d.weathercode[i]);
 
-			await this.setObjectNotExistsAsync(prefix, {
+			await this.extendObjectAsync(prefix, {
 				type: "channel",
-				common: { name: `Tag ${i + 1}: ${weekday} ${d.time[i]}` },
+				common: { name: `Tag ${i + 1}` },
 				native: {},
 			});
 
