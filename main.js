@@ -477,6 +477,7 @@ class Openmeteo extends utils.Adapter {
 		const precipitationUnit = this.config.precipitationUnit || "mm";
 		const iconSet = this.config.iconSet || "basmilius";
 		const enablePollen = !!this.config.enablePollen;
+		const enableDwd = !!this.config.enableDwd;
 		const enableAirQuality = this.config.enableAirQuality !== false;
 		const enableAirQualityHourly = enableAirQuality && !!this.config.enableAirQualityHourly;
 		const enableAstronomy = this.config.enableAstronomy !== false;
@@ -643,6 +644,28 @@ class Openmeteo extends utils.Adapter {
 								/* ok */
 							}
 						}
+					}
+				}
+
+				if (enableDwd) {
+					try {
+						const warncellId = await this.fetchWarncellId(loc.lat, loc.lon);
+						if (warncellId) {
+							const dwdWarnings = await this.fetchDwdWarnings(warncellId);
+							await this.processDwdWarnings(dwdWarnings, locId);
+						} else {
+							this.log.warn(
+								`DWD: Kein Warncell-ID für "${loc.name}" ermittelbar (nur Deutschland unterstützt)`,
+							);
+						}
+					} catch (err) {
+						this.log.warn(`DWD-Warnungen nicht verfügbar für "${loc.name}": ${err.message}`);
+					}
+				} else {
+					try {
+						await this.delObjectAsync(`${locId}.dwd`, { recursive: true });
+					} catch {
+						/* ok */
 					}
 				}
 
@@ -1078,6 +1101,170 @@ class Openmeteo extends utils.Adapter {
 				})
 				.on("error", reject);
 		});
+	}
+
+	/**
+	 * Resolves the DWD Warncell-ID for given coordinates via Nominatim reverse geocoding.
+	 * Result is cached in this._warncellIds to avoid repeated lookups.
+	 *
+	 * @param {number} lat
+	 * @param {number} lon
+	 * @returns {Promise<string|null>} DWD Warncell-ID or null if not resolvable
+	 */
+	fetchWarncellId(lat, lon) {
+		const cacheKey = `${lat},${lon}`;
+		if (this._warncellIds && this._warncellIds[cacheKey]) {
+			return Promise.resolve(this._warncellIds[cacheKey]);
+		}
+		return new Promise((resolve, reject) => {
+			const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&extratags=1&zoom=9`;
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			https
+				.get(url, options, res => {
+					let raw = "";
+					res.on("data", c => (raw += c));
+					res.on("end", () => {
+						try {
+							const d = JSON.parse(raw);
+							const ags = (d.extratags || {})["de:amtlicher_gemeindeschluessel"];
+							if (!ags) {
+								resolve(null);
+								return;
+							}
+							// DWD Warncell-ID: "1" + 8-digit AGS (pad with trailing zeros)
+							const warncellId = `1${ags.padEnd(8, "0").substring(0, 8)}`;
+							if (!this._warncellIds) {
+								this._warncellIds = {};
+							}
+							this._warncellIds[cacheKey] = warncellId;
+							resolve(warncellId);
+						} catch (e) {
+							reject(e);
+						}
+					});
+				})
+				.on("error", reject);
+		});
+	}
+
+	/**
+	 * Fetches current DWD weather warnings (all of Germany) and returns warnings for the given Warncell-ID.
+	 *
+	 * @param {string} warncellId
+	 * @returns {Promise<Array>} Array of warning objects for the location
+	 */
+	fetchDwdWarnings(warncellId) {
+		return new Promise((resolve, reject) => {
+			const url = "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json";
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			https
+				.get(url, options, res => {
+					let raw = "";
+					res.on("data", c => (raw += c));
+					res.on("end", () => {
+						try {
+							// Strip JSONP wrapper: warnWetter.loadWarnings({...});
+							const json = raw.replace(/^warnWetter\.loadWarnings\(/, "").replace(/\);?\s*$/, "");
+							const data = JSON.parse(json);
+							const warnings = [
+								...(data.warnings[warncellId] || []),
+								...(data.vorabInformation[warncellId] || []),
+							];
+							resolve(warnings);
+						} catch (e) {
+							reject(e);
+						}
+					});
+				})
+				.on("error", reject);
+		});
+	}
+
+	_warncellIds = {};
+
+	/**
+	 * Writes DWD warning states for a location.
+	 *
+	 * @param {Array} warnings - Array of DWD warning objects
+	 * @param {string} locId - Location channel ID
+	 */
+	async processDwdWarnings(warnings, locId) {
+		const prefix = `${locId}.dwd`;
+		await this.setObjectNotExistsAsync(prefix, {
+			type: "channel",
+			common: { name: "DWD Warnungen" },
+			native: {},
+		});
+
+		const active = warnings.length > 0;
+		const maxLevel = active ? Math.max(...warnings.map(w => w.level || 0)) : 0;
+		const levelTexts = { 1: "Vorinformation", 2: "Warnung", 3: "Markante Warnung", 4: "Extreme Warnung" };
+
+		await this.setDP(`${prefix}.active`, active, {
+			name: "Warnung aktiv",
+			type: "boolean",
+			role: "indicator.alarm",
+		});
+		await this.setDP(`${prefix}.count`, warnings.length, {
+			name: "Anzahl Warnungen",
+			type: "number",
+			role: "value",
+		});
+		await this.setDP(`${prefix}.max_level`, maxLevel, { name: "Höchste Warnstufe", type: "number", role: "value" });
+		await this.setDP(`${prefix}.max_level_text`, levelTexts[maxLevel] || "keine", {
+			name: "Höchste Warnstufe Text",
+			type: "string",
+			role: "text",
+		});
+		await this.setDP(`${prefix}.warnings_json`, JSON.stringify(warnings), {
+			name: "Warnungen (JSON)",
+			type: "string",
+			role: "json",
+		});
+
+		// Write up to 5 individual warning slots
+		for (let i = 1; i <= 5; i++) {
+			const w = warnings[i - 1] || null;
+			const wp = `${prefix}.warning_${i}`;
+			await this.setObjectNotExistsAsync(wp, {
+				type: "channel",
+				common: { name: `Warnung ${i}` },
+				native: {},
+			});
+			await this.setDP(`${wp}.active`, !!w, { name: "Aktiv", type: "boolean", role: "indicator.alarm" });
+			await this.setDP(`${wp}.level`, w ? w.level || 0 : 0, { name: "Warnstufe", type: "number", role: "value" });
+			await this.setDP(`${wp}.level_text`, w ? levelTexts[w.level] || "" : "", {
+				name: "Warnstufe Text",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.event`, w ? w.event || "" : "", { name: "Ereignis", type: "string", role: "text" });
+			await this.setDP(`${wp}.headline`, w ? w.headline || "" : "", {
+				name: "Überschrift",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.description`, w ? w.description || "" : "", {
+				name: "Beschreibung",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.instruction`, w ? w.instruction || "" : "", {
+				name: "Verhaltenshinweis",
+				type: "string",
+				role: "text",
+			});
+			await this.setDP(`${wp}.start`, w ? new Date(w.start).toISOString() : "", {
+				name: "Gültig ab",
+				type: "string",
+				role: "date",
+			});
+			await this.setDP(`${wp}.end`, w ? new Date(w.end).toISOString() : "", {
+				name: "Gültig bis",
+				type: "string",
+				role: "date",
+			});
+		}
 	}
 
 	/**

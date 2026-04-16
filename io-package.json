@@ -177,6 +177,7 @@
     "enableAgricultureHourly": false,
     "enablePollen": false,
     "enablePollenHourly": false,
+    "enableDwd": false,
     "warnStorm": false,
     "warnThunderstorm": false,
     "warnLeadHours": 2,

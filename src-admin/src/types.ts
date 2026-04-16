@@ -31,6 +31,7 @@ export interface OpenMeteoConfig {
     enableAgricultureHourly: boolean;
     enablePollen: boolean;
     enablePollenHourly: boolean;
+    enableDwd: boolean;
     widgets: Widget[];
     warnStorm: boolean;
     warnStormBft: number;

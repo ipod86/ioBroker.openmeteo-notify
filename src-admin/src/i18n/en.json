@@ -54,6 +54,8 @@
     "addressSearch": "Address / place",
     "geocode": "Look up coordinates",
     "locationNameRequired": "Name is required",
+    "enableDwd": "Enable DWD weather warnings",
+    "enableDwdHelp": "Official warnings from Deutscher Wetterdienst (Germany only). Resolved automatically from location coordinates.",
     "warnings": "Warnings",
     "warnStorm": "Storm warning (Bft ≥ 8)",
     "warnThunderstorm": "Thunderstorm warning",

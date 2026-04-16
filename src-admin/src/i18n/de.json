@@ -54,6 +54,8 @@
     "addressSearch": "Adresse / Ort",
     "geocode": "Koordinaten ermitteln",
     "locationNameRequired": "Name ist erforderlich",
+    "enableDwd": "DWD Unwetterwarnungen aktivieren",
+    "enableDwdHelp": "Offizielle Warnungen des Deutschen Wetterdienstes (nur Deutschland). Wird automatisch über die Standortkoordinaten ermittelt.",
     "warnings": "Warnungen",
     "warnStorm": "Sturmwarnung (Bft ≥ 8)",
     "warnThunderstorm": "Gewitterwarnung",

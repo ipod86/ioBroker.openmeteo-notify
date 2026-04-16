@@ -283,6 +283,18 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         {I18n.t('enablePollenHelp')}
                     </Typography>
 
+                    {/* DWD Warnungen */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+                        <FormControlLabel
+                            control={<Switch checked={!!native.enableDwd} onChange={e => update('enableDwd', e.target.checked)} />}
+                            label={I18n.t('enableDwd')}
+                            sx={{ minWidth: 280 }}
+                        />
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" sx={{ ml: 4, mb: 1 }}>
+                        {I18n.t('enableDwdHelp')}
+                    </Typography>
+
                 </Box>
             </Box>
         </Box>
