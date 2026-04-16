@@ -52,11 +52,24 @@ The adapter generates natural-language weather summaries (`current.summary`, `da
 | Group | Default | Data points |
 |-------|---------|-------------|
 | **Air Quality** | on | european_aqi, PM10, PM2.5, NO₂, CO, dust, ozone → `current.air_quality` / `hXX.air_quality` |
-| **Astronomy** | on | sunrise, sunset, moon phase, moonrise, moonset → `dayX.astronomy` / `hXX.astronomy` |
+| **Astronomy** | on | sunrise, sunset, solar noon, max sun elevation, moon phase, moonrise, moonset → `dayX.astronomy` / `hXX.astronomy` |
 | **Agriculture / Solar** | off | solar radiation, CAPE, soil temperature, irradiance → `*.agriculture` |
 | **Pollen** | off | alder, birch, grass, mugwort, olive, ragweed with level text → `dayX.pollen` / `hXX.pollen` |
+| **DWD warnings** | off | Official warnings from Deutscher Wetterdienst (Germany only) → `location.warnings.*` |
 
 When a group is disabled, its data point channels are automatically deleted on the next update.
+
+### Official weather warnings
+
+The adapter integrates official weather warnings from national meteorological services. Enable with the **"Official weather warnings"** toggle. The service is selected automatically based on the location coordinates:
+
+| Country | Service | Coverage |
+|---------|---------|----------|
+| Germany (DE) | [DWD](https://www.dwd.de) – Deutscher Wetterdienst | All warning types, 4 severity levels |
+| EU countries | [MeteoAlarm](https://www.meteoalarm.org) | All warning types, polygon-based matching |
+| Other | — | Not available (use calculated Open-Meteo warnings) |
+
+Warnings are stored under `location.warnings.*` regardless of the source. A `warnings.source` data point shows `"DWD"` or `"MeteoAlarm"`.
 
 ## Installation
 
@@ -88,6 +101,11 @@ Install via the ioBroker Admin interface (search for "openmeteo").
 | Agriculture – also hourly | Hourly agricultural data | off |
 | Pollen | Enable pollen data (Europe only) | off |
 | Pollen – also hourly | Hourly pollen per type | off |
+| DWD weather warnings | Enable DWD data (Germany only) | off |
+| Official warnings as notification | Send official warnings (DE: DWD, EU: MeteoAlarm) via ioBroker notification system | off |
+| Storm warning | Calculated from Open-Meteo forecast, worldwide | off |
+| Thunderstorm warning | Calculated from Open-Meteo forecast, worldwide | off |
+| Lead time (hours) | How many hours in advance to send storm/thunderstorm warnings | 2 |
 
 ## Data points
 
@@ -141,12 +159,17 @@ The adapter creates data points under `openmeteo.<instance>.<location>`.
 | `windspeed` / `windgusts` | Wind speed / gusts max |
 | `winddirection` / `_text` / `_icon` / `_icon_url` | Wind direction |
 | `windbeaufort` / `windbeaufort_icon_url` | Beaufort scale |
-| `uv_index` | UV index max |
+| `uv_index` / `uv_index_clear_sky` | UV index max / UV index under clear sky | |
 | `sunshine_hours` / `daylight_hours` | Sunshine / daylight duration | h |
 | `cloud_cover_max` | Max cloud cover | % |
+| `temp_mean` / `feels_like_mean` | Daily mean temperature / feels-like | °C/°F |
+| `precipitation_hours` | Hours with precipitation | h |
+| `showers` | Convective precipitation sum | mm/inch |
+| `snowfall_height_min` | Minimum snowfall level during precipitation | m |
 | `dew_point_mean` / `humidity_mean` / `pressure_mean` | Daily mean values | |
 | `air_quality.european_aqi_max` … `ozone_max` | Daily max AQI, PM10, PM2.5, NO₂, CO, dust, ozone *(if enabled)* | |
 | `astronomy.sunrise` / `astronomy.sunset` | Sunrise / sunset *(if enabled)* | |
+| `astronomy.solar_noon` / `astronomy.solar_elevation_max` | Solar noon time / max sun elevation angle *(if enabled)* | / ° |
 | `astronomy.moon_phase_val` / `_text` / `_icon_url` | Moon phase *(if enabled)* | |
 | `astronomy.moonrise` / `astronomy.moonset` | Moon rise / set *(if enabled)* | |
 | `agriculture.solar_radiation_sum` / `.evapotranspiration` | Solar / evapotranspiration *(if enabled)* | |
@@ -154,7 +177,7 @@ The adapter creates data points under `openmeteo.<instance>.<location>`.
 
 ### Hourly values (`day1.hourly.h00` … `h23`)
 
-Temperature, feels-like, precipitation, rain, snowfall, snow depth, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, weather code, icon/icon_url, description.
+Temperature, feels-like, precipitation, rain, snowfall, snow depth, snowfall height, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, UV index, freezing level height, weather code, icon/icon_url, description.
 
 Optional per hour (if enabled + "also hourly"):
 
@@ -164,6 +187,24 @@ Optional per hour (if enabled + "also hourly"):
 | `hXX.astronomy` | sunrise, sunset, moon_phase_val/text/icon_url, moonrise, moonset |
 | `hXX.agriculture` | solar_radiation, CAPE, soil_temp, irradiance |
 | `hXX.pollen` | alder … ragweed + level text (Keine/Niedrig/Mittel/Hoch) |
+
+### Official warnings (`warnings`)
+
+| Data point | Description |
+|-----------|-------------|
+| `warnings.source` | Warning service: `"DWD"` or `"MeteoAlarm"` |
+| `warnings.active` | At least one active warning |
+| `warnings.count` | Number of active warnings |
+| `warnings.max_level` | Highest severity level (1–4) |
+| `warnings.max_level_text` | Severity text |
+| `warnings.warning_N.active` | Warning slot N active |
+| `warnings.warning_N.event` | Event type |
+| `warnings.warning_N.level` / `.level_text` | Severity |
+| `warnings.warning_N.headline` | Warning headline |
+| `warnings.warning_N.description` | Warning description |
+| `warnings.warning_N.start` / `.end` | Validity period |
+
+*(Only created when "Official weather warnings" is enabled and a supported country is detected.)*
 
 ### Summary & widget
 

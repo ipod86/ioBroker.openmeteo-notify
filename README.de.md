@@ -52,11 +52,24 @@ Der Adapter erzeugt natürlichsprachige Wetterzusammenfassungen (`current.summar
 | Gruppe | Standard | Datenpunkte |
 |--------|----------|-------------|
 | **Luftqualität** | an | european_aqi, PM10, PM2.5, NO₂, CO, Staub, Ozon → `current.air_quality` / `hXX.air_quality` |
-| **Astronomie** | an | Sonnenauf/-untergang, Mondphase, Mondauf/-untergang → `dayX.astronomy` / `hXX.astronomy` |
+| **Astronomie** | an | Sonnenauf/-untergang, Sonnenhöchststand, Mittagszeit, Mondphase, Mondauf/-untergang → `dayX.astronomy` / `hXX.astronomy` |
 | **Agrar / Solar** | aus | Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung → `*.agriculture` |
 | **Pollen** | aus | Erle, Birke, Gräser, Beifuß, Olive, Ambrosia mit Textstufe → `dayX.pollen` / `hXX.pollen` |
+| **DWD-Warnungen** | aus | Offizielle Warnungen des Deutschen Wetterdienstes (nur Deutschland) → `standort.warnings.*` |
 
 Wird eine Gruppe deaktiviert, werden die zugehörigen Kanäle beim nächsten Update automatisch gelöscht.
+
+### Amtliche Unwetterwarnungen
+
+Der Adapter integriert amtliche Warnungen nationaler Wetterdienste. Aktivierung über den Schalter **„Amtliche Unwetterwarnungen als Notification senden"**. Der Dienst wird automatisch anhand der Standortkoordinaten ermittelt:
+
+| Land | Dienst | Abdeckung |
+|------|--------|-----------|
+| Deutschland (DE) | [DWD](https://www.dwd.de) – Deutscher Wetterdienst | Alle Warntypen, 4 Warnstufen |
+| EU-Länder | [MeteoAlarm](https://www.meteoalarm.org) | Alle Warntypen, Polygon-basiertes Matching |
+| Andere | — | Nicht verfügbar (berechnete Open-Meteo-Warnungen nutzen) |
+
+Warnungen werden unabhängig vom Dienst unter `standort.warnings.*` gespeichert. Ein Datenpunkt `warnings.source` zeigt `"DWD"` oder `"MeteoAlarm"`.
 
 ## Installation
 
@@ -88,6 +101,11 @@ Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo" su
 | Agrar – auch stündlich | Stündliche Agrardaten | aus |
 | Pollen | Pollendaten aktivieren (nur Europa) | aus |
 | Pollen – auch stündlich | Stündliche Pollen pro Typ | aus |
+| DWD-Warnungen | DWD-Daten aktivieren (nur Deutschland) | aus |
+| Amtliche Warnungen als Notification | Amtliche Warnungen senden (DE: DWD, EU: MeteoAlarm) | aus |
+| Sturmwarnung | Aus Open-Meteo-Vorhersage berechnet, weltweit | aus |
+| Gewitterwarnung | Aus Open-Meteo-Vorhersage berechnet, weltweit | aus |
+| Vorlaufzeit (Stunden) | Wie viele Stunden im Voraus warnen (Sturm/Gewitter) | 2 |
 
 ## Datenpunkte
 
@@ -142,14 +160,19 @@ Der Adapter legt Datenpunkte unter `openmeteo.<instanz>.<standort>` an.
 | `windspeed` / `windgusts` | Windgeschwindigkeit / Böen max |
 | `winddirection` / `_text` / `_icon` / `_icon_url` | Windrichtung |
 | `windbeaufort` / `windbeaufort_icon_url` | Beaufort-Skala |
-| `uv_index` | UV-Index max |
+| `uv_index` / `uv_index_clear_sky` | UV-Index max / UV-Index bei wolkenlosem Himmel | |
 | `sunshine_hours` / `daylight_hours` | Sonnenschein- / Tageslichtdauer | h |
 | `cloud_cover_max` | Bewölkung max | % |
+| `temp_mean` / `feels_like_mean` | Tagesmitteltemperatur / gefühlte Temperatur | °C/°F |
+| `precipitation_hours` | Stunden mit Niederschlag | h |
+| `showers` | Konvektiver Niederschlag | mm/inch |
+| `snowfall_height_min` | Niedrigste Schneefallgrenze bei Niederschlag | m |
 | `dew_point_mean` / `humidity_mean` / `pressure_mean` | Tages-Mittelwerte | |
 | `summary_day` / `summary_night` | Tages- / Nacht-Wetterzusammenfassung (11 Sprachen) | |
 | `has_storm` / `has_thunderstorm` | Sturm- / Gewitterwarnung für den Tag | boolean |
 | `air_quality.european_aqi_max` … `ozone_max` | Tagesmax. AQI, PM10, PM2.5, NO₂, CO, Staub, Ozon *(wenn aktiviert)* | |
 | `astronomy.sunrise` / `astronomy.sunset` | Sonnenauf/-untergang *(wenn aktiviert)* | |
+| `astronomy.solar_noon` / `astronomy.solar_elevation_max` | Sonnenmittag / max. Sonnenhöhenwinkel *(wenn aktiviert)* | / ° |
 | `astronomy.moon_phase_val` / `_text` / `_icon_url` | Mondphase *(wenn aktiviert)* | |
 | `astronomy.moonrise` / `astronomy.moonset` | Mondauf/-untergang *(wenn aktiviert)* | |
 | `agriculture.solar_radiation_sum` / `.evapotranspiration` | Solar / Evapotranspiration *(wenn aktiviert)* | |
@@ -157,7 +180,7 @@ Der Adapter legt Datenpunkte unter `openmeteo.<instanz>.<standort>` an.
 
 ### Stundenwerte (`day1.hourly.h00` … `h23`)
 
-Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schneefall, Schneehöhe, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
+Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schneefall, Schneehöhe, Schneefallgrenze, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, UV-Index, Gefriergrenze, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
 
 Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 
@@ -167,6 +190,24 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 | `hXX.astronomy` | Sonnenauf/-untergang, Mondphase (val/text/icon), Mondauf/-untergang |
 | `hXX.agriculture` | Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung |
 | `hXX.pollen` | Erle … Ambrosia + Textstufe (Keine/Niedrig/Mittel/Hoch) |
+
+### Amtliche Warnungen (`warnings`)
+
+| Datenpunkt | Beschreibung |
+|-----------|--------------|
+| `warnings.source` | Warnquelle: `"DWD"` oder `"MeteoAlarm"` |
+| `warnings.active` | Mindestens eine aktive Warnung |
+| `warnings.count` | Anzahl aktiver Warnungen |
+| `warnings.max_level` | Höchste Warnstufe (1–4) |
+| `warnings.max_level_text` | Warnstufe als Text |
+| `warnings.warning_N.active` | Warnslot N aktiv |
+| `warnings.warning_N.event` | Ereignistyp |
+| `warnings.warning_N.level` / `.level_text` | Warnstufe |
+| `warnings.warning_N.headline` | Warnüberschrift |
+| `warnings.warning_N.description` | Warntextbeschreibung |
+| `warnings.warning_N.start` / `.end` | Gültigkeitszeitraum |
+
+*(Nur wenn „Amtliche Warnungen" aktiviert und ein unterstütztes Land erkannt wird.)*
 
 ### Zusammenfassung & Widget
 
