@@ -40,6 +40,8 @@
     "openmeteo-notify adapter settings": "Настройки адаптера OpenMeteo Notify",
     "optionalData": "Дополнительные данные",
     "precipitationUnit": "Блок осадков",
+    "tabGeneral": "Общие",
+    "tabNotifications": "Уведомления",
     "tabSettings": "Настройки",
     "tabWidgets": "Виджеты",
     "temperatureUnit": "Единица измерения температуры",

@@ -40,6 +40,8 @@
     "openmeteo-notify adapter settings": "OpenMeteo 通知适配器设置",
     "optionalData": "可选数据",
     "precipitationUnit": "降水量单位",
+    "tabGeneral": "常规",
+    "tabNotifications": "通知",
     "tabSettings": "设置",
     "tabWidgets": "小部件",
     "temperatureUnit": "温度单位",

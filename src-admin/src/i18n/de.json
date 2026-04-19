@@ -40,6 +40,8 @@
     "openmeteo-notify adapter settings": "Einstellungen des OpenMeteo Notify-Adapters",
     "optionalData": "Optionale Daten",
     "precipitationUnit": "Niederschlagseinheit",
+    "tabGeneral": "Allgemein",
+    "tabNotifications": "Benachrichtigungen",
     "tabSettings": "Einstellungen",
     "tabWidgets": "Widgets",
     "temperatureUnit": "Temperatureinheit",

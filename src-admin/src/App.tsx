@@ -3,6 +3,7 @@ import { GenericApp, GenericAppProps, GenericAppState, AdminConnection, I18n } f
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { Box, Tab, Tabs } from '@mui/material';
 import SettingsPanel from './components/SettingsPanel';
+import WarningsPanel from './components/WarningsPanel';
 import WidgetsTable from './components/WidgetsTable';
 import { OpenMeteoConfig } from './types';
 
@@ -68,7 +69,8 @@ class App extends GenericApp<GenericAppProps, AppState> {
                     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', bgcolor: 'background.default', color: 'text.primary' }}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}>
                             <Tabs value={tab} onChange={(_, v) => this.setState({ tab: v } as any)}>
-                                <Tab label={I18n.t('tabSettings')} />
+                                <Tab label={I18n.t('tabGeneral')} />
+                                <Tab label={I18n.t('tabNotifications')} />
                                 <Tab label={I18n.t('tabWidgets')} />
                             </Tabs>
                         </Box>
@@ -81,6 +83,12 @@ class App extends GenericApp<GenericAppProps, AppState> {
                                 />
                             )}
                             {tab === 1 && (
+                                <WarningsPanel
+                                    native={native}
+                                    onChange={handleChange}
+                                />
+                            )}
+                            {tab === 2 && (
                                 <WidgetsTable
                                     widgets={native.widgets || []}
                                     locations={native.locations || []}

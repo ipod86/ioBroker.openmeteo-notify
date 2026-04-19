@@ -40,6 +40,8 @@
     "openmeteo-notify adapter settings": "Налаштування адаптера OpenMeteo Notify",
     "optionalData": "Необов'язкові дані",
     "precipitationUnit": "Агрегат опадів",
+    "tabGeneral": "Загальні",
+    "tabNotifications": "Сповіщення",
     "tabSettings": "Налаштування",
     "tabWidgets": "Віджети",
     "temperatureUnit": "Одиниця вимірювання температури",
