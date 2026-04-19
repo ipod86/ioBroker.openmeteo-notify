@@ -1028,13 +1028,13 @@ class Openmeteo extends utils.Adapter {
 <tr>
 <td width="5%"></td>
 <td width="45%" style="text-align:left;padding:1px 0;">${mdi(MDI.wind)}<span style="margin-left:5px;">${curWind} <span style="font-size:10px;color:${fadeColor};">km/h</span></span></td>
-<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span>${mdi(MDI.humid, 16, 4)}</td>
+<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span>${mdi(MDI.humid)}</td>
 <td width="5%"></td>
 </tr>
 <tr>
 <td></td>
 <td style="text-align:left;padding:1px 0;">${mdi(MDI.sun)}<span style="margin-left:5px;">${sunH} <span style="font-size:10px;color:${fadeColor};">h</span></span></td>
-<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span>${mdi(MDI.press, 16, 4)}</td>
+<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span>${mdi(MDI.press)}</td>
 <td></td>
 </tr>
 </table>`;
