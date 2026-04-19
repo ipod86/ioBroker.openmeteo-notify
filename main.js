@@ -203,20 +203,20 @@ function weatherIconUrl(code, iconSet, isDay) {
 		if (!isDay && WMO_HAS_NIGHT.has(code)) {
 			const ext = iconSet === "basmilius_animated" ? "svg" : "png";
 			const nightSet = iconSet === "basmilius_animated" ? "basmilius_animated_night" : "basmilius_night";
-			return `/openmeteo.admin/icons/${nightSet}/wmo_${padded}.${ext}`;
+			return `/openmeteo-notify.admin/icons/${nightSet}/wmo_${padded}.${ext}`;
 		}
 		const ext = iconSet === "basmilius_animated" ? "svg" : "png";
-		return `/openmeteo.admin/icons/${iconSet}/wmo_${padded}.${ext}`;
+		return `/openmeteo-notify.admin/icons/${iconSet}/wmo_${padded}.${ext}`;
 	}
 	if (iconSet === "amcharts_animated" || iconSet === "amcharts_static") {
 		const entry = AMCHARTS_MAP[code] || AMCHARTS_MAP[WMO_CODE_FALLBACK[code]] || { day: "cloudy", night: "cloudy" };
 		const name = isDay ? entry.day : entry.night;
 		const folder = iconSet === "amcharts_animated" ? "animated" : "static";
-		return `/openmeteo.admin/icons/amcharts/${folder}/${name}.svg`;
+		return `/openmeteo-notify.admin/icons/amcharts/${folder}/${name}.svg`;
 	}
 	// WMO SVG set (fallback for unknown iconSet values)
 	const wmoCode = WMO_CODE_FALLBACK[code] ?? code;
-	return `/openmeteo.admin/icons/wmo_svg/wmo_${String(wmoCode).padStart(2, "0")}.svg`;
+	return `/openmeteo-notify.admin/icons/wmo_svg/wmo_${String(wmoCode).padStart(2, "0")}.svg`;
 }
 
 /**
@@ -300,7 +300,7 @@ function degreesToEmoji(deg) {
  * @returns {string} Relative URL path to the SVG arrow icon
  */
 function windDirIconUrl(deg) {
-	return `/openmeteo.admin/icons/wind/${degreesToCompass(deg)}.svg`;
+	return `/openmeteo-notify.admin/icons/wind/${degreesToCompass(deg)}.svg`;
 }
 
 /**
@@ -334,7 +334,7 @@ function speedToBeaufort(speed, unit) {
  * @returns {string} Relative URL path to the Beaufort SVG icon
  */
 function windBeaufortIconUrl(beaufort) {
-	return `/openmeteo.admin/icons/wind/beaufort_${beaufort}.svg`;
+	return `/openmeteo-notify.admin/icons/wind/beaufort_${beaufort}.svg`;
 }
 
 /**
@@ -2259,7 +2259,7 @@ class Openmeteo extends utils.Adapter {
 					sunset: d.sunset[i],
 					moon_phase_val: Math.round(moonIllum.phase * 100) / 100,
 					moon_phase_text: moonText,
-					moon_phase_icon_url: `/openmeteo.admin/icons/moon/${moonIdx}.png`,
+					moon_phase_icon_url: `/openmeteo-notify.admin/icons/moon/${moonIdx}.png`,
 					moonrise: moonTimes.rise ? moonTimes.rise.toISOString() : null,
 					moonset: moonTimes.set ? moonTimes.set.toISOString() : null,
 					solar_noon: solarNoonStr,
