@@ -228,6 +228,9 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (ipod86) Fix: log detailed API error reason for HTTP 4xx responses
+
 ### 0.1.1 (2026-04-19)
 * (ipod86) Rename adapter to ioBroker.openmeteo-notify
 

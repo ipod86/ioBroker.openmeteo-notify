@@ -233,6 +233,9 @@ Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Mete
 ## Changelog
 
 ### **WORK IN PROGRESS**
+* (ipod86) Fix: detaillierte API-Fehlermeldung bei HTTP-4xx-Antworten im Log
+
+### 0.1.1 (2026-04-19)
 * (ipod86) Adapter umbenannt zu ioBroker.openmeteo-notify
 
 ### 0.1.0 (2026-04-16)
