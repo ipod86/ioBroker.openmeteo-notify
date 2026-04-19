@@ -233,6 +233,9 @@ Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Mete
 ## Changelog
 
 ### **WORK IN PROGRESS**
+* (ipod86) Adapter umbenannt zu ioBroker.openmeteo-notify
+
+### 0.1.0 (2026-04-16)
 * (ipod86) Amtliche Warnungen: DE über DWD, EU über MeteoAlarm – automatische Erkennung per Koordinaten
 * (ipod86) Einheitlicher `standort.warnings.*`-Ordner für alle amtlichen Warnungen mit `source`-Datenpunkt
 * (ipod86) Einzelner `warnOfficial`-Schalter ersetzt die separaten Einstellungen `enableDwd` / `warnDwd`

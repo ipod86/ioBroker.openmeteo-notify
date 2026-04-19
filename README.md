@@ -228,6 +228,9 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (ipod86) Rename adapter to ioBroker.openmeteo-notify
+
 ### 0.1.0 (2026-04-16)
 * (ipod86) Official weather warnings: DE uses DWD, EU countries use MeteoAlarm – auto-detected from coordinates
 * (ipod86) Unified `location.warnings.*` folder for all official warnings with `source` data point
