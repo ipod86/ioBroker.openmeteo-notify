@@ -967,8 +967,8 @@ class Openmeteo extends utils.Adapter {
 		const divColor = isLight ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
 		const iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
 
-		const mdi = (path, size = 16) =>
-			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${size}" height="${size}" style="vertical-align:middle;fill:${iconColor};flex-shrink:0;"><path d="${path}"/></svg>`;
+		const mdi = (path, size = 16, ml = 0) =>
+			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${size}" height="${size}" style="vertical-align:middle;fill:${iconColor};flex-shrink:0;margin-left:${ml}px;"><path d="${path}"/></svg>`;
 
 		const MDI = {
 			wind: "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z",
@@ -1028,13 +1028,13 @@ class Openmeteo extends utils.Adapter {
 <tr>
 <td width="5%"></td>
 <td width="45%" style="text-align:left;padding:1px 0;">${mdi(MDI.wind)}<span style="margin-left:5px;">${curWind} <span style="font-size:10px;color:${fadeColor};">km/h</span></span></td>
-<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span>${mdi(MDI.humid)}</td>
+<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span>${mdi(MDI.humid, 16, 4)}</td>
 <td width="5%"></td>
 </tr>
 <tr>
 <td></td>
 <td style="text-align:left;padding:1px 0;">${mdi(MDI.sun)}<span style="margin-left:5px;">${sunH} <span style="font-size:10px;color:${fadeColor};">h</span></span></td>
-<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span>${mdi(MDI.press)}</td>
+<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span>${mdi(MDI.press, 16, 4)}</td>
 <td></td>
 </tr>
 </table>`;
