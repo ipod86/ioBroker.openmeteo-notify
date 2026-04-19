@@ -539,7 +539,7 @@ class Openmeteo extends utils.Adapter {
 	 */
 	async runUpdate() {
 		let locations = this.config.locations;
-		const daysCount = this.config.daysCount ?? 7;
+		const daysCount = Math.min(Math.max(1, this.config.daysCount ?? 7), 16);
 		const hourlyDays = this.config.hourlyDays ?? 3;
 		const temperatureUnit = this.config.temperatureUnit || "celsius";
 		const windspeedUnit = this.config.windspeedUnit || "kmh";
