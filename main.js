@@ -966,6 +966,8 @@ class Openmeteo extends utils.Adapter {
 		const fadeColor = isLight ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
 		const divColor = isLight ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
 		const iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
+		const isAmcharts = (this.config.iconSet || "basmilius").startsWith("amcharts");
+		const imgScale = isAmcharts ? "transform:scale(1.7);transform-origin:center;" : "";
 
 		const mdi = (path, size = 16, ml = 0) =>
 			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${size}" height="${size}" style="vertical-align:middle;fill:${iconColor};flex-shrink:0;margin-left:${ml}px;"><path d="${path}"/></svg>`;
@@ -1011,7 +1013,7 @@ class Openmeteo extends utils.Adapter {
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
-<td width="75px"><img src="${host}${curIcon}" style="width:75px;height:75px;display:block;"></td>
+<td width="75px"><img src="${host}${curIcon}" style="width:75px;height:75px;display:block;${imgScale}"></td>
 <td style="padding-left:10px;vertical-align:middle;">
 <div style="font-size:13px;font-weight:600;color:${textColor};margin-bottom:2px;">${widget.locationName}</div>
 <div style="font-size:15px;font-weight:400;color:${subColor};">${curDesc}</div>
@@ -1051,7 +1053,7 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
 				const border = i > start ? `border-left:2px solid ${divColor};` : "";
-				html += `<td style="padding:0;${border}"><img src="${host}${dayData[i][1]}" style="width:42px;height:42px;display:inline-block;margin:-2px 0;"></td>`;
+				html += `<td style="padding:0;${border}"><img src="${host}${dayData[i][1]}" style="width:42px;height:42px;display:inline-block;margin:-2px 0;${imgScale}"></td>`;
 			}
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
