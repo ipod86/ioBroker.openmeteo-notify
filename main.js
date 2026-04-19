@@ -965,6 +965,18 @@ class Openmeteo extends utils.Adapter {
 		const subColor = isLight ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
 		const fadeColor = isLight ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
 		const divColor = isLight ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
+		const iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
+
+		const mdi = (path, size = 16) =>
+			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${size}" height="${size}" style="vertical-align:middle;fill:${iconColor};flex-shrink:0;"><path d="${path}"/></svg>`;
+
+		const MDI = {
+			wind: "M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z",
+			sun: "M3.55 19.09L4.96 20.5L6.76 18.71L5.34 17.29M12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12C18 8.68 15.31 6 12 6M20 13H23V11H20M17.24 18.71L19.04 20.5L20.45 19.09L18.66 17.29M20.45 5L19.04 3.6L17.24 5.39L18.66 6.81M13 1H11V4H13M6.76 5.39L4.96 3.6L3.55 5L5.34 6.81L6.76 5.39M1 13H4V11H1M13 20H11V23H13",
+			humid: "M12,3.25C12,3.25 6,10 6,14C6,17.32 8.69,20 12,20A6,6 0 0,0 18,14C18,10 12,3.25 12,3.25M14.47,9.97L15.53,11.03L9.53,17.03L8.47,15.97M9.75,10A1.25,1.25 0 0,1 11,11.25A1.25,1.25 0 0,1 9.75,12.5A1.25,1.25 0 0,1 8.5,11.25A1.25,1.25 0 0,1 9.75,10M14.25,14.5A1.25,1.25 0 0,1 15.5,15.75A1.25,1.25 0 0,1 14.25,17A1.25,1.25 0 0,1 13,15.75A1.25,1.25 0 0,1 14.25,14.5Z",
+			press: "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.4 19,16.5 17.3,18C15.9,16.7 14,16 12,16C10,16 8.2,16.7 6.7,18C5,16.5 4,14.4 4,12A8,8 0 0,1 12,4M14,5.89C13.62,5.9 13.26,6.15 13.1,6.54L11.81,9.77L11.71,10C11,10.13 10.41,10.6 10.14,11.26C9.73,12.29 10.23,13.45 11.26,13.86C12.29,14.27 13.45,13.77 13.86,12.74C14.12,12.08 14,11.32 13.57,10.76L13.67,10.5L14.96,7.29L14.97,7.26C15.17,6.75 14.92,6.17 14.41,5.96C14.28,5.91 14.15,5.89 14,5.89M10,6A1,1 0 0,0 9,7A1,1 0 0,0 10,8A1,1 0 0,0 11,7A1,1 0 0,0 10,6M7,9A1,1 0 0,0 6,10A1,1 0 0,0 7,11A1,1 0 0,0 8,10A1,1 0 0,0 7,9M17,9A1,1 0 0,0 16,10A1,1 0 0,0 17,11A1,1 0 0,0 18,10A1,1 0 0,0 17,9Z",
+			rain: "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59",
+		};
 
 		const gs = async id => (await this.getStateAsync(id))?.val ?? "";
 
@@ -1015,14 +1027,14 @@ class Openmeteo extends utils.Adapter {
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:12px;font-size:13px;color:${subColor};">
 <tr>
 <td width="5%"></td>
-<td width="45%" style="text-align:left;padding:1px 0;"><span style="display:inline-block;width:20px;text-align:center;">💨</span><span style="margin-left:5px;">${curWind} <span style="font-size:10px;color:${fadeColor};">km/h</span></span></td>
-<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span><span style="display:inline-block;width:20px;text-align:center;">💧</span></td>
+<td width="45%" style="text-align:left;padding:1px 0;">${mdi(MDI.wind)}<span style="margin-left:5px;">${curWind} <span style="font-size:10px;color:${fadeColor};">km/h</span></span></td>
+<td width="45%" style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curHum} <span style="font-size:10px;color:${fadeColor};">%</span></span>${mdi(MDI.humid)}</td>
 <td width="5%"></td>
 </tr>
 <tr>
 <td></td>
-<td style="text-align:left;padding:1px 0;"><span style="display:inline-block;width:20px;text-align:center;">☀️</span><span style="margin-left:5px;">${sunH} <span style="font-size:10px;color:${fadeColor};">h</span></span></td>
-<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span><span style="display:inline-block;width:20px;text-align:center;">⏲️</span></td>
+<td style="text-align:left;padding:1px 0;">${mdi(MDI.sun)}<span style="margin-left:5px;">${sunH} <span style="font-size:10px;color:${fadeColor};">h</span></span></td>
+<td style="text-align:right;padding:1px 0;"><span style="margin-right:5px;">${curPress} <span style="font-size:10px;color:${fadeColor};">hPa</span></span>${mdi(MDI.press)}</td>
 <td></td>
 </tr>
 </table>`;
@@ -1054,7 +1066,7 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
 				const border = i > start ? `border-left:2px solid ${divColor};` : "";
-				html += `<td style="font-size:11px;color:${fadeColor};padding-top:0;${border}"><span style="margin-right:2px;">🌧️</span>${dayData[i][4]}<span style="font-size:9px;margin-left:1px;">%</span></td>`;
+				html += `<td style="font-size:11px;color:${fadeColor};padding-top:0;${border}">${mdi(MDI.rain, 13)}${dayData[i][4]}<span style="font-size:9px;margin-left:1px;">%</span></td>`;
 			}
 			html += `</tr></table>`;
 		}
