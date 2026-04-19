@@ -119,38 +119,40 @@ The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 | Data point | Description | Unit |
 |-----------|-------------|------|
 | `temperature` | Current temperature | °C/°F |
-| `feels_like` | Feels-like temperature | °C/°F |
-| `weathercode` | WMO weather code | |
-| `description` | Weather description | |
+| `feels_like` | Apparent temperature – combines heat, humidity, wind | °C/°F |
+| `weathercode` | WMO weather code (0 = clear sky, 95/99 = thunderstorm) – full table: [WMO 4677](https://open-meteo.com/en/docs#weathercode) | |
+| `description` | Human-readable weather description (11 languages) | |
 | `icon` | Weather emoji | |
-| `icon_url` | Weather icon URL | |
-| `precipitation` | Total precipitation | mm/inch |
-| `rain` | Rain amount | mm/inch |
-| `snowfall` | Snowfall | cm |
-| `snow_depth` | Snow depth | cm |
+| `icon_url` | Weather icon URL (icon set selectable in settings) | |
+| `precipitation` | Total precipitation last hour | mm/inch |
+| `rain` | Rain amount last hour | mm/inch |
+| `snowfall` | Snowfall last hour | cm |
+| `snow_depth` | Current snow depth on the ground | cm |
 | `cloudcover` | Cloud cover | % |
 | `humidity` | Relative humidity | % |
-| `dew_point` | Dew point | °C/°F |
-| `pressure` | Atmospheric pressure (MSL) | hPa |
-| `visibility` | Visibility | m |
-| `is_day` | Daylight indicator | boolean |
-| `windspeed` | Wind speed | km/h … |
-| `windgusts` | Wind gusts | km/h … |
-| `winddirection` | Wind direction | ° |
-| `winddirection_text` | Wind direction text | N/NE/… |
-| `winddirection_icon` | Wind direction emoji | ⬆️↗️… |
+| `dew_point` | Dew point – temperature at which air becomes saturated; close to air temp = high humidity | °C/°F |
+| `pressure` | Atmospheric pressure reduced to mean sea level (MSL) | hPa |
+| `visibility` | Horizontal visibility | m |
+| `is_day` | `true` between sunrise and sunset | boolean |
+| `windspeed` | Wind speed (unit selectable: km/h, m/s, mph, kn) | km/h … |
+| `windgusts` | Maximum wind gust speed | km/h … |
+| `winddirection` | Wind direction (meteorological: direction the wind comes from) | ° |
+| `winddirection_text` | Cardinal direction text | N/NE/… |
+| `winddirection_icon` | Cardinal direction emoji | ⬆️↗️… |
 | `winddirection_icon_url` | Wind direction arrow icon URL | |
-| `windbeaufort` | Wind strength Beaufort | 0–12 |
+| `windbeaufort` | Wind strength on Beaufort scale (0 = calm, 8 = gale, 12 = hurricane) | 0–12 |
 | `windbeaufort_icon_url` | Beaufort icon URL | |
 | `air_quality.*` | AQI, PM10, PM2.5, NO₂, CO, dust, ozone *(if enabled)* | |
 | `pollen.*` | Current pollen per type *(if enabled)* | Grains/m³ |
-| `agriculture.*` | Solar radiation, CAPE, soil temperature *(if enabled)* | |
-| `comfort.heat_index` | Heat index – feels-like in heat (valid ≥ 27 °C + ≥ 40 % RH) *(if enabled)* | °C/°F |
-| `comfort.windchill` | Wind chill – feels-like in cold (valid ≤ 10 °C + wind > 4.8 km/h) *(if enabled)* | °C/°F |
-| `comfort.humidex` | Humidex – Canadian humidity-temperature index *(if enabled)* | °C/°F |
-| `comfort.humidex_level` | Humidex discomfort level 1 (none) – 5 (dangerous) *(if enabled)* | |
-| `comfort.uv_index` | Current UV index *(if enabled)* | |
-| `comfort.uv_level` | UV level: `low` / `moderate` / `high` / `very_high` / `extreme` *(if enabled)* | |
+| `agriculture.solar_radiation` | Shortwave solar radiation at ground level *(if enabled)* | W/m² |
+| `agriculture.cape` | CAPE – Convective Available Potential Energy: energy available for thunderstorm development; > 500 J/kg = notable risk, > 2000 J/kg = severe *(if enabled)* | J/kg |
+| `agriculture.soil_temp` | Soil temperature at 0 cm depth *(if enabled)* | °C/°F |
+| `comfort.heat_index` | Heat index (Rothfusz) – how hot it feels combining temperature and humidity; only meaningful ≥ 27 °C and ≥ 40 % RH, `null` otherwise *(if enabled)* | °C/°F |
+| `comfort.windchill` | Wind chill (NWS) – how cold it feels due to wind; only meaningful ≤ 10 °C and wind > 4.8 km/h, `null` otherwise *(if enabled)* | °C/°F |
+| `comfort.humidex` | Humidex (Canadian formula) – combined heat+humidity discomfort index; values above 40 are uncomfortable, above 46 dangerous *(if enabled)* | °C/°F |
+| `comfort.humidex_level` | Humidex discomfort level: 1 = none (<29) · 2 = slight (29–34) · 3 = noticeable (35–39) · 4 = intense (40–45) · 5 = dangerous (≥46) *(if enabled)* | 1–5 |
+| `comfort.uv_index` | UV index (0–11+) – intensity of UV radiation at ground level *(if enabled)* | |
+| `comfort.uv_level` | UV protection level (WHO scale): `low` (0–2, no protection) · `moderate` (3–5, sunscreen) · `high` (6–7) · `very_high` (8–10) · `extreme` (≥11) *(if enabled)* | |
 
 ### Daily forecast (`day1` … `day16`)
 
@@ -168,25 +170,32 @@ The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 | `windspeed` / `windgusts` | Wind speed / gusts max |
 | `winddirection` / `_text` / `_icon` / `_icon_url` | Wind direction |
 | `windbeaufort` / `windbeaufort_icon_url` | Beaufort scale |
-| `uv_index` / `uv_index_clear_sky` | UV index max / UV index under clear sky | |
-| `sunshine_hours` / `daylight_hours` | Sunshine / daylight duration | h |
-| `cloud_cover_max` | Max cloud cover | % |
+| `uv_index` | Daily max UV index *(accounting for cloud cover)* | |
+| `uv_index_clear_sky` | Daily max UV index assuming completely clear sky – useful to see potential UV regardless of clouds | |
+| `sunshine_hours` | Hours of actual sunshine (direct radiation) | h |
+| `daylight_hours` | Total hours between sunrise and sunset | h |
+| `cloud_cover_max` | Maximum cloud cover during the day | % |
 | `temp_mean` / `feels_like_mean` | Daily mean temperature / feels-like | °C/°F |
-| `precipitation_hours` | Hours with precipitation | h |
-| `showers` | Convective precipitation sum | mm/inch |
-| `snowfall_height_min` | Minimum snowfall level during precipitation | m |
+| `precipitation_hours` | Number of hours with measurable precipitation | h |
+| `showers` | Convective (shower-type) precipitation – short, intense; distinct from continuous `rain` | mm/inch |
+| `snowfall_height_min` | Lowest altitude during the day at which snow falls (0 m = snow to valley floor) | m a.s.l. |
+| `freezing_level_height_min` | Lowest altitude of the 0 °C isotherm during the day | m a.s.l. |
 | `dew_point_mean` / `humidity_mean` / `pressure_mean` | Daily mean values | |
 | `air_quality.european_aqi_max` … `ozone_max` | Daily max AQI, PM10, PM2.5, NO₂, CO, dust, ozone *(if enabled)* | |
 | `astronomy.sunrise` / `astronomy.sunset` | Sunrise / sunset *(if enabled)* | |
-| `astronomy.solar_noon` / `astronomy.solar_elevation_max` | Solar noon time / max sun elevation angle *(if enabled)* | / ° |
-| `astronomy.moon_phase_val` / `_text` / `_icon_url` | Moon phase *(if enabled)* | |
+| `astronomy.solar_noon` | Time of highest sun position *(if enabled)* | |
+| `astronomy.solar_elevation_max` | Sun angle above the horizon at solar noon – 90° = directly overhead, 0° = horizon *(if enabled)* | ° |
+| `astronomy.moon_phase_val` | Moon phase as number: 0 = new moon · 0.25 = first quarter · 0.5 = full moon · 0.75 = last quarter *(if enabled)* | 0–1 |
+| `astronomy.moon_phase_text` / `_icon_url` | Moon phase as text / icon *(if enabled)* | |
 | `astronomy.moonrise` / `astronomy.moonset` | Moon rise / set *(if enabled)* | |
-| `agriculture.solar_radiation_sum` / `.evapotranspiration` | Solar / evapotranspiration *(if enabled)* | |
+| `agriculture.solar_radiation_sum` | Total solar radiation received during the day | MJ/m² |
+| `agriculture.evapotranspiration` | FAO-56 reference evapotranspiration (ET₀) – how much water plants and soil release; used for irrigation planning | mm |
+| `agriculture.lifted_index_min` | Daily minimum Lifted Index – atmospheric stability: negative = unstable/storm risk, strongly negative (< −6) = severe thunderstorm risk *(if enabled)* | K |
 | `comfort.heat_index_max` | Max heat index of the day *(if enabled)* | °C/°F |
 | `comfort.windchill_min` | Min wind chill of the day *(if enabled)* | °C/°F |
-| `comfort.humidex_max` / `.humidex_level` | Max humidex / discomfort level *(if enabled)* | |
-| `comfort.uv_index_max` / `.uv_level` | Max UV index / level *(if enabled)* | |
-| `pollen.alder` … `pollen.ragweed` | Daily max pollen + level text *(if enabled, day1–4)* | |
+| `comfort.humidex_max` / `.humidex_level` | Max humidex / discomfort level (1–5, see current section) *(if enabled)* | |
+| `comfort.uv_index_max` / `.uv_level` | Max UV index / level (see current section) *(if enabled)* | |
+| `pollen.alder` … `pollen.ragweed` | Daily max pollen concentration + level text (None/Low/Medium/High) *(if enabled, day1–4 only)* | Grains/m³ |
 
 ### Hourly values (`day1.hourly.h00` … `h23`)
 
@@ -198,7 +207,7 @@ Optional per hour (if enabled + "also hourly"):
 |---------|-------------|
 | `hXX.air_quality` | european_aqi, PM10, PM2.5, NO₂, CO, dust, ozone |
 | `hXX.astronomy` | sunrise, sunset, moon_phase_val/text/icon_url, moonrise, moonset |
-| `hXX.agriculture` | solar_radiation, CAPE, soil_temp, irradiance |
+| `hXX.agriculture` | solar_radiation (W/m²), CAPE (J/kg), soil_temp (°C/°F), irradiance = global tilted irradiance on a flat surface (W/m²), lifted_index (K) |
 | `hXX.comfort` | heat_index, windchill, humidex, humidex_level, uv_index, uv_level |
 | `hXX.pollen` | alder … ragweed + level text (Keine/Niedrig/Mittel/Hoch) |
 
@@ -209,7 +218,7 @@ Optional per hour (if enabled + "also hourly"):
 | `warnings.source` | Warning service: `"DWD"` or `"MeteoAlarm"` |
 | `warnings.active` | At least one active warning |
 | `warnings.count` | Number of active warnings |
-| `warnings.max_level` | Highest severity level (1–4) |
+| `warnings.max_level` | Highest severity level: 1 = Minor · 2 = Moderate · 3 = Severe · 4 = Extreme |
 | `warnings.max_level_text` | Severity text |
 | `warnings.warning_N.active` | Warning slot N active |
 | `warnings.warning_N.event` | Event type |
