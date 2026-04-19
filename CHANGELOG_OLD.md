@@ -93,6 +93,9 @@
 
 ### 0.0.1
 * Initial release
+## 0.0.44
+* (ipod86) fix dark theme: set theme-aware background color on root wrapper
+
 ## 0.0.43
 * Fix: remove auto-location entry written to `system.config` on first start
 

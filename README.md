@@ -228,7 +228,7 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.1.2 (2026-04-19)
 * (ipod86) Fix: log detailed API error reason for HTTP 4xx responses
 
 ### 0.1.1 (2026-04-19)
@@ -255,9 +255,6 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 * Warning message includes from/to time; day offset shown when event spans midnight
 * Warnings use raw API data — no minimum `hourlyDays` setting required
 * i18n translations for all new settings in 11 languages
-
-### 0.0.44
-* (ipod86) fix dark theme: set theme-aware background color on root wrapper
 
 ## License
 

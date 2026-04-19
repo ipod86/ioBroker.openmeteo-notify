@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "news": {
+      "0.1.2": {
+        "en": "Fix: log detailed API error reason for HTTP 4xx responses",
+        "de": "Fix: Protokoll detaillierte API Fehlergrund für HTTP 4xx Antworten",
+        "ru": "Исправление: подробное описание причины ошибки API для ответов HTTP 4xx",
+        "pt": "Corrigir: log detalhou razão de erro API para as respostas HTTP 4xx",
+        "nl": "Fix: log gedetailleerde API fout reden voor HTTP 4xx antwoorden",
+        "fr": "Correction : log raison d'erreur API détaillée pour les réponses HTTP 4xx",
+        "it": "Fix: log dettagliato motivo di errore API per le risposte HTTP 4xx",
+        "es": "Fijación: registro detallada de la razón de error API para las respuestas HTTP 4xx",
+        "pl": "Fix: log szczegółowy powód błędu API dla odpowiedzi HTTP 4xx",
+        "uk": "Виправлення: Log докладна причина помилки API для HTTP 4xxx",
+        "zh-cn": "修正: HTTP 4xx 回复日志详细 API 错误原因"
+      },
       "0.1.1": {
         "en": "Rename adapter to ioBroker.openmeteo-notify",
         "de": "Umname Adapter zu ioBroker.openmeteo-notify",

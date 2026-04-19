@@ -1,6 +1,6 @@
 {
   "name": "iobroker.openmeteo-notify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
   "author": {
     "name": "ipod86",
