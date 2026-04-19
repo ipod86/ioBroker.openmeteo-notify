@@ -1154,7 +1154,7 @@ class Openmeteo extends utils.Adapter {
 							let reason = raw;
 							try {
 								reason = JSON.parse(raw)?.reason || raw;
-							} catch (_) {
+							} catch {
 								/* ignore */
 							}
 							reject(new Error(`HTTP ${statusCode}: ${reason}`));
@@ -1199,7 +1199,7 @@ class Openmeteo extends utils.Adapter {
 							let reason = raw;
 							try {
 								reason = JSON.parse(raw)?.reason || raw;
-							} catch (_) {
+							} catch {
 								/* ignore */
 							}
 							reject(new Error(`HTTP ${statusCode}: ${reason}`));
