@@ -967,9 +967,14 @@ class Openmeteo extends utils.Adapter {
 		const divColor = isLight ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
 		const iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
 		const _iconSet = this.config.iconSet || "basmilius";
-		const imgScale = _iconSet.startsWith("amcharts")
+		const isAmcharts = _iconSet.startsWith("amcharts");
+		const isBasmilius = _iconSet.startsWith("basmilius");
+		// For main header icon: use real size (avoids layout overflow into adjacent cell)
+		const mainIconSize = isAmcharts ? 95 : isBasmilius ? 82 : 75;
+		// For forecast day icons: scale transform is fine (isolated cells)
+		const imgScale = isAmcharts
 			? "transform:scale(1.6);transform-origin:center;"
-			: _iconSet.startsWith("basmilius")
+			: isBasmilius
 				? "transform:scale(1.1);transform-origin:center;"
 				: "";
 
@@ -1017,7 +1022,7 @@ class Openmeteo extends utils.Adapter {
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
-<td width="75px"><img src="${host}${curIcon}" style="width:75px;height:75px;display:block;${imgScale}"></td>
+<td width="${mainIconSize}px"><img src="${host}${curIcon}" style="width:${mainIconSize}px;height:${mainIconSize}px;display:block;"></td>
 <td style="padding-left:10px;vertical-align:middle;">
 <div style="font-size:13px;font-weight:600;color:${textColor};margin-bottom:2px;">${widget.locationName}</div>
 <div style="font-size:15px;font-weight:400;color:${subColor};">${curDesc}</div>
