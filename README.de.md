@@ -53,7 +53,8 @@ Der Adapter erzeugt natürlichsprachige Wetterzusammenfassungen (`current.summar
 |--------|----------|-------------|
 | **Luftqualität** | an | european_aqi, PM10, PM2.5, NO₂, CO, Staub, Ozon → `current.air_quality` / `hXX.air_quality` |
 | **Astronomie** | an | Sonnenauf/-untergang, Sonnenhöchststand, Mittagszeit, Mondphase, Mondauf/-untergang → `dayX.astronomy` / `hXX.astronomy` |
-| **Agrar / Solar** | aus | Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung → `*.agriculture` |
+| **Solar & Klima** | aus | Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung → `*.agriculture` |
+| **Komfortindizes** | aus | Hitzeindex, Windchill, Humidex, UV-Index → `*.comfort` |
 | **Pollen** | aus | Erle, Birke, Gräser, Beifuß, Olive, Ambrosia mit Textstufe → `dayX.pollen` / `hXX.pollen` |
 | **DWD-Warnungen** | aus | Offizielle Warnungen des Deutschen Wetterdienstes (nur Deutschland) → `standort.warnings.*` |
 
@@ -97,8 +98,10 @@ Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo-not
 | Luftqualität – auch stündlich | Stündliche AQI/PM unter `hXX.air_quality` | aus |
 | Astronomie | Sonne & Mond aktivieren | an |
 | Astronomie – auch stündlich | Astronomiedaten pro Stundenslot | aus |
-| Agrar / Solar | Strahlung, CAPE, Bodentemperatur aktivieren | aus |
-| Agrar – auch stündlich | Stündliche Agrardaten | aus |
+| Solar & Klima | Strahlung, CAPE, Bodentemperatur aktivieren | aus |
+| Solar & Klima – auch stündlich | Stündliche Agrardaten | aus |
+| Komfortindizes | Hitzeindex, Windchill, Humidex, UV-Index aktivieren | aus |
+| Komfortindizes – auch stündlich | Stündliche Komfortdaten | aus |
 | Pollen | Pollendaten aktivieren (nur Europa) | aus |
 | Pollen – auch stündlich | Stündliche Pollen pro Typ | aus |
 | DWD-Warnungen | DWD-Daten aktivieren (nur Deutschland) | aus |
@@ -116,33 +119,41 @@ Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 | Datenpunkt | Beschreibung | Einheit |
 |-----------|--------------|---------|
 | `temperature` | Aktuelle Temperatur | °C/°F |
-| `feels_like` | Gefühlte Temperatur | °C/°F |
-| `weathercode` | WMO-Wettercode | |
-| `description` | Wetterbeschreibung | |
+| `feels_like` | Gefühlte Temperatur – kombiniert Hitze, Luftfeuchte und Wind | °C/°F |
+| `weathercode` | WMO-Wettercode (0 = klar, 95/99 = Gewitter) – vollständige Tabelle: [WMO 4677](https://open-meteo.com/en/docs#weathercode) | |
+| `description` | Lesbare Wetterbeschreibung (11 Sprachen) | |
 | `icon` | Wetter-Emoji | |
-| `icon_url` | Wetter-Icon-URL | |
-| `precipitation` | Gesamtniederschlag | mm/inch |
-| `rain` | Regen | mm/inch |
-| `snowfall` | Schneefall | cm |
-| `snow_depth` | Schneehöhe | cm |
+| `icon_url` | Wetter-Icon-URL (Icon-Set in den Einstellungen wählbar) | |
+| `precipitation` | Gesamtniederschlag letzte Stunde | mm/inch |
+| `rain` | Regen letzte Stunde | mm/inch |
+| `snowfall` | Schneefall letzte Stunde | cm |
+| `snow_depth` | Aktuelle Schneehöhe am Boden | cm |
 | `cloudcover` | Bewölkung | % |
 | `humidity` | Relative Luftfeuchtigkeit | % |
-| `dew_point` | Taupunkt | °C/°F |
-| `pressure` | Luftdruck (MSL) | hPa |
-| `visibility` | Sichtweite | m |
-| `is_day` | Tag/Nacht | boolean |
-| `windspeed` | Windgeschwindigkeit | km/h … |
-| `windgusts` | Windböen | km/h … |
-| `winddirection` | Windrichtung | ° |
-| `winddirection_text` | Windrichtungstext | N/NE/… |
-| `winddirection_icon` | Windrichtungs-Emoji | ⬆️↗️… |
+| `dew_point` | Taupunkt – Temperatur, bei der die Luft gesättigt ist; nahe an der Lufttemperatur = hohe Luftfeuchte | °C/°F |
+| `pressure` | Luftdruck auf Meereshöhe reduziert (MSL) | hPa |
+| `visibility` | Horizontale Sichtweite | m |
+| `is_day` | `true` zwischen Sonnenauf- und -untergang | boolean |
+| `windspeed` | Windgeschwindigkeit (Einheit wählbar: km/h, m/s, mph, kn) | km/h … |
+| `windgusts` | Maximale Windböengeschwindigkeit | km/h … |
+| `winddirection` | Windrichtung (meteorologisch: Richtung, aus der der Wind kommt) | ° |
+| `winddirection_text` | Himmelsrichtungstext | N/NE/… |
+| `winddirection_icon` | Himmelsrichtungs-Emoji | ⬆️↗️… |
 | `winddirection_icon_url` | Windrichtungs-Pfeilicon-URL | |
-| `windbeaufort` | Windstärke Beaufort | 0–12 |
+| `windbeaufort` | Windstärke nach Beaufort-Skala (0 = Stille, 8 = Sturm, 12 = Orkan) | 0–12 |
 | `windbeaufort_icon_url` | Beaufort-Icon-URL | |
 | `summary` | Natürlichsprachige Wetterzusammenfassung (11 Sprachen) | |
 | `air_quality.*` | AQI, PM10, PM2.5, NO₂, CO, Staub, Ozon *(wenn aktiviert)* | |
 | `pollen.*` | Aktuelle Pollen pro Typ *(wenn aktiviert)* | Körner/m³ |
-| `agriculture.*` | Solarstrahlung, CAPE, Bodentemperatur *(wenn aktiviert)* | |
+| `agriculture.solar_radiation` | Kurzwellige Solarstrahlung am Boden *(wenn aktiviert)* | W/m² |
+| `agriculture.cape` | CAPE – konvektive verfügbare potenzielle Energie: Energie für Gewitterentwicklung; > 500 J/kg = nennenswert, > 2000 J/kg = heftig *(wenn aktiviert)* | J/kg |
+| `agriculture.soil_temp` | Bodentemperatur in 0 cm Tiefe *(wenn aktiviert)* | °C/°F |
+| `comfort.heat_index` | Hitzeindex (Rothfusz) – wie heiß es sich durch Temperatur und Luftfeuchte anfühlt; nur sinnvoll ≥ 27 °C und ≥ 40 % rF, sonst `null` *(wenn aktiviert)* | °C/°F |
+| `comfort.windchill` | Windchill (NWS) – wie kalt es sich durch Wind anfühlt; nur sinnvoll ≤ 10 °C und Wind > 4,8 km/h, sonst `null` *(wenn aktiviert)* | °C/°F |
+| `comfort.humidex` | Humidex (kanadische Formel) – kombinierter Hitze-Feuchte-Index; ab 40 unangenehm, ab 46 gefährlich *(wenn aktiviert)* | °C/°F |
+| `comfort.humidex_level` | Humidex-Unbehagen-Stufe: 1 = kein Unbehagen (<29) · 2 = leicht (29–34) · 3 = deutlich (35–39) · 4 = stark (40–45) · 5 = gefährlich (≥46) *(wenn aktiviert)* | 1–5 |
+| `comfort.uv_index` | UV-Index (0–11+) – Intensität der UV-Strahlung am Boden *(wenn aktiviert)* | |
+| `comfort.uv_level` | UV-Schutzstufe (WHO-Skala): `low` (0–2, kein Schutz nötig) · `moderate` (3–5, Sonnenschutz) · `high` (6–7) · `very_high` (8–10) · `extreme` (≥11) *(wenn aktiviert)* | |
 
 ### Tagesvorhersage (`day1` … `day16`)
 
@@ -160,23 +171,34 @@ Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 | `windspeed` / `windgusts` | Windgeschwindigkeit / Böen max |
 | `winddirection` / `_text` / `_icon` / `_icon_url` | Windrichtung |
 | `windbeaufort` / `windbeaufort_icon_url` | Beaufort-Skala |
-| `uv_index` / `uv_index_clear_sky` | UV-Index max / UV-Index bei wolkenlosem Himmel | |
-| `sunshine_hours` / `daylight_hours` | Sonnenschein- / Tageslichtdauer | h |
-| `cloud_cover_max` | Bewölkung max | % |
+| `uv_index` | Tagesmaximum UV-Index *(mit Wolkeneinfluss)* | |
+| `uv_index_clear_sky` | Tagesmaximum UV-Index bei vollständig wolkenlosem Himmel – zeigt das UV-Potenzial unabhängig von Wolken | |
+| `sunshine_hours` | Stunden mit direkter Sonneneinstrahlung | h |
+| `daylight_hours` | Gesamtstunden zwischen Sonnenauf- und -untergang | h |
+| `cloud_cover_max` | Maximale Bewölkung des Tages | % |
 | `temp_mean` / `feels_like_mean` | Tagesmitteltemperatur / gefühlte Temperatur | °C/°F |
-| `precipitation_hours` | Stunden mit Niederschlag | h |
-| `showers` | Konvektiver Niederschlag | mm/inch |
-| `snowfall_height_min` | Niedrigste Schneefallgrenze bei Niederschlag | m |
+| `precipitation_hours` | Anzahl der Stunden mit messbarem Niederschlag | h |
+| `showers` | Konvektiver (schauertypischer) Niederschlag – kurz und intensiv; getrennt von kontinuierlichem `rain` | mm/inch |
+| `snowfall_height_min` | Niedrigste Schneefallgrenze am Tag (0 m = Schnee bis ins Tal) | m ü. M. |
+| `freezing_level_height_min` | Niedrigste Höhe der 0-°C-Isothermen am Tag | m ü. M. |
 | `dew_point_mean` / `humidity_mean` / `pressure_mean` | Tages-Mittelwerte | |
 | `summary_day` / `summary_night` | Tages- / Nacht-Wetterzusammenfassung (11 Sprachen) | |
 | `has_storm` / `has_thunderstorm` | Sturm- / Gewitterwarnung für den Tag | boolean |
 | `air_quality.european_aqi_max` … `ozone_max` | Tagesmax. AQI, PM10, PM2.5, NO₂, CO, Staub, Ozon *(wenn aktiviert)* | |
 | `astronomy.sunrise` / `astronomy.sunset` | Sonnenauf/-untergang *(wenn aktiviert)* | |
-| `astronomy.solar_noon` / `astronomy.solar_elevation_max` | Sonnenmittag / max. Sonnenhöhenwinkel *(wenn aktiviert)* | / ° |
-| `astronomy.moon_phase_val` / `_text` / `_icon_url` | Mondphase *(wenn aktiviert)* | |
+| `astronomy.solar_noon` | Zeitpunkt der höchsten Sonnenposition *(wenn aktiviert)* | |
+| `astronomy.solar_elevation_max` | Sonnenwinkel über dem Horizont zum Sonnenmittag – 90° = senkrecht, 0° = Horizont *(wenn aktiviert)* | ° |
+| `astronomy.moon_phase_val` | Mondphase als Zahl: 0 = Neumond · 0,25 = erstes Viertel · 0,5 = Vollmond · 0,75 = letztes Viertel *(wenn aktiviert)* | 0–1 |
+| `astronomy.moon_phase_text` / `_icon_url` | Mondphase als Text / Icon *(wenn aktiviert)* | |
 | `astronomy.moonrise` / `astronomy.moonset` | Mondauf/-untergang *(wenn aktiviert)* | |
-| `agriculture.solar_radiation_sum` / `.evapotranspiration` | Solar / Evapotranspiration *(wenn aktiviert)* | |
-| `pollen.alder` … `pollen.ragweed` | Tagesmax. Pollen + Textstufe *(wenn aktiviert, Tag 1–4)* | |
+| `agriculture.solar_radiation_sum` | Gesamte Solarstrahlung des Tages *(wenn aktiviert)* | MJ/m² |
+| `agriculture.evapotranspiration` | FAO-56-Referenz-Evapotranspiration (ET₀) – wie viel Wasser Pflanzen und Boden abgeben; für Bewässerungsplanung *(wenn aktiviert)* | mm |
+| `agriculture.lifted_index_min` | Tagesminimum Lifted Index – atmosphärische Stabilität: negativ = instabil/Gewitterrisiko, stark negativ (< −6) = heftiges Gewitterrisiko *(wenn aktiviert)* | K |
+| `comfort.heat_index_max` | Tagesmaximum Hitzeindex *(wenn aktiviert)* | °C/°F |
+| `comfort.windchill_min` | Tagesminimum Windchill *(wenn aktiviert)* | °C/°F |
+| `comfort.humidex_max` / `.humidex_level` | Maximum Humidex / Unbehagen-Stufe (1–5, siehe Abschnitt Aktuell) *(wenn aktiviert)* | |
+| `comfort.uv_index_max` / `.uv_level` | Maximum UV-Index / Stufe (siehe Abschnitt Aktuell) *(wenn aktiviert)* | |
+| `pollen.alder` … `pollen.ragweed` | Tagesmax. Pollen + Textstufe (Keine/Niedrig/Mittel/Hoch) *(wenn aktiviert, Tag 1–4)* | Körner/m³ |
 
 ### Stundenwerte (`day1.hourly.h00` … `h23`)
 
@@ -188,7 +210,8 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 |-------|-------------|
 | `hXX.air_quality` | european_aqi, PM10, PM2.5, NO₂, CO, Staub, Ozon |
 | `hXX.astronomy` | Sonnenauf/-untergang, Mondphase (val/text/icon), Mondauf/-untergang |
-| `hXX.agriculture` | Solarstrahlung, CAPE, Bodentemperatur, Globalstrahlung |
+| `hXX.agriculture` | solar_radiation (W/m²), CAPE (J/kg), soil_temp (°C/°F), irradiance = Globalstrahlung auf geneigter Fläche (W/m²), lifted_index (K) |
+| `hXX.comfort` | heat_index, windchill, humidex, humidex_level, uv_index, uv_level |
 | `hXX.pollen` | Erle … Ambrosia + Textstufe (Keine/Niedrig/Mittel/Hoch) |
 
 ### Amtliche Warnungen (`warnings`)
@@ -198,7 +221,7 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 | `warnings.source` | Warnquelle: `"DWD"` oder `"MeteoAlarm"` |
 | `warnings.active` | Mindestens eine aktive Warnung |
 | `warnings.count` | Anzahl aktiver Warnungen |
-| `warnings.max_level` | Höchste Warnstufe (1–4) |
+| `warnings.max_level` | Höchste Warnstufe: 1 = Gering · 2 = Mäßig · 3 = Schwer · 4 = Extrem |
 | `warnings.max_level_text` | Warnstufe als Text |
 | `warnings.warning_N.active` | Warnslot N aktiv |
 | `warnings.warning_N.event` | Ereignistyp |
