@@ -36,5 +36,7 @@ export interface OpenMeteoConfig {
     warnStorm: boolean;
     warnStormBft: number;
     warnThunderstorm: boolean;
+    warnFrost: boolean;
+    warnFrostThreshold: number;
     warnLeadHours: number;
 }

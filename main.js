@@ -857,11 +857,13 @@ class Openmeteo extends utils.Adapter {
 	async checkWeatherWarnings(locations) {
 		const warnStorm = !!this.config.warnStorm;
 		const warnThunderstorm = !!this.config.warnThunderstorm;
-		if (!warnStorm && !warnThunderstorm) {
+		const warnFrost = !!this.config.warnFrost;
+		if (!warnStorm && !warnThunderstorm && !warnFrost) {
 			return;
 		}
 		const leadHours = this.config.warnLeadHours ?? 2;
 		const stormBft = this.config.warnStormBft ?? 8;
+		const frostThreshold = this.config.warnFrostThreshold ?? 0;
 		const now = new Date();
 
 		for (const loc of locations) {
@@ -918,6 +920,28 @@ class Openmeteo extends utils.Adapter {
 						);
 					} else if (!isThunder) {
 						this.warnState[thunderKey] = false;
+					}
+				}
+
+				if (warnFrost) {
+					const frostKey = `${locId}_frost`;
+					const isFrost = hData != null && hData.temperature !== null && hData.temperature <= frostThreshold;
+					if (isFrost && !this.warnState[frostKey]) {
+						this.warnState[frostKey] = true;
+						const untilStr = this.findEventEnd(
+							hoursByDate,
+							targetTime,
+							hd => hd.temperature !== null && hd.temperature <= frostThreshold,
+						);
+						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
+						this.log.warn(`Frostwarnung für ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
+						await this.registerNotification(
+							"openmeteo-notify",
+							"frost_warning",
+							`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet von ${timeRange}`,
+						);
+					} else if (!isFrost) {
+						this.warnState[frostKey] = false;
 					}
 				}
 			} catch (err) {

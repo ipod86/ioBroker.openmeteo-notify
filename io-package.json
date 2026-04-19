@@ -115,6 +115,8 @@
     "warnOfficial": false,
     "warnStorm": false,
     "warnThunderstorm": false,
+    "warnFrost": false,
+    "warnFrostThreshold": 0,
     "warnLeadHours": 2,
     "warnStormBft": 8
   },
@@ -208,6 +210,38 @@
             "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
             "uk": "Очікується гроза (код WMO 95/96/99)",
             "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
+          },
+          "regex": [],
+          "limit": 10
+        },
+        {
+          "category": "frost_warning",
+          "name": {
+            "en": "Frost warning",
+            "de": "Frostwarnung",
+            "ru": "Предупреждение о заморозках",
+            "pt": "Aviso de geada",
+            "nl": "Vorst­waarschuwing",
+            "fr": "Alerte gel",
+            "it": "Avviso gelo",
+            "es": "Alerta de helada",
+            "pl": "Ostrzeżenie przed mrozem",
+            "uk": "Попередження про мороз",
+            "zh-cn": "霜冻预警"
+          },
+          "severity": "notify",
+          "description": {
+            "en": "Warning when temperature is expected to drop below the configured frost threshold",
+            "de": "Warnung wenn die Temperatur unter den konfigurierten Frost-Schwellenwert fällt",
+            "ru": "Предупреждение при снижении температуры ниже настроенного порога",
+            "pt": "Aviso quando a temperatura cai abaixo do limiar de geada configurado",
+            "nl": "Waarschuwing wanneer de temperatuur onder de ingestelde vorstgrens daalt",
+            "fr": "Alerte lorsque la température descend sous le seuil de gel configuré",
+            "it": "Avviso quando la temperatura scende sotto la soglia gelo configurata",
+            "es": "Alerta cuando la temperatura cae por debajo del umbral de helada configurado",
+            "pl": "Ostrzeżenie gdy temperatura spada poniżej skonfigurowanego progu mrozu",
+            "uk": "Попередження коли температура опускається нижче налаштованого порогу",
+            "zh-cn": "当温度预计降至配置的霜冻阈值以下时发出警告"
           },
           "regex": [],
           "limit": 10

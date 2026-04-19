@@ -275,6 +275,21 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         control={<Switch checked={!!native.warnThunderstorm} onChange={e => update('warnThunderstorm', e.target.checked)} />}
                         label={I18n.t('warnThunderstorm')}
                     />
+                    <FormControlLabel
+                        control={<Switch checked={!!native.warnFrost} onChange={e => update('warnFrost', e.target.checked)} />}
+                        label={I18n.t('warnFrost')}
+                    />
+                    {native.warnFrost && (
+                        <TextField
+                            label={I18n.t('warnFrostThreshold')}
+                            type="number"
+                            value={native.warnFrostThreshold ?? 0}
+                            inputProps={{ min: -20, max: 5, step: 0.5 }}
+                            onChange={e => update('warnFrostThreshold', parseFloat(e.target.value))}
+                            helperText={I18n.t('warnFrostThresholdHelp')}
+                            sx={{ width: 200, mt: 1 }}
+                        />
+                    )}
                     {(native.warnStorm || native.warnThunderstorm) && (
                         <>
                             <TextField
