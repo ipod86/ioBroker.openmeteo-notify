@@ -1,13 +1,13 @@
 {
-  "name": "iobroker.openmeteo",
+  "name": "iobroker.openmeteo-notify",
   "version": "0.1.0",
-  "description": "Free weather forecast from Open-Meteo API",
+  "description": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
   "author": {
     "name": "ipod86",
     "email": ""
   },
   "contributors": [],
-  "homepage": "https://github.com/ipod86/ioBroker.openmeteo",
+  "homepage": "https://github.com/ipod86/ioBroker.openmeteo-notify",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ipod86/ioBroker.openmeteo.git"
+    "url": "git+https://github.com/ipod86/ioBroker.openmeteo-notify.git"
   },
   "engines": {
     "node": ">= 20"
@@ -56,7 +56,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/ipod86/ioBroker.openmeteo/issues"
+    "url": "https://github.com/ipod86/ioBroker.openmeteo-notify/issues"
   },
   "readmeFilename": "README.md"
 }

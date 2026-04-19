@@ -1,7 +1,7 @@
 {
 	"cli": true,
 	"target": "directory",
-	"adapterName": "openmeteo",
+	"adapterName": "openmeteo-notify",
 	"title": "OpenMeteo Weather",
 	"description": "Free weather forecast from Open-Meteo API",
 	"authorName": "ipod86",

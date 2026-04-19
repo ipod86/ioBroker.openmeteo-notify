@@ -485,7 +485,7 @@ class Openmeteo extends utils.Adapter {
 	constructor(options) {
 		super({
 			...options,
-			name: "openmeteo",
+			name: "openmeteo-notify",
 		});
 		this.updateInterval = null;
 		this.updateTimeout = null;
@@ -893,7 +893,7 @@ class Openmeteo extends utils.Adapter {
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
-							"openmeteo",
+							"openmeteo-notify",
 							"storm",
 							`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet von ${timeRange}`,
 						);
@@ -912,7 +912,7 @@ class Openmeteo extends utils.Adapter {
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
 						this.log.warn(`Gewitterwarnung für ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
-							"openmeteo",
+							"openmeteo-notify",
 							"thunderstorm",
 							`Gewitterwarnung für ${loc.name}: Gewitter erwartet von ${timeRange}`,
 						);
@@ -1195,7 +1195,7 @@ class Openmeteo extends utils.Adapter {
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&extratags=1&zoom=9`;
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" } };
 			https
 				.get(url, options, res => {
 					let raw = "";
@@ -1234,7 +1234,7 @@ class Openmeteo extends utils.Adapter {
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://feeds.meteoalarm.org/api/v1/warnings/feeds-${countryName}`;
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" } };
 			https
 				.get(url, options, res => {
 					let raw = "";
@@ -1282,7 +1282,7 @@ class Openmeteo extends utils.Adapter {
 	fetchDwdWarnings(warncellId) {
 		return new Promise((resolve, reject) => {
 			const url = "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json";
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo/1.0" } };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" } };
 			https
 				.get(url, options, res => {
 					let raw = "";
@@ -1399,7 +1399,7 @@ class Openmeteo extends utils.Adapter {
 				const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
 				const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}`;
 				this.log.warn(msg);
-				await this.registerNotification("openmeteo", "official_warning", msg);
+				await this.registerNotification("openmeteo-notify", "official_warning", msg);
 			}
 		}
 		for (const key of Object.keys(this.warnState)) {
@@ -1489,7 +1489,7 @@ class Openmeteo extends utils.Adapter {
 				this.warnState[key] = true;
 				const msg = `MeteoAlarm ${w.severity} für ${locId}: ${w.headline || w.event}`;
 				this.log.warn(msg);
-				await this.registerNotification("openmeteo", "official_warning", msg);
+				await this.registerNotification("openmeteo-notify", "official_warning", msg);
 			}
 		}
 		for (const key of Object.keys(this.warnState)) {

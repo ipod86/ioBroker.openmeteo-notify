@@ -9,7 +9,7 @@ declare global {
     }
 }
 
-window.adapterName = 'openmeteo';
+window.adapterName = 'openmeteo-notify';
 window.sentryDSN = '';
 
 const container = document.getElementById('root');

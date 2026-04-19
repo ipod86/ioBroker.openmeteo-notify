@@ -1,6 +1,6 @@
 {
   "common": {
-    "name": "openmeteo",
+    "name": "openmeteo-notify",
     "version": "0.1.0",
     "news": {
       "0.1.0": {
@@ -96,30 +96,30 @@
       }
     },
     "titleLang": {
-      "en": "OpenMeteo Weather",
-      "de": "OpenMeteo-Wetter",
-      "ru": "Погода OpenMeteo",
-      "pt": "Tempo OpenMeteo",
-      "nl": "OpenMeteo-weer",
-      "fr": "Météo OpenMeteo",
-      "it": "OpenMeteo Meteo",
-      "es": "OpenMeteo Tiempo",
-      "pl": "Pogoda OpenMeteo",
-      "uk": "Погода OpenMeteo",
-      "zh-cn": "OpenMeteo 天气"
+      "en": "OpenMeteo Notify",
+      "de": "OpenMeteo Notify",
+      "ru": "OpenMeteo Notify",
+      "pt": "OpenMeteo Notify",
+      "nl": "OpenMeteo Notify",
+      "fr": "OpenMeteo Notify",
+      "it": "OpenMeteo Notify",
+      "es": "OpenMeteo Notify",
+      "pl": "OpenMeteo Notify",
+      "uk": "OpenMeteo Notify",
+      "zh-cn": "OpenMeteo Notify"
     },
     "desc": {
-      "en": "Free weather forecast from Open-Meteo API",
-      "de": "Kostenlose Wettervorhersage von Open-Meteo API",
-      "ru": "Бесплатный прогноз погоды от Open-Meteo API",
-      "pt": "Previsão do tempo gratuita da API Open-Meteo",
-      "nl": "Gratis weersvoorspelling van Open-Meteo API",
-      "fr": "Prévisions météo gratuites depuis l'API Open-Meteo",
-      "it": "Previsioni meteo gratuite dall'API Open-Meteo",
-      "es": "Pronóstico del tiempo gratuito desde Open-Meteo API",
-      "pl": "Darmowa prognoza pogody z Open-Meteo API",
-      "uk": "Безкоштовний прогноз погоди від Open-Meteo API",
-      "zh-cn": "来自 Open-Meteo API 的免费天气预报"
+      "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
+      "de": "Wettervorhersage und amtliche Unwetterwarnungen über Open-Meteo, DWD und MeteoAlarm",
+      "ru": "Прогноз погоды и официальные предупреждения о погоде через Open-Meteo, DWD и MeteoAlarm",
+      "pt": "Previsão do tempo e avisos meteorológicos oficiais via Open-Meteo, DWD e MeteoAlarm",
+      "nl": "Weersvoorspelling en officiële weerwaarschuwingen via Open-Meteo, DWD en MeteoAlarm",
+      "fr": "Prévisions météo et alertes météo officielles via Open-Meteo, DWD et MeteoAlarm",
+      "it": "Previsioni meteo e allerte meteo ufficiali tramite Open-Meteo, DWD e MeteoAlarm",
+      "es": "Pronóstico del tiempo y avisos meteorológicos oficiales a través de Open-Meteo, DWD y MeteoAlarm",
+      "pl": "Prognoza pogody i oficjalne ostrzeżenia meteorologiczne przez Open-Meteo, DWD i MeteoAlarm",
+      "uk": "Прогноз погоди та офіційні попередження про погоду через Open-Meteo, DWD та MeteoAlarm",
+      "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警"
     },
     "authors": [
       "ipod86"
@@ -127,7 +127,7 @@
     "keywords": [
       "weather",
       "forecast",
-      "openmeteo",
+      "openmeteo-notify",
       "open-meteo"
     ],
     "licenseInformation": {
@@ -135,10 +135,10 @@
       "license": "MIT"
     },
     "platform": "Javascript/Node.js",
-    "icon": "openmeteo.png",
+    "icon": "openmeteo-notify.png",
     "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo/main/admin/openmeteo.png",
-    "readme": "https://github.com/ipod86/ioBroker.openmeteo/blob/main/README.md",
+    "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo-notify-notify/main/admin/openmeteo-notify.png",
+    "readme": "https://github.com/ipod86/ioBroker.openmeteo-notify-notify/blob/main/README.md",
     "loglevel": "info",
     "tier": 3,
     "mode": "daemon",
@@ -185,7 +185,7 @@
   },
   "notifications": [
     {
-      "scope": "openmeteo",
+      "scope": "openmeteo-notify",
       "name": {
         "en": "OpenMeteo Weather Warnings",
         "de": "OpenMeteo Wetterwarnungen",
@@ -200,17 +200,17 @@
         "zh-cn": "OpenMeteo 天气警告"
       },
       "description": {
-        "en": "Storm and thunderstorm warnings from ioBroker.openmeteo",
-        "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo",
-        "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo",
-        "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo",
-        "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo",
-        "fr": "Alertes tempête et orage de ioBroker.openmeteo",
-        "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo",
-        "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo",
-        "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo",
-        "uk": "Попередження про шторм і грозу від ioBroker.openmeteo",
-        "zh-cn": "ioBroker.openmeteo 的风暴和雷暴警告"
+        "en": "Storm and thunderstorm warnings from ioBroker.openmeteo-notify",
+        "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo-notify",
+        "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo-notify",
+        "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo-notify",
+        "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo-notify",
+        "fr": "Alertes tempête et orage de ioBroker.openmeteo-notify",
+        "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo-notify",
+        "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo-notify",
+        "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo-notify",
+        "uk": "Попередження про шторм і грозу від ioBroker.openmeteo-notify",
+        "zh-cn": "ioBroker.openmeteo-notify 的风暴和雷暴警告"
       },
       "categories": [
         {

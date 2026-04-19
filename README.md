@@ -1,14 +1,14 @@
-![Logo](admin/openmeteo.png)
+![Logo](admin/openmeteo-notify.png)
 
-# ioBroker.openmeteo
+# ioBroker.openmeteo-notify
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.openmeteo.svg)](https://www.npmjs.com/package/iobroker.openmeteo)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.openmeteo.svg)](https://www.npmjs.com/package/iobroker.openmeteo)
-![Number of Installations](https://iobroker.live/badges/openmeteo-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/openmeteo-stable.svg)
-[![NPM](https://nodei.co/npm/iobroker.openmeteo.png?downloads=true)](https://nodei.co/npm/iobroker.openmeteo/)
+[![NPM version](https://img.shields.io/npm/v/iobroker.openmeteo-notify.svg)](https://www.npmjs.com/package/iobroker.openmeteo-notify)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.openmeteo-notify.svg)](https://www.npmjs.com/package/iobroker.openmeteo-notify)
+![Number of Installations](https://iobroker.live/badges/openmeteo-notify-installed.svg)
+![Current version in stable repository](https://iobroker.live/badges/openmeteo-notify-stable.svg)
+[![NPM](https://nodei.co/npm/iobroker.openmeteo-notify.png?downloads=true)](https://nodei.co/npm/iobroker.openmeteo-notify/)
 
-**Tests:** ![Test and Release](https://github.com/ipod86/ioBroker.openmeteo/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/ipod86/ioBroker.openmeteo-notify/workflows/Test%20and%20Release/badge.svg)
 
 ## ioBroker adapter for Open-Meteo weather forecasts
 
@@ -73,7 +73,7 @@ Warnings are stored under `location.warnings.*` regardless of the source. A `war
 
 ## Installation
 
-Install via the ioBroker Admin interface (search for "openmeteo").
+Install via the ioBroker Admin interface (search for "openmeteo-notify").
 
 ## Configuration
 
@@ -109,7 +109,7 @@ Install via the ioBroker Admin interface (search for "openmeteo").
 
 ## Data points
 
-The adapter creates data points under `openmeteo.<instance>.<location>`.
+The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 
 ### Current weather (`current`)
 

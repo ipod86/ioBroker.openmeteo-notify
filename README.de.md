@@ -1,14 +1,14 @@
-![Logo](admin/openmeteo.png)
+![Logo](admin/openmeteo-notify.png)
 
-# ioBroker.openmeteo
+# ioBroker.openmeteo-notify
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.openmeteo.svg)](https://www.npmjs.com/package/iobroker.openmeteo)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.openmeteo.svg)](https://www.npmjs.com/package/iobroker.openmeteo)
-![Number of Installations](https://iobroker.live/badges/openmeteo-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/openmeteo-stable.svg)
-[![NPM](https://nodei.co/npm/iobroker.openmeteo.png?downloads=true)](https://nodei.co/npm/iobroker.openmeteo/)
+[![NPM version](https://img.shields.io/npm/v/iobroker.openmeteo-notify.svg)](https://www.npmjs.com/package/iobroker.openmeteo-notify)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.openmeteo-notify.svg)](https://www.npmjs.com/package/iobroker.openmeteo-notify)
+![Number of Installations](https://iobroker.live/badges/openmeteo-notify-installed.svg)
+![Current version in stable repository](https://iobroker.live/badges/openmeteo-notify-stable.svg)
+[![NPM](https://nodei.co/npm/iobroker.openmeteo-notify.png?downloads=true)](https://nodei.co/npm/iobroker.openmeteo-notify/)
 
-**Tests:** ![Test and Release](https://github.com/ipod86/ioBroker.openmeteo/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/ipod86/ioBroker.openmeteo-notify/workflows/Test%20and%20Release/badge.svg)
 
 ## ioBroker-Adapter für Open-Meteo Wettervorhersagen
 
@@ -73,7 +73,7 @@ Warnungen werden unabhängig vom Dienst unter `standort.warnings.*` gespeichert.
 
 ## Installation
 
-Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo" suchen).
+Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo-notify" suchen).
 
 ## Konfiguration
 
@@ -109,7 +109,7 @@ Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo" su
 
 ## Datenpunkte
 
-Der Adapter legt Datenpunkte unter `openmeteo.<instanz>.<standort>` an.
+Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 
 ### Aktuelles Wetter (`current`)
 
