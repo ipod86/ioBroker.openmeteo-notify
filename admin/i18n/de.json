@@ -2,6 +2,7 @@
     "celsius": "Celsius (°C)",
     "daysCount": "Anzahl Tage (1–16)",
     "daysCountHelp": "Wie viele Tage sollen abgerufen werden (max. 16)",
+    "enableAgriculture": "Solar & Klima",
     "enableAgricultureHelp": "Sonneneinstrahlung, CAPE, Bodentemperatur, Bestrahlungsstärke unter *.agriculture",
     "fahrenheit": "Fahrenheit (°F)",
     "forecast": "Vorhersage",

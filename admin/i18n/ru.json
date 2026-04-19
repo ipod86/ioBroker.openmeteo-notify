@@ -6,6 +6,7 @@
     "celsius": "Цельсия (°С)",
     "daysCount": "Количество дней (1–16)",
     "daysCountHelp": "Сколько дней нужно получить (максимум 16)",
+    "enableAgriculture": "Солнечная & Климат",
     "enableAgricultureHelp": "Солнечная радиация, CAPE, температура почвы, освещённость в *.agriculture",
     "fahrenheit": "Фаренгейт (°F)",
     "forecast": "Прогноз",

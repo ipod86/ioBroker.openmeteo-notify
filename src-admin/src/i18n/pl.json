@@ -8,7 +8,7 @@
     "daysCount": "Liczba dni (1–16)",
     "daysCountHelp": "Ile dni na pobranie (maks. 16)",
     "defaultValue": "domyślny",
-    "enableAgriculture": "Rolnictwo / Energia słoneczna",
+    "enableAgriculture": "Solar & Klimat",
     "enableAgricultureHelp": "Promieniowanie słoneczne, CAPE, temperatura gleby, naświetlenie w *.agriculture",
     "enableAirQuality": "Jakość powietrza (AQI, cząstki stałe)",
     "enableAirQualityHelp": "european_aqi, PM10, PM2,5, NO₂, CO, pył, ozon poniżej aktualnej jakości powietrza",

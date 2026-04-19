@@ -6,6 +6,7 @@
     "celsius": "Celsius (°C)",
     "daysCount": "Aantal dagen (1–16)",
     "daysCountHelp": "Hoeveel dagen ophalen (max. 16)",
+    "enableAgriculture": "Solar & Klimaat",
     "enableAgricultureHelp": "Zonnestraling, CAPE, bodemtemperatuur, bestralingssterkte onder *.agriculture",
     "fahrenheit": "Fahrenheit (°F)",
     "forecast": "Voorspelling",

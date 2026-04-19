@@ -8,7 +8,7 @@
     "daysCount": "Número de dias (1–16)",
     "daysCountHelp": "Quantos dias para buscar (máx. 16)",
     "defaultValue": "padrão",
-    "enableAgriculture": "Agricultura / Solar",
+    "enableAgriculture": "Solar & Clima",
     "enableAgricultureHelp": "Radiação solar, CAPE, temperatura do solo, irradiância em *.agriculture",
     "enableAirQuality": "Qualidade do ar (AQI, material particulado)",
     "enableAirQualityHelp": "european_aqi, PM10, PM2.5, NO₂, CO, poeira, ozônio sob atual.air_quality",

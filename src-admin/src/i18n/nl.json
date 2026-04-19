@@ -8,7 +8,7 @@
     "daysCount": "Aantal dagen (1–16)",
     "daysCountHelp": "Hoeveel dagen ophalen (max. 16)",
     "defaultValue": "standaard",
-    "enableAgriculture": "Landbouw / Zonne-energie",
+    "enableAgriculture": "Solar & Klimaat",
     "enableAgricultureHelp": "Zonnestraling, CAPE, bodemtemperatuur, bestralingssterkte onder *.agriculture",
     "enableAirQuality": "Luchtkwaliteit (AQI, fijnstof)",
     "enableAirQualityHelp": "europese_aqi, PM10, PM2.5, NO₂, CO, stof, ozon onder huidige luchtkwaliteit",

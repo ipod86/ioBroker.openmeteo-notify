@@ -6,6 +6,7 @@
     "celsius": "Celsius (°C)",
     "daysCount": "Número de dias (1–16)",
     "daysCountHelp": "Quantos dias para buscar (máx. 16)",
+    "enableAgriculture": "Solar & Clima",
     "enableAgricultureHelp": "Radiação solar, CAPE, temperatura do solo, irradiância em *.agriculture",
     "fahrenheit": "Fahrenheit (°F)",
     "forecast": "Previsão",

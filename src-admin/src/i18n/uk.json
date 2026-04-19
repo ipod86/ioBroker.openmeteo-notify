@@ -8,7 +8,7 @@
     "daysCount": "Кількість днів (1–16)",
     "daysCountHelp": "Скільки днів для отримання (макс. 16)",
     "defaultValue": "за замовчуванням",
-    "enableAgriculture": "Сільське господарство / Сонячна",
+    "enableAgriculture": "Сонячна & Клімат",
     "enableAgricultureHelp": "Сонячна радіація, CAPE, температура ґрунту, освітленість у *.agriculture",
     "enableAirQuality": "Якість повітря (AQI, тверді частинки)",
     "enableAirQualityHelp": "european_aqi, PM10, PM2,5, NO₂, CO, пил, озон під струмом.air_quality",

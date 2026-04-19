@@ -6,6 +6,7 @@
     "celsius": "摄氏度 (°C)",
     "daysCount": "天数 (1–16)",
     "daysCountHelp": "获取多少天（最多 16 天）",
+    "enableAgriculture": "太阳能 & 气候",
     "enableAgricultureHelp": "太阳辐射、CAPE、土壤温度、辐照度（*.agriculture）",
     "fahrenheit": "华氏度 (°F)",
     "forecast": "预报",

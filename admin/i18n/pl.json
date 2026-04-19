@@ -6,6 +6,7 @@
     "celsius": "Celsjusza (°C)",
     "daysCount": "Liczba dni (1–16)",
     "daysCountHelp": "Ile dni na pobranie (maks. 16)",
+    "enableAgriculture": "Solar & Klimat",
     "enableAgricultureHelp": "Promieniowanie słoneczne, CAPE, temperatura gleby, naświetlenie w *.agriculture",
     "fahrenheit": "Fahrenheita (°F)",
     "forecast": "Prognoza",
