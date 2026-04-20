@@ -486,7 +486,7 @@ function precipitationType(code) {
  * @returns {number|null}
  */
 function calcHeatIndex(T, RH) {
-	if (T == null || RH == null || T < 27 || RH < 40) {
+	if (T == null || RH == null) {
 		return null;
 	}
 	const Tf = (T * 9) / 5 + 32;
@@ -512,7 +512,7 @@ function calcHeatIndex(T, RH) {
  * @returns {number|null}
  */
 function calcWindchill(T, vKmh) {
-	if (T == null || vKmh == null || T > 10 || vKmh <= 4.8) {
+	if (T == null || vKmh == null) {
 		return null;
 	}
 	const wc = 13.12 + 0.6215 * T - 11.37 * Math.pow(vKmh, 0.16) + 0.3965 * T * Math.pow(vKmh, 0.16);
