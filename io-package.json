@@ -139,17 +139,17 @@
     {
       "scope": "openmeteo-notify",
       "name": {
-        "en": "OpenMeteo Weather Warnings",
-        "de": "OpenMeteo Wetterwarnungen",
-        "ru": "Погодные предупреждения OpenMeteo",
-        "pt": "Avisos meteorológicos OpenMeteo",
-        "nl": "OpenMeteo weerwaarschuwingen",
-        "fr": "Alertes météo OpenMeteo",
-        "it": "Avvisi meteo OpenMeteo",
-        "es": "Alertas meteorológicas OpenMeteo",
-        "pl": "Ostrzeżenia pogodowe OpenMeteo",
-        "uk": "Погодні попередження OpenMeteo",
-        "zh-cn": "OpenMeteo 天气警告"
+        "en": "OpenMeteo Notify",
+        "de": "OpenMeteo Notify",
+        "ru": "OpenMeteo Notify",
+        "pt": "OpenMeteo Notify",
+        "nl": "OpenMeteo Notify",
+        "fr": "OpenMeteo Notify",
+        "it": "OpenMeteo Notify",
+        "es": "OpenMeteo Notify",
+        "pl": "OpenMeteo Notify",
+        "uk": "OpenMeteo Notify",
+        "zh-cn": "OpenMeteo Notify"
       },
       "description": {
         "en": "Storm and thunderstorm warnings from ioBroker.openmeteo-notify",
