@@ -125,6 +125,8 @@
     "enableAgricultureHourly": false,
     "enablePollen": false,
     "enablePollenHourly": false,
+    "enableComfort": false,
+    "enableComfortHourly": false,
     "warnOfficial": false,
     "warnStorm": false,
     "warnThunderstorm": false,
