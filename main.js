@@ -731,19 +731,17 @@ class Openmeteo extends utils.Adapter {
 			const lon = sysConfig?.common?.longitude;
 			const city = sysConfig?.common?.city || "Home";
 			if (lat != null && lon != null) {
-				this.log.info(
-					`Keine Standorte konfiguriert – verwende ioBroker-Systemstandort: ${city} (${lat}, ${lon})`,
-				);
+				this.log.info(`No locations configured – using ioBroker system location: ${city} (${lat}, ${lon})`);
 				locations = [{ name: city, lat, lon }];
 			} else {
-				this.log.error("Keine Standorte konfiguriert und kein Systemstandort in ioBroker hinterlegt.");
+				this.log.error("No locations configured and no system location set in ioBroker.");
 				await this.setState("info.connection", false, true);
 				return;
 			}
 		}
 
 		if (hourlyDays > daysCount) {
-			this.log.error(`hourlyDays (${hourlyDays}) darf nicht größer als daysCount (${daysCount}) sein!`);
+			this.log.error(`hourlyDays (${hourlyDays}) must not exceed daysCount (${daysCount})!`);
 			await this.setState("info.connection", false, true);
 			return;
 		}
@@ -784,7 +782,7 @@ class Openmeteo extends utils.Adapter {
 						lastErr = err;
 						if (attempt < 3) {
 							this.log.warn(
-								`Abruf für "${loc.name}" fehlgeschlagen (Versuch ${attempt}/3): ${err.message} – Wiederholung in 60s`,
+								`Fetch failed for "${loc.name}" (attempt ${attempt}/3): ${err.message} – retrying in 60s`,
 							);
 							await new Promise(r => setTimeout(r, 60000));
 						}
@@ -832,7 +830,7 @@ class Openmeteo extends utils.Adapter {
 							lang,
 						);
 					} catch (err) {
-						this.log.warn(`Pollen/Luftqualität-Daten nicht verfügbar für "${loc.name}": ${err.message}`);
+						this.log.warn(`Pollen/air quality data not available for "${loc.name}": ${err.message}`);
 					}
 				} else {
 					// Both pollen and air quality disabled – clean up all related channels
@@ -881,23 +879,23 @@ class Openmeteo extends utils.Adapter {
 					try {
 						const locInfo = await this.fetchLocationInfo(loc.lat, loc.lon);
 						this.log.debug(
-							`Standortinfo für "${loc.name}": Land=${locInfo.countryCode}, WarnCell=${locInfo.warncellId}`,
+							`Location info for "${loc.name}": country=${locInfo.countryCode}, warnCell=${locInfo.warncellId}`,
 						);
 						if (locInfo.countryCode === "de" && locInfo.warncellId) {
 							const dwdWarnings = await this.fetchDwdWarnings(locInfo.warncellId);
-							this.log.debug(`DWD: ${dwdWarnings.length} Warnung(en) für "${loc.name}"`);
+							this.log.debug(`DWD: ${dwdWarnings.length} warning(s) for "${loc.name}"`);
 							await this.processDwdWarnings(dwdWarnings, locId);
 						} else if (METEOALARM_COUNTRIES[locInfo.countryCode]) {
 							const warnings = await this.fetchMeteoAlarmWarnings(loc.lat, loc.lon, locInfo.countryCode);
-							this.log.debug(`MeteoAlarm: ${warnings.length} Warnung(en) für "${loc.name}"`);
+							this.log.debug(`MeteoAlarm: ${warnings.length} warning(s) for "${loc.name}"`);
 							await this.processMeteoAlarmWarnings(warnings, locId);
 						} else {
 							this.log.debug(
-								`Amtliche Warnungen: Kein unterstützter Dienst für Land "${locInfo.countryCode}" (${loc.name})`,
+								`Official warnings: no supported service for country "${locInfo.countryCode}" (${loc.name})`,
 							);
 						}
 					} catch (err) {
-						this.log.warn(`Amtliche Warnungen nicht verfügbar für "${loc.name}": ${err.message}`);
+						this.log.warn(`Official warnings not available for "${loc.name}": ${err.message}`);
 					}
 				} else {
 					try {
@@ -908,9 +906,9 @@ class Openmeteo extends utils.Adapter {
 				}
 
 				anySuccess = true;
-				this.log.info(`OpenMeteo aktualisiert: ${loc.name} (${daysCount} Tage, ${hourlyDays} davon stündlich)`);
+				this.log.info(`OpenMeteo updated: ${loc.name} (${daysCount} days, ${hourlyDays} with hourly data)`);
 			} catch (err) {
-				this.log.error(`Fehler beim Abrufen der Wetterdaten für "${loc.name}": ${err.message}`);
+				this.log.error(`Error fetching weather data for "${loc.name}": ${err.message}`);
 			}
 		}
 
@@ -918,9 +916,7 @@ class Openmeteo extends utils.Adapter {
 			this.consecutiveFailures = 0;
 		} else {
 			this.consecutiveFailures++;
-			this.log.warn(
-				`Alle Standorte fehlgeschlagen (${this.consecutiveFailures}x in Folge) – behalte letzten Stand`,
-			);
+			this.log.warn(`All locations failed (${this.consecutiveFailures}x in a row) – keeping last state`);
 		}
 		await this.setState("info.connection", anySuccess || this.consecutiveFailures < 1, true);
 		if (anySuccess) {
@@ -960,7 +956,7 @@ class Openmeteo extends utils.Adapter {
 						role: "html",
 					});
 				} catch (err) {
-					this.log.error(`Widget ${widget.id} Fehler: ${err.message}`);
+					this.log.error(`Widget ${widget.id} error: ${err.message}`);
 				}
 			}
 			// Cleanup removed widgets
@@ -1054,7 +1050,7 @@ class Openmeteo extends utils.Adapter {
 							hd => speedToBeaufort(hd.gustKmh, "kmh") >= stormBft,
 						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Sturmwarnung für ${loc.name} in ${leadHours}h`);
+						this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
 							"openmeteo-notify",
 							"storm",
@@ -1073,7 +1069,7 @@ class Openmeteo extends utils.Adapter {
 							[95, 96, 99].includes(hd.weathercode),
 						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Gewitterwarnung für ${loc.name} in ${leadHours}h`);
+						this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
 						await this.registerNotification(
 							"openmeteo-notify",
 							"thunderstorm",
@@ -1095,7 +1091,7 @@ class Openmeteo extends utils.Adapter {
 							hd => hd.temperature !== null && hd.temperature <= frostThreshold,
 						);
 						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Frostwarnung für ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
+						this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
 						await this.registerNotification(
 							"openmeteo-notify",
 							"frost_warning",
@@ -1106,7 +1102,7 @@ class Openmeteo extends utils.Adapter {
 					}
 				}
 			} catch (err) {
-				this.log.error(`Fehler bei Wetterwarnungs-Check für ${loc.name}: ${err.message}`);
+				this.log.error(`Error during weather warning check for ${loc.name}: ${err.message}`);
 			}
 		}
 	}
@@ -2969,7 +2965,7 @@ class Openmeteo extends utils.Adapter {
 		for (let i = daysCount + 1; i <= 16; i++) {
 			try {
 				await this.delObjectAsync(`${locId}.day${i}`, { recursive: true });
-				this.log.debug(`${locId}: Tag ${i} gelöscht`);
+				this.log.debug(`${locId}: day ${i} deleted`);
 			} catch {
 				// Object didn't exist, ignore
 			}
@@ -2978,7 +2974,7 @@ class Openmeteo extends utils.Adapter {
 		for (let i = hourlyDays + 1; i <= daysCount; i++) {
 			try {
 				await this.delObjectAsync(`${locId}.day${i}.hourly`, { recursive: true });
-				this.log.debug(`${locId}: Stundenwerte Tag ${i} gelöscht`);
+				this.log.debug(`${locId}: hourly data for day ${i} deleted`);
 			} catch {
 				// Object didn't exist, ignore
 			}
@@ -3331,13 +3327,13 @@ class Openmeteo extends utils.Adapter {
 
 				try {
 					await this.delObjectAsync(channelId, { recursive: true });
-					this.log.info(`Veralteter Standortkanal gelöscht: ${channelId}`);
+					this.log.info(`Stale location channel deleted: ${channelId}`);
 				} catch (err) {
-					this.log.warn(`Konnte Standortkanal "${channelId}" nicht löschen: ${err.message}`);
+					this.log.warn(`Could not delete location channel "${channelId}": ${err.message}`);
 				}
 			}
 		} catch (err) {
-			this.log.warn(`Fehler beim Aufräumen veralteter Standortkanäle: ${err.message}`);
+			this.log.warn(`Error cleaning up stale location channels: ${err.message}`);
 		}
 	}
 
