@@ -35,5 +35,5 @@
     "widgetDark": "Dunkel",
     "widgetLight": "Hell",
     "windspeedUnit": "Windgeschwindigkeitseinheit",
-    "hourlyDaysHighWarning": "Jeder Stundentag erzeugt ~1.600 Datenpunkte – sparsam einsetzen"
+    "hourlyDaysHighWarning": "Jeder Stundentag erzeugt viele Datenpunkte je nach aktivierten Optionen"
 }

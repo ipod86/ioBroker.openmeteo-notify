@@ -76,5 +76,5 @@
     "widgetProtocol": "Protocolo",
     "widgetTheme": "Tema",
     "windspeedUnit": "Unidad de velocidad del viento",
-    "hourlyDaysHighWarning": "Cada día horario genera ~1.600 puntos de datos – usar con moderación"
+    "hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas"
 }

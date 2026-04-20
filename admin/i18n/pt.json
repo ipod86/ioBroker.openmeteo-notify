@@ -39,5 +39,5 @@
     "widgetDark": "Escuro",
     "widgetLight": "Claro",
     "windspeedUnit": "Unidade de velocidade do vento",
-    "hourlyDaysHighWarning": "Cada dia horário gera ~1.600 pontos de dados – usar com moderação"
+    "hourlyDaysHighWarning": "Cada dia horário gera muitos pontos de dados dependendo das opções ativadas"
 }

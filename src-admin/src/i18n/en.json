@@ -8,5 +8,5 @@
     "validRange": "Valid range: %s",
     "widgetDark": "Dark",
     "widgetLight": "Light",
-    "hourlyDaysHighWarning": "Each hourly day generates ~1,600 datapoints – use sparingly"
+    "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options"
 }

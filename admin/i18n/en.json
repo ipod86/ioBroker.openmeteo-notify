@@ -34,5 +34,5 @@
     "widgetDark": "Dark",
     "widgetLight": "Light",
     "windspeedUnit": "Wind speed unit",
-    "hourlyDaysHighWarning": "Each hourly day generates ~1,600 datapoints – use sparingly"
+    "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options"
 }

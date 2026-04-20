@@ -76,5 +76,5 @@
     "widgetProtocol": "协议",
     "widgetTheme": "主题",
     "windspeedUnit": "风速单位",
-    "hourlyDaysHighWarning": "每个小时天产生约1600个数据点——请谨慎使用"
+    "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点"
 }

@@ -76,5 +76,5 @@
     "widgetProtocol": "Protocol",
     "widgetTheme": "Thema",
     "windspeedUnit": "Windsnelheid eenheid",
-    "hourlyDaysHighWarning": "Elk uurlijks dag genereert ~1.600 datapunten – spaarzaam gebruiken"
+    "hourlyDaysHighWarning": "Elk uurlijks dag genereert veel datapunten afhankelijk van de ingeschakelde opties"
 }
