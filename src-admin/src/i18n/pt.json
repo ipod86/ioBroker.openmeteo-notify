@@ -75,5 +75,6 @@
     "widgetPort": "Porta",
     "widgetProtocol": "Protocolo",
     "widgetTheme": "Tema",
-    "windspeedUnit": "Unidade de velocidade do vento"
+    "windspeedUnit": "Unidade de velocidade do vento",
+    "hourlyDaysHighWarning": "Cada dia horário gera ~1.600 pontos de dados – usar com moderação"
 }

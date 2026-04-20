@@ -75,5 +75,6 @@
     "widgetPort": "Порт",
     "widgetProtocol": "Протокол",
     "widgetTheme": "Тема",
-    "windspeedUnit": "Единица измерения скорости ветра"
+    "windspeedUnit": "Единица измерения скорости ветра",
+    "hourlyDaysHighWarning": "Каждый почасовой день создаёт ~1600 точек данных – используйте экономно"
 }

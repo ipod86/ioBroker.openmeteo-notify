@@ -55,7 +55,10 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                         error={(native.hourlyDays ?? 3) < 0 || (native.hourlyDays ?? 3) > (native.daysCount ?? 7)}
                         helperText={(native.hourlyDays ?? 3) < 0 || (native.hourlyDays ?? 3) > (native.daysCount ?? 7)
                             ? I18n.t('hourlyDaysExceedsDaysCount')
-                            : I18n.t('hourlyDaysHelp')}
+                            : (native.hourlyDays ?? 3) >= 7
+                                ? I18n.t('hourlyDaysHighWarning')
+                                : I18n.t('hourlyDaysHelp')}
+                        FormHelperTextProps={{ style: (native.hourlyDays ?? 3) >= 7 ? { color: '#ed6c02' } : undefined }}
                         sx={{ width: 200 }}
                     />
                 </Box>

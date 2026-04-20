@@ -38,5 +38,6 @@
     "warnFrostThresholdHelp": "当温度低于此值时发送警告",
     "widgetDark": "深色",
     "widgetLight": "浅色",
-    "windspeedUnit": "风速单位"
+    "windspeedUnit": "风速单位",
+    "hourlyDaysHighWarning": "每个小时天产生约1600个数据点——请谨慎使用"
 }

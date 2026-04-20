@@ -75,5 +75,6 @@
     "widgetPort": "Hafen",
     "widgetProtocol": "Protokoll",
     "widgetTheme": "Thema",
-    "windspeedUnit": "Windgeschwindigkeitseinheit"
+    "windspeedUnit": "Windgeschwindigkeitseinheit",
+    "hourlyDaysHighWarning": "Jeder Stundentag erzeugt ~1.600 Datenpunkte – sparsam einsetzen"
 }

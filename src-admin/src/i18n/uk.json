@@ -75,5 +75,6 @@
     "widgetPort": "Порт",
     "widgetProtocol": "Протокол",
     "widgetTheme": "Тема",
-    "windspeedUnit": "Одиниця швидкості вітру"
+    "windspeedUnit": "Одиниця швидкості вітру",
+    "hourlyDaysHighWarning": "Кожен погодинний день створює ~1600 точок даних – використовуйте економно"
 }

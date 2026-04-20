@@ -38,5 +38,6 @@
     "warnFrostThresholdHelp": "Enviar alerta cuando la temperatura caiga por debajo de este valor",
     "widgetDark": "Oscuro",
     "widgetLight": "Claro",
-    "windspeedUnit": "Unidad de velocidad del viento"
+    "windspeedUnit": "Unidad de velocidad del viento",
+    "hourlyDaysHighWarning": "Cada día horario genera ~1.600 puntos de datos – usar con moderación"
 }

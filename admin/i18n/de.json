@@ -34,5 +34,6 @@
     "warnFrostThresholdHelp": "Warnung senden wenn Temperatur unter diesen Wert fällt",
     "widgetDark": "Dunkel",
     "widgetLight": "Hell",
-    "windspeedUnit": "Windgeschwindigkeitseinheit"
+    "windspeedUnit": "Windgeschwindigkeitseinheit",
+    "hourlyDaysHighWarning": "Jeder Stundentag erzeugt ~1.600 Datenpunkte – sparsam einsetzen"
 }

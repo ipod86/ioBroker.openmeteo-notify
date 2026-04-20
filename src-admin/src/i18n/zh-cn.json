@@ -75,5 +75,6 @@
     "widgetPort": "港口",
     "widgetProtocol": "协议",
     "widgetTheme": "主题",
-    "windspeedUnit": "风速单位"
+    "windspeedUnit": "风速单位",
+    "hourlyDaysHighWarning": "每个小时天产生约1600个数据点——请谨慎使用"
 }

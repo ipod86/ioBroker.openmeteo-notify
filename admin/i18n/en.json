@@ -33,5 +33,6 @@
     "warnFrostThresholdHelp": "Send warning when temperature drops below this value",
     "widgetDark": "Dark",
     "widgetLight": "Light",
-    "windspeedUnit": "Wind speed unit"
+    "windspeedUnit": "Wind speed unit",
+    "hourlyDaysHighWarning": "Each hourly day generates ~1,600 datapoints – use sparingly"
 }
