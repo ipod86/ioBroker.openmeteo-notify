@@ -659,6 +659,7 @@ class Openmeteo extends utils.Adapter {
 		this.consecutiveFailures = 0;
 		this.warnState = {};
 		this.iconSyncTs = 0;
+		this.iconWatcher = null;
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
@@ -809,13 +810,39 @@ class Openmeteo extends utils.Adapter {
 		}
 
 		this.iconSyncTs = Date.now();
-		this.log.debug(`Custom icons synced: ${copied} copied, ${removed} removed`);
+		this.log.info(`Custom icons synced: ${copied} copied, ${removed} removed`);
 	}
 
-	async onFileChange(id, fileName, _size) {
-		if (id === this.namespace && fileName && fileName.startsWith("icons/custom/") && fileName.endsWith(".svg")) {
-			this.log.debug(`Custom icon changed: ${fileName} — re-syncing`);
-			await this.syncCustomIconsToStatic();
+	watchCustomIconsFolder() {
+		let dataDir;
+		try {
+			dataDir = utils.getAbsoluteDefaultDataDir();
+		} catch {
+			this.log.debug("getAbsoluteDefaultDataDir not available — skipping fs.watch");
+			return;
+		}
+		const watchDir = path.join(dataDir, "files", this.namespace, "icons", "custom");
+		try {
+			fs.mkdirSync(watchDir, { recursive: true });
+		} catch {
+			// ignore
+		}
+		let debounceTimer = null;
+		try {
+			this.iconWatcher = fs.watch(watchDir, { persistent: false }, (eventType, filename) => {
+				if (!filename || !filename.endsWith(".svg")) {
+					return;
+				}
+				clearTimeout(debounceTimer);
+				debounceTimer = setTimeout(() => {
+					this.log.info(`Custom icon changed (${filename}) — syncing to static folder`);
+					this.syncCustomIconsToStatic().catch(e => this.log.warn(`Icon re-sync failed: ${e.message}`));
+				}, 500);
+			});
+			this.iconWatcher.on("error", err => this.log.debug(`Icon watcher error: ${err.message}`));
+			this.log.debug(`Watching for custom icon changes in: ${watchDir}`);
+		} catch (e) {
+			this.log.debug(`Could not watch icon folder: ${e.message}`);
 		}
 	}
 
@@ -823,11 +850,7 @@ class Openmeteo extends utils.Adapter {
 		await this.setState("info.connection", false, true);
 		await this.ensureCustomIconsReadme();
 		await this.syncCustomIconsToStatic();
-		try {
-			await this.subscribeFiles(this.namespace, "icons/custom/*");
-		} catch (e) {
-			this.log.debug(`subscribeFiles not available: ${e.message}`);
-		}
+		this.watchCustomIconsFolder();
 
 		// Sofort beim Start abrufen
 		await this.runUpdate();
@@ -3584,6 +3607,10 @@ class Openmeteo extends utils.Adapter {
 			}
 			if (this.updateInterval) {
 				this.clearInterval(this.updateInterval);
+			}
+			if (this.iconWatcher) {
+				this.iconWatcher.close();
+				this.iconWatcher = null;
 			}
 			callback();
 		} catch (error) {
