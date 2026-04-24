@@ -1264,7 +1264,7 @@ class Openmeteo extends utils.Adapter {
 		);
 
 		const oid = `omw-${widget.id}`;
-		let html = `<div id="${oid}-o" style="max-width:${w}px;overflow:hidden;"><div id="${oid}-i" style="width:${w}px;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;transform-origin:top left;">`;
+		let html = `<div id="${oid}-o" style="display:block;width:100%;max-width:${w}px;overflow:hidden;"><div id="${oid}-i" style="width:${w}px;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;transform-origin:top left;">`;
 
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
