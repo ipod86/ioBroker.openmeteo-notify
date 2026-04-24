@@ -1410,7 +1410,7 @@ class Openmeteo extends utils.Adapter {
 		// Scale inner content to fit the actual VIS cell width.
 		// outer.offsetWidth = cell width (100%), dw = configured design width.
 		// overflow:hidden on outer clips the layout box; height is adjusted to match visual height.
-		html += `<script>(function(){var o=document.getElementById('${oid}');if(!o)return;var i=o.firstElementChild;if(!i)return;setTimeout(function(){var pw=o.offsetWidth,dw=${w};if(pw>0&&Math.abs(pw-dw)>2){var sc=pw/dw;i.style.transform='scale('+sc+')';i.style.transformOrigin='top left';o.style.height=Math.round(i.offsetHeight*sc)+'px';}},0);}());</script>`;
+		html += `<script>(function(){var o=document.getElementById('${oid}');if(!o)return;var i=o.firstElementChild;if(!i)return;var t=0;function a(){var pw=o.offsetWidth,dw=${w};if(!pw&&++t<15){setTimeout(a,50);return;}if(pw>0&&Math.abs(pw-dw)>2){var sc=pw/dw;i.style.transform='scale('+sc+')';i.style.transformOrigin='top left';o.style.height=Math.round(i.offsetHeight*sc)+'px';}}setTimeout(a,0);}());</script>`;
 		html += `</div>`;
 		return html;
 	}
