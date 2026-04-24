@@ -716,6 +716,9 @@ class Openmeteo extends utils.Adapter {
 			// Seed the DB namespace with the bundled WMO icons on first run so
 			// the user sees them immediately in Admin → Files as a starting point.
 			const iconsExist = await this.fileExistsAsync(this.namespace, "icons/custom/wmo_00.svg");
+			this.log.info(
+				`Custom icons: wmo_00.svg ${iconsExist ? "exists in DB — skipping seed" : "NOT FOUND — seeding defaults"}`,
+			);
 			if (!iconsExist) {
 				const srcDir = path.join(__dirname, "admin", "icons", "wmo_svg");
 				const wmoCodes = [
