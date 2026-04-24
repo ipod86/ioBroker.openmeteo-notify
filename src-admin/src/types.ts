@@ -21,7 +21,7 @@ export interface OpenMeteoConfig {
     temperatureUnit: 'celsius' | 'fahrenheit';
     windspeedUnit: 'kmh' | 'ms' | 'mph' | 'kn';
     precipitationUnit: 'mm' | 'inch';
-    iconSet: 'wmo' | 'basmilius' | 'basmilius_animated' | 'amcharts_animated' | 'amcharts_static';
+    iconSet: 'wmo' | 'basmilius' | 'basmilius_animated' | 'amcharts_animated' | 'amcharts_static' | 'custom';
     updateInterval: number;
     enableAirQuality: boolean;
     enableAirQualityHourly: boolean;

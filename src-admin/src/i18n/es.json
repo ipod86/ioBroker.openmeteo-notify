@@ -81,5 +81,7 @@
     "widgetProtocol": "Protocolo",
     "widgetTheme": "Tema",
     "windspeedUnit": "Unidad de velocidad del viento",
-    "hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas"
+    "hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas",
+    "iconSetCustomHint": "Suba archivos SVG llamados wmo_00.svg – wmo_99.svg a:\nAdmin → Archivos → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Vista previa: Iconos personalizados (iconos faltantes ocultos)"
 }

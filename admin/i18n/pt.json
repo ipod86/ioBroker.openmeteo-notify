@@ -44,5 +44,7 @@
     "widgetTransparent": "Transparente",
     "widgetLight": "Claro",
     "windspeedUnit": "Unidade de velocidade do vento",
-    "hourlyDaysHighWarning": "Cada dia horário gera muitos pontos de dados dependendo das opções ativadas"
+    "hourlyDaysHighWarning": "Cada dia horário gera muitos pontos de dados dependendo das opções ativadas",
+    "iconSetCustomHint": "Carregue ficheiros SVG denominados wmo_00.svg – wmo_99.svg em:\nAdmin → Ficheiros → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Pré-visualização: Ícones personalizados (ícones em falta ocultos)"
 }

@@ -44,5 +44,7 @@
     "widgetTransparent": "Transparant",
     "widgetLight": "Licht",
     "windspeedUnit": "Windsnelheid eenheid",
-    "hourlyDaysHighWarning": "Elk uurlijks dag genereert veel datapunten afhankelijk van de ingeschakelde opties"
+    "hourlyDaysHighWarning": "Elk uurlijks dag genereert veel datapunten afhankelijk van de ingeschakelde opties",
+    "iconSetCustomHint": "Upload SVG-bestanden genaamd wmo_00.svg – wmo_99.svg naar:\nAdmin → Bestanden → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Voorbeeld: Aangepaste pictogrammen (ontbrekende verborgen)"
 }

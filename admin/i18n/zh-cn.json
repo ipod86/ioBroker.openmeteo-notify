@@ -44,5 +44,7 @@
     "widgetTransparent": "透明",
     "widgetLight": "浅色",
     "windspeedUnit": "风速单位",
-    "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点"
+    "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点",
+    "iconSetCustomHint": "将名为 wmo_00.svg – wmo_99.svg 的 SVG 文件上传到：\nAdmin → 文件 → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "预览：自定义图标（缺失的图标已隐藏）"
 }

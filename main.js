@@ -214,6 +214,9 @@ function weatherIconUrl(code, iconSet, isDay) {
 		const folder = iconSet === "amcharts_animated" ? "animated" : "static";
 		return `/adapter/openmeteo-notify/icons/amcharts/${folder}/${name}.svg`;
 	}
+	if (iconSet === "custom") {
+		return `/adapter/openmeteo-notify/icons/custom/wmo_${padded}.svg`;
+	}
 	// WMO SVG set (fallback for unknown iconSet values)
 	const wmoCode = WMO_CODE_FALLBACK[code] ?? code;
 	return `/adapter/openmeteo-notify/icons/wmo_svg/wmo_${String(wmoCode).padStart(2, "0")}.svg`;

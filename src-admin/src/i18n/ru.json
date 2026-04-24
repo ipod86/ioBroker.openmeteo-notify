@@ -81,5 +81,7 @@
     "widgetProtocol": "Протокол",
     "widgetTheme": "Тема",
     "windspeedUnit": "Единица измерения скорости ветра",
-    "hourlyDaysHighWarning": "Каждый почасовой день создаёт много точек данных в зависимости от включённых опций"
+    "hourlyDaysHighWarning": "Каждый почасовой день создаёт много точек данных в зависимости от включённых опций",
+    "iconSetCustomHint": "Загрузите SVG-файлы с именами wmo_00.svg – wmo_99.svg в:\nAdmin → Файлы → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Предварительный просмотр: пользовательские значки (отсутствующие скрыты)"
 }

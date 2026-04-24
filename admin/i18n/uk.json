@@ -44,5 +44,7 @@
     "widgetTransparent": "Прозорий",
     "widgetLight": "Світла",
     "windspeedUnit": "Одиниця швидкості вітру",
-    "hourlyDaysHighWarning": "Кожен погодинний день створює багато точок даних залежно від увімкнених опцій"
+    "hourlyDaysHighWarning": "Кожен погодинний день створює багато точок даних залежно від увімкнених опцій",
+    "iconSetCustomHint": "Завантажте SVG-файли з іменами wmo_00.svg – wmo_99.svg до:\nAdmin → Файли → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Попередній перегляд: власні значки (відсутні приховано)"
 }

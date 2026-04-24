@@ -13,5 +13,7 @@
     "widgetTextColor": "Text color",
     "widgetTransparent": "Transparent",
     "widgetLight": "Light",
-    "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options"
+    "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options",
+    "iconSetCustomHint": "Upload SVG files named wmo_00.svg – wmo_99.svg to:\nAdmin → Files → openmeteo-notify.admin/icons/custom/",
+    "iconSetCustomPreviewHint": "Preview: Custom icons (missing icons hidden)"
 }
