@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Próg mrozu (°C)",
     "warnFrostThresholdHelp": "Wyślij ostrzeżenie gdy temperatura spadnie poniżej tej wartości",
     "widgetDark": "Ciemny",
+    "widgetWidth": "Szerokość",
     "widgetLight": "Jasny",
     "windspeedUnit": "Jednostka prędkości wiatru",
     "hourlyDaysHighWarning": "Każdy dzień godzinowy generuje wiele punktów danych w zależności od włączonych opcji"

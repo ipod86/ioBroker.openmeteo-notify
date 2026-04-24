@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Limiar de geada (°C)",
     "warnFrostThresholdHelp": "Enviar aviso quando a temperatura cair abaixo deste valor",
     "widgetDark": "Escuro",
+    "widgetWidth": "Largura",
     "widgetLight": "Claro",
     "windspeedUnit": "Unidade de velocidade do vento",
     "hourlyDaysHighWarning": "Cada dia horário gera muitos pontos de dados dependendo das opções ativadas"

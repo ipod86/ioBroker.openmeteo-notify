@@ -9,6 +9,7 @@ export interface Widget {
     locationName: string;
     days: 5 | 7 | 14;
     theme: 'light' | 'dark';
+    width: number;
 }
 
 export interface OpenMeteoConfig {

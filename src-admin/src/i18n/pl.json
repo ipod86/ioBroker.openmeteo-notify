@@ -67,6 +67,7 @@
     "warningsOpenMeteo": "Obliczone ostrzeżenia (na całym świecie, na podstawie prognozy Open-Meteo)",
     "warningsViaNotificationManager": "poprzez system powiadomień ioBroker",
     "widgetDark": "Ciemny",
+    "widgetWidth": "Szerokość",
     "widgetDays": "Dni",
     "widgetHint": "Każdy widget generuje punkt danych HTML w lokalizacji.widget.widgetID. Uzyskaj adres IP i port z adaptera internetowego.",
     "widgetHost": "Adres IP",

@@ -67,6 +67,7 @@
     "warningsOpenMeteo": "Berekende waarschuwingen (wereldwijd, uit Open-Meteo-voorspelling)",
     "warningsViaNotificationManager": "via het ioBroker-meldingssysteem",
     "widgetDark": "Donker",
+    "widgetWidth": "Breedte",
     "widgetDays": "Dagen",
     "widgetHint": "Elke widget genereert een HTML-datapunt onder location.widget.widgetID. Haal het IP-adres en de poort op van de webadapter.",
     "widgetHost": "IP-adres",

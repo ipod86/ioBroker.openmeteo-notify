@@ -32,6 +32,7 @@
     "warnFrostThreshold": "Frost threshold (°C)",
     "warnFrostThresholdHelp": "Send warning when temperature drops below this value",
     "widgetDark": "Dark",
+    "widgetWidth": "Width",
     "widgetLight": "Light",
     "windspeedUnit": "Wind speed unit",
     "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options"

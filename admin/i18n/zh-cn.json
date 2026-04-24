@@ -37,6 +37,7 @@
     "warnFrostThreshold": "霜冻阈值 (°C)",
     "warnFrostThresholdHelp": "当温度低于此值时发送警告",
     "widgetDark": "深色",
+    "widgetWidth": "宽度",
     "widgetLight": "浅色",
     "windspeedUnit": "风速单位",
     "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点"

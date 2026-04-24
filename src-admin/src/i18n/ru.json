@@ -67,6 +67,7 @@
     "warningsOpenMeteo": "Расчетные предупреждения (по всему миру, на основе прогноза Open-Meteo)",
     "warningsViaNotificationManager": "через систему уведомлений ioBroker",
     "widgetDark": "Тёмная",
+    "widgetWidth": "Ширина",
     "widgetDays": "Дни",
     "widgetHint": "Каждый виджет генерирует точку данных HTML с именем location.widget.widgetID. Получите IP и порт от веб-адаптера.",
     "widgetHost": "IP-адрес",

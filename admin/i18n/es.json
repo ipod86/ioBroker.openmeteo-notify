@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Umbral de helada (°C)",
     "warnFrostThresholdHelp": "Enviar alerta cuando la temperatura caiga por debajo de este valor",
     "widgetDark": "Oscuro",
+    "widgetWidth": "Ancho",
     "widgetLight": "Claro",
     "windspeedUnit": "Unidad de velocidad del viento",
     "hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas"

@@ -33,6 +33,7 @@
     "warnFrostThreshold": "Frost-Schwellenwert (°C)",
     "warnFrostThresholdHelp": "Warnung senden wenn Temperatur unter diesen Wert fällt",
     "widgetDark": "Dunkel",
+    "widgetWidth": "Breite",
     "widgetLight": "Hell",
     "windspeedUnit": "Windgeschwindigkeitseinheit",
     "hourlyDaysHighWarning": "Jeder Stundentag erzeugt viele Datenpunkte je nach aktivierten Optionen"

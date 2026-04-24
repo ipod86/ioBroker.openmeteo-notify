@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Soglia gelo (°C)",
     "warnFrostThresholdHelp": "Invia avviso quando la temperatura scende sotto questo valore",
     "widgetDark": "Scuro",
+    "widgetWidth": "Larghezza",
     "widgetLight": "Chiaro",
     "windspeedUnit": "Unità di velocità del vento",
     "hourlyDaysHighWarning": "Ogni giorno orario genera molti punti dati in base alle opzioni attivate"

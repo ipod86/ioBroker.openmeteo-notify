@@ -67,6 +67,7 @@
     "warningsOpenMeteo": "计算出的警告（全球范围内，来自 Open-Meteo 预测）",
     "warningsViaNotificationManager": "通过ioBroker通知系统",
     "widgetDark": "深色",
+    "widgetWidth": "宽度",
     "widgetDays": "天",
     "widgetHint": "每个小部件都会在 location.widget.widgetID 下生成一个 HTML 数据点。从 Web 适配器获取 IP 和端口。",
     "widgetHost": "IP地址",

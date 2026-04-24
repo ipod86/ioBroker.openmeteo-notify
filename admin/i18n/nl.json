@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Vorstgrens (°C)",
     "warnFrostThresholdHelp": "Waarschuwing sturen wanneer de temperatuur onder deze waarde daalt",
     "widgetDark": "Donker",
+    "widgetWidth": "Breedte",
     "widgetLight": "Licht",
     "windspeedUnit": "Windsnelheid eenheid",
     "hourlyDaysHighWarning": "Elk uurlijks dag genereert veel datapunten afhankelijk van de ingeschakelde opties"

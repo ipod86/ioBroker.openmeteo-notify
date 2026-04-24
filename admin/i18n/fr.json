@@ -37,6 +37,7 @@
     "warnFrostThreshold": "Seuil de gel (°C)",
     "warnFrostThresholdHelp": "Envoyer une alerte lorsque la température descend sous cette valeur",
     "widgetDark": "Sombre",
+    "widgetWidth": "Largeur",
     "widgetLight": "Clair",
     "windspeedUnit": "Unité de vitesse du vent",
     "hourlyDaysHighWarning": "Chaque jour horaire génère de nombreux points de données selon les options activées"
