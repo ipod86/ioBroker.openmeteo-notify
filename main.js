@@ -1197,7 +1197,8 @@ class Openmeteo extends utils.Adapter {
 			),
 		);
 
-		let html = `<div style="background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;max-width:${w}px;">`;
+		const oid = `omw-${widget.id}`;
+		let html = `<div id="${oid}-o" style="max-width:${w}px;overflow:hidden;"><div id="${oid}-i" style="width:${w}px;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;transform-origin:top left;">`;
 
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
@@ -1262,7 +1263,8 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr></table>`;
 		}
 
-		html += `</div>`;
+		html += `</div></div>`;
+		html += `<script>(function(){var o=document.getElementById('${oid}-o'),n=document.getElementById('${oid}-i');if(!o||!n)return;function r(){var s=o.offsetWidth/${w};if(s<1){n.style.transform='scale('+s+')';o.style.height=(n.scrollHeight*s)+'px';}else{n.style.transform='';o.style.height='';}}r();if(window.ResizeObserver)new ResizeObserver(r).observe(o);else window.addEventListener('resize',r);})();</script>`;
 		return html;
 	}
 
