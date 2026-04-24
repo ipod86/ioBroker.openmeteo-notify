@@ -711,8 +711,10 @@ class Openmeteo extends utils.Adapter {
 					common: { name: `${this.namespace} user files`, type: "meta.user" },
 					native: {},
 				});
-				// Copy example WMO icons from adapter package into the DB namespace so
-				// they are visible in Admin → Files and serve as a starting point.
+			}
+			// Copy example WMO icons if not yet present (runs on every startup until icons exist).
+			const iconsExist = await this.fileExistsAsync(this.namespace, "icons/custom/wmo_00.svg");
+			if (!iconsExist) {
 				const srcDir = path.join(__dirname, "admin", "icons", "wmo_svg");
 				const wmoCodes = [
 					"00",
@@ -1304,7 +1306,9 @@ class Openmeteo extends utils.Adapter {
 			),
 		);
 
-		let html = `<div style="width:${w}px;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;">`;
+		const oid = `omw-${widget.id}`;
+		let html = `<div id="${oid}" style="width:100%;overflow:hidden;">`;
+		html += `<div style="width:${w}px;display:block;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;">`;
 
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
@@ -1369,6 +1373,11 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr></table>`;
 		}
 
+		html += `</div>`;
+		// Scale inner content to fit the actual VIS cell width.
+		// outer.offsetWidth = cell width (100%), dw = configured design width.
+		// overflow:hidden on outer clips the layout box; height is adjusted to match visual height.
+		html += `<script>(function(){var o=document.getElementById('${oid}');if(!o)return;var i=o.firstElementChild;if(!i)return;setTimeout(function(){var pw=o.offsetWidth,dw=${w};if(pw>0&&Math.abs(pw-dw)>2){var sc=pw/dw;i.style.transform='scale('+sc+')';i.style.transformOrigin='top left';o.style.height=Math.round(i.offsetHeight*sc)+'px';}},0);}());</script>`;
 		html += `</div>`;
 		return html;
 	}
