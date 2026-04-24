@@ -1119,33 +1119,39 @@ class Openmeteo extends utils.Adapter {
 		const w = widget.width ?? 450;
 		const s = w / 450;
 		const isLight = widget.theme === "light";
+		const isCustom = widget.theme === "custom";
 
-		// Derive all colors from a single base color (hex) + opacity
-		const defaultTextBase = isLight ? "#ffffff" : "#1a1a1a";
-		const textBase = widget.textBase || defaultTextBase;
-		const bgColor = widget.bgColor && widget.bgColor !== "transparent" ? widget.bgColor : "transparent";
+		let textColor, subColor, fadeColor, divColor, iconColor, bgColor;
 
-		const hexToRgba = (hex, alpha) => {
-			const r = parseInt(hex.slice(1, 3), 16);
-			const g = parseInt(hex.slice(3, 5), 16);
-			const b = parseInt(hex.slice(5, 7), 16);
-			return `rgba(${r},${g},${b},${alpha})`;
-		};
-
-		const textColor = hexToRgba(textBase, 0.9);
-		const subColor = hexToRgba(textBase, 0.7);
-		const fadeColor = hexToRgba(textBase, 0.45);
-		const divColor = hexToRgba(textBase, 0.2);
-		const iconColor = hexToRgba(textBase, 0.85);
+		if (isCustom) {
+			const textBase = widget.textBase || "#000000";
+			bgColor = widget.bgColor && widget.bgColor !== "transparent" ? widget.bgColor : "transparent";
+			const hexToRgba = (hex, alpha) => {
+				const r = parseInt(hex.slice(1, 3), 16);
+				const g = parseInt(hex.slice(3, 5), 16);
+				const b = parseInt(hex.slice(5, 7), 16);
+				return `rgba(${r},${g},${b},${alpha})`;
+			};
+			textColor = hexToRgba(textBase, 0.9);
+			subColor = hexToRgba(textBase, 0.7);
+			fadeColor = hexToRgba(textBase, 0.45);
+			divColor = hexToRgba(textBase, 0.2);
+			iconColor = hexToRgba(textBase, 0.85);
+		} else {
+			bgColor = "transparent";
+			textColor = isLight ? "rgba(255,255,255,1)" : "rgba(0,0,0,0.87)";
+			subColor = isLight ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
+			fadeColor = isLight ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
+			divColor = isLight ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
+			iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
+		}
 
 		const _iconSet = this.config.iconSet || "basmilius";
 		const isAmcharts = _iconSet.startsWith("amcharts");
 		const isBasmilius = _iconSet.startsWith("basmilius");
 		const isWmoSvg = _iconSet === "wmo_svg";
 		const mainIconSize = (isAmcharts ? 95 : isBasmilius ? 82 : 75) * s;
-		// wmo_svg icons are black strokes — invert when text is light (dark background)
-		const isLightText = parseInt(textBase.slice(1, 3), 16) > 127;
-		const wmoSvgFilter = isWmoSvg ? (isLightText ? "filter:invert(1);" : "") : "";
+		const wmoSvgFilter = isWmoSvg ? (isLight ? "filter:invert(1);" : "") : "";
 		const imgScale = isAmcharts
 			? "transform:scale(1.6);transform-origin:center;"
 			: isBasmilius

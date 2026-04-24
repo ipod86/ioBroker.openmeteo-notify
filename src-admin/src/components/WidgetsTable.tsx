@@ -16,8 +16,8 @@ interface Props {
 }
 
 const PRESETS: Record<'dark' | 'light', { bgColor: string; textBase: string }> = {
-    dark:  { bgColor: '#1e1e1e', textBase: '#ffffff' },
-    light: { bgColor: '#f5f5f5', textBase: '#1a1a1a' },
+    dark:  { bgColor: 'transparent', textBase: '#000000' },
+    light: { bgColor: 'transparent', textBase: '#ffffff' },
 };
 
 function makeId(): string {
@@ -52,8 +52,8 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, onChange
             days: defaultDays,
             theme: 'dark',
             width: 450,
-            bgColor: PRESETS.dark.bgColor,
-            textBase: PRESETS.dark.textBase,
+            bgColor: 'transparent',
+            textBase: '#000000',
         }]);
     };
 
