@@ -82,6 +82,6 @@
     "widgetTheme": "Temat",
     "windspeedUnit": "Jednostka prędkości wiatru",
     "hourlyDaysHighWarning": "Każdy dzień godzinowy generuje wiele punktów danych w zależności od włączonych opcji",
-    "iconSetCustomHint": "Prześlij pliki SVG o nazwie wmo_00.svg – wmo_99.svg do:\nAdmin → Pliki → openmeteo-notify.admin/icons/custom/",
-    "iconSetCustomPreviewHint": "Podgląd: Niestandardowe ikony (brakujące ukryte)"
+    "iconSetCustomHint": "Przesłać do: Admin → Pliki → openmeteo-notify.admin/icons/custom/\nWymagane ikony dzienne (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nIkony nocne opcjonalne (sufiks n): wmo_00n.svg, wmo_01n.svg …",
+    "iconSetCustomPreviewHint": "Podgląd ikon dziennych (brakujące ukryte)"
 }

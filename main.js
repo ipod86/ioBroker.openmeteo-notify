@@ -215,7 +215,12 @@ function weatherIconUrl(code, iconSet, isDay) {
 		return `/adapter/openmeteo-notify/icons/amcharts/${folder}/${name}.svg`;
 	}
 	if (iconSet === "custom") {
-		return `/adapter/openmeteo-notify/icons/custom/wmo_${padded}.svg`;
+		const customCode = WMO_CODE_FALLBACK[code] ?? code;
+		const customPadded = String(customCode).padStart(2, "0");
+		if (!isDay && WMO_HAS_NIGHT.has(customCode)) {
+			return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}n.svg`;
+		}
+		return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}.svg`;
 	}
 	// WMO SVG set (fallback for unknown iconSet values)
 	const wmoCode = WMO_CODE_FALLBACK[code] ?? code;
