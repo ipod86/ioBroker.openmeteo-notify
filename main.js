@@ -703,8 +703,9 @@ class Openmeteo extends utils.Adapter {
 
 		try {
 			await this.writeFileAsync(this.namespace, "icons/custom/README.txt", readme);
+			this.log.debug(`Custom icons README.txt written to ${this.namespace}/icons/custom/`);
 		} catch (e) {
-			this.log.debug(`Could not write custom icons README: ${e.message}`);
+			this.log.warn(`Could not write custom icons README: ${e.message}`);
 		}
 	}
 
