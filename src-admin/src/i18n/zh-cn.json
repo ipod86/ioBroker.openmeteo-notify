@@ -82,6 +82,6 @@
     "widgetTheme": "主题",
     "windspeedUnit": "风速单位",
     "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点",
-    "iconSetCustomHint": "上传至：Admin → 文件 → openmeteo-notify.admin/icons/custom/\n所需白天图标（24个）：\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\n夜间图标可选（后缀 n）：wmo_00n.svg、wmo_01n.svg …",
+    "iconSetCustomHint": "上传至：Admin → 文件 → openmeteo-notify.0/icons/custom/\n所需白天图标（24个）：\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\n夜间图标可选（后缀 n）：wmo_00n.svg、wmo_01n.svg …",
     "iconSetCustomPreviewHint": "预览白天图标（缺失的已隐藏）"
 }

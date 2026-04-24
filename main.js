@@ -197,7 +197,7 @@ const AMCHARTS_MAP = {
 	99: { day: "thunder", night: "thunder" },
 };
 
-function weatherIconUrl(code, iconSet, isDay) {
+function weatherIconUrl(code, iconSet, isDay, namespace) {
 	const padded = String(code).padStart(2, "0");
 	if (iconSet === "basmilius" || iconSet === "basmilius_animated") {
 		if (!isDay && WMO_HAS_NIGHT.has(code)) {
@@ -217,10 +217,11 @@ function weatherIconUrl(code, iconSet, isDay) {
 	if (iconSet === "custom") {
 		const customCode = WMO_CODE_FALLBACK[code] ?? code;
 		const customPadded = String(customCode).padStart(2, "0");
+		const ns = namespace || "openmeteo-notify.0";
 		if (!isDay && WMO_HAS_NIGHT.has(customCode)) {
-			return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}n.svg`;
+			return `/files/${ns}/icons/custom/wmo_${customPadded}n.svg`;
 		}
-		return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}.svg`;
+		return `/files/${ns}/icons/custom/wmo_${customPadded}.svg`;
 	}
 	// WMO SVG set (fallback for unknown iconSet values)
 	const wmoCode = WMO_CODE_FALLBACK[code] ?? code;
@@ -1839,7 +1840,7 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
-			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet, cur.is_day === 1), {
+			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet, cur.is_day === 1, this.namespace), {
 				name: "Icon URL",
 				type: "string",
 				role: "weather.icon",
@@ -2176,7 +2177,7 @@ class Openmeteo extends utils.Adapter {
 			});
 			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
 			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
-			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet, true), {
+			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet, true, this.namespace), {
 				name: "Icon URL",
 				type: "string",
 				role: `weather.icon${fc}`,
@@ -2925,7 +2926,7 @@ class Openmeteo extends utils.Adapter {
 						type: "string",
 						role: "weather.icon.name",
 					});
-					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet, hData.is_day), {
+					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet, hData.is_day, this.namespace), {
 						name: "Icon URL",
 						type: "string",
 						role: "weather.icon",

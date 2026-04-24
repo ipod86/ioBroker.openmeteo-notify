@@ -40,6 +40,6 @@
     "widgetLight": "Light",
     "windspeedUnit": "Wind speed unit",
     "hourlyDaysHighWarning": "Each hourly day generates many datapoints depending on enabled options",
-    "iconSetCustomHint": "Upload to: Admin → Files → openmeteo-notify.admin/icons/custom/\nRequired day icons (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nNight icons optional (suffix n): wmo_00n.svg, wmo_01n.svg …",
+    "iconSetCustomHint": "Upload to: Admin → Files → openmeteo-notify.0/icons/custom/\nRequired day icons (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nNight icons optional (suffix n): wmo_00n.svg, wmo_01n.svg …",
     "iconSetCustomPreviewHint": "Preview day icons (missing icons hidden)"
 }

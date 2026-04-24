@@ -45,6 +45,6 @@
     "widgetLight": "Светлая",
     "windspeedUnit": "Единица измерения скорости ветра",
     "hourlyDaysHighWarning": "Каждый почасовой день создаёт много точек данных в зависимости от включённых опций",
-    "iconSetCustomHint": "Загрузить в: Admin → Файлы → openmeteo-notify.admin/icons/custom/\nНеобходимые дневные иконки (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nНочные иконки опционально (суффикс n): wmo_00n.svg, wmo_01n.svg …",
+    "iconSetCustomHint": "Загрузить в: Admin → Файлы → openmeteo-notify.0/icons/custom/\nНеобходимые дневные иконки (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nНочные иконки опционально (суффикс n): wmo_00n.svg, wmo_01n.svg …",
     "iconSetCustomPreviewHint": "Предпросмотр дневных иконок (отсутствующие скрыты)"
 }
