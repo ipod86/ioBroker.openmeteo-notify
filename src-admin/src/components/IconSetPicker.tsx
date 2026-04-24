@@ -28,9 +28,11 @@ const IconSetPicker: React.FC<Props> = ({ iconSet, onChange }) => {
     const current = ICON_SETS.find(s => s.value === iconSet) || ICON_SETS[0];
     const folder = iconSet === 'amcharts_animated' ? 'animated' : 'static';
 
+    const cacheBust = current.custom ? `?t=${Date.now()}` : '';
+
     const getIconUrl = (code: string): string => {
         if (current.custom) {
-            return `/adapter/openmeteo-notify/icons/custom/wmo_${code}.svg`;
+            return `/adapter/openmeteo-notify/icons/custom/wmo_${code}.svg${cacheBust}`;
         }
         if (current.amcharts) {
             const name = AMCHARTS_PREVIEW[code] || 'cloudy';
