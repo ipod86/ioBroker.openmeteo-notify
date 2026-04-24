@@ -96,6 +96,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
                                     native={native}
                                     onChange={handleChange}
                                     themeType={this.state.themeType}
+                                    namespace={`${(this as any).adapterName ?? 'openmeteo-notify'}.${(this as any).instance ?? 0}`}
                                 />
                             )}
                             {tab === 1 && (

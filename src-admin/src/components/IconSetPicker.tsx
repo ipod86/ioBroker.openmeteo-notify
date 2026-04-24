@@ -5,6 +5,7 @@ import { I18n } from '@iobroker/adapter-react-v5';
 interface Props {
     iconSet: string;
     onChange: (iconSet: string) => void;
+    namespace?: string;
 }
 
 const PREVIEW_CODES = ['00', '01', '03', '45', '61', '63', '73', '80', '95', '99'];
@@ -24,15 +25,15 @@ const ICON_SETS = [
     { value: 'custom',             label: 'Custom',               ext: 'svg', amcharts: false, custom: true  },
 ];
 
-const IconSetPicker: React.FC<Props> = ({ iconSet, onChange }) => {
+const IconSetPicker: React.FC<Props> = ({ iconSet, onChange, namespace }) => {
     const current = ICON_SETS.find(s => s.value === iconSet) || ICON_SETS[0];
     const folder = iconSet === 'amcharts_animated' ? 'animated' : 'static';
-
-    const cacheBust = current.custom ? `?t=${Date.now()}` : '';
+    const ns = namespace ?? 'openmeteo-notify.0';
 
     const getIconUrl = (code: string): string => {
         if (current.custom) {
-            return `/adapter/openmeteo-notify/icons/custom/wmo_${code}.svg${cacheBust}`;
+            // Use /files/ URL to bypass admin server-side static file cache
+            return `/files/${ns}/icons/custom/wmo_${code}.svg?t=${Date.now()}`;
         }
         if (current.amcharts) {
             const name = AMCHARTS_PREVIEW[code] || 'cloudy';

@@ -9,9 +9,10 @@ interface Props {
     native: OpenMeteoConfig;
     onChange: (newNative: OpenMeteoConfig) => void;
     themeType?: string;
+    namespace?: string;
 }
 
-const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
+const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType, namespace }) => {
     const update = (field: keyof OpenMeteoConfig, value: any): void => {
         onChange({ ...native, [field]: value });
     };
@@ -116,6 +117,7 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType }) => {
                 <IconSetPicker
                     iconSet={native.iconSet || 'basmilius'}
                     onChange={val => update('iconSet', val)}
+                    namespace={namespace}
                 />
             </Box>
 
