@@ -1357,9 +1357,7 @@ class Openmeteo extends utils.Adapter {
 			),
 		);
 
-		const oid = `omw-${widget.id}`;
-		let html = `<div id="${oid}" style="width:100%;overflow:hidden;">`;
-		html += `<div style="width:${w}px;display:block;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;">`;
+		let html = `<div style="width:100%;max-width:${w}px;box-sizing:border-box;background:${bgColor};color:${textColor};padding:0 ${5 * s}px;font-family:sans-serif;">`;
 
 		// Header
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
@@ -1424,12 +1422,6 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr></table>`;
 		}
 
-		html += `</div>`;
-		// ResizeObserver fires as soon as the element has a real size — more reliable than
-		// setTimeout(0). zoom (not transform:scale) is used so the layout box shrinks too,
-		// avoiding the need to manually adjust the outer height.
-		// overflow:hidden on outer handles the no-JS fallback (clips content to cell width).
-		html += `<script>(function(){var o=document.getElementById('${oid}');if(!o)return;var i=o.firstElementChild;if(!i)return;function a(pw){var dw=${w};if(pw>0&&Math.abs(pw-dw)>2){i.style.zoom=String(pw/dw);}}if(window.ResizeObserver){new ResizeObserver(function(e){a(e[0].contentRect.width);}).observe(o);}else{var t=0;function r(){var pw=o.offsetWidth;if(!pw&&++t<15){setTimeout(r,50);return;}a(pw);}setTimeout(r,0);}}());</script>`;
 		html += `</div>`;
 		return html;
 	}
