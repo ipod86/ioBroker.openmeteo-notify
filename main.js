@@ -661,8 +661,56 @@ class Openmeteo extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
+	async ensureCustomIconsReadme() {
+		const readme = [
+			"Custom Weather Icons – openmeteo-notify",
+			"========================================",
+			"",
+			`Place your SVG files in this folder (Admin → Files → ${this.namespace}/icons/custom/).`,
+			"",
+			"Required day icons (24 files):",
+			"  wmo_00.svg   Clear sky",
+			"  wmo_01.svg   Mainly clear",
+			"  wmo_02.svg   Partly cloudy",
+			"  wmo_03.svg   Overcast",
+			"  wmo_45.svg   Fog",
+			"  wmo_48.svg   Rime fog",
+			"  wmo_51.svg   Light drizzle",
+			"  wmo_53.svg   Moderate drizzle",
+			"  wmo_55.svg   Dense drizzle",
+			"  wmo_61.svg   Slight rain",
+			"  wmo_63.svg   Moderate rain",
+			"  wmo_65.svg   Heavy rain",
+			"  wmo_71.svg   Slight snow",
+			"  wmo_73.svg   Moderate snow",
+			"  wmo_75.svg   Heavy snow",
+			"  wmo_77.svg   Snow grains",
+			"  wmo_80.svg   Slight showers",
+			"  wmo_81.svg   Moderate showers",
+			"  wmo_82.svg   Violent showers",
+			"  wmo_85.svg   Slight snow showers",
+			"  wmo_86.svg   Heavy snow showers",
+			"  wmo_95.svg   Thunderstorm",
+			"  wmo_96.svg   Thunderstorm + slight hail",
+			"  wmo_99.svg   Thunderstorm + heavy hail",
+			"",
+			"Optional night icons (same codes, suffix 'n'):",
+			"  wmo_00n.svg  wmo_01n.svg  wmo_02n.svg  ... wmo_99n.svg",
+			"  If a night icon is missing, the day icon is used as fallback.",
+			"",
+			"Note: codes 56/57 → wmo_55, codes 66/67 → wmo_65 (fallback, no separate file needed).",
+		].join("\n");
+
+		try {
+			await this.writeFileAsync(this.namespace, "icons/custom/README.txt", readme);
+		} catch (e) {
+			this.log.debug(`Could not write custom icons README: ${e.message}`);
+		}
+	}
+
 	async onReady() {
 		await this.setState("info.connection", false, true);
+		await this.ensureCustomIconsReadme();
 
 		// Sofort beim Start abrufen
 		await this.runUpdate();
@@ -1840,11 +1888,15 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
-			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet, cur.is_day === 1, this.namespace), {
-				name: "Icon URL",
-				type: "string",
-				role: "weather.icon",
-			});
+			await this.setDP(
+				`${locId}.current.icon_url`,
+				weatherIconUrl(curCode, iconSet, cur.is_day === 1, this.namespace),
+				{
+					name: "Icon URL",
+					type: "string",
+					role: "weather.icon",
+				},
+			);
 			await this.setDP(`${locId}.current.description`, curDesc, {
 				name: "Beschreibung",
 				type: "string",
@@ -2926,11 +2978,15 @@ class Openmeteo extends utils.Adapter {
 						type: "string",
 						role: "weather.icon.name",
 					});
-					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet, hData.is_day, this.namespace), {
-						name: "Icon URL",
-						type: "string",
-						role: "weather.icon",
-					});
+					await this.setDP(
+						`${hPath}.icon_url`,
+						weatherIconUrl(hData.weathercode, iconSet, hData.is_day, this.namespace),
+						{
+							name: "Icon URL",
+							type: "string",
+							role: "weather.icon",
+						},
+					);
 					await this.setDP(`${hPath}.description`, hData.description, {
 						name: "Beschreibung",
 						type: "string",
