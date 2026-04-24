@@ -199,7 +199,7 @@ const AMCHARTS_MAP = {
 	99: { day: "thunder", night: "thunder" },
 };
 
-function weatherIconUrl(code, iconSet, isDay, namespace) {
+function weatherIconUrl(code, iconSet, isDay) {
 	const padded = String(code).padStart(2, "0");
 	if (iconSet === "basmilius" || iconSet === "basmilius_animated") {
 		if (!isDay && WMO_HAS_NIGHT.has(code)) {
@@ -219,11 +219,10 @@ function weatherIconUrl(code, iconSet, isDay, namespace) {
 	if (iconSet === "custom") {
 		const customCode = WMO_CODE_FALLBACK[code] ?? code;
 		const customPadded = String(customCode).padStart(2, "0");
-		const ns = namespace || "openmeteo-notify.0";
 		if (!isDay && WMO_HAS_NIGHT.has(customCode)) {
-			return `/files/${ns}/icons/custom/wmo_${customPadded}n.svg`;
+			return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}n.svg`;
 		}
-		return `/files/${ns}/icons/custom/wmo_${customPadded}.svg`;
+		return `/adapter/openmeteo-notify/icons/custom/wmo_${customPadded}.svg`;
 	}
 	// WMO SVG set (fallback for unknown iconSet values)
 	const wmoCode = WMO_CODE_FALLBACK[code] ?? code;
@@ -668,7 +667,8 @@ class Openmeteo extends utils.Adapter {
 			"Custom Weather Icons – openmeteo-notify",
 			"========================================",
 			"",
-			`Place your SVG files in this folder (Admin → Files → ${this.namespace}/icons/custom/).`,
+			`Upload your SVG files here (Admin → Files → ${this.namespace}/icons/custom/).`,
+			"The adapter copies them to its static folder on startup so VIS can serve them.",
 			"",
 			"Required day icons (24 files):",
 			"  wmo_00.svg   Clear sky",
@@ -712,7 +712,8 @@ class Openmeteo extends utils.Adapter {
 					native: {},
 				});
 			}
-			// Copy example WMO icons if not yet present (runs on every startup until icons exist).
+			// Seed the DB namespace with the bundled WMO icons on first run so
+			// the user sees them immediately in Admin → Files as a starting point.
 			const iconsExist = await this.fileExistsAsync(this.namespace, "icons/custom/wmo_00.svg");
 			if (!iconsExist) {
 				const srcDir = path.join(__dirname, "admin", "icons", "wmo_svg");
@@ -743,26 +744,58 @@ class Openmeteo extends utils.Adapter {
 					"99",
 				];
 				for (const code of wmoCodes) {
-					const svgPath = path.join(srcDir, `wmo_${code}.svg`);
 					try {
-						const svg = fs.readFileSync(svgPath);
+						const svg = fs.readFileSync(path.join(srcDir, `wmo_${code}.svg`));
 						await this.writeFileAsync(this.namespace, `icons/custom/wmo_${code}.svg`, svg);
 					} catch (iconErr) {
-						this.log.debug(`Could not copy example icon wmo_${code}.svg: ${iconErr.message}`);
+						this.log.debug(`Could not seed icon wmo_${code}.svg: ${iconErr.message}`);
 					}
 				}
-				this.log.info(`Example WMO icons written to ${this.namespace}/icons/custom/ — replace with your own.`);
+				this.log.info(`Seeded example WMO icons into ${this.namespace}/icons/custom/`);
 			}
 			await this.writeFileAsync(this.namespace, "icons/custom/README.txt", readme);
-			this.log.debug(`Custom icons README.txt written to ${this.namespace}/icons/custom/`);
 		} catch (e) {
-			this.log.warn(`Could not write custom icons README: ${e.message}`);
+			this.log.warn(`Could not initialise custom icons DB folder: ${e.message}`);
+		}
+	}
+
+	// Copies SVG files from the DB namespace (uploaded by the user via Admin → Files)
+	// into the adapter's static admin/icons/custom/ folder so VIS can serve them.
+	async syncCustomIconsToStatic() {
+		const destDir = path.join(__dirname, "admin", "icons", "custom");
+		let entries;
+		try {
+			entries = await this.readDirAsync(this.namespace, "icons/custom");
+		} catch {
+			return; // folder not yet initialised in DB
+		}
+		if (!Array.isArray(entries) || entries.length === 0) {
+			return;
+		}
+		fs.mkdirSync(destDir, { recursive: true });
+		let synced = 0;
+		for (const entry of entries) {
+			if (entry.isDir || !entry.file.endsWith(".svg")) {
+				continue;
+			}
+			try {
+				const result = await this.readFileAsync(this.namespace, `icons/custom/${entry.file}`);
+				const data = result && result.file !== undefined ? result.file : result;
+				fs.writeFileSync(path.join(destDir, entry.file), data);
+				synced++;
+			} catch (e) {
+				this.log.debug(`Icon sync failed for ${entry.file}: ${e.message}`);
+			}
+		}
+		if (synced > 0) {
+			this.log.debug(`Synced ${synced} custom icon(s) from DB namespace to static folder`);
 		}
 	}
 
 	async onReady() {
 		await this.setState("info.connection", false, true);
 		await this.ensureCustomIconsReadme();
+		await this.syncCustomIconsToStatic();
 
 		// Sofort beim Start abrufen
 		await this.runUpdate();
@@ -1945,15 +1978,11 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "weather.icon.name",
 			});
-			await this.setDP(
-				`${locId}.current.icon_url`,
-				weatherIconUrl(curCode, iconSet, cur.is_day === 1, this.namespace),
-				{
-					name: "Icon URL",
-					type: "string",
-					role: "weather.icon",
-				},
-			);
+			await this.setDP(`${locId}.current.icon_url`, weatherIconUrl(curCode, iconSet, cur.is_day === 1), {
+				name: "Icon URL",
+				type: "string",
+				role: "weather.icon",
+			});
 			await this.setDP(`${locId}.current.description`, curDesc, {
 				name: "Beschreibung",
 				type: "string",
@@ -2286,7 +2315,7 @@ class Openmeteo extends utils.Adapter {
 			});
 			await this.setDP(`${prefix}.weekday`, weekday, { name: "Wochentag", type: "string", role: "dayofweek" });
 			await this.setDP(`${prefix}.icon`, icon, { name: "Icon", type: "string", role: "weather.icon.name" });
-			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet, true, this.namespace), {
+			await this.setDP(`${prefix}.icon_url`, weatherIconUrl(d.weathercode[i], iconSet, true), {
 				name: "Icon URL",
 				type: "string",
 				role: `weather.icon${fc}`,
@@ -3035,15 +3064,11 @@ class Openmeteo extends utils.Adapter {
 						type: "string",
 						role: "weather.icon.name",
 					});
-					await this.setDP(
-						`${hPath}.icon_url`,
-						weatherIconUrl(hData.weathercode, iconSet, hData.is_day, this.namespace),
-						{
-							name: "Icon URL",
-							type: "string",
-							role: "weather.icon",
-						},
-					);
+					await this.setDP(`${hPath}.icon_url`, weatherIconUrl(hData.weathercode, iconSet, hData.is_day), {
+						name: "Icon URL",
+						type: "string",
+						role: "weather.icon",
+					});
 					await this.setDP(`${hPath}.description`, hData.description, {
 						name: "Beschreibung",
 						type: "string",
