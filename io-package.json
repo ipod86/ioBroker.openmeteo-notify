@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "news": {
       "0.1.3": {
         "en": "Custom SVG icon set; WMO OGC SVG icons; responsive widget; comfort indices; settings validation",

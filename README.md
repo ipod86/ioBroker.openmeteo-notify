@@ -251,7 +251,7 @@ Optional per hour (if enabled + "also hourly"):
 This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.1.3 (2026-04-25)
 * (ipod86) Custom SVG icon set with night icon support and Base64 embedding in widget HTML
 * (ipod86) WMO OGC SVG icon set with theme-aware color inversion
 * (ipod86) Widget: responsive layout via CSS container queries, configurable width, custom color theme, MDI SVG icons
@@ -275,16 +275,6 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ### 0.0.46 (2026-04-08)
 * (ipod86) add CHANGELOG_OLD.md; add release-script
-
-### 0.0.45
-* Weather warnings (storm/thunderstorm) via ioBroker notification system
-* Configurable Beaufort threshold for storm warnings (Bft 1–12, default Bft 8)
-* Daily `has_storm` / `has_thunderstorm` datapoints per location
-* Hourly `is_storm` / `is_thunderstorm` datapoints (when hourly data enabled)
-* Storm detection based on wind gusts (`windgusts_10m`)
-* Warning message includes from/to time; day offset shown when event spans midnight
-* Warnings use raw API data — no minimum `hourlyDays` setting required
-* i18n translations for all new settings in 11 languages
 
 ## License
 
