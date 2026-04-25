@@ -256,7 +256,19 @@ Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Mete
 ## Changelog
 
 ### **WORK IN PROGRESS**
-* (ipod86) Fix: detaillierte API-Fehlermeldung bei HTTP-4xx-Antworten im Log
+* (ipod86) Neues Icon-Set: eigene SVG-Icons hochladen über Admin → Dateien
+* (ipod86) Eigene Icons: Nacht-Icons mit Fallback auf Tag-Icon
+* (ipod86) Icon-Vorschau in den Einstellungen über /files/-URL (kein Cache-Problem)
+* (ipod86) Eigene Icons als Base64-Data-URL im Widget-Datenpunkt eingebettet (funktioniert in allen VIS/Dashboard-Kontexten)
+* (ipod86) Neues Icon-Set: WMO OGC SVG-Symbole mit themenabhängiger Farbinvertierung
+* (ipod86) Widget: vollständig responsives Layout via CSS Container Queries (kein JavaScript erforderlich)
+* (ipod86) Widget: konfigurierbare Breite (200–900 px) mit Slider in den Einstellungen
+* (ipod86) Widget: eigenes Farbschema mit individuellem Hintergrund- und Textfarb-Picker
+* (ipod86) Widget: MDI-SVG-Icons ersetzen Emojis (themenabhängige Farbe)
+* (ipod86) Komfort-Indizes: Hitzeindex, Windchill, Humidex, UV-Index (optional, auch stündlich)
+* (ipod86) Einstellungen: Inline-Validierung mit Fehlerhinweisen für alle Zahlenfelder
+* (ipod86) Einstellungen: Speichern wird bei ungültiger Konfiguration gesperrt
+* (ipod86) Doku: README.txt im icons/custom/-Ordner mit Dateiliste und Größenhinweisen
 
 ### 0.1.1 (2026-04-19)
 * (ipod86) Adapter umbenannt zu ioBroker.openmeteo-notify
