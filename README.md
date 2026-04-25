@@ -252,19 +252,11 @@ This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property 
 
 ## Changelog
 ### **WORK IN PROGRESS**
-* (ipod86) New icon set: custom SVG icons – upload your own icons via Admin → Files
-* (ipod86) Custom icons: night icon support with day icon fallback
-* (ipod86) Custom icon preview in settings using live /files/ URL (no cache issues)
-* (ipod86) Custom icons embedded as Base64 data URLs in widget HTML (works in all VIS/dashboard contexts)
-* (ipod86) New icon set: WMO OGC SVG symbols with theme-aware color inversion
-* (ipod86) Widget: fully responsive layout via CSS container queries (no JavaScript required)
-* (ipod86) Widget: configurable width (200–900 px) with slider in settings
-* (ipod86) Widget: custom theme with individual background and text color pickers
-* (ipod86) Widget: MDI SVG icons replace emoji (theme-aware color)
-* (ipod86) Comfort indices: heat index, windchill, humidex, UV index (optional, with hourly option)
-* (ipod86) Settings: inline validation with error hints for all numeric fields
-* (ipod86) Settings: save blocked when configuration is invalid
-* (ipod86) Docs: README.txt in icons/custom/ folder with file list and size hints
+* (ipod86) Custom SVG icon set with night icon support and Base64 embedding in widget HTML
+* (ipod86) WMO OGC SVG icon set with theme-aware color inversion
+* (ipod86) Widget: responsive layout via CSS container queries, configurable width, custom color theme, MDI SVG icons
+* (ipod86) Comfort indices: heat index, windchill, humidex, UV index (optional, hourly option)
+* (ipod86) Settings: inline validation, save blocked on invalid config
 
 ### 0.1.2 (2026-04-19)
 * (ipod86) Fix: log detailed API error reason for HTTP 4xx responses
