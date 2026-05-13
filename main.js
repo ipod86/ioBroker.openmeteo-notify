@@ -2597,13 +2597,37 @@ class Openmeteo extends utils.Adapter {
 				const text = `${w.headline || ""} ${w.event || ""}`.toLowerCase();
 				const excluded = excludeKeywords.some(k => text.includes(k));
 				const passes = (METEOALARM_SEVERITY[w.severity] || 0) >= minLevel && !excluded;
-				this.warnState[key] = { headline: w.headline || w.event, sent: passes };
+				this.warnState[key] = {
+					headline: w.headline || w.event,
+					sent: passes,
+					severity: w.severity,
+					expires: w.expires,
+				};
 				if (passes) {
 					const from = fmtTime(w.onset);
 					const to = fmtTime(w.expires);
 					const timeRange = from && to ? ` | ${from}–${to}` : from ? ` | ab ${from}` : "";
 					const desc = w.description ? `\n${w.description}` : "";
 					const msg = `MeteoAlarm ${w.severity} für ${locId}: ${w.headline || w.event}${timeRange}${desc}`;
+					this.log.warn(msg);
+					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+				}
+			} else if (this.warnState[key].sent) {
+				const prev = this.warnState[key];
+				const levelUp = (METEOALARM_SEVERITY[w.severity] || 0) > (METEOALARM_SEVERITY[prev.severity] || 0);
+				const extended = w.expires && prev.expires && new Date(w.expires) > new Date(prev.expires);
+				if (levelUp || extended) {
+					this.warnState[key].severity = w.severity;
+					this.warnState[key].expires = w.expires;
+					const to = fmtTime(w.expires);
+					const parts = [];
+					if (levelUp) {
+						parts.push(`jetzt ${w.severity}`);
+					}
+					if (extended) {
+						parts.push(`verlängert bis ${to}`);
+					}
+					const msg = `MeteoAlarm Aktualisierung für ${locId}: ${w.headline || w.event} (${parts.join(", ")})`;
 					this.log.warn(msg);
 					await this.registerNotification("openmeteo-notify", "official_warning", msg);
 				}
