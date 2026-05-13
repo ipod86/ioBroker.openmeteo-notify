@@ -2458,12 +2458,17 @@ class Openmeteo extends utils.Adapter {
 				}
 			}
 		}
+		const liftedHeadlines = new Set();
 		for (const key of Object.keys(this.warnState)) {
 			if (key.startsWith(`${locId}_dwd_`) && !activeKeys.has(key)) {
 				if (warnNotifyLift && this.warnState[key].sent) {
-					const msg = `DWD Warnung aufgehoben für ${locId}: ${this.warnState[key].headline}`;
-					this.log.info(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					const headline = this.warnState[key].headline;
+					if (!liftedHeadlines.has(headline)) {
+						liftedHeadlines.add(headline);
+						const msg = `DWD Warnung aufgehoben für ${locId}: ${headline}`;
+						this.log.info(msg);
+						await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					}
 				}
 				delete this.warnState[key];
 			}
@@ -2585,12 +2590,17 @@ class Openmeteo extends utils.Adapter {
 				}
 			}
 		}
+		const liftedHeadlines = new Set();
 		for (const key of Object.keys(this.warnState)) {
 			if (key.startsWith(`${locId}_meteoalarm_`) && !activeKeys.has(key)) {
 				if (warnNotifyLift && this.warnState[key].sent) {
-					const msg = `MeteoAlarm Warnung aufgehoben für ${locId}: ${this.warnState[key].headline}`;
-					this.log.info(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					const headline = this.warnState[key].headline;
+					if (!liftedHeadlines.has(headline)) {
+						liftedHeadlines.add(headline);
+						const msg = `MeteoAlarm Warnung aufgehoben für ${locId}: ${headline}`;
+						this.log.info(msg);
+						await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					}
 				}
 				delete this.warnState[key];
 			}
