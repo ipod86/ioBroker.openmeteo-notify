@@ -2344,7 +2344,6 @@ class Openmeteo extends utils.Adapter {
 
 		const active = warnings.length > 0;
 		const maxLevel = active ? Math.max(...warnings.map(w => w.level || 0)) : 0;
-		const levelTexts = { 1: "Vorinformation", 2: "Warnung", 3: "Markante Warnung", 4: "Extreme Warnung" };
 
 		await this.setDP(`${prefix}.active`, active, {
 			name: "Warnung aktiv",
@@ -2432,6 +2431,12 @@ class Openmeteo extends utils.Adapter {
 				timeZone: "Europe/Berlin",
 			})} Uhr`;
 		};
+		const levelTexts = {
+			1: "Vorinformation",
+			2: "Warnung",
+			3: "Markante Warnung",
+			4: "Extreme Warnung",
+		};
 		for (const w of warnings) {
 			const key = `${locId}_dwd_${w.event}_${w.start}`;
 			activeKeys.add(key);
@@ -2439,20 +2444,34 @@ class Openmeteo extends utils.Adapter {
 				const text = `${w.headline || ""} ${w.event || ""}`.toLowerCase();
 				const excluded = excludeKeywords.some(k => text.includes(k));
 				const passes = (w.level || 0) >= minLevel && !excluded;
-				this.warnState[key] = { headline: w.headline || w.event, sent: passes };
+				this.warnState[key] = { headline: w.headline || w.event, sent: passes, level: w.level, end: w.end };
 				if (passes) {
-					const levelTexts = {
-						1: "Vorinformation",
-						2: "Warnung",
-						3: "Markante Warnung",
-						4: "Extreme Warnung",
-					};
 					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
 					const from = fmtTime(w.start);
 					const to = fmtTime(w.end);
 					const timeRange = from && to ? ` | ${from}–${to}` : from ? ` | ab ${from}` : "";
 					const desc = w.description ? `\n${w.description}` : "";
 					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}${timeRange}${desc}`;
+					this.log.warn(msg);
+					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+				}
+			} else if (this.warnState[key].sent) {
+				const prev = this.warnState[key];
+				const levelUp = (w.level || 0) > (prev.level || 0);
+				const extended = w.end && prev.end && w.end > prev.end;
+				if (levelUp || extended) {
+					this.warnState[key].level = w.level;
+					this.warnState[key].end = w.end;
+					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
+					const to = fmtTime(w.end);
+					const parts = [];
+					if (levelUp) {
+						parts.push(`jetzt ${levelText}`);
+					}
+					if (extended) {
+						parts.push(`verlängert bis ${to}`);
+					}
+					const msg = `DWD Aktualisierung für ${locId}: ${w.headline || w.event} (${parts.join(", ")})`;
 					this.log.warn(msg);
 					await this.registerNotification("openmeteo-notify", "official_warning", msg);
 				}

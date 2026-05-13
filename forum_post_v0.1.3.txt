@@ -1,0 +1,40 @@
+Titel: Test Adapter openmeteo-notify v0.1.3
+
+Aktuelle Test Version | 0.1.3
+---- | ----
+Veröffentlichungsdatum | 09.05.2026
+GitHub | [v0.1.3 Release](https://github.com/ipod86/ioBroker.openmeteo-notify/releases/tag/v0.1.3)
+npm | [iobroker.openmeteo-notify@0.1.3](https://www.npmjs.com/package/iobroker.openmeteo-notify/v/0.1.3)
+Aktueller Entwicklungsstand | [main Branch](https://github.com/ipod86/ioBroker.openmeteo-notify/commits/main) · [npm (latest)](https://www.npmjs.com/package/iobroker.openmeteo-notify)
+
+---
+
+Hallo zusammen,
+
+ich freue mich, dass openmeteo-notify jetzt im Latest-Repository ist — und würde mich über erste Tester und Feedback freuen!
+
+Was ist das?
+
+Ein vollständiger Wetteradapter mit dem Schwerpunkt auf Benachrichtigungen über das ioBroker-Notification-System. Wetterdaten kommen von Open-Meteo (https://open-meteo.com) — kostenlos, kein API-Key nötig.
+
+Warnungen & Benachrichtigungen
+
+Der Adapter hat zwei Wege, euch zu warnen:
+
+- Offizielle Unwetterwarnungen – direkt von DWD (Deutschland) und MeteoAlarm (Europa). Sobald eine Warnung aktiv ist oder aufgehoben wird, kommt eine Benachrichtigung über den ioBroker Notification Manager.
+- Eigene Schwellenwerte – zusätzlich könnt ihr selbst festlegen, ab wann ihr benachrichtigt werden wollt: z. B. bei Windböen über X km/h, hoher Regenwahrscheinlichkeit oder Frost. Intervall und Vorlaufzeit sind frei konfigurierbar, damit die Meldung früh genug kommt.
+
+Was der Adapter sonst noch kann
+
+- Wetterwidgets (einfach & detailliert) als HTML — z. B. für VIS oder Jarvis, mit Tagesvorschau, Niederschlag, Windspitzen, Sonnenstunden und Auf-/Untergang
+- Komfort-Indizes: Humidex, gefühlte Temperatur, UV-Index
+- Optionale Datengruppen: Astronomie, Luftqualität, Pollen, Agrar/Solar
+
+Was ist neu in 0.1.3?
+
+- Eigenes SVG-Icon-Set (WMO OGC)
+- Responsives Widget mit automatischer Skalierung
+- Komfort-Indizes
+- Einstellungs-Validierung im Admin
+
+Bugs, Ideen und Feedback gerne hier oder als GitHub Issue: https://github.com/ipod86/ioBroker.openmeteo-notify/issues
