@@ -1213,10 +1213,8 @@ class Openmeteo extends utils.Adapter {
 		const startDay = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate());
 		const endDay = new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate());
 		const dayDiff = Math.round((endDay - startDay) / (24 * 60 * 60 * 1000));
-		if (dayDiff > 0) {
-			return `${endHourStr} (+${dayDiff} Tag${dayDiff > 1 ? "e" : ""})`;
-		}
-		return endHourStr;
+		const str = dayDiff > 0 ? `${endHourStr} (+${dayDiff} Tag${dayDiff > 1 ? "e" : ""})` : endHourStr;
+		return { str, endMs: endTime.getTime() };
 	}
 
 	async checkWeatherWarnings(locations) {
@@ -1250,63 +1248,105 @@ class Openmeteo extends utils.Adapter {
 			try {
 				if (warnStorm) {
 					const isStorm = hData != null && speedToBeaufort(hData.gustKmh, "kmh") >= stormBft;
-					if (isStorm && !this.warnState[stormKey]) {
-						this.warnState[stormKey] = true;
-						const untilStr = this.findEventEnd(
+					if (isStorm) {
+						const end = this.findEventEnd(
 							hoursByDate,
 							targetTime,
 							hd => speedToBeaufort(hd.gustKmh, "kmh") >= stormBft,
 						);
-						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
-						await this.registerNotification(
-							"openmeteo-notify",
-							"storm",
-							`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet von ${timeRange}`,
-						);
-					} else if (!isStorm) {
-						this.warnState[stormKey] = false;
+						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+						if (!this.warnState[stormKey]) {
+							this.warnState[stormKey] = { active: true, endMs: end?.endMs ?? null };
+							this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"storm",
+								`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet von ${timeRange}`,
+							);
+						} else if (
+							end &&
+							this.warnState[stormKey].endMs &&
+							end.endMs > this.warnState[stormKey].endMs + 60 * 60 * 1000
+						) {
+							this.warnState[stormKey].endMs = end.endMs;
+							this.log.warn(`Storm warning extended for ${loc.name}`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"storm",
+								`Sturmwarnung verlängert für ${loc.name}: Wind (Bft ≥ ${stormBft}) jetzt bis ${end.str}`,
+							);
+						}
+					} else {
+						this.warnState[stormKey] = null;
 					}
 				}
 
 				if (warnThunderstorm) {
 					const isThunder = hData != null && [95, 96, 99].includes(hData.weathercode);
-					if (isThunder && !this.warnState[thunderKey]) {
-						this.warnState[thunderKey] = true;
-						const untilStr = this.findEventEnd(hoursByDate, targetTime, hd =>
+					if (isThunder) {
+						const end = this.findEventEnd(hoursByDate, targetTime, hd =>
 							[95, 96, 99].includes(hd.weathercode),
 						);
-						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
-						await this.registerNotification(
-							"openmeteo-notify",
-							"thunderstorm",
-							`Gewitterwarnung für ${loc.name}: Gewitter erwartet von ${timeRange}`,
-						);
-					} else if (!isThunder) {
-						this.warnState[thunderKey] = false;
+						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+						if (!this.warnState[thunderKey]) {
+							this.warnState[thunderKey] = { active: true, endMs: end?.endMs ?? null };
+							this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"thunderstorm",
+								`Gewitterwarnung für ${loc.name}: Gewitter erwartet von ${timeRange}`,
+							);
+						} else if (
+							end &&
+							this.warnState[thunderKey].endMs &&
+							end.endMs > this.warnState[thunderKey].endMs + 60 * 60 * 1000
+						) {
+							this.warnState[thunderKey].endMs = end.endMs;
+							this.log.warn(`Thunderstorm warning extended for ${loc.name}`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"thunderstorm",
+								`Gewitterwarnung verlängert für ${loc.name}: Gewitter jetzt bis ${end.str}`,
+							);
+						}
+					} else {
+						this.warnState[thunderKey] = null;
 					}
 				}
 
 				if (warnFrost) {
 					const frostKey = `${locId}_frost`;
 					const isFrost = hData != null && hData.temperature !== null && hData.temperature <= frostThreshold;
-					if (isFrost && !this.warnState[frostKey]) {
-						this.warnState[frostKey] = true;
-						const untilStr = this.findEventEnd(
+					if (isFrost) {
+						const end = this.findEventEnd(
 							hoursByDate,
 							targetTime,
 							hd => hd.temperature !== null && hd.temperature <= frostThreshold,
 						);
-						const timeRange = untilStr ? `${fromStr} – ${untilStr}` : fromStr;
-						this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
-						await this.registerNotification(
-							"openmeteo-notify",
-							"frost_warning",
-							`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet von ${timeRange}`,
-						);
-					} else if (!isFrost) {
-						this.warnState[frostKey] = false;
+						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+						if (!this.warnState[frostKey]) {
+							this.warnState[frostKey] = { active: true, endMs: end?.endMs ?? null };
+							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"frost_warning",
+								`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet von ${timeRange}`,
+							);
+						} else if (
+							end &&
+							this.warnState[frostKey].endMs &&
+							end.endMs > this.warnState[frostKey].endMs + 60 * 60 * 1000
+						) {
+							this.warnState[frostKey].endMs = end.endMs;
+							this.log.warn(`Frost warning extended for ${loc.name}`);
+							await this.registerNotification(
+								"openmeteo-notify",
+								"frost_warning",
+								`Frostwarnung verlängert für ${loc.name}: Frost jetzt bis ${end.str}`,
+							);
+						}
+					} else {
+						this.warnState[frostKey] = null;
 					}
 				}
 			} catch (err) {
