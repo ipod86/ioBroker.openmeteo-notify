@@ -1325,7 +1325,11 @@ class Openmeteo extends utils.Adapter {
 						);
 						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
 						if (!this.warnState[frostKey]) {
-							this.warnState[frostKey] = { active: true, endMs: end?.endMs ?? null };
+							this.warnState[frostKey] = {
+								active: true,
+								endMs: end?.endMs ?? null,
+								lastExtMs: Date.now(),
+							};
 							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
@@ -1335,9 +1339,11 @@ class Openmeteo extends utils.Adapter {
 						} else if (
 							end &&
 							this.warnState[frostKey].endMs &&
-							end.endMs > this.warnState[frostKey].endMs + 60 * 60 * 1000
+							end.endMs > this.warnState[frostKey].endMs + 60 * 60 * 1000 &&
+							Date.now() - (this.warnState[frostKey].lastExtMs ?? 0) > 12 * 60 * 60 * 1000
 						) {
 							this.warnState[frostKey].endMs = end.endMs;
+							this.warnState[frostKey].lastExtMs = Date.now();
 							this.log.warn(`Frost warning extended for ${loc.name}`);
 							await this.registerNotification(
 								"openmeteo-notify",
