@@ -1259,14 +1259,14 @@ class Openmeteo extends utils.Adapter {
 							targetTime,
 							hd => speedToBeaufort(hd.gustKmh, "kmh") >= stormBft,
 						);
-						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+						const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
 						if (!this.warnState[stormKey]) {
 							this.warnState[stormKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"storm",
-								`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet von ${timeRange}`,
+								`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet ${timeRange}`,
 							);
 						} else if (
 							end &&
@@ -1292,14 +1292,14 @@ class Openmeteo extends utils.Adapter {
 						const end = this.findEventEnd(hoursByDate, targetTime, hd =>
 							[95, 96, 99].includes(hd.weathercode),
 						);
-						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+						const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
 						if (!this.warnState[thunderKey]) {
 							this.warnState[thunderKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"thunderstorm",
-								`Gewitterwarnung für ${loc.name}: Gewitter erwartet von ${timeRange}`,
+								`Gewitterwarnung für ${loc.name}: Gewitter erwartet ${timeRange}`,
 							);
 						} else if (
 							end &&
@@ -1330,12 +1330,12 @@ class Openmeteo extends utils.Adapter {
 								targetTime,
 								hd => hd.temperature !== null && hd.temperature <= frostThreshold,
 							);
-							const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
+							const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
 							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"frost_warning",
-								`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet von ${timeRange}`,
+								`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet ${timeRange}`,
 							);
 						}
 					} else {
