@@ -2367,6 +2367,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - Location channel ID
 	 */
 	async processDwdWarnings(warnings, locId) {
+		const levelTexts = { 1: "Vorinformation", 2: "Warnung", 3: "Markante Warnung", 4: "Extreme Warnung" };
 		const prefix = `${locId}.warnings`;
 		await this.extendObjectAsync(prefix, {
 			type: "channel",
@@ -2463,12 +2464,6 @@ class Openmeteo extends utils.Adapter {
 				minute: "2-digit",
 				timeZone: "Europe/Berlin",
 			})} Uhr`;
-		};
-		const levelTexts = {
-			1: "Vorinformation",
-			2: "Warnung",
-			3: "Markante Warnung",
-			4: "Extreme Warnung",
 		};
 		for (const w of warnings) {
 			const key = `${locId}_dwd_${w.event}_${w.start}`;
