@@ -1318,37 +1318,19 @@ class Openmeteo extends utils.Adapter {
 					const frostKey = `${locId}_frost`;
 					const isFrost = hData != null && hData.temperature !== null && hData.temperature <= frostThreshold;
 					if (isFrost) {
-						const end = this.findEventEnd(
-							hoursByDate,
-							targetTime,
-							hd => hd.temperature !== null && hd.temperature <= frostThreshold,
-						);
-						const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
 						if (!this.warnState[frostKey]) {
-							this.warnState[frostKey] = {
-								active: true,
-								endMs: end?.endMs ?? null,
-								lastExtMs: Date.now(),
-							};
+							this.warnState[frostKey] = true;
+							const end = this.findEventEnd(
+								hoursByDate,
+								targetTime,
+								hd => hd.temperature !== null && hd.temperature <= frostThreshold,
+							);
+							const timeRange = end ? `${fromStr} – ${end.str}` : fromStr;
 							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"frost_warning",
 								`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet von ${timeRange}`,
-							);
-						} else if (
-							end &&
-							this.warnState[frostKey].endMs &&
-							end.endMs > this.warnState[frostKey].endMs + 60 * 60 * 1000 &&
-							Date.now() - (this.warnState[frostKey].lastExtMs ?? 0) > 12 * 60 * 60 * 1000
-						) {
-							this.warnState[frostKey].endMs = end.endMs;
-							this.warnState[frostKey].lastExtMs = Date.now();
-							this.log.warn(`Frost warning extended for ${loc.name}`);
-							await this.registerNotification(
-								"openmeteo-notify",
-								"frost_warning",
-								`Frostwarnung verlängert für ${loc.name}: Frost jetzt bis ${end.str}`,
 							);
 						}
 					} else {
