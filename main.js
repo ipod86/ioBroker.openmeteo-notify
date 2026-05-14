@@ -1208,12 +1208,13 @@ class Openmeteo extends utils.Adapter {
 		if (lastTrueTime === startTime) {
 			return null;
 		}
+		const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 		const endTime = new Date(lastTrueTime.getTime() + 60 * 60 * 1000);
 		const endHourStr = `${String(endTime.getHours()).padStart(2, "0")}:00 Uhr`;
 		const startDay = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate());
 		const endDay = new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate());
 		const dayDiff = Math.round((endDay - startDay) / (24 * 60 * 60 * 1000));
-		const str = dayDiff > 0 ? `${endHourStr} (+${dayDiff} Tag${dayDiff > 1 ? "e" : ""})` : endHourStr;
+		const str = dayDiff > 0 ? `${weekdays[endTime.getDay()]} ${endHourStr}` : endHourStr;
 		return { str, endMs: endTime.getTime() };
 	}
 
@@ -1240,7 +1241,11 @@ class Openmeteo extends utils.Adapter {
 			const targetDateKey = `${targetTime.getFullYear()}-${String(targetTime.getMonth() + 1).padStart(2, "0")}-${String(targetTime.getDate()).padStart(2, "0")}`;
 			const targetHour = targetTime.getHours();
 			const hData = (hoursByDate[targetDateKey] || [])[targetHour];
-			const fromStr = `${String(targetHour).padStart(2, "0")}:00 Uhr`;
+			const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+			const todayDay = new Date().getDay();
+			const fromHourStr = `${String(targetHour).padStart(2, "0")}:00 Uhr`;
+			const fromStr =
+				targetTime.getDay() !== todayDay ? `${weekdays[targetTime.getDay()]} ${fromHourStr}` : fromHourStr;
 
 			const stormKey = `${locId}_storm`;
 			const thunderKey = `${locId}_thunder`;
