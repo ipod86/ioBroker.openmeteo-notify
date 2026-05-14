@@ -98,5 +98,6 @@
     "widgetScaleDetails": "详情",
     "widgetScaleForecast": "预报",
     "widgetFontSizes": "字体大小",
-    "widgetShowWarnBadge": "官方预警徽章"
+    "widgetShowWarnBadge": "官方预警徽章",
+    "warningsOpenMeteoHint": "预警的时间范围与获取的每小时数据一样长。"
 }

@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Détails",
     "widgetScaleForecast": "Prévisions",
     "widgetFontSizes": "Tailles de police",
-    "widgetShowWarnBadge": "Badge d'alerte officielle"
+    "widgetShowWarnBadge": "Badge d'alerte officielle",
+    "warningsOpenMeteoHint": "Les avertissements portent aussi loin dans le futur que les données horaires sont récupérées."
 }

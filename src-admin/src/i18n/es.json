@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Detalles",
     "widgetScaleForecast": "Pronóstico",
     "widgetFontSizes": "Tamaños de fuente",
-    "widgetShowWarnBadge": "Insignia de alerta oficial"
+    "widgetShowWarnBadge": "Insignia de alerta oficial",
+    "warningsOpenMeteoHint": "Las advertencias llegan tan lejos en el futuro como se obtienen datos por hora."
 }

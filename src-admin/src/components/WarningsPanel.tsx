@@ -95,6 +95,7 @@ const WarningsPanel: React.FC<Props> = ({ native, onChange }) => {
             {/* Calculated warnings */}
             <Box>
                 <Typography variant="h6" gutterBottom>{I18n.t('warningsOpenMeteo')}</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{I18n.t('warningsOpenMeteoHint')}</Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                     <FormControlLabel
                         control={<Switch checked={!!native.warnStorm} onChange={e => update('warnStorm', e.target.checked)} />}

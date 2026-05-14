@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Voorspelling",
     "widgetFontSizes": "Lettergroottes",
-    "widgetShowWarnBadge": "Waarschuwingsbadge officiële meldingen"
+    "widgetShowWarnBadge": "Waarschuwingsbadge officiële meldingen",
+    "warningsOpenMeteoHint": "Waarschuwingen reiken zo ver in de toekomst als uurgegevens worden opgehaald."
 }

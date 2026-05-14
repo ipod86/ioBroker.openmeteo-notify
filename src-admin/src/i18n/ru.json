@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Детали",
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Размеры шрифта",
-    "widgetShowWarnBadge": "Значок официальных предупреждений"
+    "widgetShowWarnBadge": "Значок официальных предупреждений",
+    "warningsOpenMeteoHint": "Предупреждения охватывают столько времени вперёд, сколько загружается почасовых данных."
 }

@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Деталі",
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Розміри шрифту",
-    "widgetShowWarnBadge": "Значок офіційних попереджень"
+    "widgetShowWarnBadge": "Значок офіційних попереджень",
+    "warningsOpenMeteoHint": "Попередження поширюються так далеко в майбутнє, як завантажуються погодинні дані."
 }

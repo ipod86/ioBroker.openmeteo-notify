@@ -98,5 +98,6 @@
     "widgetScaleDetails": "Szczegóły",
     "widgetScaleForecast": "Prognoza",
     "widgetFontSizes": "Rozmiary czcionki",
-    "widgetShowWarnBadge": "Plakietka oficjalnych ostrzeżeń"
+    "widgetShowWarnBadge": "Plakietka oficjalnych ostrzeżeń",
+    "warningsOpenMeteoHint": "Ostrzeżenia sięgają tak daleko w przyszłość, jak pobierane są dane godzinowe."
 }

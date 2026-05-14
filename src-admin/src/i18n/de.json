@@ -115,5 +115,6 @@
     "widgetShowWarnBadgeHint": "Amtliche Warnungen unter Allgemein → Optionale Daten aktivieren, damit der Badge funktioniert.",
     "warnOfficialEnableFetchHint": "Für den Warnungs-Badge im Widget amtliche Warnungen unter Allgemein → Optionale Daten aktivieren.",
     "enableWarnOfficialFetchNotifyHint": "Um auch Push-Benachrichtigungen zu erhalten, amtliche Warnungen im Tab Benachrichtigungen aktivieren.",
-    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications).",
+    "warningsOpenMeteoHint": "Warnungen reichen so weit in die Zukunft wie stündliche Daten abgerufen werden."
 }
