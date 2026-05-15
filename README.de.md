@@ -268,6 +268,9 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 * (ipod86) Komfort-Indizes: Hitzeindex, Windchill, Humidex, UV-Index (optional, auch stündlich)
 * (ipod86) Einstellungen: Inline-Validierung, Speichern bei ungültiger Konfiguration gesperrt
 
+### 0.1.2 (2026-04-19)
+* (ipod86) Fix: detaillierter API-Fehlergrund bei HTTP-4xx-Antworten ins Log geschrieben
+
 ### 0.1.1 (2026-04-19)
 * (ipod86) Adapter umbenannt zu ioBroker.openmeteo-notify
 
@@ -283,26 +286,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### 0.0.46 (2026-04-08)
 * (ipod86) CHANGELOG_OLD.md hinzugefügt; release-script eingerichtet
 
-### 0.0.45
-* Wetterwarnungen (Sturm/Gewitter) über das ioBroker-Benachrichtigungssystem
-* Konfigurierbarer Beaufort-Schwellenwert für Sturmwarnungen (Bft 1–12, Standard Bft 8)
-* Tägliche Datenpunkte `has_storm` / `has_thunderstorm` pro Standort
-* Stündliche Datenpunkte `is_storm` / `is_thunderstorm` (wenn Stundendaten aktiviert)
-* Sturmerkennung basiert auf Windböen (`windgusts_10m`)
-* Warnmeldung enthält Von/Bis-Uhrzeit; Tagesversatz bei Ereignissen über Mitternacht
-* Warnungen nutzen rohe API-Daten — kein Mindest-`hourlyDays`-Wert erforderlich
-* i18n-Übersetzungen für alle neuen Einstellungen in 11 Sprachen
-
-### 0.0.44
-* (ipod86) Dunkles Theme: Theme-abhängige Hintergrundfarbe am Root-Wrapper gesetzt
-
-### 0.0.43
-* Fix: automatisch angelegter Standorteintrag in `system.config` beim ersten Start entfernt
-
-### 0.0.42
-* Automatische Rückwärts-Geocodierung aus der Standorttabelle entfernt
-
-For older changelog entries see [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
+Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
 ## Lizenz
 
