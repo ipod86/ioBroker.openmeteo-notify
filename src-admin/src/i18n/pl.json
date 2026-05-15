@@ -101,5 +101,5 @@
     "widgetShowWarnBadge": "Plakietka oficjalnych ostrzeżeń",
     "warningsOpenMeteoHint": "Ostrzeżenia sięgają tak daleko w przyszłość, jak pobierane są dane godzinowe.",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
-    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
+    "notificationManagerFoundHint": "The 'notification-manager' adapter is installed. Go to its settings to configure notification channels (e.g. Telegram, email). The settings on this page only affect openmeteo-notify."
 }
