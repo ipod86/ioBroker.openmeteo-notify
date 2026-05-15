@@ -7,9 +7,10 @@ interface Props {
     native: OpenMeteoConfig;
     onChange: (newNative: OpenMeteoConfig) => void;
     notificationManagerInstalled?: boolean;
+    notificationManagerRunning?: boolean;
 }
 
-const WarningsPanel: React.FC<Props> = ({ native, onChange, notificationManagerInstalled }) => {
+const WarningsPanel: React.FC<Props> = ({ native, onChange, notificationManagerInstalled, notificationManagerRunning }) => {
     const update = (field: keyof OpenMeteoConfig, value: any): void => {
         onChange({ ...native, [field]: value });
     };
@@ -21,7 +22,12 @@ const WarningsPanel: React.FC<Props> = ({ native, onChange, notificationManagerI
                     {I18n.t('notificationManagerMissingHint')}
                 </Alert>
             )}
-            {notificationManagerInstalled === true && (
+            {notificationManagerInstalled === true && notificationManagerRunning === false && (
+                <Alert severity="warning">
+                    {I18n.t('notificationManagerNotRunningHint')}
+                </Alert>
+            )}
+            {notificationManagerInstalled === true && notificationManagerRunning === true && (
                 <Alert severity="info">
                     {I18n.t('notificationManagerFoundHint')}
                 </Alert>

@@ -14,6 +14,7 @@ interface AppState extends GenericAppState {
     native: OpenMeteoConfig;
     tab: number;
     notificationManagerInstalled?: boolean;
+    notificationManagerRunning?: boolean;
 }
 
 class App extends GenericApp<GenericAppProps, AppState> {
@@ -27,8 +28,20 @@ class App extends GenericApp<GenericAppProps, AppState> {
 
     componentDidUpdate(_prevProps: GenericAppProps, prevState: AppState): void {
         if (!prevState.loaded && this.state.loaded) {
-            void this.socket.getObject('system.adapter.notification-manager').then((obj) => {
-                this.setState({ notificationManagerInstalled: !!obj } as any);
+            void this.socket.getObject('system.adapter.notification-manager').then(async (obj) => {
+                const installed = !!obj;
+                this.setState({ notificationManagerInstalled: installed } as any);
+                if (installed) {
+                    let running = false;
+                    try {
+                        const instances = await (this.socket as any).getAdapterInstances('notification-manager') as { _id: string }[];
+                        for (const inst of instances || []) {
+                            const state = await (this.socket as any).getState(`${inst._id}.alive`);
+                            if (state?.val === true) { running = true; break; }
+                        }
+                    } catch { /* ignore */ }
+                    this.setState({ notificationManagerRunning: running } as any);
+                }
             }).catch(() => {
                 this.setState({ notificationManagerInstalled: false } as any);
             });
@@ -121,6 +134,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
                                     native={native}
                                     onChange={handleChange}
                                     notificationManagerInstalled={(this.state as any).notificationManagerInstalled}
+                                    notificationManagerRunning={(this.state as any).notificationManagerRunning}
                                 />
                             )}
                             {tab === 2 && (
