@@ -248,7 +248,13 @@ Optional per hour (if enabled + "also hourly"):
 
 ## Disclaimer
 
-This adapter uses the Open-Meteo API. The Open-Meteo name and logo are property of their respective owners. This adapter is an independent community project and is not affiliated with or endorsed by Open-Meteo.
+This adapter uses data from the following third-party services:
+
+- **[Open-Meteo](https://open-meteo.com)** – weather forecast data. Open-Meteo name and logo are property of their respective owners.
+- **[DWD](https://www.dwd.de)** (Deutscher Wetterdienst) – official weather warnings for Germany. DWD name and data are property of the Deutscher Wetterdienst.
+- **[MeteoAlarm](https://www.meteoalarm.org)** – official weather warnings for European countries. MeteoAlarm name and data are property of their respective owners.
+
+This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
 ### 0.1.3 (2026-04-25)

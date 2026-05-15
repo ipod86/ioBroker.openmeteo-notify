@@ -251,7 +251,13 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 
 ## Haftungsausschluss
 
-Dieser Adapter verwendet die Open-Meteo API. Der Name und das Logo von Open-Meteo sind Eigentum der jeweiligen Inhaber. Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbindung zu Open-Meteo.
+Dieser Adapter verwendet Daten der folgenden Drittanbieter:
+
+- **[Open-Meteo](https://open-meteo.com)** – Wettervorhersagedaten. Name und Logo von Open-Meteo sind Eigentum der jeweiligen Inhaber.
+- **[DWD](https://www.dwd.de)** (Deutscher Wetterdienst) – amtliche Wetterwarnungen für Deutschland. Name und Daten des DWD sind Eigentum des Deutschen Wetterdienstes.
+- **[MeteoAlarm](https://www.meteoalarm.org)** – amtliche Wetterwarnungen für europäische Länder. Name und Daten von MeteoAlarm sind Eigentum der jeweiligen Inhaber.
+
+Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbindung zu den genannten Diensten.
 
 ## Changelog
 
