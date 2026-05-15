@@ -6,15 +6,26 @@ import { OpenMeteoConfig } from '../types';
 interface Props {
     native: OpenMeteoConfig;
     onChange: (newNative: OpenMeteoConfig) => void;
+    notificationManagerInstalled?: boolean;
 }
 
-const WarningsPanel: React.FC<Props> = ({ native, onChange }) => {
+const WarningsPanel: React.FC<Props> = ({ native, onChange, notificationManagerInstalled }) => {
     const update = (field: keyof OpenMeteoConfig, value: any): void => {
         onChange({ ...native, [field]: value });
     };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {notificationManagerInstalled === false && (
+                <Alert severity="warning">
+                    {I18n.t('notificationManagerMissingHint')}
+                </Alert>
+            )}
+            {notificationManagerInstalled === true && (
+                <Alert severity="info">
+                    {I18n.t('notificationManagerFoundHint')}
+                </Alert>
+            )}
             {/* Official warnings */}
             <Box>
                 <Typography variant="h6" gutterBottom>{I18n.t('warnOfficial')}</Typography>

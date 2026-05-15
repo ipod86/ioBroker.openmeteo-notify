@@ -116,5 +116,7 @@
     "warnOfficialEnableFetchHint": "Für den Warnungs-Badge im Widget amtliche Warnungen unter Allgemein → Optionale Daten aktivieren.",
     "enableWarnOfficialFetchNotifyHint": "Um auch Push-Benachrichtigungen zu erhalten, amtliche Warnungen im Tab Benachrichtigungen aktivieren.",
     "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications).",
-    "warningsOpenMeteoHint": "Warnungen reichen so weit in die Zukunft wie stündliche Daten abgerufen werden."
+    "warningsOpenMeteoHint": "Warnungen reichen so weit in die Zukunft wie stündliche Daten abgerufen werden.",
+    "notificationManagerMissingHint": "Benachrichtigungen werden über das ioBroker-Benachrichtigungssystem versendet. Damit Nachrichten z. B. per Telegram, Signal oder E-Mail ankommen, muss der Adapter 'notification-manager' installiert und konfiguriert sein.",
+    "notificationManagerFoundHint": "notification-manager ist installiert. Dort können Sie festlegen, über welchen Kanal (z. B. Telegram, E-Mail) Benachrichtigungen ankommen sollen."
 }

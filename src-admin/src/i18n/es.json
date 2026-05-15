@@ -99,5 +99,7 @@
     "widgetScaleForecast": "Pronóstico",
     "widgetFontSizes": "Tamaños de fuente",
     "widgetShowWarnBadge": "Insignia de alerta oficial",
-    "warningsOpenMeteoHint": "Las advertencias llegan tan lejos en el futuro como se obtienen datos por hora."
+    "warningsOpenMeteoHint": "Las advertencias llegan tan lejos en el futuro como se obtienen datos por hora.",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }

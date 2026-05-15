@@ -99,5 +99,7 @@
     "widgetScaleForecast": "Previsione",
     "widgetFontSizes": "Dimensioni carattere",
     "widgetShowWarnBadge": "Badge avviso ufficiale",
-    "warningsOpenMeteoHint": "Gli avvisi si estendono nel futuro quanto i dati orari vengono recuperati."
+    "warningsOpenMeteoHint": "Gli avvisi si estendono nel futuro quanto i dati orari vengono recuperati.",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }

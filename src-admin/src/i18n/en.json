@@ -53,5 +53,7 @@
     "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
     "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
     "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications).",
-    "warningsOpenMeteoHint": "Warnings look as far ahead as hourly data is fetched."
+    "warningsOpenMeteoHint": "Warnings look as far ahead as hourly data is fetched.",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }

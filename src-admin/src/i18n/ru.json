@@ -99,5 +99,7 @@
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Размеры шрифта",
     "widgetShowWarnBadge": "Значок официальных предупреждений",
-    "warningsOpenMeteoHint": "Предупреждения охватывают столько времени вперёд, сколько загружается почасовых данных."
+    "warningsOpenMeteoHint": "Предупреждения охватывают столько времени вперёд, сколько загружается почасовых данных.",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }

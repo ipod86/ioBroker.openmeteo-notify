@@ -99,5 +99,7 @@
     "widgetScaleForecast": "预报",
     "widgetFontSizes": "字体大小",
     "widgetShowWarnBadge": "官方预警徽章",
-    "warningsOpenMeteoHint": "预警的时间范围与获取的每小时数据一样长。"
+    "warningsOpenMeteoHint": "预警的时间范围与获取的每小时数据一样长。",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }

@@ -13,6 +13,7 @@ import de from './i18n/de.json';
 interface AppState extends GenericAppState {
     native: OpenMeteoConfig;
     tab: number;
+    notificationManagerInstalled?: boolean;
 }
 
 class App extends GenericApp<GenericAppProps, AppState> {
@@ -22,6 +23,16 @@ class App extends GenericApp<GenericAppProps, AppState> {
             Connection: AdminConnection,
             translations: { en, de },
         } as any);
+    }
+
+    componentDidUpdate(_prevProps: GenericAppProps, prevState: AppState): void {
+        if (!prevState.loaded && this.state.loaded) {
+            void this.socket.getObject('system.adapter.notification-manager').then((obj) => {
+                this.setState({ notificationManagerInstalled: !!obj } as any);
+            }).catch(() => {
+                this.setState({ notificationManagerInstalled: false } as any);
+            });
+        }
     }
 
     onPrepareSave(settings: Record<string, any>): boolean {
@@ -109,6 +120,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
                                 <WarningsPanel
                                     native={native}
                                     onChange={handleChange}
+                                    notificationManagerInstalled={(this.state as any).notificationManagerInstalled}
                                 />
                             )}
                             {tab === 2 && (

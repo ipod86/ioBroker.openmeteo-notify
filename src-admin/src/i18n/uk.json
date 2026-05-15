@@ -99,5 +99,7 @@
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Розміри шрифту",
     "widgetShowWarnBadge": "Значок офіційних попереджень",
-    "warningsOpenMeteoHint": "Попередження поширюються так далеко в майбутнє, як завантажуються погодинні дані."
+    "warningsOpenMeteoHint": "Попередження поширюються так далеко в майбутнє, як завантажуються погодинні дані.",
+    "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",
+    "notificationManagerFoundHint": "notification-manager is installed. Configure which channel (e.g. Telegram, email) should receive notifications there."
 }
