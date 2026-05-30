@@ -10,7 +10,14 @@ const fs = require("node:fs");
 const path = require("node:path");
 const SunCalc = require("suncalc");
 
-const { I18N_WEEKDAYS, I18N_DESCRIPTIONS, I18N_MOON_PHASES, I18N_POLLEN_LEVELS, I18N_SUMMARY } = require("./lib/i18n");
+const {
+	I18N_WEEKDAYS,
+	I18N_DESCRIPTIONS,
+	I18N_MOON_PHASES,
+	I18N_POLLEN_LEVELS,
+	I18N_SUMMARY,
+	I18N_WARNINGS,
+} = require("./lib/i18n");
 
 const ICONS = {
 	0: "☀️",
@@ -1115,7 +1122,7 @@ class Openmeteo extends utils.Adapter {
 
 		// Weather warnings
 		if (anySuccess) {
-			await this.checkWeatherWarnings(locations);
+			await this.checkWeatherWarnings(locations, lang);
 		}
 	}
 
@@ -1189,9 +1196,10 @@ class Openmeteo extends utils.Adapter {
 	 * @param {object} hoursByDate - raw hourly data keyed by date string "YYYY-MM-DD"
 	 * @param {Date} startTime - start of the event (the targetTime from checkWeatherWarnings)
 	 * @param {Function} checkFn - returns true if the event is active for a given hourly data object
+	 * @param lang
 	 * @returns {string|null}
 	 */
-	findEventEnd(hoursByDate, startTime, checkFn) {
+	findEventEnd(hoursByDate, startTime, checkFn, lang = "en") {
 		let lastTrueTime = startTime;
 		const cur = new Date(startTime.getTime() + 60 * 60 * 1000); // start at next hour
 
@@ -1208,9 +1216,10 @@ class Openmeteo extends utils.Adapter {
 		if (lastTrueTime === startTime) {
 			return null;
 		}
-		const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+		const warnT = I18N_WARNINGS[lang] || I18N_WARNINGS.en;
+		const weekdays = I18N_WEEKDAYS[lang] || I18N_WEEKDAYS.en;
 		const endTime = new Date(lastTrueTime.getTime() + 60 * 60 * 1000);
-		const endHourStr = `${String(endTime.getHours()).padStart(2, "0")}:00 Uhr`;
+		const endHourStr = `${String(endTime.getHours()).padStart(2, "0")}:00${warnT.hourSuffix}`;
 		const startDay = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate());
 		const endDay = new Date(endTime.getFullYear(), endTime.getMonth(), endTime.getDate());
 		const dayDiff = Math.round((endDay - startDay) / (24 * 60 * 60 * 1000));
@@ -1218,7 +1227,7 @@ class Openmeteo extends utils.Adapter {
 		return { str, endMs: endTime.getTime() };
 	}
 
-	async checkWeatherWarnings(locations) {
+	async checkWeatherWarnings(locations, lang = "en") {
 		const warnStorm = !!this.config.warnStorm;
 		const warnThunderstorm = !!this.config.warnThunderstorm;
 		const warnFrost = !!this.config.warnFrost;
@@ -1241,9 +1250,10 @@ class Openmeteo extends utils.Adapter {
 			const targetDateKey = `${targetTime.getFullYear()}-${String(targetTime.getMonth() + 1).padStart(2, "0")}-${String(targetTime.getDate()).padStart(2, "0")}`;
 			const targetHour = targetTime.getHours();
 			const hData = (hoursByDate[targetDateKey] || [])[targetHour];
-			const weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+			const warnT = I18N_WARNINGS[lang] || I18N_WARNINGS.en;
+			const weekdays = I18N_WEEKDAYS[lang] || I18N_WEEKDAYS.en;
 			const todayDay = new Date().getDay();
-			const fromHourStr = `${String(targetHour).padStart(2, "0")}:00 Uhr`;
+			const fromHourStr = `${String(targetHour).padStart(2, "0")}:00${warnT.hourSuffix}`;
 			const fromStr =
 				targetTime.getDay() !== todayDay ? `${weekdays[targetTime.getDay()]} ${fromHourStr}` : fromHourStr;
 
@@ -1258,15 +1268,16 @@ class Openmeteo extends utils.Adapter {
 							hoursByDate,
 							targetTime,
 							hd => speedToBeaufort(hd.gustKmh, "kmh") >= stormBft,
+							lang,
 						);
-						const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
+						const timeRange = end ? warnT.timeRange(fromStr, end.str) : warnT.timeAt(fromStr);
 						if (!this.warnState[stormKey]) {
 							this.warnState[stormKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"storm",
-								`Sturmwarnung für ${loc.name}: Wind (Bft ≥ ${stormBft}) erwartet ${timeRange}`,
+								warnT.storm(loc.name, stormBft, timeRange),
 							);
 						} else if (
 							end &&
@@ -1278,7 +1289,7 @@ class Openmeteo extends utils.Adapter {
 							await this.registerNotification(
 								"openmeteo-notify",
 								"storm",
-								`Sturmwarnung verlängert für ${loc.name}: Wind (Bft ≥ ${stormBft}) jetzt bis ${end.str}`,
+								warnT.stormExt(loc.name, stormBft, end.str),
 							);
 						}
 					} else {
@@ -1289,17 +1300,20 @@ class Openmeteo extends utils.Adapter {
 				if (warnThunderstorm) {
 					const isThunder = hData != null && [95, 96, 99].includes(hData.weathercode);
 					if (isThunder) {
-						const end = this.findEventEnd(hoursByDate, targetTime, hd =>
-							[95, 96, 99].includes(hd.weathercode),
+						const end = this.findEventEnd(
+							hoursByDate,
+							targetTime,
+							hd => [95, 96, 99].includes(hd.weathercode),
+							lang,
 						);
-						const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
+						const timeRange = end ? warnT.timeRange(fromStr, end.str) : warnT.timeAt(fromStr);
 						if (!this.warnState[thunderKey]) {
 							this.warnState[thunderKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"thunderstorm",
-								`Gewitterwarnung für ${loc.name}: Gewitter erwartet ${timeRange}`,
+								warnT.thunder(loc.name, timeRange),
 							);
 						} else if (
 							end &&
@@ -1311,7 +1325,7 @@ class Openmeteo extends utils.Adapter {
 							await this.registerNotification(
 								"openmeteo-notify",
 								"thunderstorm",
-								`Gewitterwarnung verlängert für ${loc.name}: Gewitter jetzt bis ${end.str}`,
+								warnT.thunderExt(loc.name, end.str),
 							);
 						}
 					} else {
@@ -1329,13 +1343,14 @@ class Openmeteo extends utils.Adapter {
 								hoursByDate,
 								targetTime,
 								hd => hd.temperature !== null && hd.temperature <= frostThreshold,
+								lang,
 							);
-							const timeRange = end ? `von ${fromStr} – ${end.str}` : `um ${fromStr}`;
+							const timeRange = end ? warnT.timeRange(fromStr, end.str) : warnT.timeAt(fromStr);
 							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
 							await this.registerNotification(
 								"openmeteo-notify",
 								"frost_warning",
-								`Frostwarnung für ${loc.name}: ${hData.temperature}°C erwartet ${timeRange}`,
+								warnT.frost(loc.name, hData.temperature, timeRange),
 							);
 						}
 					} else {
