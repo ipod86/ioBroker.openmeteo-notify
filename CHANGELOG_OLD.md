@@ -93,6 +93,9 @@
 
 ### 0.0.1
 * Initial release
+## 0.0.46 (2026-04-08)
+* (ipod86) add CHANGELOG_OLD.md; add release-script
+
 ## 0.0.45
 * Weather warnings (storm/thunderstorm) via ioBroker notification system
 * Configurable Beaufort threshold for storm warnings (Bft 1–12, default Bft 8)

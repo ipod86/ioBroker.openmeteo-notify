@@ -257,7 +257,7 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.1.4 (2026-05-31)
 * (ipod86) fix: translate storm/thunderstorm/frost notification texts to system language (was always German)
 * (ipod86) fix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)
 * (ipod86) fix: use this.delay() instead of plain setTimeout in retry logic (W5005)
@@ -288,9 +288,6 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) New hourly data points: `snowfall_height`, `freezing_level_height`, `uv_index`
 * (ipod86) Astronomy: added `solar_noon` and `solar_elevation_max` (computed via SunCalc)
 * (ipod86) Fix: day channel names no longer frozen to creation date
-
-### 0.0.46 (2026-04-08)
-* (ipod86) add CHANGELOG_OLD.md; add release-script
 
 ## License
 
