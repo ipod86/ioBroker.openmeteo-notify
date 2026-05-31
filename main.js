@@ -960,7 +960,7 @@ class Openmeteo extends utils.Adapter {
 							this.log.warn(
 								`Fetch failed for "${loc.name}" (attempt ${attempt}/3): ${err.message} – retrying in 60s`,
 							);
-							await new Promise(r => setTimeout(r, 60000));
+							await this.delay(60000);
 						}
 					}
 				}

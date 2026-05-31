@@ -1,12 +1,7 @@
 {
-    "Days (1-16)": "Дни (1-16)",
-    "Hourly Days (0-16)": "Почасовые дни (0–16)",
-    "Latitude": "Широта",
-    "Longitude": "Долгота",
     "celsius": "Цельсия (°С)",
     "daysCount": "Количество дней (1–16)",
     "daysCountHelp": "Сколько дней нужно получить (максимум 16)",
-    "enableAgriculture": "Солнечная & Климат",
     "enableAgricultureHelp": "Солнечная радиация, CAPE, температура почвы, освещённость в *.agriculture",
     "enableComfort": "Индексы комфорта",
     "enableComfortHelp": "Индекс жары, ветро-холодовой индекс, гумидекс, УФ-индекс в *.comfort",
@@ -76,5 +71,11 @@
     "widgetDays": "Дни",
     "widgetTheme": "Тема",
     "widgetFontSizes": "Размеры шрифта",
-    "widgetShowWarnBadge": "Значок официальных предупреждений"
+    "widgetShowWarnBadge": "Значок официальных предупреждений",
+    "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
+    "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",
+    "enableWarnOfficialFetch": "Official warnings (data points)",
+    "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
+    "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
 }

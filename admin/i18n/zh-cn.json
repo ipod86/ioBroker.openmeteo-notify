@@ -1,12 +1,7 @@
 {
-    "Days (1-16)": "天（1-16）",
-    "Hourly Days (0-16)": "每小时天 (0-16)",
-    "Latitude": "纬度",
-    "Longitude": "经度",
     "celsius": "摄氏度 (°C)",
     "daysCount": "天数 (1–16)",
     "daysCountHelp": "获取多少天（最多 16 天）",
-    "enableAgriculture": "太阳能 & 气候",
     "enableAgricultureHelp": "太阳辐射、CAPE、土壤温度、辐照度（*.agriculture）",
     "enableComfort": "舒适度指数",
     "enableComfortHelp": "热指数、风寒指数、湿热指数、紫外线指数位于 *.comfort",
@@ -76,5 +71,11 @@
     "widgetDays": "天数",
     "widgetTheme": "主题",
     "widgetFontSizes": "字体大小",
-    "widgetShowWarnBadge": "官方预警徽章"
+    "widgetShowWarnBadge": "官方预警徽章",
+    "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
+    "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",
+    "enableWarnOfficialFetch": "Official warnings (data points)",
+    "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
+    "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
 }

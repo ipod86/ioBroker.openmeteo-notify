@@ -1,12 +1,7 @@
 {
-    "Days (1-16)": "Dias (1-16)",
-    "Hourly Days (0-16)": "Dias por hora (0-16)",
-    "Latitude": "Latitude",
-    "Longitude": "Longitude",
     "celsius": "Celsius (°C)",
     "daysCount": "Número de dias (1–16)",
     "daysCountHelp": "Quantos dias para buscar (máx. 16)",
-    "enableAgriculture": "Solar & Clima",
     "enableAgricultureHelp": "Radiação solar, CAPE, temperatura do solo, irradiância em *.agriculture",
     "enableComfort": "Índices de conforto",
     "enableComfortHelp": "Índice de calor, sensação térmica, humidex, índice UV em *.comfort",
@@ -76,5 +71,11 @@
     "widgetDays": "Dias",
     "widgetTheme": "Tema",
     "widgetFontSizes": "Tamanhos de fonte",
-    "widgetShowWarnBadge": "Emblema de alerta oficial"
+    "widgetShowWarnBadge": "Emblema de alerta oficial",
+    "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
+    "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",
+    "enableWarnOfficialFetch": "Official warnings (data points)",
+    "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
+    "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
 }

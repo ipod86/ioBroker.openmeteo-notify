@@ -1,0 +1,19 @@
+// Root tsconfig to set the settings and power editor support for all TS files
+{
+	// To update the compilation target, install a different version of @tsconfig/node... and reference it here
+	// https://github.com/tsconfig/bases#node-20-tsconfigjson
+	"extends": "@tsconfig/node20/tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"allowJs": true,
+		"checkJs": true,
+		"noEmitOnError": true,
+		"outDir": "./build/",
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"inlineSourceMap": false
+	},
+	"include": ["main.js", "lib/**/*.js", "test/**/*.js"],
+	"exclude": ["build/**", "node_modules/**"]
+}

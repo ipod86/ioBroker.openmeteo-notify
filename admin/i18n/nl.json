@@ -1,12 +1,7 @@
 {
-    "Days (1-16)": "Dagen (1-16)",
-    "Hourly Days (0-16)": "Dagen per uur (0-16)",
-    "Latitude": "Breedte",
-    "Longitude": "Lengte",
     "celsius": "Celsius (°C)",
     "daysCount": "Aantal dagen (1–16)",
     "daysCountHelp": "Hoeveel dagen ophalen (max. 16)",
-    "enableAgriculture": "Solar & Klimaat",
     "enableAgricultureHelp": "Zonnestraling, CAPE, bodemtemperatuur, bestralingssterkte onder *.agriculture",
     "enableComfort": "Comfortindices",
     "enableComfortHelp": "Warmte-index, windkoeling, humidex, UV-index onder *.comfort",
@@ -76,5 +71,11 @@
     "widgetDays": "Dagen",
     "widgetTheme": "Thema",
     "widgetFontSizes": "Lettergroottes",
-    "widgetShowWarnBadge": "Waarschuwingsbadge officiële meldingen"
+    "widgetShowWarnBadge": "Waarschuwingsbadge officiële meldingen",
+    "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
+    "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",
+    "enableWarnOfficialFetch": "Official warnings (data points)",
+    "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
+    "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
 }
