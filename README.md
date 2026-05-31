@@ -257,6 +257,16 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (ipod86) fix: translate storm/thunderstorm/frost notification texts to system language (was always German)
+* (ipod86) fix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)
+* (ipod86) fix: use this.delay() instead of plain setTimeout in retry logic (W5005)
+* (ipod86) fix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)
+* (ipod86) fix: add dependabot ignore block for @types/node major versions (E8917)
+* (ipod86) fix: remove Node 20 from test matrix (W3024)
+* (ipod86) fix: add tsconfig.json for proper type checking (S0087)
+* (ipod86) fix: migrate i18n to short format (S5601)
+
 ### 0.1.3 (2026-04-25)
 * (ipod86) Custom SVG icon set with night icon support and Base64 embedding in widget HTML
 * (ipod86) WMO OGC SVG icon set with theme-aware color inversion

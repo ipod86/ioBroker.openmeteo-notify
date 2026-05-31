@@ -261,6 +261,16 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ## Changelog
 
+### 0.1.4 (2026-05-31)
+* (ipod86) fix: Sturm-/Gewitter-/Frost-Benachrichtigungen werden jetzt in der ioBroker-Systemsprache gesendet
+* (ipod86) fix: i18n-Schlüssel in allen Sprachen synchronisiert (admin/i18n und src-admin/src/i18n)
+* (ipod86) fix: this.delay() statt setTimeout im Retry-Mechanismus
+* (ipod86) fix: engines.node >= 22, @tsconfig/node22, Deploy node 24, @types/node ^22
+* (ipod86) fix: Dependabot ignoriert @types/node Major-Updates
+* (ipod86) fix: Node 20 aus Testmatrix entfernt
+* (ipod86) fix: tsconfig.json für korrekte Typ-Prüfung hinzugefügt
+* (ipod86) fix: i18n-Dateien ins Kurzformat migriert
+
 ### 0.1.3 (2026-04-25)
 * (ipod86) Eigenes SVG-Icon-Set mit Nacht-Icons und Base64-Einbettung im Widget-HTML
 * (ipod86) WMO OGC SVG-Icons mit themenabhängiger Farbinvertierung
