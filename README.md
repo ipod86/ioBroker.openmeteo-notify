@@ -289,6 +289,8 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) Astronomy: added `solar_noon` and `solar_elevation_max` (computed via SunCalc)
 * (ipod86) Fix: day channel names no longer frozen to creation date
 
+Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
+
 ## License
 
 MIT License
