@@ -261,6 +261,10 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ## Changelog
 
+### 0.1.5 (2026-06-06)
+* (ipod86) fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)
+* (ipod86) fix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)
+
 ### 0.1.4 (2026-05-31)
 * (ipod86) fix: Sturm-/Gewitter-/Frost-Benachrichtigungen werden jetzt in der ioBroker-Systemsprache gesendet
 * (ipod86) fix: i18n-Schlüssel in allen Sprachen synchronisiert (admin/i18n und src-admin/src/i18n)

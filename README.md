@@ -257,6 +257,10 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+### 0.1.5 (2026-06-06)
+* (ipod86) fix: replace invalid object roles – use valid ioBroker role catalogue entries only (E1008)
+* (ipod86) fix: update @alcalzone/release-script to >=5.2.1 (E0036)
+
 ### 0.1.4 (2026-05-31)
 * (ipod86) fix: translate storm/thunderstorm/frost notification texts to system language (was always German)
 * (ipod86) fix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)

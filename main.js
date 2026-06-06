@@ -2878,7 +2878,7 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${locId}.current.is_day`, cur.is_day === 1, {
 				name: "Tag",
 				type: "boolean",
-				role: "indicator.day",
+				role: "indicator",
 			});
 			await this.setDP(`${locId}.current.rain`, cur.rain, {
 				name: "Regen",
@@ -3098,7 +3098,9 @@ class Openmeteo extends utils.Adapter {
 			const icon = ICONS[d.weathercode[i]] || "🌡️";
 			const desc = descriptions[d.weathercode[i]] || "?";
 			const prefix = `${locId}.day${i}`;
-			const fc = `.forecast.${i}`;
+			// ioBroker role catalogue only defines forecast suffixes .forecast.0 and .forecast.1
+			// For days 2+ we fall back to the base role (no forecast suffix)
+			const fc = i <= 1 ? `.forecast.${i}` : "";
 			const tempMax = Math.round(d.temperature_2m_max[i] * 10) / 10;
 			const tempMin = Math.round(d.temperature_2m_min[i] * 10) / 10;
 			const tempMean = Math.round(d.temperature_2m_mean[i] * 10) / 10;
@@ -3125,7 +3127,8 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${prefix}.icon_url`, this._weatherIconUrl(d.weathercode[i], iconSet, true), {
 				name: "Icon URL",
 				type: "string",
-				role: `weather.icon${fc}`,
+				// weather.icon.forecast.1 is the only numbered forecast variant in the catalogue
+				role: i === 1 ? "weather.icon.forecast.1" : "weather.icon",
 			});
 			await this.setDP(`${prefix}.description`, desc, {
 				name: "Beschreibung",
@@ -3207,7 +3210,8 @@ class Openmeteo extends utils.Adapter {
 				name: "Niederschlagswahrsch.",
 				type: "number",
 				unit: "%",
-				role: `value.precipitation.forecast.${i}`,
+				// value.precipitation.forecast.0 / .1 are valid; for days 2+ use the base role
+				role: i <= 1 ? `value.precipitation.forecast.${i}` : "value.precipitation.chance",
 			});
 			await this.setDP(`${prefix}.windspeed`, d.windspeed_10m_max[i], {
 				name: "Wind Max",
@@ -3467,7 +3471,8 @@ class Openmeteo extends utils.Adapter {
 				name: "Luftfeuchtigkeit Mittel",
 				type: "number",
 				unit: "%",
-				role: `value.humidity${fc}`,
+				// No numbered humidity forecast roles exist in the ioBroker catalogue
+				role: "value.humidity",
 			});
 			await this.setDP(`${prefix}.pressure_mean`, Math.round(d.pressure_msl_mean[i] * 10) / 10, {
 				name: "Luftdruck Mittel",
@@ -3718,7 +3723,7 @@ class Openmeteo extends utils.Adapter {
 					await this.setDP(`${hPath}.is_day`, hData.is_day, {
 						name: "Tag",
 						type: "boolean",
-						role: "indicator.day",
+						role: "indicator",
 					});
 					await this.setDP(`${hPath}.is_thunderstorm`, [95, 96, 99].includes(hData.weathercode), {
 						name: "Gewitter",

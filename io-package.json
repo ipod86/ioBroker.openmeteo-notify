@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "news": {
+      "0.1.5": {
+        "en": "fix: replace invalid object roles with valid ioBroker catalogue roles (E1008)\nfix: update @alcalzone/release-script to >=5.2.1 (E0036)",
+        "de": "fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)\nfix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)",
+        "ru": "исправление: замена недопустимых ролей объектов на допустимые роли каталога ioBroker (E1008)\nисправление: обновление @alcalzone/release-script до >=5.2.1 (E0036)",
+        "pt": "correção: substituir papéis de objetos inválidos por papéis válidos do catálogo ioBroker (E1008)\ncorreção: atualizar @alcalzone/release-script para >=5.2.1 (E0036)",
+        "nl": "fix: ongeldige objectrollen vervangen door geldige ioBroker-catalogusrollen (E1008)\nfix: @alcalzone/release-script bijwerken naar >=5.2.1 (E0036)",
+        "fr": "correction: remplacer les rôles d'objet invalides par des rôles valides du catalogue ioBroker (E1008)\ncorrection: mettre à jour @alcalzone/release-script vers >=5.2.1 (E0036)",
+        "it": "correzione: sostituire i ruoli degli oggetti non validi con ruoli validi del catalogo ioBroker (E1008)\ncorrezione: aggiornare @alcalzone/release-script a >=5.2.1 (E0036)",
+        "es": "corrección: reemplazar roles de objeto no válidos con roles válidos del catálogo ioBroker (E1008)\ncorrección: actualizar @alcalzone/release-script a >=5.2.1 (E0036)",
+        "pl": "fix: zastąpić nieprawidłowe role obiektów prawidłowymi rolami katalogu ioBroker (E1008)\nfix: zaktualizować @alcalzone/release-script do >=5.2.1 (E0036)",
+        "uk": "виправлення: замінити недійсні ролі об'єктів допустимими ролями каталогу ioBroker (E1008)\nвиправлення: оновити @alcalzone/release-script до >=5.2.1 (E0036)",
+        "zh-cn": "修复：用ioBroker目录中的有效角色替换无效的对象角色（E1008）\n修复：将@alcalzone/release-script更新至>=5.2.1（E0036）"
+      },
       "0.1.4": {
         "en": "fix: translate storm/thunderstorm/frost notification texts to system language (was always German)\nfix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)\nfix: use this.delay() instead of plain setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: add dependabot ignore block for @types/node major versions (E8917)\nfix: remove Node 20 from test matrix (W3024)\nfix: add tsconfig.json for proper type checking (S0087)\nfix: migrate i18n to short format (S5601)",
         "de": "fix: übersetzen Sturm/Thunderstorm/frost Benachrichtigungstexte auf Systemsprache (war immer Deutsch)\nfix: synchrone i18n Schlüssel in allen Sprachen in admin/i18n und src-admin/src/i18n (W5604, W5605)\nfix: verwenden Sie this.delay() anstelle von simple setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, Deploy node 24 (E0028, E3022)\nfix: hinzufügen abhängigabot ignorieren Block für @types/node große Versionen (E8917)\nfix: Node 20 aus der Testmatrix entfernen (W3024)\nfix: tsconfig.json zur ordnungsgemäßen Typprüfung hinzufügen (S0087)\nfix: migrieren i18n auf kurzes Format (S5601)",
