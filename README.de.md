@@ -261,6 +261,14 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ## Changelog
 
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+* (ipod86) fix: weather.direction.wind statt weather.direction.wind.forecast.1 ab Tag 1 (Rolle nicht im ioBroker-Katalog)
+* (ipod86) chore: react-dom und @types/react-dom von 18 auf 19 aktualisiert
+
 ### 0.1.5 (2026-06-06)
 * (ipod86) fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)
 * (ipod86) fix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)

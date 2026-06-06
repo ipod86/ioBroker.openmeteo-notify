@@ -257,6 +257,15 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+* (ipod86) fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)
+* (ipod86) chore: bump react-dom and @types/react-dom from 18 to 19
+
 ### 0.1.5 (2026-06-06)
 * (ipod86) fix: replace invalid object roles – use valid ioBroker role catalogue entries only (E1008)
 * (ipod86) fix: update @alcalzone/release-script to >=5.2.1 (E0036)
