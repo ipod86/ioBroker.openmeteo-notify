@@ -262,7 +262,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.1.6 (2026-06-06)
 * (ipod86) fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)
 * (ipod86) chore: bump react-dom and @types/react-dom from 18 to 19
 
@@ -289,18 +289,6 @@ This adapter is an independent community project and is not affiliated with or e
 
 ### 0.1.2 (2026-04-19)
 * (ipod86) Fix: log detailed API error reason for HTTP 4xx responses
-
-### 0.1.1 (2026-04-19)
-* (ipod86) Rename adapter to ioBroker.openmeteo-notify
-
-### 0.1.0 (2026-04-16)
-* (ipod86) Official weather warnings: DE uses DWD, EU countries use MeteoAlarm – auto-detected from coordinates
-* (ipod86) Unified `location.warnings.*` folder for all official warnings with `source` data point
-* (ipod86) Single `warnOfficial` toggle replaces separate `enableDwd` / `warnDwd` settings
-* (ipod86) New daily data points: `temp_mean`, `feels_like_mean`, `precipitation_hours`, `showers`, `uv_index_clear_sky`, `snowfall_height_min`
-* (ipod86) New hourly data points: `snowfall_height`, `freezing_level_height`, `uv_index`
-* (ipod86) Astronomy: added `solar_noon` and `solar_elevation_max` (computed via SunCalc)
-* (ipod86) Fix: day channel names no longer frozen to creation date
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

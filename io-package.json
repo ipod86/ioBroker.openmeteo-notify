@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "news": {
+      "0.1.6": {
+        "en": "fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)\nchore: bump react-dom and @types/react-dom from 18 to 19",
+        "de": "fix: Verwenden Sie wetter.direction.wind statt wetter.wind.forecast.1 für Tag1+ (role nicht im ioBroker Katalog)\nchore: stoßreaktanz und @types/react-dom von 18 bis 19",
+        "ru": "фиксировать: используйте weather.direction.wind вместо weather.direction.wind.forecast.1 для day1+ (роль не в каталоге ioBroker)\n@types/react-dom с 18 по 19",
+        "pt": "correção: usar weather.direction.wind em vez de weather.direction.wind.precast.1 para dia1+ (papel não no catálogo ioBroker)\ntarefa: colisão reactive-dom e @types/react-dom de 18 para 19",
+        "nl": "fix: gebruik weer.richting.wind in plaats van weer.richting.wind.forecast.1 voor dag1+ (rol niet in ioBroker catalogus)\nkoor: bump reaction-dom en @types/react-dom van 18 tot 19",
+        "fr": "fix: utiliser weather.direction.wind au lieu de weather.direction.wind.forcast.1 pour jour1+ (rôle non dans le catalogue ioBroker)\ncorvée: bloc de réaction et @types/réaction de 18 à 19",
+        "it": "fix: usare meteo.direction.wind invece di meteo.direction.wind.forecast.1 per giorno1+ (rolo non in catalogo ioBroker)\ncore: urto reage-dom e @types/react-dom da 18 a 19",
+        "es": "fijado: use weather.direction.wind en lugar de tiempo.direction.wind.forecast.1 for day1+ (role not in ioBroker catalog)\nde 18 a 19 años",
+        "pl": "fix: użyj weather.direction.wind zamiast weather.direction.wind.projecast.1 dla dnia 1 + (rola nie w katalogu jOBroker)\nchore: bump react- dom i @ types / react- dom od 18 do 19",
+        "uk": "виправити: використовувати погоду.direction.wind замість погоди.direction.wind.forecast.1 на день1+ (role не в каталозі ioBroker)\nchore: bump re-dom і @types/react-dom від 18 до 19",
+        "zh-cn": "固定:使用天气. 方向. wind 代替天气. 方向. wind. forecast.1 for day1+(在ioBroker目录中没有作用)\n弦乐: 凸起反应- 度和 @ 类型/ 反应- 度从 18 到 19"
+      },
       "0.1.5": {
         "en": "fix: replace invalid object roles with valid ioBroker catalogue roles (E1008)\nfix: update @alcalzone/release-script to >=5.2.1 (E0036)",
         "de": "fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)\nfix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)",
