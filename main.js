@@ -3234,7 +3234,7 @@ class Openmeteo extends utils.Adapter {
 			await this.setDP(`${prefix}.winddirection_text`, degreesToCompass(d.winddirection_10m_dominant[i]), {
 				name: "Windrichtung Text",
 				type: "string",
-				role: `weather.direction.wind${fc}`,
+				role: i === 0 ? `weather.direction.wind${fc}` : "weather.direction.wind",
 			});
 			await this.setDP(`${prefix}.winddirection_icon`, degreesToEmoji(d.winddirection_10m_dominant[i]), {
 				name: "Windrichtung Icon",
