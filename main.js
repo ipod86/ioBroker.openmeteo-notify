@@ -1076,7 +1076,7 @@ class Openmeteo extends utils.Adapter {
 		if (anySuccess) {
 			await this.setObjectNotExistsAsync("info.lastUpdate", {
 				type: "state",
-				common: { name: "Letztes Update", type: "string", role: "date", read: true, write: false },
+				common: { name: "Last Update", type: "string", role: "date", read: true, write: false },
 				native: {},
 			});
 			await this.setState("info.lastUpdate", new Date().toISOString(), true);
@@ -2068,7 +2068,7 @@ class Openmeteo extends utils.Adapter {
 			.map(w => {
 				const from = fmtT(w.start);
 				const to = fmtT(w.end);
-				const time = from ? (to ? `${from} – ${to} Uhr` : `ab ${from} Uhr`) : "";
+				const time = from ? (to ? `${from} – ${to}` : `ab ${from} Uhr`) : "";
 				return (
 					`<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.15);">` +
 					`<div style="font-weight:700;font-size:13px;margin-bottom:3px;">${w.headline}</div>${
@@ -2088,7 +2088,7 @@ class Openmeteo extends utils.Adapter {
 			`<div id="wm${wid}" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.72);z-index:20;align-items:flex-start;justify-content:center;padding:10px;box-sizing:border-box;overflow-y:auto;">` +
 			`<div style="background:#1c2033;color:#fff;border-radius:8px;padding:14px;width:100%;box-sizing:border-box;">` +
 			`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">` +
-			`<span style="font-weight:700;font-size:13px;">⚠ Amtliche Warnungen (${warnings.length})</span>` +
+			`<span style="font-weight:700;font-size:13px;">⚠ Official Warnings (${warnings.length})</span>` +
 			`<span onclick="document.getElementById('wm${wid}').style.display='none'" style="cursor:pointer;font-size:18px;line-height:1;opacity:0.7;padding:2px 4px;">✕</span>` +
 			`</div>${items}</div></div>`
 		);
@@ -2386,7 +2386,7 @@ class Openmeteo extends utils.Adapter {
 		const prefix = `${locId}.warnings`;
 		await this.extendObjectAsync(prefix, {
 			type: "channel",
-			common: { name: "Amtliche Warnungen" },
+			common: { name: "Official Warnings" },
 			native: {},
 		});
 		await this.setDP(`${prefix}.source`, "DWD", { name: "Quelle", type: "string", role: "text" });
@@ -2417,7 +2417,7 @@ class Openmeteo extends utils.Adapter {
 			const wp = `${prefix}.warning_${i}`;
 			await this.setObjectNotExistsAsync(wp, {
 				type: "channel",
-				common: { name: `Warnung ${i}` },
+				common: { name: `Warning ${i}` },
 				native: {},
 			});
 			await this.setDP(`${wp}.active`, !!w, { name: "Aktiv", type: "boolean", role: "indicator.alarm" });
@@ -2547,7 +2547,7 @@ class Openmeteo extends utils.Adapter {
 		const prefix = `${locId}.warnings`;
 		await this.extendObjectAsync(prefix, {
 			type: "channel",
-			common: { name: "Amtliche Warnungen" },
+			common: { name: "Official Warnings" },
 			native: {},
 		});
 		await this.setDP(`${prefix}.source`, "MeteoAlarm", { name: "Quelle", type: "string", role: "text" });
@@ -2576,7 +2576,7 @@ class Openmeteo extends utils.Adapter {
 		for (let i = 1; i <= 5; i++) {
 			const w = warnings[i - 1] || null;
 			const wp = `${prefix}.warning_${i}`;
-			await this.setObjectNotExistsAsync(wp, { type: "channel", common: { name: `Warnung ${i}` }, native: {} });
+			await this.setObjectNotExistsAsync(wp, { type: "channel", common: { name: `Warning ${i}` }, native: {} });
 			const level = w ? METEOALARM_SEVERITY[w.severity] || 0 : 0;
 			await this.setDP(`${wp}.active`, !!w, { name: "Aktiv", type: "boolean", role: "indicator.alarm" });
 			await this.setDP(`${wp}.level`, level, { name: "Warnstufe", type: "number", role: "value" });
@@ -2759,7 +2759,7 @@ class Openmeteo extends utils.Adapter {
 
 			await this.setObjectNotExistsAsync(`${locId}.current`, {
 				type: "channel",
-				common: { name: "Aktuelles Wetter" },
+				common: { name: "Current Weather" },
 				native: {},
 			});
 
@@ -2930,7 +2930,7 @@ class Openmeteo extends utils.Adapter {
 			if (enableAgriculture) {
 				await this.setObjectNotExistsAsync(`${locId}.current.agriculture`, {
 					type: "channel",
-					common: { name: "Agrar/Solar aktuell" },
+					common: { name: "Agriculture/Solar Current" },
 					native: {},
 				});
 				await this.setDP(`${locId}.current.agriculture.solar_radiation`, cur.shortwave_radiation, {
@@ -2974,7 +2974,7 @@ class Openmeteo extends utils.Adapter {
 				const unitArg = isFahrenheit ? "fahrenheit" : "celsius";
 				await this.setObjectNotExistsAsync(`${locId}.current.comfort`, {
 					type: "channel",
-					common: { name: "Komfortindizes aktuell" },
+					common: { name: "Comfort Indices Current" },
 					native: {},
 				});
 				await this.setDP(`${locId}.current.comfort.heat_index`, celsiusToUnit(heatIdx, unitArg), {
@@ -3113,7 +3113,7 @@ class Openmeteo extends utils.Adapter {
 
 			await this.extendObjectAsync(prefix, {
 				type: "channel",
-				common: { name: i === 0 ? "Heute" : i === 1 ? "Morgen" : `Tag ${i}` },
+				common: { name: i === 0 ? "Today" : i === 1 ? "Tomorrow" : `Day ${i}` },
 				native: {},
 			});
 
@@ -3624,7 +3624,7 @@ class Openmeteo extends utils.Adapter {
 
 					await this.setObjectNotExistsAsync(hPath, {
 						type: "channel",
-						common: { name: `${String(hh).padStart(2, "0")}:00 Uhr` },
+						common: { name: `${String(hh).padStart(2, "0")}:00` },
 						native: {},
 					});
 
@@ -3784,7 +3784,7 @@ class Openmeteo extends utils.Adapter {
 					if (enableAgricultureHourly) {
 						await this.setObjectNotExistsAsync(`${hPath}.agriculture`, {
 							type: "channel",
-							common: { name: "Agrar/Solar" },
+							common: { name: "Agriculture/Solar" },
 							native: {},
 						});
 						await this.setDP(`${hPath}.agriculture.solar_radiation`, hData.solar_radiation, {
@@ -3837,7 +3837,7 @@ class Openmeteo extends utils.Adapter {
 						const hHumid = calcHumidex(hTempC, hDpC);
 						await this.setObjectNotExistsAsync(`${hPath}.comfort`, {
 							type: "channel",
-							common: { name: "Komfortindizes" },
+							common: { name: "Comfort Indices" },
 							native: {},
 						});
 						await this.setDP(`${hPath}.comfort.heat_index`, celsiusToUnit(hHeatIdx, unitArg), {
@@ -3914,7 +3914,7 @@ class Openmeteo extends utils.Adapter {
 					if (enableAstronomyHourly && astroData) {
 						await this.setObjectNotExistsAsync(`${hPath}.astronomy`, {
 							type: "channel",
-							common: { name: "Astronomie" },
+							common: { name: "Astronomy" },
 							native: {},
 						});
 						await this.setDP(`${hPath}.astronomy.sunrise`, astroData.sunrise, {
@@ -4031,7 +4031,7 @@ class Openmeteo extends utils.Adapter {
 			const c = data.current;
 			await this.setObjectNotExistsAsync(`${locId}.current.air_quality`, {
 				type: "channel",
-				common: { name: "Luftqualität aktuell" },
+				common: { name: "Air Quality Current" },
 				native: {},
 			});
 			const aqiFields = [
@@ -4141,7 +4141,7 @@ class Openmeteo extends utils.Adapter {
 			if (currentHourVals) {
 				await this.setObjectNotExistsAsync(`${locId}.current.pollen`, {
 					type: "channel",
-					common: { name: "Pollen aktuell" },
+					common: { name: "Pollen Current" },
 					native: {},
 				});
 				for (const { key, name } of types) {
@@ -4275,7 +4275,7 @@ class Openmeteo extends utils.Adapter {
 						const hAqPrefix = `${hBase}.air_quality`;
 						await this.setObjectNotExistsAsync(hAqPrefix, {
 							type: "channel",
-							common: { name: "Luftqualität" },
+							common: { name: "Air Quality" },
 							native: {},
 						});
 						for (const f of aqHourlyFields) {
