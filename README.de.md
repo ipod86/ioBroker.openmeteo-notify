@@ -265,7 +265,11 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.1.7 (2026-06-09)
+* (ipod86) fix: alle deutschen common.name-Werte auf Englisch übersetzt (Letztes Update, Amtliche Warnungen, Aktuelles Wetter, Heute/Morgen/Tag N, Agrar/Solar, Komfortindizes, Astronomie, Luftqualität, Pollen)
+* (ipod86) fix: deutsche Widget-Texte im Warn-Overlay auf Englisch übersetzt
+
+### 0.1.6 (2026-06-06)
 * (ipod86) fix: weather.direction.wind statt weather.direction.wind.forecast.1 ab Tag 1 (Rolle nicht im ioBroker-Katalog)
 * (ipod86) chore: react-dom und @types/react-dom von 18 auf 19 aktualisiert
 

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "news": {
+      "0.1.7": {
+        "en": "fix: translate all German common.name values and widget warning strings to English",
+        "de": "fix: alle deutschen common.name-Werte und Widget-Warnungstexte auf Englisch übersetzt",
+        "ru": "fix: перевести все немецкие значения common.name и тексты предупреждений виджета на английский",
+        "pt": "fix: traduzir todos os valores common.name alemães e textos de aviso do widget para inglês",
+        "nl": "fix: alle Duitse common.name-waarden en widgetwaarschuwingsteksten vertalen naar het Engels",
+        "fr": "fix: traduire toutes les valeurs common.name allemandes et les textes d'avertissement du widget en anglais",
+        "it": "fix: tradurre tutti i valori common.name tedeschi e i testi di avviso del widget in inglese",
+        "es": "fix: traducir todos los valores common.name alemanes y los textos de advertencia del widget al inglés",
+        "pl": "fix: przetłumaczyć wszystkie niemieckie wartości common.name i teksty ostrzeżeń widgetu na angielski",
+        "uk": "fix: перекласти всі німецькі значення common.name та тексти попереджень віджету на англійську",
+        "zh-cn": "fix: 将所有德文 common.name 值和小部件警告文本翻译为英文"
+      },
       "0.1.6": {
         "en": "fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)\nchore: bump react-dom and @types/react-dom from 18 to 19",
         "de": "fix: Verwenden Sie wetter.direction.wind statt wetter.wind.forecast.1 für Tag1+ (role nicht im ioBroker Katalog)\nchore: stoßreaktanz und @types/react-dom von 18 bis 19",
