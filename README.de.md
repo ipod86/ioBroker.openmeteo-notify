@@ -265,6 +265,14 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.1.8 (2026-06-09)
+* (ipod86) fix: 10s-Timeout für alle HTTP-Requests ergänzt (fetchWeather, fetchAirQuality, fetchLocationInfo, fetchMeteoAlarmWarnings, fetchDwdWarnings)
+* (ipod86) fix: alle verbleibenden deutschen common.name-Werte in processData, processDwdWarnings, processMeteoAlarmWarnings übersetzt
+* (ipod86) fix: Warnungs-Zeitformat nicht mehr auf de-DE-Locale festgelegt; verwendet System-Locale
+* (ipod86) fix: Intervall-Validierung (1–35791 min) für updateInterval und warnIntervalMinutes ergänzt
+* (ipod86) fix: fehlende native-Defaults (warnOfficialFetch, enableWarnOfficialFetch, widgets) in io-package.json ergänzt
+* (ipod86) fix: _locationInfo-Initialisierung in Konstruktor verschoben
+
 ### 0.1.7 (2026-06-09)
 * (ipod86) fix: alle deutschen common.name-Werte auf Englisch übersetzt (Letztes Update, Amtliche Warnungen, Aktuelles Wetter, Heute/Morgen/Tag N, Agrar/Solar, Komfortindizes, Astronomie, Luftqualität, Pollen)
 * (ipod86) fix: deutsche Widget-Texte im Warn-Overlay auf Englisch übersetzt

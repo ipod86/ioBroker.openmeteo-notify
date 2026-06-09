@@ -262,6 +262,14 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.1.8 (2026-06-09)
+* (ipod86) fix: add 10s timeout to all HTTP requests (fetchWeather, fetchAirQuality, fetchLocationInfo, fetchMeteoAlarmWarnings, fetchDwdWarnings)
+* (ipod86) fix: translate all remaining German common.name values in processData, processDwdWarnings, processMeteoAlarmWarnings
+* (ipod86) fix: warning time format no longer hardcoded to de-DE locale; uses system locale
+* (ipod86) fix: add interval bounds validation (1–35791 min) for updateInterval and warnIntervalMinutes
+* (ipod86) fix: add missing native defaults (warnOfficialFetch, enableWarnOfficialFetch, widgets) to io-package.json
+* (ipod86) fix: move _locationInfo initialization to constructor
+
 ### 0.1.7 (2026-06-09)
 * (ipod86) fix: translate all German common.name values to English (Last Update, Official Warnings, Current Weather, Today/Tomorrow/Day N, Agriculture/Solar, Comfort Indices, Astronomy, Air Quality, Pollen)
 * (ipod86) fix: translate German widget strings in warning overlay to English
