@@ -200,7 +200,6 @@
     "warnIntervalMinutes": 15,
     "warnNotifyLift": false,
     "warnOfficialFetch": false,
-    "enableWarnOfficialFetch": false,
     "widgets": []
   },
   "notifications": [
