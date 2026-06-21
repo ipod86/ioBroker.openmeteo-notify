@@ -1,4 +1,4 @@
-# Dependabot will run on day 15 of each month at 02:45 (Europe/Berlin timezone)
+# Dependabot will run on day 9 of each month at 01:26 (Europe/Berlin timezone)
 version: 2
 updates:
 
@@ -16,8 +16,9 @@ updates:
     cooldown:
       default: 7
     ignore:
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: '@types/node'
+        update-types:
+          - 'version-update:semver-major'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
