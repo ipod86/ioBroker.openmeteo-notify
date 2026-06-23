@@ -1162,7 +1162,10 @@ class Openmeteo extends utils.Adapter {
 					);
 				}
 			} catch (err) {
-				this.log.warn(`Official warnings not available for "${loc.name}": ${err.message}`);
+				const hint = err.message.includes("timed out")
+					? " (network timeout – will retry next cycle)"
+					: " (service may be unavailable or location outside supported region)";
+				this.log.warn(`Official warnings fetch failed for "${loc.name}": ${err.message}${hint}`);
 			}
 
 			// Rebuild widgets for this location so the badge reflects current warnings
