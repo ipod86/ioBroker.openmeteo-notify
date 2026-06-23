@@ -262,6 +262,9 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.1.10 (2026-06-23)
+* (ipod86) fix: improve air quality/pollen error log message – distinguish timeout from unsupported region
+
 ### 0.1.9 (2026-06-22)
 * (ipod86) fix: increase HTTP request timeout from 10s to 30s
 * (ipod86) fix: remove spurious enableWarnOfficialFetch from native defaults

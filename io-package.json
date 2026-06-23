@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "news": {
       "0.1.9": {
         "en": "fix: increase HTTP request timeout from 10s to 30s; remove spurious native default; update dependencies",
@@ -106,6 +106,19 @@
         "pl": "Fix: log szczegółowy powód błędu API dla odpowiedzi HTTP 4xx",
         "uk": "Виправлення: Log докладна причина помилки API для HTTP 4xxx",
         "zh-cn": "修正: HTTP 4xx 回复日志详细 API 错误原因"
+      },
+      "0.1.10": {
+        "en": "fix: improve air quality/pollen error message – distinguish timeout from unsupported region",
+        "de": "fix: Fehlermeldung bei Pollen/Luftqualität verbessert – Timeout und nicht unterstützte Region werden klar unterschieden",
+        "ru": "fix: улучшено сообщение об ошибке для пыльцы/воздуха — различается тайм-аут и неподдерживаемый регион",
+        "pt": "fix: mensagem de erro de pólen/qualidade do ar melhorada – distingue timeout de região não suportada",
+        "nl": "fix: foutmelding voor pollen/luchtkwaliteit verbeterd – time-out en niet-ondersteunde regio worden onderscheiden",
+        "fr": "fix: message d erreur pollen/qualité de l air amélioré – distingue le délai d attente de la région non prise en charge",
+        "it": "fix: messaggio di errore pollen/qualità dell aria migliorato – distingue timeout da regione non supportata",
+        "es": "fix: mensaje de error de polen/calidad del aire mejorado – distingue tiempo de espera de región no compatible",
+        "pl": "fix: poprawiono komunikat o błędzie pyłku/jakości powietrza – rozróżniany timeout od nieobsługiwanego regionu",
+        "uk": "fix: покращено повідомлення про помилку пилку/повітря – розрізняється тайм-аут і непідтримуваний регіон",
+        "zh-cn": "fix: 改进花粉/空气质量错误消息 – 区分超时和不支持的地区"
       }
     },
     "titleLang": {

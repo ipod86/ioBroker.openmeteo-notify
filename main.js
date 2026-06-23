@@ -1007,7 +1007,10 @@ class Openmeteo extends utils.Adapter {
 							lang,
 						);
 					} catch (err) {
-						this.log.warn(`Pollen/air quality data not available for "${loc.name}": ${err.message}`);
+						const hint = err.message.includes("timed out")
+							? " (network timeout – will retry next cycle)"
+							: " (location may be outside supported region)";
+						this.log.warn(`Pollen/air quality fetch failed for "${loc.name}": ${err.message}${hint}`);
 					}
 				} else {
 					// Both pollen and air quality disabled – clean up all related channels
