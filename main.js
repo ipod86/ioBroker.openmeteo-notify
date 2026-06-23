@@ -1809,7 +1809,7 @@ class Openmeteo extends utils.Adapter {
 		html += `<div style="position:relative;display:inline-block;width:${mainIconSize};height:${mainIconSize};">`;
 		html += `<img src="${curIcon}" style="width:${mainIconSize};height:${mainIconSize};display:block;${wmoSvgFilter}${imgScale}">`;
 		if (hasMoon && moonIcons[0]) {
-			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(36 * sh)};height:${c(36 * sh)};top:${c(-13 * sh)};right:${c(-13 * sh)};opacity:0.92;z-index:1;">`;
+			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(36 * sh)};height:${c(36 * sh)};top:${c(-13 * sh)};right:${c(-20 * sh)};opacity:0.92;z-index:1;">`;
 		}
 		html += `</div>`;
 		html += `</td>`;
@@ -1942,7 +1942,7 @@ class Openmeteo extends utils.Adapter {
 				dSlice.map((d, i) => {
 					const moonUrl = hasMoon ? mSlice[i] : null;
 					const moonOverlay = moonUrl
-						? `<img src="${moonUrl}" style="position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-10 * sfv)};opacity:0.92;z-index:1;">`
+						? `<img src="${moonUrl}" style="position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-18 * sfv)};opacity:0.92;z-index:1;">`
 						: "";
 					return [
 						`<div style="position:relative;display:inline-block;width:${iconSz};height:${iconSz};"><img src="${d[1]}" style="width:${iconSz};height:${iconSz};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div>`,
