@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "news": {
+      "0.1.9": {
+        "en": "fix: increase HTTP request timeout from 10s to 30s to reduce transient timeout warnings",
+        "de": "fix: HTTP-Timeout von 10s auf 30s erhöht um kurzzeitige Timeout-Warnungen zu reduzieren",
+        "ru": "fix: увеличен таймаут HTTP-запросов с 10s до 30s для уменьшения временных предупреждений",
+        "pt": "fix: timeout HTTP aumentado de 10s para 30s para reduzir avisos de timeout transitórios",
+        "nl": "fix: HTTP-time-out verhoogd van 10s naar 30s om tijdelijke time-outwaarschuwingen te verminderen",
+        "fr": "fix: délai HTTP augmenté de 10s à 30s pour réduire les avertissements de délai transitoires",
+        "it": "fix: timeout HTTP aumentato da 10s a 30s per ridurre gli avvisi di timeout transitori",
+        "es": "fix: tiempo de espera HTTP aumentado de 10s a 30s para reducir las advertencias de tiempo de espera transitorias",
+        "pl": "fix: limit czasu HTTP zwiększony z 10s do 30s w celu zmniejszenia przejściowych ostrzeżeń o przekroczeniu czasu",
+        "uk": "fix: таймаут HTTP збільшено з 10s до 30s для зменшення тимчасових попереджень",
+        "zh-cn": "fix: HTTP请求超时从10秒增加到30秒以减少瞬时超时警告"
+      },
       "0.1.8": {
         "en": "fix: add HTTP request timeouts; translate all remaining German common.name values; fix warning time locale; add interval validation; add missing native defaults",
         "de": "fix: HTTP-Timeouts ergänzt; alle verbleibenden deutschen common.name-Werte übersetzt; Warnungs-Zeitformat korrigiert; Intervall-Validierung ergänzt; fehlende native-Defaults ergänzt",

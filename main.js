@@ -2175,7 +2175,7 @@ class Openmeteo extends utils.Adapter {
 				`&windspeed_unit=${windspeedUnit}` +
 				`&precipitation_unit=${precipitationUnit}`;
 
-			const req = https.get(url, { timeout: 10000 }, res => {
+			const req = https.get(url, { timeout: 30000 }, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));
 				res.on("end", () => {
@@ -2222,7 +2222,7 @@ class Openmeteo extends utils.Adapter {
 				`,european_aqi,pm10,pm2_5,nitrogen_dioxide,carbon_monoxide,dust,ozone` +
 				`&timezone=${encodeURIComponent(timezone)}&forecast_days=4`;
 
-			const req = https.get(url, { timeout: 10000 }, res => {
+			const req = https.get(url, { timeout: 30000 }, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));
 				res.on("end", () => {
@@ -2266,7 +2266,7 @@ class Openmeteo extends utils.Adapter {
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&extratags=1&zoom=9`;
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 10000 };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 30000 };
 			const req = https.get(url, options, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));
@@ -2307,7 +2307,7 @@ class Openmeteo extends utils.Adapter {
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://feeds.meteoalarm.org/api/v1/warnings/feeds-${countryName}`;
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 10000 };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 30000 };
 			const req = https.get(url, options, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));
@@ -2357,7 +2357,7 @@ class Openmeteo extends utils.Adapter {
 	fetchDwdWarnings(warncellId) {
 		return new Promise((resolve, reject) => {
 			const url = "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json";
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 10000 };
+			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 30000 };
 			const req = https.get(url, options, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));
