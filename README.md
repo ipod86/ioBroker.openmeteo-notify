@@ -264,6 +264,10 @@ This adapter is an independent community project and is not affiliated with or e
 -->
 ### 0.1.9 (2026-06-22)
 * (ipod86) fix: increase HTTP request timeout from 10s to 30s
+* (ipod86) fix: remove spurious enableWarnOfficialFetch from native defaults
+* (ipod86) chore: bump @iobroker/adapter-core from 3.3.2 to 3.4.1
+* (ipod86) chore: bump @iobroker/adapter-react-v5, react, @vitejs/plugin-react, vite in src-admin
+* (ipod86) chore: bump ioBroker/testing-action-check from 1 to 2
 
 ### 0.1.8 (2026-06-09)
 * (ipod86) fix: add 10s timeout to all HTTP requests (fetchWeather, fetchAirQuality, fetchLocationInfo, fetchMeteoAlarmWarnings, fetchDwdWarnings)
