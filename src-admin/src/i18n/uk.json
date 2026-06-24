@@ -57,5 +57,6 @@
     "enableWarnOfficialFetch": "Official warnings (data points)",
     "warnOfficialEnableFetchHint": "To use the widget warning badge, also enable official warnings under General → Optional data.",
     "enableWarnOfficialFetchHelp": "Fetches official warning data and creates data points — required for the widget warning badge.",
-    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications)."
+    "validationBadgeNeedsWarnData": "Warning badge is enabled but official warnings are not active (enable under General or Notifications).",
+    "tabWidgets": "Віджети"
 }

@@ -57,5 +57,6 @@
     "warningsOpenMeteoHint": "Warnungen reichen so weit in die Zukunft wie stündliche Daten abgerufen werden.",
     "notificationManagerMissingHint": "Benachrichtigungen werden über das ioBroker-Benachrichtigungssystem versendet. Damit Nachrichten z. B. per Telegram, Signal oder E-Mail ankommen, muss der Adapter 'notification-manager' installiert und konfiguriert sein.",
     "notificationManagerNotRunningHint": "Der Adapter 'notification-manager' ist installiert, aber aktuell nicht aktiv. Starte ihn in den Adapter-Einstellungen, damit Benachrichtigungen versendet werden können.",
-    "notificationManagerFoundHint": "Der Adapter 'notification-manager' ist installiert. Wechsle in dessen Einstellungen, um Benachrichtigungskanäle (z. B. Telegram, E-Mail) zu konfigurieren. Die Einstellungen auf dieser Seite betreffen nur openmeteo-notify."
+    "notificationManagerFoundHint": "Der Adapter 'notification-manager' ist installiert. Wechsle in dessen Einstellungen, um Benachrichtigungskanäle (z. B. Telegram, E-Mail) zu konfigurieren. Die Einstellungen auf dieser Seite betreffen nur openmeteo-notify.",
+    "tabWidgets": "Widgets"
 }
