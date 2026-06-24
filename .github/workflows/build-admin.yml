@@ -20,10 +20,10 @@ jobs:
         with:
           node-version: "22.x"
           cache: "npm"
-          cache-dependency-path: src-admin/package.json
+          cache-dependency-path: src-admin/package-lock.json
 
       - name: Install src-admin dependencies
-        run: npm install
+        run: npm ci
         working-directory: src-admin
 
       - name: Build admin UI
