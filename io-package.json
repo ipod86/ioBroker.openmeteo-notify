@@ -1,416 +1,390 @@
 {
-  "common": {
-    "name": "openmeteo-notify",
-    "version": "0.1.10",
-    "news": {
-      "0.1.9": {
-        "en": "fix: increase HTTP request timeout from 10s to 30s; remove spurious native default; update dependencies",
-        "de": "fix: HTTP-Timeout von 10s auf 30s erhöht; überflüssiges native-Default entfernt; Abhängigkeiten aktualisiert",
-        "ru": "fix: таймаут HTTP увеличен с 10s до 30s; удалён лишний native-default; обновлены зависимости",
-        "pt": "fix: timeout HTTP aumentado de 10s para 30s; padrão nativo desnecessário removido; dependências atualizadas",
-        "nl": "fix: HTTP-time-out verhoogd van 10s naar 30s; overbodige native-standaard verwijderd; afhankelijkheden bijgewerkt",
-        "fr": "fix: délai HTTP augmenté de 10s à 30s; valeur native superflue supprimée; dépendances mises à jour",
-        "it": "fix: timeout HTTP aumentato da 10s a 30s; valore predefinito nativo superfluo rimosso; dipendenze aggiornate",
-        "es": "fix: tiempo de espera HTTP aumentado de 10s a 30s; valor nativo superfluo eliminado; dependencias actualizadas",
-        "pl": "fix: limit czasu HTTP zwiększony z 10s do 30s; usunięto zbędną wartość domyślną native; zaktualizowano zależności",
-        "uk": "fix: таймаут HTTP збільшено з 10s до 30s; видалено зайве native-налаштування; оновлено залежності",
-        "zh-cn": "fix: HTTP超时从10秒增加到30秒；删除多余的native默认值；更新依赖项"
-      },
-      "0.1.8": {
-        "en": "fix: add HTTP request timeouts; translate all remaining German common.name values; fix warning time locale; add interval validation; add missing native defaults",
-        "de": "fix: HTTP-Timeouts ergänzt; alle verbleibenden deutschen common.name-Werte übersetzt; Warnungs-Zeitformat korrigiert; Intervall-Validierung ergänzt; fehlende native-Defaults ergänzt",
-        "ru": "fix: добавлены таймауты HTTP-запросов; переведены все оставшиеся немецкие значения common.name; исправлена локаль времени предупреждений; добавлена валидация интервала; добавлены недостающие native-умолчания",
-        "pt": "fix: timeouts HTTP adicionados; todos os valores common.name alemães restantes traduzidos; localidade de tempo de aviso corrigida; validação de intervalo adicionada; padrões nativos ausentes adicionados",
-        "nl": "fix: HTTP-time-outs toegevoegd; alle resterende Duitse common.name-waarden vertaald; tijdlandinstelling voor waarschuwingen gecorrigeerd; intervalvalidatie toegevoegd; ontbrekende native-standaarden toegevoegd",
-        "fr": "fix: délais d'expiration HTTP ajoutés; toutes les valeurs common.name allemandes restantes traduites; paramètres régionaux de l'heure d'avertissement corrigés; validation d'intervalle ajoutée; valeurs natives manquantes ajoutées",
-        "it": "fix: timeout HTTP aggiunti; tutti i valori common.name tedeschi rimanenti tradotti; impostazioni locali del tempo di avviso corrette; validazione intervallo aggiunta; valori predefiniti nativi mancanti aggiunti",
-        "es": "fix: tiempos de espera HTTP añadidos; todos los valores common.name alemanes restantes traducidos; configuración regional de tiempo de advertencia corregida; validación de intervalo añadida; valores nativos predeterminados faltantes añadidos",
-        "pl": "fix: dodano limity czasu HTTP; przetłumaczono wszystkie pozostałe niemieckie wartości common.name; poprawiono ustawienia regionalne czasu ostrzeżeń; dodano walidację interwału; dodano brakujące natywne wartości domyślne",
-        "uk": "fix: додано таймаути HTTP-запитів; перекладено всі German common.name значення; виправлено локаль часу попереджень; додано валідацію інтервалу; додано відсутні native-налаштування",
-        "zh-cn": "fix: 添加HTTP请求超时；翻译所有剩余的德文common.name值；修复警告时间区域设置；添加间隔验证；添加缺失的native默认值"
-      },
-      "0.1.7": {
-        "en": "fix: translate all German common.name values and widget warning strings to English",
-        "de": "fix: alle deutschen common.name-Werte und Widget-Warnungstexte auf Englisch übersetzt",
-        "ru": "fix: перевести все немецкие значения common.name и тексты предупреждений виджета на английский",
-        "pt": "fix: traduzir todos os valores common.name alemães e textos de aviso do widget para inglês",
-        "nl": "fix: alle Duitse common.name-waarden en widgetwaarschuwingsteksten vertalen naar het Engels",
-        "fr": "fix: traduire toutes les valeurs common.name allemandes et les textes d'avertissement du widget en anglais",
-        "it": "fix: tradurre tutti i valori common.name tedeschi e i testi di avviso del widget in inglese",
-        "es": "fix: traducir todos los valores common.name alemanes y los textos de advertencia del widget al inglés",
-        "pl": "fix: przetłumaczyć wszystkie niemieckie wartości common.name i teksty ostrzeżeń widgetu na angielski",
-        "uk": "fix: перекласти всі німецькі значення common.name та тексти попереджень віджету на англійську",
-        "zh-cn": "fix: 将所有德文 common.name 值和小部件警告文本翻译为英文"
-      },
-      "0.1.6": {
-        "en": "fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)\nchore: bump react-dom and @types/react-dom from 18 to 19",
-        "de": "fix: Verwenden Sie wetter.direction.wind statt wetter.wind.forecast.1 für Tag1+ (role nicht im ioBroker Katalog)\nchore: stoßreaktanz und @types/react-dom von 18 bis 19",
-        "ru": "фиксировать: используйте weather.direction.wind вместо weather.direction.wind.forecast.1 для day1+ (роль не в каталоге ioBroker)\n@types/react-dom с 18 по 19",
-        "pt": "correção: usar weather.direction.wind em vez de weather.direction.wind.precast.1 para dia1+ (papel não no catálogo ioBroker)\ntarefa: colisão reactive-dom e @types/react-dom de 18 para 19",
-        "nl": "fix: gebruik weer.richting.wind in plaats van weer.richting.wind.forecast.1 voor dag1+ (rol niet in ioBroker catalogus)\nkoor: bump reaction-dom en @types/react-dom van 18 tot 19",
-        "fr": "fix: utiliser weather.direction.wind au lieu de weather.direction.wind.forcast.1 pour jour1+ (rôle non dans le catalogue ioBroker)\ncorvée: bloc de réaction et @types/réaction de 18 à 19",
-        "it": "fix: usare meteo.direction.wind invece di meteo.direction.wind.forecast.1 per giorno1+ (rolo non in catalogo ioBroker)\ncore: urto reage-dom e @types/react-dom da 18 a 19",
-        "es": "fijado: use weather.direction.wind en lugar de tiempo.direction.wind.forecast.1 for day1+ (role not in ioBroker catalog)\nde 18 a 19 años",
-        "pl": "fix: użyj weather.direction.wind zamiast weather.direction.wind.projecast.1 dla dnia 1 + (rola nie w katalogu jOBroker)\nchore: bump react- dom i @ types / react- dom od 18 do 19",
-        "uk": "виправити: використовувати погоду.direction.wind замість погоди.direction.wind.forecast.1 на день1+ (role не в каталозі ioBroker)\nchore: bump re-dom і @types/react-dom від 18 до 19",
-        "zh-cn": "固定:使用天气. 方向. wind 代替天气. 方向. wind. forecast.1 for day1+(在ioBroker目录中没有作用)\n弦乐: 凸起反应- 度和 @ 类型/ 反应- 度从 18 到 19"
-      },
-      "0.1.5": {
-        "en": "fix: replace invalid object roles with valid ioBroker catalogue roles (E1008)\nfix: update @alcalzone/release-script to >=5.2.1 (E0036)",
-        "de": "fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)\nfix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)",
-        "ru": "исправление: замена недопустимых ролей объектов на допустимые роли каталога ioBroker (E1008)\nисправление: обновление @alcalzone/release-script до >=5.2.1 (E0036)",
-        "pt": "correção: substituir papéis de objetos inválidos por papéis válidos do catálogo ioBroker (E1008)\ncorreção: atualizar @alcalzone/release-script para >=5.2.1 (E0036)",
-        "nl": "fix: ongeldige objectrollen vervangen door geldige ioBroker-catalogusrollen (E1008)\nfix: @alcalzone/release-script bijwerken naar >=5.2.1 (E0036)",
-        "fr": "correction: remplacer les rôles d'objet invalides par des rôles valides du catalogue ioBroker (E1008)\ncorrection: mettre à jour @alcalzone/release-script vers >=5.2.1 (E0036)",
-        "it": "correzione: sostituire i ruoli degli oggetti non validi con ruoli validi del catalogo ioBroker (E1008)\ncorrezione: aggiornare @alcalzone/release-script a >=5.2.1 (E0036)",
-        "es": "corrección: reemplazar roles de objeto no válidos con roles válidos del catálogo ioBroker (E1008)\ncorrección: actualizar @alcalzone/release-script a >=5.2.1 (E0036)",
-        "pl": "fix: zastąpić nieprawidłowe role obiektów prawidłowymi rolami katalogu ioBroker (E1008)\nfix: zaktualizować @alcalzone/release-script do >=5.2.1 (E0036)",
-        "uk": "виправлення: замінити недійсні ролі об'єктів допустимими ролями каталогу ioBroker (E1008)\nвиправлення: оновити @alcalzone/release-script до >=5.2.1 (E0036)",
-        "zh-cn": "修复：用ioBroker目录中的有效角色替换无效的对象角色（E1008）\n修复：将@alcalzone/release-script更新至>=5.2.1（E0036）"
-      },
-      "0.1.4": {
-        "en": "fix: translate storm/thunderstorm/frost notification texts to system language (was always German)\nfix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)\nfix: use this.delay() instead of plain setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: add dependabot ignore block for @types/node major versions (E8917)\nfix: remove Node 20 from test matrix (W3024)\nfix: add tsconfig.json for proper type checking (S0087)\nfix: migrate i18n to short format (S5601)",
-        "de": "fix: übersetzen Sturm/Thunderstorm/frost Benachrichtigungstexte auf Systemsprache (war immer Deutsch)\nfix: synchrone i18n Schlüssel in allen Sprachen in admin/i18n und src-admin/src/i18n (W5604, W5605)\nfix: verwenden Sie this.delay() anstelle von simple setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, Deploy node 24 (E0028, E3022)\nfix: hinzufügen abhängigabot ignorieren Block für @types/node große Versionen (E8917)\nfix: Node 20 aus der Testmatrix entfernen (W3024)\nfix: tsconfig.json zur ordnungsgemäßen Typprüfung hinzufügen (S0087)\nfix: migrieren i18n auf kurzes Format (S5601)",
-        "ru": "исправление: перевод текстов уведомлений на системный язык (всегда был немецким)\nисправление: синхронизация ключей i18n на всех языках в admin/i18n и src-admin/src/i18n (W5604, W5605)\nисправление: используйте этот.delay() вместо простого setTimeout в логике повтора (W5005)\nисправить: engine.node >= 22, @tsconfig/node22, @types/node ^22, развернуть node 24 (E0028, E3022)\nисправление: добавьте блок игнорирования зависимостей для основных версий @types/node (E8917)\nисправление: удаление узла 20 из тестовой матрицы (W3024)\nисправление: добавьте tsconfig.json для правильной проверки типа (S0087)\nмиграция i18n в короткий формат (S5601)",
-        "pt": "correção: traduzir textos de notificação de tempestade/thunderstorm/frost para linguagem do sistema (era sempre alemão)\ncorreção: sync i18n chaves em todos os idiomas em admin/i18n e src-admin/src/i18n (W5604, W5605)\ncorreção: use this.delay() em vez de setTimeout simples na lógica de repetição (W5005)\ncorreção: engines.node >= 22, @tsconfig/node22, @types/node ^22, implante o nó 24 (E0028, E3022)\ncorrigir: adicionar dependente ignorar bloco para @types/node versões principais (E8917)\ncorreção: remover Node 20 da matriz de teste (W3024)\ncorreção: adicione tsconfig.json para verificação de tipo adequada (S0087)\ncorreção: migrar i18n para formato curto (S5601)",
-        "nl": "fix: vertaling storm / onweer / frost melding teksten naar systeem taal (was altijd Duits)\nfix: sync i18n keys in alle talen in admin/i18n en src-admin/src/i18n (W5604, W5605)\nfix: gebruik dit.delay() in plaats van gewone setTimeout in retry logica (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: voeg dependabot negeren blok voor @types/node grote versies (E8917)\nfix: verwijder Node 20 uit testmatrix (W3024)\nfix: voeg tsconfig.json toe voor de juiste typecontrole (S0087)\nfix: migreren i18n naar kort formaat (S5601)",
-        "fr": "correction: traduire les textes de notification orage/thunderstorm/frost dans la langue du système (a toujours été l'allemand)\ncorrection : synchroniser les touches i18n dans toutes les langues en admin/i18n et src-admin/src/i18n (W5604, W5605)\ncorrection : utilisez ceci.delay() au lieu de setTimeout dans la logique de réessayer (W5005)\ncorrection: moteurs.node >= 22, @tsconfig/node22, @types/node ^22, noeud de déploiement 24 (E0028, E3022)\ncorrection: ajouter dependabot ignorer bloc pour @types/node principales versions (E8917)\ncorrection: supprimer le Node 20 de la matrice d'essai (W3024)\ncorrection: ajouter tsconfig.json pour une vérification de type appropriée (S0087)\ncorrection : migrer i18n vers un format court (S5601)",
-        "it": "correzione: tradurre i testi di notifica tempest/thunderstorm/frost al linguaggio di sistema (era sempre tedesco)\ncorrezione: sincronizzare i18n chiavi in tutte le lingue in admin/i18n e src-admin/src/i18n (W5604, W5605)\nfix: usare questo.delay() invece di set normaleTimeout in logica di retry (W5005)\nfix: engine.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: aggiungere il blocco di ignorare dipendeabot per @types/node versioni principali (E8917)\nfix: rimuovere Node 20 dalla matrice di prova (W3024)\ncorrezione: aggiungere tsconfig.json per il corretto controllo del tipo (S0087)\ncorrezione: migrare i18n a breve formato (S5601)",
-        "es": "corrección: traducir textos de notificación de tormentas/trabajostorm/frost al lenguaje del sistema (siempre era alemán)\nfix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)\nsolucion: use this.delay() en lugar de setTimeout simple en la lógica de retry (W5005)\nfijado: engines.node >= 22, @tsconfig/node22, @types/node ^22, desplegar nodo 24 (E0028, E3022)\nfix: add dependabot ignore block for @types/node major versions (E8917)\nfijación: eliminar Nodo 20 de la matriz de prueba (W3024)\nfijado: añadir tsconfig.json para el correcto tipo de comprobación (S0087)\nfijado: migrar i18n a formato corto (S5601)",
-        "pl": "fix: przetłumaczyć teksty powiadomienia burzy / burzy / mrozu na język systemowy (zawsze był niemiecki)\nfix: synchronizacja i18n klawiszy we wszystkich językach w admin / i18n i src- admin / src / i18n (W5604, W5605)\nfix: użyj tego .delay () zamiast zwykłego ustawiania timeout w logice retry (W5005)\nfix: engines.node > = 22, @ tsconfig / node22, @ types / node ^ 22, push node 24 (E0028, E3022)\nfix: dodaj blokadę ignorującą dla @ types / node głównych wersji (E8917)\nfix: usunąć węzeł 20 z matrycy testowej (W3024)\nfix: dodać tsconfig.json do prawidłowego sprawdzania typu (S0087)\nfix: migrate i18n to short format (S5601)",
-        "uk": "виправити: перевести шторм/фундсторм/фольст повідомлення тексти до системної мови (безкоштовно німецька)\nвиправити: sync i18n ключі по всіх мовах в admin/i18n і src-admin/src/i18n (W5604, W5605)\nвиправити: використовувати це.delay() замість простого налаштуванняTimeout в логіці птиця (W5005)\njavaScript licenses API Веб-сайт Go1.13.8\nвиправлено: додати блок ігнорування залежності для @types/node основних версій (E8917)\nвиправити: видалити Node 20 з тестової матриці (W3024)\nfix: add tsconfig.json для правильного перевірки типу (S0087)\nвиправити: migrate i18n до короткого формату (S5601)",
-        "zh-cn": "fix:将暴风雨/暴风雨/霜冻通知文本翻译为系统语言(总是德语)\n固定:所有语言的i18n密钥同步 admin/i18n和src-admin/src/i18n(W5604,W5605)\n固定 : 使用此. delay( ) 而不是在重试逻辑( W5005) 中设置纯时\n固定: engines.node QQ22,@tsconfig/node22,@types/node ^22,部署节点24(E0028,E3022)\n固定 : 为 @ types/ node 主要版本( E8917) 添加可依赖的忽略块\n固定:从测试矩阵(W3024)中删除节点20\n固定 : 为适当的类型检查添加 tsconfig.json (S0087)\n固定:将 i18n 迁移到短格式(S5601)"
-      },
-      "0.1.3": {
-        "en": "Custom SVG icon set; WMO OGC SVG icons; responsive widget; comfort indices; settings validation",
-        "de": "Eigenes SVG-Icon-Set; WMO OGC SVG-Icons; responsives Widget; Komfort-Indizes; Einstellungs-Validierung",
-        "ru": "Пользовательские SVG-иконки; WMO OGC SVG; адаптивный виджет; индексы комфорта; валидация настроек",
-        "pt": "Conjunto SVG personalizado; ícones WMO OGC SVG; widget responsivo; índices de conforto; validação",
-        "nl": "Aangepaste SVG-iconen; WMO OGC SVG; responsieve widget; comfortindices; validatie",
-        "fr": "Icônes SVG personnalisées; WMO OGC SVG; widget réactif; indices de confort; validation",
-        "it": "Icone SVG personalizzate; WMO OGC SVG; widget responsivo; indici di comfort; validazione",
-        "es": "Iconos SVG personalizados; WMO OGC SVG; widget responsivo; índices de confort; validación",
-        "pl": "Własne ikony SVG; WMO OGC SVG; responsywny widget; wskaźniki komfortu; walidacja",
-        "uk": "Власні SVG-іконки; WMO OGC SVG; адаптивний віджет; індекси комфорту; валідація",
-        "zh-cn": "自定义SVG图标集；WMO OGC SVG图标；响应式小部件；舒适指数；验证"
-      },
-      "0.1.2": {
-        "en": "Fix: log detailed API error reason for HTTP 4xx responses",
-        "de": "Fix: Protokoll detaillierte API Fehlergrund für HTTP 4xx Antworten",
-        "ru": "Исправление: подробное описание причины ошибки API для ответов HTTP 4xx",
-        "pt": "Corrigir: log detalhou razão de erro API para as respostas HTTP 4xx",
-        "nl": "Fix: log gedetailleerde API fout reden voor HTTP 4xx antwoorden",
-        "fr": "Correction : log raison d'erreur API détaillée pour les réponses HTTP 4xx",
-        "it": "Fix: log dettagliato motivo di errore API per le risposte HTTP 4xx",
-        "es": "Fijación: registro detallada de la razón de error API para las respuestas HTTP 4xx",
-        "pl": "Fix: log szczegółowy powód błędu API dla odpowiedzi HTTP 4xx",
-        "uk": "Виправлення: Log докладна причина помилки API для HTTP 4xxx",
-        "zh-cn": "修正: HTTP 4xx 回复日志详细 API 错误原因"
-      },
-      "0.1.10": {
-        "en": "fix: improve air quality/pollen error message – distinguish timeout from unsupported region",
-        "de": "fix: Fehlermeldung bei Pollen/Luftqualität verbessert – Timeout und nicht unterstützte Region werden klar unterschieden",
-        "ru": "fix: улучшено сообщение об ошибке для пыльцы/воздуха — различается тайм-аут и неподдерживаемый регион",
-        "pt": "fix: mensagem de erro de pólen/qualidade do ar melhorada – distingue timeout de região não suportada",
-        "nl": "fix: foutmelding voor pollen/luchtkwaliteit verbeterd – time-out en niet-ondersteunde regio worden onderscheiden",
-        "fr": "fix: message d erreur pollen/qualité de l air amélioré – distingue le délai d attente de la région non prise en charge",
-        "it": "fix: messaggio di errore pollen/qualità dell aria migliorato – distingue timeout da regione non supportata",
-        "es": "fix: mensaje de error de polen/calidad del aire mejorado – distingue tiempo de espera de región no compatible",
-        "pl": "fix: poprawiono komunikat o błędzie pyłku/jakości powietrza – rozróżniany timeout od nieobsługiwanego regionu",
-        "uk": "fix: покращено повідомлення про помилку пилку/повітря – розрізняється тайм-аут і непідтримуваний регіон",
-        "zh-cn": "fix: 改进花粉/空气质量错误消息 – 区分超时和不支持的地区"
-      }
-    },
-    "titleLang": {
-      "en": "OpenMeteo Notify",
-      "de": "OpenMeteo Notify",
-      "ru": "OpenMeteo Notify",
-      "pt": "OpenMeteo Notify",
-      "nl": "OpenMeteo Notify",
-      "fr": "OpenMeteo Notify",
-      "it": "OpenMeteo Notify",
-      "es": "OpenMeteo Notify",
-      "pl": "OpenMeteo Notify",
-      "uk": "OpenMeteo Notify",
-      "zh-cn": "OpenMeteo Notify"
-    },
-    "desc": {
-      "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
-      "de": "Wettervorhersage und amtliche Unwetterwarnungen über Open-Meteo, DWD und MeteoAlarm",
-      "ru": "Прогноз погоды и официальные предупреждения о погоде через Open-Meteo, DWD и MeteoAlarm",
-      "pt": "Previsão do tempo e avisos meteorológicos oficiais via Open-Meteo, DWD e MeteoAlarm",
-      "nl": "Weersvoorspelling en officiële weerwaarschuwingen via Open-Meteo, DWD en MeteoAlarm",
-      "fr": "Prévisions météo et alertes météo officielles via Open-Meteo, DWD et MeteoAlarm",
-      "it": "Previsioni meteo e allerte meteo ufficiali tramite Open-Meteo, DWD e MeteoAlarm",
-      "es": "Pronóstico del tiempo y avisos meteorológicos oficiales a través de Open-Meteo, DWD y MeteoAlarm",
-      "pl": "Prognoza pogody i oficjalne ostrzeżenia meteorologiczne przez Open-Meteo, DWD i MeteoAlarm",
-      "uk": "Прогноз погоди та офіційні попередження про погоду через Open-Meteo, DWD та MeteoAlarm",
-      "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警"
-    },
-    "authors": [
-      "ipod86"
-    ],
-    "keywords": [
-      "weather",
-      "forecast",
-      "openmeteo-notify",
-      "open-meteo",
-      "openmeteo",
-      "dwd",
-      "meteoalarm",
-      "notification",
-      "alert",
-      "warning",
-      "widget",
-      "wetter",
-      "unwetter"
-    ],
-    "licenseInformation": {
-      "type": "free",
-      "license": "MIT"
-    },
-    "platform": "Javascript/Node.js",
-    "icon": "openmeteo-notify.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo-notify/main/admin/openmeteo-notify.png",
-    "readme": "https://github.com/ipod86/ioBroker.openmeteo-notify/blob/main/README.md",
-    "loglevel": "info",
-    "tier": 3,
-    "mode": "daemon",
-    "type": "weather",
-    "compact": true,
-    "connectionType": "cloud",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "materialize"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=6.0.11"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=7.6.20"
-      }
-    ]
-  },
-  "native": {
-    "locations": [],
-    "daysCount": 7,
-    "hourlyDays": 3,
-    "temperatureUnit": "celsius",
-    "windspeedUnit": "kmh",
-    "precipitationUnit": "mm",
-    "iconSet": "basmilius",
-    "updateInterval": 60,
-    "enableAirQuality": true,
-    "enableAirQualityHourly": false,
-    "enableAstronomy": true,
-    "enableAstronomyHourly": false,
-    "enableAgriculture": false,
-    "enableAgricultureHourly": false,
-    "enablePollen": false,
-    "enablePollenHourly": false,
-    "enableComfort": false,
-    "enableComfortHourly": false,
-    "warnOfficial": false,
-    "warnStorm": false,
-    "warnThunderstorm": false,
-    "warnFrost": false,
-    "warnFrostThreshold": 0,
-    "warnLeadHours": 2,
-    "warnStormBft": 8,
-    "warnOfficialMinLevel": 2,
-    "warnExcludeKeywords": "",
-    "warnIntervalMinutes": 15,
-    "warnNotifyLift": false,
-    "warnOfficialFetch": false,
-    "widgets": []
-  },
-  "notifications": [
-    {
-      "scope": "openmeteo-notify",
-      "name": {
-        "en": "OpenMeteo Notify",
-        "de": "OpenMeteo Notify",
-        "ru": "OpenMeteo Notify",
-        "pt": "OpenMeteo Notify",
-        "nl": "OpenMeteo Notify",
-        "fr": "OpenMeteo Notify",
-        "it": "OpenMeteo Notify",
-        "es": "OpenMeteo Notify",
-        "pl": "OpenMeteo Notify",
-        "uk": "OpenMeteo Notify",
-        "zh-cn": "OpenMeteo Notify"
-      },
-      "description": {
-        "en": "Storm and thunderstorm warnings from ioBroker.openmeteo-notify",
-        "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo-notify",
-        "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo-notify",
-        "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo-notify",
-        "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo-notify",
-        "fr": "Alertes tempête et orage de ioBroker.openmeteo-notify",
-        "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo-notify",
-        "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo-notify",
-        "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo-notify",
-        "uk": "Попередження про шторм і грозу від ioBroker.openmeteo-notify",
-        "zh-cn": "ioBroker.openmeteo-notify 的风暴和雷暴警告"
-      },
-      "categories": [
-        {
-          "category": "storm",
-          "name": {
-            "en": "Storm warning",
-            "de": "Sturmwarnung",
-            "ru": "Предупреждение о шторме",
-            "pt": "Aviso de tempestade",
-            "nl": "Stormsignaal",
-            "fr": "Alerte tempête",
-            "it": "Avviso tempesta",
-            "es": "Alerta tormenta",
-            "pl": "Ostrzeżenie przed burzą",
-            "uk": "Попередження про шторм",
-            "zh-cn": "风暴预警"
-          },
-          "severity": "alert",
-          "description": {
-            "en": "Storm warning based on wind gusts",
-            "de": "Sturmwarnung basierend auf Windböen",
-            "ru": "Предупреждение о шторме на основе порывов ветра",
-            "pt": "Aviso de tempestade com base em rajadas de vento",
-            "nl": "Stormsignaal op basis van windstoten",
-            "fr": "Alerte tempête basée sur les rafales de vent",
-            "it": "Avviso tempesta basato sulle raffiche di vento",
-            "es": "Alerta tormenta basada en ráfagas de viento",
-            "pl": "Ostrzeżenie przed burzą na podstawie porywów wiatru",
-            "uk": "Попередження про шторм на основі поривів вітру",
-            "zh-cn": "基于阵风的风暴预警"
-          },
-          "regex": [],
-          "limit": 10
+    "common": {
+        "name": "openmeteo-notify",
+        "version": "0.1.10",
+        "news": {
+            "0.1.10": {
+                "en": "fix: improve air quality/pollen error message – distinguish timeout from unsupported region",
+                "de": "fix: Fehlermeldung bei Pollen/Luftqualität verbessert – Timeout und nicht unterstützte Region werden klar unterschieden",
+                "ru": "fix: улучшено сообщение об ошибке для пыльцы/воздуха — различается тайм-аут и неподдерживаемый регион",
+                "pt": "fix: mensagem de erro de pólen/qualidade do ar melhorada – distingue timeout de região não suportada",
+                "nl": "fix: foutmelding voor pollen/luchtkwaliteit verbeterd – time-out en niet-ondersteunde regio worden onderscheiden",
+                "fr": "fix: message d erreur pollen/qualité de l air amélioré – distingue le délai d attente de la région non prise en charge",
+                "it": "fix: messaggio di errore pollen/qualità dell aria migliorato – distingue timeout da regione non supportata",
+                "es": "fix: mensaje de error de polen/calidad del aire mejorado – distingue tiempo de espera de región no compatible",
+                "pl": "fix: poprawiono komunikat o błędzie pyłku/jakości powietrza – rozróżniany timeout od nieobsługiwanego regionu",
+                "uk": "fix: покращено повідомлення про помилку пилку/повітря – розрізняється тайм-аут і непідтримуваний регіон",
+                "zh-cn": "fix: 改进花粉/空气质量错误消息 – 区分超时和不支持的地区"
+            },
+            "0.1.9": {
+                "en": "fix: increase HTTP request timeout from 10s to 30s; remove spurious native default; update dependencies",
+                "de": "fix: HTTP-Timeout von 10s auf 30s erhöht; überflüssiges native-Default entfernt; Abhängigkeiten aktualisiert",
+                "ru": "fix: таймаут HTTP увеличен с 10s до 30s; удалён лишний native-default; обновлены зависимости",
+                "pt": "fix: timeout HTTP aumentado de 10s para 30s; padrão nativo desnecessário removido; dependências atualizadas",
+                "nl": "fix: HTTP-time-out verhoogd van 10s naar 30s; overbodige native-standaard verwijderd; afhankelijkheden bijgewerkt",
+                "fr": "fix: délai HTTP augmenté de 10s à 30s; valeur native superflue supprimée; dépendances mises à jour",
+                "it": "fix: timeout HTTP aumentato da 10s a 30s; valore predefinito nativo superfluo rimosso; dipendenze aggiornate",
+                "es": "fix: tiempo de espera HTTP aumentado de 10s a 30s; valor nativo superfluo eliminado; dependencias actualizadas",
+                "pl": "fix: limit czasu HTTP zwiększony z 10s do 30s; usunięto zbędną wartość domyślną native; zaktualizowano zależności",
+                "uk": "fix: таймаут HTTP збільшено з 10s до 30s; видалено зайве native-налаштування; оновлено залежності",
+                "zh-cn": "fix: HTTP超时从10秒增加到30秒；删除多余的native默认值；更新依赖项"
+            },
+            "0.1.8": {
+                "en": "fix: add HTTP request timeouts; translate all remaining German common.name values; fix warning time locale; add interval validation; add missing native defaults",
+                "de": "fix: HTTP-Timeouts ergänzt; alle verbleibenden deutschen common.name-Werte übersetzt; Warnungs-Zeitformat korrigiert; Intervall-Validierung ergänzt; fehlende native-Defaults ergänzt",
+                "ru": "fix: добавлены таймауты HTTP-запросов; переведены все оставшиеся немецкие значения common.name; исправлена локаль времени предупреждений; добавлена валидация интервала; добавлены недостающие native-умолчания",
+                "pt": "fix: timeouts HTTP adicionados; todos os valores common.name alemães restantes traduzidos; localidade de tempo de aviso corrigida; validação de intervalo adicionada; padrões nativos ausentes adicionados",
+                "nl": "fix: HTTP-time-outs toegevoegd; alle resterende Duitse common.name-waarden vertaald; tijdlandinstelling voor waarschuwingen gecorrigeerd; intervalvalidatie toegevoegd; ontbrekende native-standaarden toegevoegd",
+                "fr": "fix: délais d'expiration HTTP ajoutés; toutes les valeurs common.name allemandes restantes traduites; paramètres régionaux de l'heure d'avertissement corrigés; validation d'intervalle ajoutée; valeurs natives manquantes ajoutées",
+                "it": "fix: timeout HTTP aggiunti; tutti i valori common.name tedeschi rimanenti tradotti; impostazioni locali del tempo di avviso corrette; validazione intervallo aggiunta; valori predefiniti nativi mancanti aggiunti",
+                "es": "fix: tiempos de espera HTTP añadidos; todos los valores common.name alemanes restantes traducidos; configuración regional de tiempo de advertencia corregida; validación de intervalo añadida; valores nativos predeterminados faltantes añadidos",
+                "pl": "fix: dodano limity czasu HTTP; przetłumaczono wszystkie pozostałe niemieckie wartości common.name; poprawiono ustawienia regionalne czasu ostrzeżeń; dodano walidację interwału; dodano brakujące natywne wartości domyślne",
+                "uk": "fix: додано таймаути HTTP-запитів; перекладено всі German common.name значення; виправлено локаль часу попереджень; додано валідацію інтервалу; додано відсутні native-налаштування",
+                "zh-cn": "fix: 添加HTTP请求超时；翻译所有剩余的德文common.name值；修复警告时间区域设置；添加间隔验证；添加缺失的native默认值"
+            },
+            "0.1.7": {
+                "en": "fix: translate all German common.name values and widget warning strings to English",
+                "de": "fix: alle deutschen common.name-Werte und Widget-Warnungstexte auf Englisch übersetzt",
+                "ru": "fix: перевести все немецкие значения common.name и тексты предупреждений виджета на английский",
+                "pt": "fix: traduzir todos os valores common.name alemães e textos de aviso do widget para inglês",
+                "nl": "fix: alle Duitse common.name-waarden en widgetwaarschuwingsteksten vertalen naar het Engels",
+                "fr": "fix: traduire toutes les valeurs common.name allemandes et les textes d'avertissement du widget en anglais",
+                "it": "fix: tradurre tutti i valori common.name tedeschi e i testi di avviso del widget in inglese",
+                "es": "fix: traducir todos los valores common.name alemanes y los textos de advertencia del widget al inglés",
+                "pl": "fix: przetłumaczyć wszystkie niemieckie wartości common.name i teksty ostrzeżeń widgetu na angielski",
+                "uk": "fix: перекласти всі німецькі значення common.name та тексти попереджень віджету на англійську",
+                "zh-cn": "fix: 将所有德文 common.name 值和小部件警告文本翻译为英文"
+            },
+            "0.1.6": {
+                "en": "fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)\nchore: bump react-dom and @types/react-dom from 18 to 19",
+                "de": "fix: Verwenden Sie wetter.direction.wind statt wetter.wind.forecast.1 für Tag1+ (role nicht im ioBroker Katalog)\nchore: stoßreaktanz und @types/react-dom von 18 bis 19",
+                "ru": "фиксировать: используйте weather.direction.wind вместо weather.direction.wind.forecast.1 для day1+ (роль не в каталоге ioBroker)\n@types/react-dom с 18 по 19",
+                "pt": "correção: usar weather.direction.wind em vez de weather.direction.wind.precast.1 para dia1+ (papel não no catálogo ioBroker)\ntarefa: colisão reactive-dom e @types/react-dom de 18 para 19",
+                "nl": "fix: gebruik weer.richting.wind in plaats van weer.richting.wind.forecast.1 voor dag1+ (rol niet in ioBroker catalogus)\nkoor: bump reaction-dom en @types/react-dom van 18 tot 19",
+                "fr": "fix: utiliser weather.direction.wind au lieu de weather.direction.wind.forcast.1 pour jour1+ (rôle non dans le catalogue ioBroker)\ncorvée: bloc de réaction et @types/réaction de 18 à 19",
+                "it": "fix: usare meteo.direction.wind invece di meteo.direction.wind.forecast.1 per giorno1+ (rolo non in catalogo ioBroker)\ncore: urto reage-dom e @types/react-dom da 18 a 19",
+                "es": "fijado: use weather.direction.wind en lugar de tiempo.direction.wind.forecast.1 for day1+ (role not in ioBroker catalog)\nde 18 a 19 años",
+                "pl": "fix: użyj weather.direction.wind zamiast weather.direction.wind.projecast.1 dla dnia 1 + (rola nie w katalogu jOBroker)\nchore: bump react- dom i @ types / react- dom od 18 do 19",
+                "uk": "виправити: використовувати погоду.direction.wind замість погоди.direction.wind.forecast.1 на день1+ (role не в каталозі ioBroker)\nchore: bump re-dom і @types/react-dom від 18 до 19",
+                "zh-cn": "固定:使用天气. 方向. wind 代替天气. 方向. wind. forecast.1 for day1+(在ioBroker目录中没有作用)\n弦乐: 凸起反应- 度和 @ 类型/ 反应- 度从 18 到 19"
+            },
+            "0.1.5": {
+                "en": "fix: replace invalid object roles with valid ioBroker catalogue roles (E1008)\nfix: update @alcalzone/release-script to >=5.2.1 (E0036)",
+                "de": "fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)\nfix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)",
+                "ru": "исправление: замена недопустимых ролей объектов на допустимые роли каталога ioBroker (E1008)\nисправление: обновление @alcalzone/release-script до >=5.2.1 (E0036)",
+                "pt": "correção: substituir papéis de objetos inválidos por papéis válidos do catálogo ioBroker (E1008)\ncorreção: atualizar @alcalzone/release-script para >=5.2.1 (E0036)",
+                "nl": "fix: ongeldige objectrollen vervangen door geldige ioBroker-catalogusrollen (E1008)\nfix: @alcalzone/release-script bijwerken naar >=5.2.1 (E0036)",
+                "fr": "correction: remplacer les rôles d'objet invalides par des rôles valides du catalogue ioBroker (E1008)\ncorrection: mettre à jour @alcalzone/release-script vers >=5.2.1 (E0036)",
+                "it": "correzione: sostituire i ruoli degli oggetti non validi con ruoli validi del catalogo ioBroker (E1008)\ncorrezione: aggiornare @alcalzone/release-script a >=5.2.1 (E0036)",
+                "es": "corrección: reemplazar roles de objeto no válidos con roles válidos del catálogo ioBroker (E1008)\ncorrección: actualizar @alcalzone/release-script a >=5.2.1 (E0036)",
+                "pl": "fix: zastąpić nieprawidłowe role obiektów prawidłowymi rolami katalogu ioBroker (E1008)\nfix: zaktualizować @alcalzone/release-script do >=5.2.1 (E0036)",
+                "uk": "виправлення: замінити недійсні ролі об'єктів допустимими ролями каталогу ioBroker (E1008)\nвиправлення: оновити @alcalzone/release-script до >=5.2.1 (E0036)",
+                "zh-cn": "修复：用ioBroker目录中的有效角色替换无效的对象角色（E1008）\n修复：将@alcalzone/release-script更新至>=5.2.1（E0036）"
+            },
+            "0.1.4": {
+                "en": "fix: translate storm/thunderstorm/frost notification texts to system language (was always German)\nfix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)\nfix: use this.delay() instead of plain setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: add dependabot ignore block for @types/node major versions (E8917)\nfix: remove Node 20 from test matrix (W3024)\nfix: add tsconfig.json for proper type checking (S0087)\nfix: migrate i18n to short format (S5601)",
+                "de": "fix: übersetzen Sturm/Thunderstorm/frost Benachrichtigungstexte auf Systemsprache (war immer Deutsch)\nfix: synchrone i18n Schlüssel in allen Sprachen in admin/i18n und src-admin/src/i18n (W5604, W5605)\nfix: verwenden Sie this.delay() anstelle von simple setTimeout in retry logic (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, Deploy node 24 (E0028, E3022)\nfix: hinzufügen abhängigabot ignorieren Block für @types/node große Versionen (E8917)\nfix: Node 20 aus der Testmatrix entfernen (W3024)\nfix: tsconfig.json zur ordnungsgemäßen Typprüfung hinzufügen (S0087)\nfix: migrieren i18n auf kurzes Format (S5601)",
+                "ru": "исправление: перевод текстов уведомлений на системный язык (всегда был немецким)\nисправление: синхронизация ключей i18n на всех языках в admin/i18n и src-admin/src/i18n (W5604, W5605)\nисправление: используйте этот.delay() вместо простого setTimeout в логике повтора (W5005)\nисправить: engine.node >= 22, @tsconfig/node22, @types/node ^22, развернуть node 24 (E0028, E3022)\nисправление: добавьте блок игнорирования зависимостей для основных версий @types/node (E8917)\nисправление: удаление узла 20 из тестовой матрицы (W3024)\nисправление: добавьте tsconfig.json для правильной проверки типа (S0087)\nмиграция i18n в короткий формат (S5601)",
+                "pt": "correção: traduzir textos de notificação de tempestade/thunderstorm/frost para linguagem do sistema (era sempre alemão)\ncorreção: sync i18n chaves em todos os idiomas em admin/i18n e src-admin/src/i18n (W5604, W5605)\ncorreção: use this.delay() em vez de setTimeout simples na lógica de repetição (W5005)\ncorreção: engines.node >= 22, @tsconfig/node22, @types/node ^22, implante o nó 24 (E0028, E3022)\ncorrigir: adicionar dependente ignorar bloco para @types/node versões principais (E8917)\ncorreção: remover Node 20 da matriz de teste (W3024)\ncorreção: adicione tsconfig.json para verificação de tipo adequada (S0087)\ncorreção: migrar i18n para formato curto (S5601)",
+                "nl": "fix: vertaling storm / onweer / frost melding teksten naar systeem taal (was altijd Duits)\nfix: sync i18n keys in alle talen in admin/i18n en src-admin/src/i18n (W5604, W5605)\nfix: gebruik dit.delay() in plaats van gewone setTimeout in retry logica (W5005)\nfix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: voeg dependabot negeren blok voor @types/node grote versies (E8917)\nfix: verwijder Node 20 uit testmatrix (W3024)\nfix: voeg tsconfig.json toe voor de juiste typecontrole (S0087)\nfix: migreren i18n naar kort formaat (S5601)",
+                "fr": "correction: traduire les textes de notification orage/thunderstorm/frost dans la langue du système (a toujours été l'allemand)\ncorrection : synchroniser les touches i18n dans toutes les langues en admin/i18n et src-admin/src/i18n (W5604, W5605)\ncorrection : utilisez ceci.delay() au lieu de setTimeout dans la logique de réessayer (W5005)\ncorrection: moteurs.node >= 22, @tsconfig/node22, @types/node ^22, noeud de déploiement 24 (E0028, E3022)\ncorrection: ajouter dependabot ignorer bloc pour @types/node principales versions (E8917)\ncorrection: supprimer le Node 20 de la matrice d'essai (W3024)\ncorrection: ajouter tsconfig.json pour une vérification de type appropriée (S0087)\ncorrection : migrer i18n vers un format court (S5601)",
+                "it": "correzione: tradurre i testi di notifica tempest/thunderstorm/frost al linguaggio di sistema (era sempre tedesco)\ncorrezione: sincronizzare i18n chiavi in tutte le lingue in admin/i18n e src-admin/src/i18n (W5604, W5605)\nfix: usare questo.delay() invece di set normaleTimeout in logica di retry (W5005)\nfix: engine.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)\nfix: aggiungere il blocco di ignorare dipendeabot per @types/node versioni principali (E8917)\nfix: rimuovere Node 20 dalla matrice di prova (W3024)\ncorrezione: aggiungere tsconfig.json per il corretto controllo del tipo (S0087)\ncorrezione: migrare i18n a breve formato (S5601)",
+                "es": "corrección: traducir textos de notificación de tormentas/trabajostorm/frost al lenguaje del sistema (siempre era alemán)\nfix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)\nsolucion: use this.delay() en lugar de setTimeout simple en la lógica de retry (W5005)\nfijado: engines.node >= 22, @tsconfig/node22, @types/node ^22, desplegar nodo 24 (E0028, E3022)\nfix: add dependabot ignore block for @types/node major versions (E8917)\nfijación: eliminar Nodo 20 de la matriz de prueba (W3024)\nfijado: añadir tsconfig.json para el correcto tipo de comprobación (S0087)\nfijado: migrar i18n a formato corto (S5601)",
+                "pl": "fix: przetłumaczyć teksty powiadomienia burzy / burzy / mrozu na język systemowy (zawsze był niemiecki)\nfix: synchronizacja i18n klawiszy we wszystkich językach w admin / i18n i src- admin / src / i18n (W5604, W5605)\nfix: użyj tego .delay () zamiast zwykłego ustawiania timeout w logice retry (W5005)\nfix: engines.node > = 22, @ tsconfig / node22, @ types / node ^ 22, push node 24 (E0028, E3022)\nfix: dodaj blokadę ignorującą dla @ types / node głównych wersji (E8917)\nfix: usunąć węzeł 20 z matrycy testowej (W3024)\nfix: dodać tsconfig.json do prawidłowego sprawdzania typu (S0087)\nfix: migrate i18n to short format (S5601)",
+                "uk": "виправити: перевести шторм/фундсторм/фольст повідомлення тексти до системної мови (безкоштовно німецька)\nвиправити: sync i18n ключі по всіх мовах в admin/i18n і src-admin/src/i18n (W5604, W5605)\nвиправити: використовувати це.delay() замість простого налаштуванняTimeout в логіці птиця (W5005)\njavaScript licenses API Веб-сайт Go1.13.8\nвиправлено: додати блок ігнорування залежності для @types/node основних версій (E8917)\nвиправити: видалити Node 20 з тестової матриці (W3024)\nfix: add tsconfig.json для правильного перевірки типу (S0087)\nвиправити: migrate i18n до короткого формату (S5601)",
+                "zh-cn": "fix:将暴风雨/暴风雨/霜冻通知文本翻译为系统语言(总是德语)\n固定:所有语言的i18n密钥同步 admin/i18n和src-admin/src/i18n(W5604,W5605)\n固定 : 使用此. delay( ) 而不是在重试逻辑( W5005) 中设置纯时\n固定: engines.node QQ22,@tsconfig/node22,@types/node ^22,部署节点24(E0028,E3022)\n固定 : 为 @ types/ node 主要版本( E8917) 添加可依赖的忽略块\n固定:从测试矩阵(W3024)中删除节点20\n固定 : 为适当的类型检查添加 tsconfig.json (S0087)\n固定:将 i18n 迁移到短格式(S5601)"
+            }
         },
-        {
-          "category": "thunderstorm",
-          "name": {
-            "en": "Thunderstorm warning",
-            "de": "Gewitterwarnung",
-            "ru": "Предупреждение о грозе",
-            "pt": "Aviso de trovoada",
-            "nl": "Onweerswaarschuwing",
-            "fr": "Alerte orage",
-            "it": "Avviso temporale",
-            "es": "Alerta tormenta eléctrica",
-            "pl": "Ostrzeżenie przed burzą z piorunami",
-            "uk": "Попередження про грозу",
-            "zh-cn": "雷暴预警"
-          },
-          "severity": "alert",
-          "description": {
-            "en": "Thunderstorm expected (WMO code 95/96/99)",
-            "de": "Gewitter erwartet (WMO-Code 95/96/99)",
-            "ru": "Ожидается гроза (код WMO 95/96/99)",
-            "pt": "Trovoada esperada (código WMO 95/96/99)",
-            "nl": "Onweer verwacht (WMO-code 95/96/99)",
-            "fr": "Orage attendu (code WMO 95/96/99)",
-            "it": "Temporale previsto (codice WMO 95/96/99)",
-            "es": "Tormenta eléctrica esperada (código WMO 95/96/99)",
-            "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
-            "uk": "Очікується гроза (код WMO 95/96/99)",
-            "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
-          },
-          "regex": [],
-          "limit": 10
+        "titleLang": {
+            "en": "OpenMeteo Notify",
+            "de": "OpenMeteo Notify",
+            "ru": "OpenMeteo Notify",
+            "pt": "OpenMeteo Notify",
+            "nl": "OpenMeteo Notify",
+            "fr": "OpenMeteo Notify",
+            "it": "OpenMeteo Notify",
+            "es": "OpenMeteo Notify",
+            "pl": "OpenMeteo Notify",
+            "uk": "OpenMeteo Notify",
+            "zh-cn": "OpenMeteo Notify"
         },
-        {
-          "category": "frost_warning",
-          "name": {
-            "en": "Frost warning",
-            "de": "Frostwarnung",
-            "ru": "Предупреждение о заморозках",
-            "pt": "Aviso de geada",
-            "nl": "Vorst­waarschuwing",
-            "fr": "Alerte gel",
-            "it": "Avviso gelo",
-            "es": "Alerta de helada",
-            "pl": "Ostrzeżenie przed mrozem",
-            "uk": "Попередження про мороз",
-            "zh-cn": "霜冻预警"
-          },
-          "severity": "notify",
-          "description": {
-            "en": "Warning when temperature is expected to drop below the configured frost threshold",
-            "de": "Warnung wenn die Temperatur unter den konfigurierten Frost-Schwellenwert fällt",
-            "ru": "Предупреждение при снижении температуры ниже настроенного порога",
-            "pt": "Aviso quando a temperatura cai abaixo do limiar de geada configurado",
-            "nl": "Waarschuwing wanneer de temperatuur onder de ingestelde vorstgrens daalt",
-            "fr": "Alerte lorsque la température descend sous le seuil de gel configuré",
-            "it": "Avviso quando la temperatura scende sotto la soglia gelo configurata",
-            "es": "Alerta cuando la temperatura cae por debajo del umbral de helada configurado",
-            "pl": "Ostrzeżenie gdy temperatura spada poniżej skonfigurowanego progu mrozu",
-            "uk": "Попередження коли температура опускається нижче налаштованого порогу",
-            "zh-cn": "当温度预计降至配置的霜冻阈值以下时发出警告"
-          },
-          "regex": [],
-          "limit": 10
+        "desc": {
+            "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
+            "de": "Wettervorhersage und amtliche Unwetterwarnungen über Open-Meteo, DWD und MeteoAlarm",
+            "ru": "Прогноз погоды и официальные предупреждения о погоде через Open-Meteo, DWD и MeteoAlarm",
+            "pt": "Previsão do tempo e avisos meteorológicos oficiais via Open-Meteo, DWD e MeteoAlarm",
+            "nl": "Weersvoorspelling en officiële weerwaarschuwingen via Open-Meteo, DWD en MeteoAlarm",
+            "fr": "Prévisions météo et alertes météo officielles via Open-Meteo, DWD et MeteoAlarm",
+            "it": "Previsioni meteo e allerte meteo ufficiali tramite Open-Meteo, DWD e MeteoAlarm",
+            "es": "Pronóstico del tiempo y avisos meteorológicos oficiales a través de Open-Meteo, DWD y MeteoAlarm",
+            "pl": "Prognoza pogody i oficjalne ostrzeżenia meteorologiczne przez Open-Meteo, DWD i MeteoAlarm",
+            "uk": "Прогноз погоди та офіційні попередження про погоду через Open-Meteo, DWD та MeteoAlarm",
+            "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警"
         },
+        "authors": [
+            "ipod86"
+        ],
+        "keywords": [
+            "weather",
+            "forecast",
+            "openmeteo-notify",
+            "open-meteo",
+            "openmeteo",
+            "dwd",
+            "meteoalarm",
+            "notification",
+            "alert",
+            "warning",
+            "widget",
+            "wetter",
+            "unwetter"
+        ],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "openmeteo-notify.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/ipod86/ioBroker.openmeteo-notify/main/admin/openmeteo-notify.png",
+        "readme": "https://github.com/ipod86/ioBroker.openmeteo-notify/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "mode": "daemon",
+        "type": "weather",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "materialize"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=7.8.23"
+            }
+        ]
+    },
+    "native": {
+        "locations": [],
+        "daysCount": 7,
+        "hourlyDays": 3,
+        "temperatureUnit": "celsius",
+        "windspeedUnit": "kmh",
+        "precipitationUnit": "mm",
+        "iconSet": "basmilius",
+        "updateInterval": 60,
+        "enableAirQuality": true,
+        "enableAirQualityHourly": false,
+        "enableAstronomy": true,
+        "enableAstronomyHourly": false,
+        "enableAgriculture": false,
+        "enableAgricultureHourly": false,
+        "enablePollen": false,
+        "enablePollenHourly": false,
+        "enableComfort": false,
+        "enableComfortHourly": false,
+        "warnOfficial": false,
+        "warnStorm": false,
+        "warnThunderstorm": false,
+        "warnFrost": false,
+        "warnFrostThreshold": 0,
+        "warnLeadHours": 2,
+        "warnStormBft": 8,
+        "warnOfficialMinLevel": 2,
+        "warnExcludeKeywords": "",
+        "warnIntervalMinutes": 15,
+        "warnNotifyLift": false,
+        "warnOfficialFetch": false,
+        "widgets": []
+    },
+    "notifications": [
         {
-          "category": "official_warning",
-          "name": {
-            "en": "Official weather warning",
-            "de": "Amtliche Unwetterwarnung",
-            "ru": "Официальное предупреждение о погоде",
-            "pt": "Aviso meteorológico oficial",
-            "nl": "Officiële weerwaarschuwing",
-            "fr": "Alerte météo officielle",
-            "it": "Avviso meteo ufficiale",
-            "es": "Alerta meteorológica oficial",
-            "pl": "Oficjalne ostrzeżenie pogodowe",
-            "uk": "Офіційне погодне попередження",
-            "zh-cn": "官方天气预警"
-          },
-          "severity": "alert",
-          "description": {
-            "en": "Messages from the official weather warning service.",
-            "de": "Nachrichten des Amtlichen Unwetterdienstes.",
-            "ru": "Сообщения официальной службы погодных предупреждений.",
-            "pt": "Mensagens do serviço oficial de avisos meteorológicos.",
-            "nl": "Berichten van de officiële weerwaarschuwingsdienst.",
-            "fr": "Messages du service officiel d'alertes météorologiques.",
-            "it": "Messaggi del servizio ufficiale di allerta meteo.",
-            "es": "Mensajes del servicio oficial de avisos meteorológicos.",
-            "pl": "Wiadomości z oficjalnej służby ostrzeżeń pogodowych.",
-            "uk": "Повідомлення офіційної служби погодних попереджень.",
-            "zh-cn": "来自官方气象预警服务的消息。"
-          },
-          "regex": [],
-          "limit": 10
+            "scope": "openmeteo-notify",
+            "name": {
+                "en": "OpenMeteo Notify",
+                "de": "OpenMeteo Notify",
+                "ru": "OpenMeteo Notify",
+                "pt": "OpenMeteo Notify",
+                "nl": "OpenMeteo Notify",
+                "fr": "OpenMeteo Notify",
+                "it": "OpenMeteo Notify",
+                "es": "OpenMeteo Notify",
+                "pl": "OpenMeteo Notify",
+                "uk": "OpenMeteo Notify",
+                "zh-cn": "OpenMeteo Notify"
+            },
+            "description": {
+                "en": "Storm and thunderstorm warnings from ioBroker.openmeteo-notify",
+                "de": "Sturm- und Gewitterwarnungen von ioBroker.openmeteo-notify",
+                "ru": "Предупреждения о шторме и грозе от ioBroker.openmeteo-notify",
+                "pt": "Avisos de tempestade e trovoada do ioBroker.openmeteo-notify",
+                "nl": "Storm- en onweerswaarschuwingen van ioBroker.openmeteo-notify",
+                "fr": "Alertes tempête et orage de ioBroker.openmeteo-notify",
+                "it": "Avvisi di tempesta e temporale da ioBroker.openmeteo-notify",
+                "es": "Alertas de tormenta y tormenta eléctrica de ioBroker.openmeteo-notify",
+                "pl": "Ostrzeżenia przed burzą i piorunami z ioBroker.openmeteo-notify",
+                "uk": "Попередження про шторм і грозу від ioBroker.openmeteo-notify",
+                "zh-cn": "ioBroker.openmeteo-notify 的风暴和雷暴警告"
+            },
+            "categories": [
+                {
+                    "category": "storm",
+                    "name": {
+                        "en": "Storm warning",
+                        "de": "Sturmwarnung",
+                        "ru": "Предупреждение о шторме",
+                        "pt": "Aviso de tempestade",
+                        "nl": "Stormsignaal",
+                        "fr": "Alerte tempête",
+                        "it": "Avviso tempesta",
+                        "es": "Alerta tormenta",
+                        "pl": "Ostrzeżenie przed burzą",
+                        "uk": "Попередження про шторм",
+                        "zh-cn": "风暴预警"
+                    },
+                    "severity": "alert",
+                    "description": {
+                        "en": "Storm warning based on wind gusts",
+                        "de": "Sturmwarnung basierend auf Windböen",
+                        "ru": "Предупреждение о шторме на основе порывов ветра",
+                        "pt": "Aviso de tempestade com base em rajadas de vento",
+                        "nl": "Stormsignaal op basis van windstoten",
+                        "fr": "Alerte tempête basée sur les rafales de vent",
+                        "it": "Avviso tempesta basato sulle raffiche di vento",
+                        "es": "Alerta tormenta basada en ráfagas de viento",
+                        "pl": "Ostrzeżenie przed burzą na podstawie porywów wiatru",
+                        "uk": "Попередження про шторм на основі поривів вітру",
+                        "zh-cn": "基于阵风的风暴预警"
+                    },
+                    "regex": [],
+                    "limit": 10
+                },
+                {
+                    "category": "thunderstorm",
+                    "name": {
+                        "en": "Thunderstorm warning",
+                        "de": "Gewitterwarnung",
+                        "ru": "Предупреждение о грозе",
+                        "pt": "Aviso de trovoada",
+                        "nl": "Onweerswaarschuwing",
+                        "fr": "Alerte orage",
+                        "it": "Avviso temporale",
+                        "es": "Alerta tormenta eléctrica",
+                        "pl": "Ostrzeżenie przed burzą z piorunami",
+                        "uk": "Попередження про грозу",
+                        "zh-cn": "雷暴预警"
+                    },
+                    "severity": "alert",
+                    "description": {
+                        "en": "Thunderstorm expected (WMO code 95/96/99)",
+                        "de": "Gewitter erwartet (WMO-Code 95/96/99)",
+                        "ru": "Ожидается гроза (код WMO 95/96/99)",
+                        "pt": "Trovoada esperada (código WMO 95/96/99)",
+                        "nl": "Onweer verwacht (WMO-code 95/96/99)",
+                        "fr": "Orage attendu (code WMO 95/96/99)",
+                        "it": "Temporale previsto (codice WMO 95/96/99)",
+                        "es": "Tormenta eléctrica esperada (código WMO 95/96/99)",
+                        "pl": "Oczekiwana burza z piorunami (kod WMO 95/96/99)",
+                        "uk": "Очікується гроза (код WMO 95/96/99)",
+                        "zh-cn": "预计雷暴（WMO 代码 95/96/99）"
+                    },
+                    "regex": [],
+                    "limit": 10
+                },
+                {
+                    "category": "frost_warning",
+                    "name": {
+                        "en": "Frost warning",
+                        "de": "Frostwarnung",
+                        "ru": "Предупреждение о заморозках",
+                        "pt": "Aviso de geada",
+                        "nl": "Vorst­waarschuwing",
+                        "fr": "Alerte gel",
+                        "it": "Avviso gelo",
+                        "es": "Alerta de helada",
+                        "pl": "Ostrzeżenie przed mrozem",
+                        "uk": "Попередження про мороз",
+                        "zh-cn": "霜冻预警"
+                    },
+                    "severity": "notify",
+                    "description": {
+                        "en": "Warning when temperature is expected to drop below the configured frost threshold",
+                        "de": "Warnung wenn die Temperatur unter den konfigurierten Frost-Schwellenwert fällt",
+                        "ru": "Предупреждение при снижении температуры ниже настроенного порога",
+                        "pt": "Aviso quando a temperatura cai abaixo do limiar de geada configurado",
+                        "nl": "Waarschuwing wanneer de temperatuur onder de ingestelde vorstgrens daalt",
+                        "fr": "Alerte lorsque la température descend sous le seuil de gel configuré",
+                        "it": "Avviso quando la temperatura scende sotto la soglia gelo configurata",
+                        "es": "Alerta cuando la temperatura cae por debajo del umbral de helada configurado",
+                        "pl": "Ostrzeżenie gdy temperatura spada poniżej skonfigurowanego progu mrozu",
+                        "uk": "Попередження коли температура опускається нижче налаштованого порогу",
+                        "zh-cn": "当温度预计降至配置的霜冻阈值以下时发出警告"
+                    },
+                    "regex": [],
+                    "limit": 10
+                },
+                {
+                    "category": "official_warning",
+                    "name": {
+                        "en": "Official weather warning",
+                        "de": "Amtliche Unwetterwarnung",
+                        "ru": "Официальное предупреждение о погоде",
+                        "pt": "Aviso meteorológico oficial",
+                        "nl": "Officiële weerwaarschuwing",
+                        "fr": "Alerte météo officielle",
+                        "it": "Avviso meteo ufficiale",
+                        "es": "Alerta meteorológica oficial",
+                        "pl": "Oficjalne ostrzeżenie pogodowe",
+                        "uk": "Офіційне погодне попередження",
+                        "zh-cn": "官方天气预警"
+                    },
+                    "severity": "alert",
+                    "description": {
+                        "en": "Messages from the official weather warning service.",
+                        "de": "Nachrichten des Amtlichen Unwetterdienstes.",
+                        "ru": "Сообщения официальной службы погодных предупреждений.",
+                        "pt": "Mensagens do serviço oficial de avisos meteorológicos.",
+                        "nl": "Berichten van de officiële weerwaarschuwingsdienst.",
+                        "fr": "Messages du service officiel d'alertes météorologiques.",
+                        "it": "Messaggi del servizio ufficiale di allerta meteo.",
+                        "es": "Mensajes del servicio oficial de avisos meteorológicos.",
+                        "pl": "Wiadomości z oficjalnej służby ostrzeżeń pogodowych.",
+                        "uk": "Повідомлення офіційної служби погодних попереджень.",
+                        "zh-cn": "来自官方气象预警服务的消息。"
+                    },
+                    "regex": [],
+                    "limit": 10
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+    ],
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

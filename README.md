@@ -262,6 +262,10 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
+
 ### 0.1.10 (2026-06-23)
 * (ipod86) fix: improve air quality/pollen error log message – distinguish timeout from unsupported region
 
