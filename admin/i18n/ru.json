@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "Цельсия (°С)",
     "daysCount": "Количество дней (1–16)",
     "daysCountHelp": "Сколько дней нужно получить (максимум 16)",
@@ -71,6 +71,7 @@
     "widgetDays": "Дни",
     "widgetTheme": "Тема",
     "widgetFontSizes": "Размеры шрифта",
+    "widgetShowMoon": "Фаза луны",
     "widgetShowWarnBadge": "Значок официальных предупреждений",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",

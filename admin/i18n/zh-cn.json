@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "摄氏度 (°C)",
     "daysCount": "天数 (1–16)",
     "daysCountHelp": "获取多少天（最多 16 天）",
@@ -71,6 +71,7 @@
     "widgetDays": "天数",
     "widgetTheme": "主题",
     "widgetFontSizes": "字体大小",
+    "widgetShowMoon": "月相",
     "widgetShowWarnBadge": "官方预警徽章",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",

@@ -19,6 +19,7 @@ export interface Widget {
     scaleDetails?: number;   // details section font scale -5..+5 (default 0)
     scaleForecast?: number;  // forecast section font scale -5..+5 (default 0)
     showWarnBadge?: boolean; // show blinking badge for active official warnings (default true)
+    showMoon?: boolean;      // show moon phase overlay on forecast icons (default true)
 }
 
 export interface OpenMeteoConfig {

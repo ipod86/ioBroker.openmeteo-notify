@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "Celsjusza (°C)",
     "daysCount": "Liczba dni (1–16)",
     "daysCountHelp": "Ile dni na pobranie (maks. 16)",
@@ -71,6 +71,7 @@
     "widgetDays": "Dni",
     "widgetTheme": "Motyw",
     "widgetFontSizes": "Rozmiary czcionki",
+    "widgetShowMoon": "Faza księżyca",
     "widgetShowWarnBadge": "Plakietka oficjalnych ostrzeżeń",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",

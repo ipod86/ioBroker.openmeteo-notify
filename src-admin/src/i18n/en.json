@@ -46,6 +46,7 @@
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Forecast",
     "widgetFontSizes": "Font sizes",
+    "widgetShowMoon": "Moon phase",
     "widgetShowWarnBadge": "Warning badge for official alerts",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",

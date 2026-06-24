@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "Adicionar widget",
     "enableAgricultureHelp": "Radiação solar, CAPE, temperatura do solo, irradiância em *.agriculture",
     "enableComfort": "Índices de conforto",
@@ -35,6 +35,7 @@
     "widgetScaleDetails": "Detalhes",
     "widgetScaleForecast": "Previsão",
     "widgetFontSizes": "Tamanhos de fonte",
+    "widgetShowMoon": "Fase lunar",
     "widgetShowWarnBadge": "Emblema de alerta oficial",
     "warningsOpenMeteoHint": "Os avisos alcançam tão longe no futuro quanto os dados horários são obtidos.",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",

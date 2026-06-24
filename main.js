@@ -1512,16 +1512,31 @@ class Openmeteo extends utils.Adapter {
 			}),
 		);
 
+		// Moon phase icons (conditional)
+		const showMoon = widget.showMoon !== false;
+		let moonIcons = [];
+		let hasMoon = false;
+		if (showMoon) {
+			const moonIconsRaw = await Promise.all(
+				Array.from({ length: days }, (_, i) => gs(`${p}.day${i}.astronomy.moon_phase_icon_url`)),
+			);
+			moonIcons = await Promise.all(moonIconsRaw.map(url => resolveIcon(url)));
+			hasMoon = moonIcons.some(url => url && url !== "");
+		}
+
 		// Outer div is the cqw query container (container-type:inline-size).
 		// Inner div carries background/padding; its children use cqw for all sizes.
 		const activeWarnings = await this.getActiveWarnings(locId);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
-		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:0 ${c(5)};font-family:sans-serif;">`;
+		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(8)} ${c(5)} 0;font-family:sans-serif;">`;
 
 		// Header
+		const headerMoonOverlay = hasMoon && moonIcons[0]
+			? `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(-10)};right:${ch(-15)};opacity:0.92;z-index:1;">`
+			: "";
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
-<td style="width:${mainIconCqw}"><img src="${curIcon}" style="width:${mainIconCqw};height:${mainIconCqw};display:block;${wmoSvgFilter}"></td>
+<td style="width:${mainIconCqw}"><div style="position:relative;display:inline-block;width:${mainIconCqw};height:${mainIconCqw};"><img src="${curIcon}" style="width:${mainIconCqw};height:${mainIconCqw};display:block;${wmoSvgFilter}">${headerMoonOverlay}</div></td>
 <td style="padding-left:${c(10)};vertical-align:middle;">
 <div style="font-size:${ch(13)};font-weight:600;color:${textColor};margin-bottom:${c(2)};">${widget.locationName}</div>
 <div style="font-size:${ch(15)};font-weight:400;color:${subColor};">${curDesc}</div>
@@ -1563,7 +1578,10 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
 				const border = i > start ? `border-left:${c(2)} solid ${divColor};` : "";
-				html += `<td style="padding:0;${border}"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:inline-block;margin:${c(-2)} 0;${imgScale}${wmoSvgFilter}"></td>`;
+				const moonOverlay = hasMoon && moonIcons[i]
+					? `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`
+					: "";
+				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div></td>`;
 			}
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
@@ -1787,7 +1805,7 @@ class Openmeteo extends utils.Adapter {
 			Array.from({ length: days }, (_, i) => gs(`${p}.day${i}.astronomy.moon_phase_icon_url`)),
 		);
 		const moonIcons = await Promise.all(moonIconsRaw.map(url => resolveIcon(url)));
-		const hasMoon = moonIcons.some(url => url && url !== "");
+		const hasMoon = widget.showMoon !== false && moonIcons.some(url => url && url !== "");
 
 		// ── Build HTML ───────────────────────────────────────────────────────────
 		const div = (style, content) => `<div style="${style}">${content}</div>`;

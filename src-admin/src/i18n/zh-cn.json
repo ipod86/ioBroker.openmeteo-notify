@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "添加小部件",
     "enableAgricultureHelp": "太阳辐射、CAPE、土壤温度、辐照度（*.agriculture）",
     "enableComfort": "舒适度指数",
@@ -35,6 +35,7 @@
     "widgetScaleDetails": "详情",
     "widgetScaleForecast": "预报",
     "widgetFontSizes": "字体大小",
+    "widgetShowMoon": "月相",
     "widgetShowWarnBadge": "官方预警徽章",
     "warningsOpenMeteoHint": "预警的时间范围与获取的每小时数据一样长。",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",

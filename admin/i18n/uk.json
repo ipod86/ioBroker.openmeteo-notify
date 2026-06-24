@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "Цельсій (°C)",
     "daysCount": "Кількість днів (1–16)",
     "daysCountHelp": "Скільки днів для отримання (макс. 16)",
@@ -71,6 +71,7 @@
     "widgetDays": "Дні",
     "widgetTheme": "Тема",
     "widgetFontSizes": "Розміри шрифту",
+    "widgetShowMoon": "Фаза місяця",
     "widgetShowWarnBadge": "Значок офіційних попереджень",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",

@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "Добавить виджет",
     "enableAgricultureHelp": "Солнечная радиация, CAPE, температура почвы, освещённость в *.agriculture",
     "enableComfort": "Индексы комфорта",
@@ -35,6 +35,7 @@
     "widgetScaleDetails": "Детали",
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Размеры шрифта",
+    "widgetShowMoon": "Фаза луны",
     "widgetShowWarnBadge": "Значок официальных предупреждений",
     "warningsOpenMeteoHint": "Предупреждения охватывают столько времени вперёд, сколько загружается почасовых данных.",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",

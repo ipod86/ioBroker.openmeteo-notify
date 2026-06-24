@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "Widget hinzufügen",
     "enableAgricultureHelp": "Sonneneinstrahlung, CAPE, Bodentemperatur, Bestrahlungsstärke unter *.agriculture",
     "enableComfort": "Komfortindizes",
@@ -46,6 +46,7 @@
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Vorhersage",
     "widgetFontSizes": "Schriftgrößen",
+    "widgetShowMoon": "Mondphase",
     "widgetShowWarnBadge": "Warnungs-Badge für amtliche Warnungen",
     "enableWarnOfficialFetchHelp": "Ruft amtliche Warnungsdaten ab und legt Datenpunkte an — benötigt für den Warnungs-Badge im Widget.",
     "enableWarnOfficialFetch": "Amtliche Warnungen (Datenpunkte)",

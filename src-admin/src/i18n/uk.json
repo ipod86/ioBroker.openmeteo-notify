@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "Додати віджет",
     "enableAgricultureHelp": "Сонячна радіація, CAPE, температура ґрунту, освітленість у *.agriculture",
     "enableComfort": "Індекси комфорту",
@@ -35,6 +35,7 @@
     "widgetScaleDetails": "Деталі",
     "widgetScaleForecast": "Прогноз",
     "widgetFontSizes": "Розміри шрифту",
+    "widgetShowMoon": "Фаза місяця",
     "widgetShowWarnBadge": "Значок офіційних попереджень",
     "warningsOpenMeteoHint": "Попередження поширюються так далеко в майбутнє, як завантажуються погодинні дані.",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",

@@ -1,4 +1,4 @@
-{
+﻿{
     "addWidget": "Widget toevoegen",
     "enableAgricultureHelp": "Zonnestraling, CAPE, bodemtemperatuur, bestralingssterkte onder *.agriculture",
     "enableComfort": "Comfortindices",
@@ -35,6 +35,7 @@
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Voorspelling",
     "widgetFontSizes": "Lettergroottes",
+    "widgetShowMoon": "Maanfase",
     "widgetShowWarnBadge": "Waarschuwingsbadge officiële meldingen",
     "warningsOpenMeteoHint": "Waarschuwingen reiken zo ver in de toekomst als uurgegevens worden opgehaald.",
     "notificationManagerMissingHint": "Notifications are sent via the ioBroker notification system. To receive messages (e.g. via Telegram, Signal or email), the \"notification-manager\" adapter must be installed and configured.",

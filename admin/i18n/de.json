@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "Celsius (°C)",
     "daysCount": "Anzahl Tage (1–16)",
     "daysCountHelp": "Wie viele Tage sollen abgerufen werden (max. 16)",
@@ -71,6 +71,7 @@
     "widgetDays": "Tage",
     "widgetTheme": "Design",
     "widgetFontSizes": "Schriftgrößen",
+    "widgetShowMoon": "Mondphase",
     "widgetShowWarnBadge": "Warnungs-Badge für amtliche Warnungen",
     "enableWarnOfficialFetchHelp": "Ruft amtliche Warnungsdaten ab und legt Datenpunkte an — benötigt für den Warnungs-Badge im Widget.",
     "enableWarnOfficialFetch": "Amtliche Warnungen (Datenpunkte)",

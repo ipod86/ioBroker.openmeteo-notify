@@ -123,7 +123,7 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                         {I18n.t('widgetDetailedNoHourly')}
                                     </Alert>
                                 )}
-                                {(w.variant ?? 'simple') === 'detailed' && !enableAstronomy && (
+                                {w.showMoon !== false && !enableAstronomy && (
                                     <Alert severity="info" sx={{ mt: 1, maxWidth: 340 }}>
                                         {I18n.t('widgetDetailedNoAstronomy')}
                                     </Alert>
@@ -207,6 +207,20 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                     <ToggleButton value="light">{I18n.t('widgetLight')}</ToggleButton>
                                     <ToggleButton value="custom">{I18n.t('widgetCustom')}</ToggleButton>
                                 </ToggleButtonGroup>
+                            </Box>
+
+                            {/* Moon phase toggle */}
+                            <Box>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            size="small"
+                                            checked={w.showMoon !== false}
+                                            onChange={e => update(i, { showMoon: e.target.checked })}
+                                        />
+                                    }
+                                    label={<Typography variant="caption">{I18n.t('widgetShowMoon')}</Typography>}
+                                />
                             </Box>
 
                             {/* Warning badge toggle — always visible, default off */}

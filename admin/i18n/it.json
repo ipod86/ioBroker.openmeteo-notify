@@ -1,4 +1,4 @@
-{
+﻿{
     "celsius": "Celsius (°C)",
     "daysCount": "Numero di giorni (1–16)",
     "daysCountHelp": "Quanti giorni recuperare (max. 16)",
@@ -71,6 +71,7 @@
     "widgetDays": "Giorni",
     "widgetTheme": "Tema",
     "widgetFontSizes": "Dimensioni carattere",
+    "widgetShowMoon": "Fase lunare",
     "widgetShowWarnBadge": "Badge avviso ufficiale",
     "enableWarnOfficialFetchNotifyHint": "To also receive push notifications for official warnings, enable them in the Notifications tab.",
     "widgetShowWarnBadgeHint": "Enable official warnings under General → Optional data to use the badge.",
