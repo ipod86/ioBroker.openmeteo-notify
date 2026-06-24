@@ -265,6 +265,16 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter setzt jetzt admin >= 7.8.23 voraus.
+* (ipod86) fix: Stunden-Slots ohne Icon-Daten im detaillierten Widget überspringen (fehlende Icons um 00h/02h/04h)
+* (ipod86) feat: Hourly-Range-Optionen werden ausgegraut, wenn sie die konfigurierten Stundentage überschreiten; erläuternder Hinweis ergänzt
+* (ipod86) fix: Mondphasen-Badge im einfachen und erweiterten Widget neu positioniert
+* (ipod86) feat: Mondphasen-Overlay im einfachen Widget hinzugefügt (showMoon-Option)
+* (ipod86) fix: i18n-Übersetzungen in allen 11 Sprachen vervollständigt und korrigiert (50+ fehlende Schlüssel)
+* (ipod86) ci: Kaputten build-admin GitHub Actions Workflow entfernt
+
 ### 0.1.10 (2026-06-23)
 * (ipod86) fix: Fehlermeldung bei Pollen/Luftqualität verbessert – Timeout und nicht unterstützte Region werden jetzt klar unterschieden
 
