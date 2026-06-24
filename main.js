@@ -1800,6 +1800,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			hourly24 = await Promise.all(
 				raw24.map(async (s, i) => [await resolveIcon(s[0]), s[1], s[2], s[3], s[4], slots24[i].hour]),
 			);
+			hourly24 = hourly24.filter(s => s[0]); // skip slots outside hourlyDays range (no icon data)
 		}
 
 		// ── Fetch moon phase icons (optional – astronomy may be disabled) ─────────
