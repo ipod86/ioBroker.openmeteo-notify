@@ -1531,9 +1531,10 @@ class Openmeteo extends utils.Adapter {
 		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(8)} ${c(5)} 0;font-family:sans-serif;">`;
 
 		// Header
-		const headerMoonOverlay = hasMoon && moonIcons[0]
-			? `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(-10)};right:${ch(-15)};opacity:0.92;z-index:1;">`
-			: "";
+		let headerMoonOverlay = "";
+		if (hasMoon && moonIcons[0]) {
+			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(-10)};right:${ch(-15)};opacity:0.92;z-index:1;">`;
+		}
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
 <td style="width:${mainIconCqw}"><div style="position:relative;display:inline-block;width:${mainIconCqw};height:${mainIconCqw};"><img src="${curIcon}" style="width:${mainIconCqw};height:${mainIconCqw};display:block;${wmoSvgFilter}">${headerMoonOverlay}</div></td>
@@ -1578,9 +1579,10 @@ class Openmeteo extends utils.Adapter {
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
 				const border = i > start ? `border-left:${c(2)} solid ${divColor};` : "";
-				const moonOverlay = hasMoon && moonIcons[i]
-					? `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`
-					: "";
+				let moonOverlay = "";
+				if (hasMoon && moonIcons[i]) {
+					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`;
+				}
 				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div></td>`;
 			}
 			html += `</tr><tr>`;
