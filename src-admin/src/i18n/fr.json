@@ -31,7 +31,6 @@
     "widgetDetailedNoAstronomy": "Astronomie désactivée – l'icône de phase lunaire ne sera pas affichée",
     "widgetHourlyRange": "Heures à partir de maintenant",
     "widgetHourlyStep": "Pas",
-    "widgetHourlyRangeLimited": "Certaines options sont grisées. Augmenter ‘Jours avec données horaires’ dans les paramètres généraux.",
     "widgetScaleHeader": "En-tête",
     "widgetScaleDetails": "Détails",
     "widgetScaleForecast": "Prévisions",
@@ -109,5 +108,6 @@
     "warnStorm": "Alerte tempête",
     "warnStormBft": "Seuil de tempête (Bft)",
     "warnThunderstorm": "Alerte orage",
-    "warningsOpenMeteo": "Alertes Open-Meteo"
+    "warningsOpenMeteo": "Alertes Open-Meteo",
+    "widgetOptionsGreyed": "Les options grisées indiquent qu un paramètre des réglages généraux doit être augmenté."
 }

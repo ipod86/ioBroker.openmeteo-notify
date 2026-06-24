@@ -31,7 +31,6 @@
     "widgetDetailedNoAstronomy": "Astronomía desactivada – no se mostrará el icono de fase lunar",
     "widgetHourlyRange": "Horas desde ahora",
     "widgetHourlyStep": "Intervalo",
-    "widgetHourlyRangeLimited": "Algunas opciones están desactivadas. Aumentar ‘Días con datos horarios’ en los ajustes generales.",
     "widgetScaleHeader": "Encabezado",
     "widgetScaleDetails": "Detalles",
     "widgetScaleForecast": "Pronóstico",
@@ -109,5 +108,6 @@
     "warnStorm": "Aviso de tormenta",
     "warnStormBft": "Umbral de tormenta (Bft)",
     "warnThunderstorm": "Aviso de tormenta eléctrica",
-    "warningsOpenMeteo": "Avisos de Open-Meteo"
+    "warningsOpenMeteo": "Avisos de Open-Meteo",
+    "widgetOptionsGreyed": "Las opciones en gris indican que un valor en los ajustes generales debe aumentarse."
 }

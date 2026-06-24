@@ -31,7 +31,6 @@
     "widgetDetailedNoAstronomy": "Астрономію вимкнено – значок фази місяця не відображатиметься",
     "widgetHourlyRange": "Годин від зараз",
     "widgetHourlyStep": "Крок",
-    "widgetHourlyRangeLimited": "Деякі варіанти недоступні. Збільште ‘Дні з погодинними даними’ в загальних налаштуваннях.",
     "widgetScaleHeader": "Заголовок",
     "widgetScaleDetails": "Деталі",
     "widgetScaleForecast": "Прогноз",
@@ -109,5 +108,6 @@
     "warnStorm": "Штормове попередження",
     "warnStormBft": "Поріг шторму (Бф)",
     "warnThunderstorm": "Попередження про грозу",
-    "warningsOpenMeteo": "Попередження Open-Meteo"
+    "warningsOpenMeteo": "Попередження Open-Meteo",
+    "widgetOptionsGreyed": "Неактивні параметри означають, що значення в загальних налаштуваннях потрібно збільшити."
 }

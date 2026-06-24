@@ -31,7 +31,6 @@
     "widgetDetailedNoAstronomy": "Astronomia wyłączona – ikona fazy księżyca nie będzie wyświetlana",
     "widgetHourlyRange": "Godziny od teraz",
     "widgetHourlyStep": "Krok",
-    "widgetHourlyRangeLimited": "Niektóre opcje są wyszarzone. Zwiększ ‘Dni z danymi godzinowymi’ w ustawieniach ogólnych.",
     "widgetScaleHeader": "Nagłówek",
     "widgetScaleDetails": "Szczegóły",
     "widgetScaleForecast": "Prognoza",
@@ -109,5 +108,6 @@
     "warnStorm": "Ostrzeżenie burzowe",
     "warnStormBft": "Próg burzy (Bft)",
     "warnThunderstorm": "Ostrzeżenie burzowe",
-    "warningsOpenMeteo": "Ostrzeżenia Open-Meteo"
+    "warningsOpenMeteo": "Ostrzeżenia Open-Meteo",
+    "widgetOptionsGreyed": "Wyszarzone opcje oznaczają, że wartość w ustawieniach ogólnych musi zostać zwiększona."
 }

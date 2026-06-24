@@ -31,7 +31,6 @@
     "widgetDetailedNoAstronomy": "天文学已禁用 – 不会显示月相图标",
     "widgetHourlyRange": "从现在起的小时数",
     "widgetHourlyStep": "步长",
-    "widgetHourlyRangeLimited": "部分选项已禁用。请在常规设置中增加“包含每小时数据的天数”。",
     "widgetScaleHeader": "标题区",
     "widgetScaleDetails": "详情",
     "widgetScaleForecast": "预报",
@@ -109,5 +108,6 @@
     "warnStorm": "暴风警报",
     "warnStormBft": "风暴阈值（蒲福）",
     "warnThunderstorm": "雷暴警报",
-    "warningsOpenMeteo": "Open-Meteo 警报"
+    "warningsOpenMeteo": "Open-Meteo 警报",
+    "widgetOptionsGreyed": "灰色选项表示需要增加常规设置中的某个值。"
 }

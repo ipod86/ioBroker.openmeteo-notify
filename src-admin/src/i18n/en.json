@@ -42,7 +42,6 @@
     "widgetTheme": "Theme",
     "widgetHourlyRange": "Hours from now",
     "widgetHourlyStep": "Step size",
-    "widgetHourlyRangeLimited": "Some options are greyed out. Increase 'Days with hourly data' in General settings.",
     "widgetScaleHeader": "Header",
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Forecast",
@@ -109,5 +108,6 @@
     "warnStorm": "Storm warning",
     "warnStormBft": "Storm threshold (Bft)",
     "warnThunderstorm": "Thunderstorm warning",
-    "warningsOpenMeteo": "Open-Meteo Warnings"
+    "warningsOpenMeteo": "Open-Meteo Warnings",
+    "widgetOptionsGreyed": "Greyed-out options indicate that a value in General settings needs to be increased."
 }

@@ -69,12 +69,14 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Typography variant="body2" color="text.secondary">
-                {I18n.t('widgetHint')}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-                {I18n.t('widgetHourlyRangeLimited')}
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                <Typography variant="body2" color="text.secondary">
+                    {I18n.t('widgetHint')}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {I18n.t('widgetOptionsGreyed')}
+                </Typography>
+            </Box>
 
             {widgets.map((w, i) => {
                 const isTransparent = !w.bgColor || w.bgColor === 'transparent';

@@ -42,7 +42,6 @@
     "warnNotifyLiftHelp": "Sendet eine Benachrichtigung wenn eine zuvor gemeldete Warnung aufgehoben wird oder abläuft",
     "widgetHourlyRange": "Stunden ab jetzt",
     "widgetHourlyStep": "Schrittweite",
-    "widgetHourlyRangeLimited": "Einige Optionen sind ausgegraut. „Tage mit Stundenwerten“ in den Allgemeinen Einstellungen erhöhen.",
     "widgetScaleHeader": "Kopfbereich",
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Vorhersage",
@@ -109,5 +108,6 @@
     "warnStorm": "Sturmwarnung",
     "warnStormBft": "Sturm-Schwellenwert (Bft)",
     "warnThunderstorm": "Gewitterwarnung",
-    "warningsOpenMeteo": "Open-Meteo-Warnungen"
+    "warningsOpenMeteo": "Open-Meteo-Warnungen",
+    "widgetOptionsGreyed": "Ausgegraute Optionen bedeuten, dass ein Wert in den Allgemeinen Einstellungen erhöht werden muss."
 }
