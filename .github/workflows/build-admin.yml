@@ -1,0 +1,38 @@
+name: Build Admin UI
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src-admin/**"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "npm"
+          cache-dependency-path: src-admin/package.json
+
+      - name: Install src-admin dependencies
+        run: npm install
+        working-directory: src-admin
+
+      - name: Build admin UI
+        run: npm run build
+        working-directory: src-admin
+
+      - name: Commit built assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add admin/
+          git diff --cached --quiet || git commit -m "chore: rebuild admin UI assets [skip ci]"
+          git push
