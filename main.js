@@ -1829,7 +1829,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		html += `<div style="position:relative;display:inline-block;width:${mainIconSize};height:${mainIconSize};">`;
 		html += `<img src="${curIcon}" style="width:${mainIconSize};height:${mainIconSize};display:block;${wmoSvgFilter}${imgScale}">`;
 		if (hasMoon && moonIcons[0]) {
-			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(32 * sh)};height:${c(32 * sh)};top:${c(4 * sh)};right:${c(4 * sh)};opacity:0.92;z-index:1;">`;
+			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(32 * sh)};height:${c(32 * sh)};top:${c(1 * sh)};right:${c(0)};opacity:0.92;z-index:1;">`;
 		}
 		html += `</div>`;
 		html += `</td>`;
