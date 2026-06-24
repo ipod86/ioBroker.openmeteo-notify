@@ -266,7 +266,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.1.11 (2026-06-24)
 - (ioBroker-Bot) Adapter setzt jetzt admin >= 7.8.23 voraus.
 * (ipod86) fix: Stunden-Slots ohne Icon-Daten im detaillierten Widget überspringen (fehlende Icons um 00h/02h/04h)
 * (ipod86) feat: Hourly-Range-Optionen werden ausgegraut, wenn sie die konfigurierten Stundentage überschreiten; erläuternder Hinweis ergänzt

@@ -262,8 +262,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.1.11 (2026-06-24)
 - (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
 * (ipod86) fix: skip hourly slots without icon data in detailed widget (missing icons at 00h/02h/04h)
 * (ipod86) feat: grey out hourlyRange options that exceed configured hourly days; add explanatory hint
@@ -293,34 +292,6 @@ This adapter is an independent community project and is not affiliated with or e
 ### 0.1.7 (2026-06-09)
 * (ipod86) fix: translate all German common.name values to English (Last Update, Official Warnings, Current Weather, Today/Tomorrow/Day N, Agriculture/Solar, Comfort Indices, Astronomy, Air Quality, Pollen)
 * (ipod86) fix: translate German widget strings in warning overlay to English
-
-### 0.1.6 (2026-06-06)
-* (ipod86) fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)
-* (ipod86) chore: bump react-dom and @types/react-dom from 18 to 19
-
-### 0.1.5 (2026-06-06)
-* (ipod86) fix: replace invalid object roles – use valid ioBroker role catalogue entries only (E1008)
-* (ipod86) fix: update @alcalzone/release-script to >=5.2.1 (E0036)
-
-### 0.1.4 (2026-05-31)
-* (ipod86) fix: translate storm/thunderstorm/frost notification texts to system language (was always German)
-* (ipod86) fix: sync i18n keys across all languages in admin/i18n and src-admin/src/i18n (W5604, W5605)
-* (ipod86) fix: use this.delay() instead of plain setTimeout in retry logic (W5005)
-* (ipod86) fix: engines.node >= 22, @tsconfig/node22, @types/node ^22, deploy node 24 (E0028, E3022)
-* (ipod86) fix: add dependabot ignore block for @types/node major versions (E8917)
-* (ipod86) fix: remove Node 20 from test matrix (W3024)
-* (ipod86) fix: add tsconfig.json for proper type checking (S0087)
-* (ipod86) fix: migrate i18n to short format (S5601)
-
-### 0.1.3 (2026-04-25)
-* (ipod86) Custom SVG icon set with night icon support and Base64 embedding in widget HTML
-* (ipod86) WMO OGC SVG icon set with theme-aware color inversion
-* (ipod86) Widget: responsive layout via CSS container queries; configurable width (200–900 px); custom color theme with background and text color pickers; MDI SVG icons
-* (ipod86) Comfort indices: heat index, windchill, humidex, UV index (optional, hourly option)
-* (ipod86) Settings: inline validation, save blocked on invalid config
-
-### 0.1.2 (2026-04-19)
-* (ipod86) Fix: log detailed API error reason for HTTP 4xx responses
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
