@@ -15,7 +15,7 @@
     "widgetTextColor": "Цвет текста",
     "widgetTransparent": "Прозрачный",
     "widgetDays": "Дни",
-    "widgetHint": "Каждый виджет генерирует точку данных HTML с именем location.widget.widgetID. Получите IP и порт от веб-адаптера.",
+    "widgetHint": "Каждый виджет создаёт HTML-точку данных, которую можно встроить напрямую в VIS или Jarvis.",
     "widgetLight": "Светлая",
     "widgetTheme": "Тема",
     "hourlyDaysHighWarning": "Каждый почасовой день создаёт много точек данных в зависимости от включённых опций",

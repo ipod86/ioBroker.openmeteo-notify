@@ -15,7 +15,7 @@
     "widgetTextColor": "Color de texto",
     "widgetTransparent": "Transparente",
     "widgetDays": "Días",
-    "widgetHint": "Cada widget genera un punto de datos HTML en ubicación.widget.widgetID. Obtenga IP y puerto del adaptador web.",
+    "widgetHint": "Cada widget crea un punto de datos HTML que puede integrarse directamente en VIS o Jarvis.",
     "widgetLight": "Claro",
     "widgetTheme": "Tema",
     "hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas",

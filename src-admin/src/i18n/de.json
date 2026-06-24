@@ -15,7 +15,7 @@
     "widgetTextColor": "Textfarbe",
     "widgetTransparent": "Transparent",
     "widgetDays": "Tage",
-    "widgetHint": "Jedes Widget generiert einen HTML-Datenpunkt unter location.widget.widgetID. Rufen Sie IP und Port vom Webadapter ab.",
+    "widgetHint": "Jedes Widget erstellt einen HTML-Datenpunkt, der direkt in VIS oder Jarvis eingebettet werden kann.",
     "widgetLight": "Hell",
     "widgetTheme": "Thema",
     "hourlyDaysHighWarning": "Jeder Stundentag erzeugt viele Datenpunkte je nach aktivierten Optionen",

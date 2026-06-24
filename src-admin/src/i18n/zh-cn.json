@@ -15,7 +15,7 @@
     "widgetTextColor": "文字颜色",
     "widgetTransparent": "透明",
     "widgetDays": "天",
-    "widgetHint": "每个小部件都会在 location.widget.widgetID 下生成一个 HTML 数据点。从 Web 适配器获取 IP 和端口。",
+    "widgetHint": "每个小部件创建一个 HTML 数据点，可直接嵌入 VIS 或 Jarvis。",
     "widgetLight": "浅色",
     "widgetTheme": "主题",
     "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点",

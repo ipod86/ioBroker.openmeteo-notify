@@ -15,7 +15,7 @@
     "widgetTextColor": "Колір тексту",
     "widgetTransparent": "Прозорий",
     "widgetDays": "днів",
-    "widgetHint": "Кожен віджет створює точку даних HTML під location.widget.widgetID. Отримайте IP та порт від веб-адаптера.",
+    "widgetHint": "Кожен віджет створює HTML-точку даних, яку можна безпосередньо вбудувати у VIS або Jarvis.",
     "widgetLight": "Світла",
     "widgetTheme": "Тема",
     "hourlyDaysHighWarning": "Кожен погодинний день створює багато точок даних залежно від увімкнених опцій",
