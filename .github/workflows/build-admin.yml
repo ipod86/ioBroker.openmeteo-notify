@@ -23,7 +23,7 @@ jobs:
           cache-dependency-path: src-admin/package-lock.json
 
       - name: Install src-admin dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
         working-directory: src-admin
 
       - name: Build admin UI
