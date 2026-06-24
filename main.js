@@ -1528,12 +1528,12 @@ class Openmeteo extends utils.Adapter {
 		// Inner div carries background/padding; its children use cqw for all sizes.
 		const activeWarnings = await this.getActiveWarnings(locId);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
-		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(8)} ${c(5)} 0;font-family:sans-serif;">`;
+		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(18)} ${c(5)} 0;font-family:sans-serif;">`;
 
 		// Header
 		let headerMoonOverlay = "";
 		if (hasMoon && moonIcons[0]) {
-			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(-10)};right:${ch(-15)};opacity:0.92;z-index:1;">`;
+			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(5)};right:${ch(-15)};opacity:0.92;z-index:1;">`;
 		}
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
@@ -1820,7 +1820,7 @@ class Openmeteo extends utils.Adapter {
 
 		const activeWarnings = await this.getActiveWarnings(locId);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
-		html += `<div style="position:relative;background:${bgColor};color:${textColor};font-family:sans-serif;${pad(6, 8, 4, 8)}">`;
+		html += `<div style="position:relative;background:${bgColor};color:${textColor};font-family:sans-serif;${pad(18, 8, 4, 8)}">`;
 
 		// ── Section 1: Current ───────────────────────────────────────────────────
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:${c(4)};">`;
