@@ -31,6 +31,7 @@
     "widgetDetailedNoAstronomy": "Astronomia disabilitata – l'icona della fase lunare non verrà mostrata",
     "widgetHourlyRange": "Ore da adesso",
     "widgetHourlyStep": "Incremento",
+    "widgetHourlyRangeLimited": "Alcune opzioni sono disabilitate. Aumentare 'Giorni con dati orari' nelle impostazioni generali.",
     "widgetScaleHeader": "Intestazione",
     "widgetScaleDetails": "Dettagli",
     "widgetScaleForecast": "Previsione",

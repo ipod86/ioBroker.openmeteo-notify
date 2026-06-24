@@ -31,6 +31,7 @@
     "widgetDetailedNoAstronomy": "Astronomie désactivée – l'icône de phase lunaire ne sera pas affichée",
     "widgetHourlyRange": "Heures à partir de maintenant",
     "widgetHourlyStep": "Pas",
+    "widgetHourlyRangeLimited": "Certaines options sont grisées. Augmenter ‘Jours avec données horaires’ dans les paramètres généraux.",
     "widgetScaleHeader": "En-tête",
     "widgetScaleDetails": "Détails",
     "widgetScaleForecast": "Prévisions",

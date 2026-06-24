@@ -31,6 +31,7 @@
     "widgetDetailedNoAstronomy": "Astronomie uitgeschakeld – maanfase-icoon wordt niet getoond",
     "widgetHourlyRange": "Uren vanaf nu",
     "widgetHourlyStep": "Stapgrootte",
+    "widgetHourlyRangeLimited": "Sommige opties zijn uitgeschakeld. Verhoog 'Dagen met uurgegevens' in de algemene instellingen.",
     "widgetScaleHeader": "Koptekst",
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Voorspelling",

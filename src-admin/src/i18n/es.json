@@ -31,6 +31,7 @@
     "widgetDetailedNoAstronomy": "Astronomía desactivada – no se mostrará el icono de fase lunar",
     "widgetHourlyRange": "Horas desde ahora",
     "widgetHourlyStep": "Intervalo",
+    "widgetHourlyRangeLimited": "Algunas opciones están desactivadas. Aumentar ‘Días con datos horarios’ en los ajustes generales.",
     "widgetScaleHeader": "Encabezado",
     "widgetScaleDetails": "Detalles",
     "widgetScaleForecast": "Pronóstico",

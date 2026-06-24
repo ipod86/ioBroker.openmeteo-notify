@@ -42,6 +42,7 @@
     "widgetTheme": "Theme",
     "widgetHourlyRange": "Hours from now",
     "widgetHourlyStep": "Step size",
+    "widgetHourlyRangeLimited": "Some options are greyed out. Increase 'Days with hourly data' in General settings.",
     "widgetScaleHeader": "Header",
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Forecast",

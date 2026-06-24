@@ -31,6 +31,7 @@
     "widgetDetailedNoAstronomy": "Астрономия отключена – иконка фазы луны не будет показана",
     "widgetHourlyRange": "Часов с текущего момента",
     "widgetHourlyStep": "Шаг",
+    "widgetHourlyRangeLimited": "Некоторые варианты недоступны. Увеличьте ‘Дни с почасовыми данными’ в общих настройках.",
     "widgetScaleHeader": "Заголовок",
     "widgetScaleDetails": "Детали",
     "widgetScaleForecast": "Прогноз",

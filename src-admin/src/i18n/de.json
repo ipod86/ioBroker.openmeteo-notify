@@ -42,6 +42,7 @@
     "warnNotifyLiftHelp": "Sendet eine Benachrichtigung wenn eine zuvor gemeldete Warnung aufgehoben wird oder abläuft",
     "widgetHourlyRange": "Stunden ab jetzt",
     "widgetHourlyStep": "Schrittweite",
+    "widgetHourlyRangeLimited": "Einige Optionen sind ausgegraut. „Tage mit Stundenwerten“ in den Allgemeinen Einstellungen erhöhen.",
     "widgetScaleHeader": "Kopfbereich",
     "widgetScaleDetails": "Details",
     "widgetScaleForecast": "Vorhersage",

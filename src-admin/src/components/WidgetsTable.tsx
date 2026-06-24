@@ -143,9 +143,14 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                         onChange={(_, v) => v && update(i, { hourlyRange: v })}
                                     >
                                         {([12, 16, 20, 24] as const).map(h => (
-                                            <ToggleButton key={h} value={h}>{h}h</ToggleButton>
+                                            <ToggleButton key={h} value={h} disabled={h >= hourlyDays * 24}>{h}h</ToggleButton>
                                         ))}
                                     </ToggleButtonGroup>
+                                    {[12, 16, 20, 24].some(h => h >= hourlyDays * 24) && (
+                                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                                            {I18n.t('widgetHourlyRangeLimited')}
+                                        </Typography>
+                                    )}
                                 </Box>
                                 <Box>
                                     <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
