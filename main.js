@@ -1581,7 +1581,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				const border = i > start ? `border-left:${c(2)} solid ${divColor};` : "";
 				let moonOverlay = "";
 				if (hasMoon && moonIcons[i]) {
-					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(20)};height:${cf(20)};top:${cf(2)};right:${cf(2)};opacity:0.92;z-index:1;">`;
+					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`;
 				}
 				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div></td>`;
 			}
@@ -1962,7 +1962,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				dSlice.map((d, i) => {
 					const moonUrl = hasMoon ? mSlice[i] : null;
 					const moonOverlay = moonUrl
-						? `<img src="${moonUrl}" style="position:absolute;width:${c(24 * sfv)};height:${c(24 * sfv)};top:${c(3 * sfv)};right:${c(3 * sfv)};opacity:0.92;z-index:1;">`
+						? `<img src="${moonUrl}" style="position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-18 * sfv)};opacity:0.92;z-index:1;">`
 						: "";
 					return [
 						`<div style="position:relative;display:inline-block;width:${iconSz};height:${iconSz};"><img src="${d[1]}" style="width:${iconSz};height:${iconSz};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div>`,
