@@ -72,6 +72,9 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
             <Typography variant="body2" color="text.secondary">
                 {I18n.t('widgetHint')}
             </Typography>
+            <Typography variant="caption" color="text.secondary">
+                {I18n.t('widgetHourlyRangeLimited')}
+            </Typography>
 
             {widgets.map((w, i) => {
                 const isTransparent = !w.bgColor || w.bgColor === 'transparent';
@@ -126,11 +129,6 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                 {w.showMoon !== false && !enableAstronomy && (
                                     <Alert severity="info" sx={{ mt: 1, maxWidth: 340 }}>
                                         {I18n.t('widgetDetailedNoAstronomy')}
-                                    </Alert>
-                                )}
-                                {(w.variant ?? 'simple') === 'detailed' && hourlyDays > 0 && [12, 16, 20, 24].some(h => h >= hourlyDays * 24) && (
-                                    <Alert severity="info" sx={{ mt: 1, maxWidth: 340 }}>
-                                        {I18n.t('widgetHourlyRangeLimited')}
                                     </Alert>
                                 )}
                             </Box>
