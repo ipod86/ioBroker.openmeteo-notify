@@ -1528,12 +1528,12 @@ class Openmeteo extends utils.Adapter {
 		// Inner div carries background/padding; its children use cqw for all sizes.
 		const activeWarnings = await this.getActiveWarnings(locId);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
-		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(18)} ${c(5)} 0;font-family:sans-serif;">`;
+		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(10)} ${c(5)} 0;font-family:sans-serif;">`;
 
 		// Header
 		let headerMoonOverlay = "";
 		if (hasMoon && moonIcons[0]) {
-			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(30)};height:${ch(30)};top:${ch(5)};right:${ch(-15)};opacity:0.92;z-index:1;">`;
+			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(28)};height:${ch(28)};top:${ch(4)};right:${ch(4)};opacity:0.92;z-index:1;">`;
 		}
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
@@ -1541,7 +1541,7 @@ class Openmeteo extends utils.Adapter {
 <td style="padding-left:${c(10)};vertical-align:middle;">
 <div style="font-size:${ch(13)};font-weight:600;color:${textColor};margin-bottom:${c(2)};">${widget.locationName}</div>
 <div style="font-size:${ch(15)};font-weight:400;color:${subColor};">${curDesc}</div>
-<div style="font-size:${ch(12)};color:${fadeColor};margin-top:${c(2)};">${curSummary}</div>
+${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${c(2)};">${curSummary}</div>` : ""}
 </td>
 <td style="text-align:right;vertical-align:middle;padding-right:${c(5)};">
 <div style="font-size:${ch(42)};font-weight:300;letter-spacing:${c(-1)};color:${textColor};">${curTemp}<span style="font-size:${ch(18)};vertical-align:top;font-weight:300;margin-left:${c(2)};position:relative;top:${c(6)};">°C</span></div>
@@ -1581,7 +1581,7 @@ class Openmeteo extends utils.Adapter {
 				const border = i > start ? `border-left:${c(2)} solid ${divColor};` : "";
 				let moonOverlay = "";
 				if (hasMoon && moonIcons[i]) {
-					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`;
+					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(20)};height:${cf(20)};top:${cf(2)};right:${cf(2)};opacity:0.92;z-index:1;">`;
 				}
 				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div></td>`;
 			}
@@ -1820,7 +1820,7 @@ class Openmeteo extends utils.Adapter {
 
 		const activeWarnings = await this.getActiveWarnings(locId);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
-		html += `<div style="position:relative;background:${bgColor};color:${textColor};font-family:sans-serif;${pad(18, 8, 4, 8)}">`;
+		html += `<div style="position:relative;background:${bgColor};color:${textColor};font-family:sans-serif;${pad(10, 8, 4, 8)}">`;
 
 		// ── Section 1: Current ───────────────────────────────────────────────────
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:${c(4)};">`;
@@ -1829,7 +1829,7 @@ class Openmeteo extends utils.Adapter {
 		html += `<div style="position:relative;display:inline-block;width:${mainIconSize};height:${mainIconSize};">`;
 		html += `<img src="${curIcon}" style="width:${mainIconSize};height:${mainIconSize};display:block;${wmoSvgFilter}${imgScale}">`;
 		if (hasMoon && moonIcons[0]) {
-			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(36 * sh)};height:${c(36 * sh)};top:${c(-13 * sh)};right:${c(-20 * sh)};opacity:0.92;z-index:1;">`;
+			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(32 * sh)};height:${c(32 * sh)};top:${c(4 * sh)};right:${c(4 * sh)};opacity:0.92;z-index:1;">`;
 		}
 		html += `</div>`;
 		html += `</td>`;
@@ -1962,7 +1962,7 @@ class Openmeteo extends utils.Adapter {
 				dSlice.map((d, i) => {
 					const moonUrl = hasMoon ? mSlice[i] : null;
 					const moonOverlay = moonUrl
-						? `<img src="${moonUrl}" style="position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-18 * sfv)};opacity:0.92;z-index:1;">`
+						? `<img src="${moonUrl}" style="position:absolute;width:${c(24 * sfv)};height:${c(24 * sfv)};top:${c(3 * sfv)};right:${c(3 * sfv)};opacity:0.92;z-index:1;">`
 						: "";
 					return [
 						`<div style="position:relative;display:inline-block;width:${iconSz};height:${iconSz};"><img src="${d[1]}" style="width:${iconSz};height:${iconSz};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div>`,
