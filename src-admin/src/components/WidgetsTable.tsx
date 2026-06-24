@@ -128,6 +128,11 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                         {I18n.t('widgetDetailedNoAstronomy')}
                                     </Alert>
                                 )}
+                                {(w.variant ?? 'simple') === 'detailed' && hourlyDays > 0 && [12, 16, 20, 24].some(h => h >= hourlyDays * 24) && (
+                                    <Alert severity="info" sx={{ mt: 1, maxWidth: 340 }}>
+                                        {I18n.t('widgetHourlyRangeLimited')}
+                                    </Alert>
+                                )}
                             </Box>
 
                             {/* Hourly range + step — detailed only */}
@@ -146,11 +151,6 @@ const WidgetsTable: React.FC<Props> = ({ widgets, locations, daysCount, hourlyDa
                                             <ToggleButton key={h} value={h} disabled={h >= hourlyDays * 24}>{h}h</ToggleButton>
                                         ))}
                                     </ToggleButtonGroup>
-                                    {[12, 16, 20, 24].some(h => h >= hourlyDays * 24) && (
-                                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
-                                            {I18n.t('widgetHourlyRangeLimited')}
-                                        </Typography>
-                                    )}
                                 </Box>
                                 <Box>
                                     <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
