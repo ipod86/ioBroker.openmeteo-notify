@@ -15,7 +15,7 @@
     "widgetTextColor": "文字颜色",
     "widgetTransparent": "透明",
     "widgetDays": "天",
-    "widgetHint": "每个小部件创建一个 HTML 数据点，可直接嵌入 VIS 或 Jarvis。",
+    "widgetHint": "每个小部件创建一个 HTML 数据点，可直接嵌入 VIS、Jarvis 或类似工具。",
     "widgetLight": "浅色",
     "widgetTheme": "主题",
     "hourlyDaysHighWarning": "每个小时天根据启用的选项生成大量数据点",

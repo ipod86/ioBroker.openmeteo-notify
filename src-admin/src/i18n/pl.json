@@ -15,7 +15,7 @@
     "widgetTextColor": "Kolor tekstu",
     "widgetTransparent": "Przezroczysty",
     "widgetDays": "Dni",
-    "widgetHint": "Każdy widget tworzy punkt danych HTML, który można bezpośrednio osadzić w VIS lub Jarvis.",
+    "widgetHint": "Każdy widget tworzy punkt danych HTML, który można bezpośrednio osadzić w VIS, Jarvis lub podobnych.",
     "widgetLight": "Jasny",
     "widgetTheme": "Temat",
     "hourlyDaysHighWarning": "Każdy dzień godzinowy generuje wiele punktów danych w zależności od włączonych opcji",

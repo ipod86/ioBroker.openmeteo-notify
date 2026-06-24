@@ -37,7 +37,7 @@
     "warnNotifyLiftHelp": "Sends a notification when a previously reported warning is cancelled or expires",
     "location": "Location",
     "addWidget": "Add widget",
-    "widgetHint": "Each widget creates an HTML datapoint that can be embedded directly in VIS or Jarvis.",
+    "widgetHint": "Each widget creates an HTML datapoint that can be embedded directly in VIS, Jarvis or similar.",
     "widgetDays": "Days",
     "widgetTheme": "Theme",
     "widgetHourlyRange": "Hours from now",

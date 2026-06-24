@@ -15,7 +15,7 @@
     "widgetTextColor": "Cor do texto",
     "widgetTransparent": "Transparente",
     "widgetDays": "Dias",
-    "widgetHint": "Cada widget cria um ponto de dados HTML que pode ser incorporado diretamente no VIS ou Jarvis.",
+    "widgetHint": "Cada widget cria um ponto de dados HTML que pode ser incorporado diretamente no VIS, Jarvis ou similares.",
     "widgetLight": "Claro",
     "widgetTheme": "Tema",
     "hourlyDaysHighWarning": "Cada dia horário gera muitos pontos de dados dependendo das opções ativadas",

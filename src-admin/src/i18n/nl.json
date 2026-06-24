@@ -15,7 +15,7 @@
     "widgetTextColor": "Tekstkleur",
     "widgetTransparent": "Transparant",
     "widgetDays": "Dagen",
-    "widgetHint": "Elke widget maakt een HTML-datapunt aan dat direct in VIS of Jarvis kan worden ingesloten.",
+    "widgetHint": "Elke widget maakt een HTML-datapunt aan dat direct in VIS, Jarvis of vergelijkbare tools kan worden ingesloten.",
     "widgetLight": "Licht",
     "widgetTheme": "Thema",
     "hourlyDaysHighWarning": "Elk uurlijks dag genereert veel datapunten afhankelijk van de ingeschakelde opties",
