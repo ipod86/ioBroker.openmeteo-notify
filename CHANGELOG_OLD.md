@@ -93,6 +93,10 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.7 (2026-06-09)
+* (ipod86) fix: translate all German common.name values to English (Last Update, Official Warnings, Current Weather, Today/Tomorrow/Day N, Agriculture/Solar, Comfort Indices, Astronomy, Air Quality, Pollen)
+* (ipod86) fix: translate German widget strings in warning overlay to English
+
 ## 0.1.6 (2026-06-06)
 * (ipod86) fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)
 * (ipod86) chore: bump react-dom and @types/react-dom from 18 to 19

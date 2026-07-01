@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "news": {
+      "0.1.12": {
+        "en": "fix: translate 84 missing admin i18n keys into all 10 languages (W5606)",
+        "de": "Behebung: Übersetzung von 84 fehlenden i18n-Schlüsseln für Administratoren in alle 10 Sprachen (W5606)",
+        "ru": "Исправление: перевести 84 отсутствующих ключа интернационализации администратора на все 10 языков (W5606)",
+        "pt": "Correção: traduzir 84 chaves i18n de administrador ausentes para todos os 10 idiomas (W5606)",
+        "nl": "Oplossing: vertaal 84 ontbrekende admin i18n-sleutels naar alle 10 talen (W5606)",
+        "fr": "Correction : traduction de 84 clés i18n d'administration manquantes dans les 10 langues (W5606)",
+        "it": "Correzione: traduzione di 84 chiavi i18n di amministrazione mancanti in tutte le 10 lingue (W5606)",
+        "es": "Corrección: traducir 84 claves i18n de administrador faltantes a los 10 idiomas (W5606)",
+        "pl": "naprawiono: przetłumaczono 84 brakujące klucze administracyjne i18n na wszystkie 10 języków (W5606)",
+        "uk": "виправлення: переклад 84 відсутніх ключів адміністратора i18n усіма 10 мовами (W5606)",
+        "zh-cn": "修复：将 84 个缺失的管理员 i18n 密钥翻译成所有 10 种语言 (W5606)"
+      },
       "0.1.11": {
         "en": "Adapter requires admin >= 7.8.23 now.\nfix: skip hourly slots without icon data in detailed widget (missing icons at 00h/02h/04h)\nfeat: grey out hourlyRange options that exceed configured hourly days; add explanatory hint\nfix: reposition moon badge in simple and detailed widget header\nfeat: add moon phase overlay to simple widget (showMoon option)\nfix: complete and correct i18n translations in all 11 languages (50+ missing keys)\nci: remove broken build-admin GitHub Actions workflow",
         "de": "Der Adapter benötigt jetzt Administratorrechte ab Version 7.8.23.\nBehebung: Stündliche Zeitfenster ohne Symboldaten im Detail-Widget überspringen (fehlende Symbole bei 00/02/04 Uhr)\nFunktion: Optionen für den Stundenbereich, die die konfigurierten Stundentage überschreiten, werden ausgegraut; ein erläuternder Hinweis wird hinzugefügt.\nBehoben: Mond-Badge im einfachen und detaillierten Widget-Header neu positionieren\nFunktion: Mondphasen-Overlay zum einfachen Widget hinzufügen (Option „Mond anzeigen“)\nBehoben: Vollständige und korrekte i18n-Übersetzungen in allen 11 Sprachen (über 50 fehlende Schlüssel)\nci: Entfernen des fehlerhaften Build-Admin-GitHub-Actions-Workflows",
@@ -80,19 +93,6 @@
         "pl": "fix: użyj weather.direction.wind zamiast weather.direction.wind.projecast.1 dla dnia 1 + (rola nie w katalogu jOBroker)\nchore: bump react- dom i @ types / react- dom od 18 do 19",
         "uk": "виправити: використовувати погоду.direction.wind замість погоди.direction.wind.forecast.1 на день1+ (role не в каталозі ioBroker)\nchore: bump re-dom і @types/react-dom від 18 до 19",
         "zh-cn": "固定:使用天气. 方向. wind 代替天气. 方向. wind. forecast.1 for day1+(在ioBroker目录中没有作用)\n弦乐: 凸起反应- 度和 @ 类型/ 反应- 度从 18 到 19"
-      },
-      "0.1.5": {
-        "en": "fix: replace invalid object roles with valid ioBroker catalogue roles (E1008)\nfix: update @alcalzone/release-script to >=5.2.1 (E0036)",
-        "de": "fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)\nfix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)",
-        "ru": "исправление: замена недопустимых ролей объектов на допустимые роли каталога ioBroker (E1008)\nисправление: обновление @alcalzone/release-script до >=5.2.1 (E0036)",
-        "pt": "correção: substituir papéis de objetos inválidos por papéis válidos do catálogo ioBroker (E1008)\ncorreção: atualizar @alcalzone/release-script para >=5.2.1 (E0036)",
-        "nl": "fix: ongeldige objectrollen vervangen door geldige ioBroker-catalogusrollen (E1008)\nfix: @alcalzone/release-script bijwerken naar >=5.2.1 (E0036)",
-        "fr": "correction: remplacer les rôles d'objet invalides par des rôles valides du catalogue ioBroker (E1008)\ncorrection: mettre à jour @alcalzone/release-script vers >=5.2.1 (E0036)",
-        "it": "correzione: sostituire i ruoli degli oggetti non validi con ruoli validi del catalogo ioBroker (E1008)\ncorrezione: aggiornare @alcalzone/release-script a >=5.2.1 (E0036)",
-        "es": "corrección: reemplazar roles de objeto no válidos con roles válidos del catálogo ioBroker (E1008)\ncorrección: actualizar @alcalzone/release-script a >=5.2.1 (E0036)",
-        "pl": "fix: zastąpić nieprawidłowe role obiektów prawidłowymi rolami katalogu ioBroker (E1008)\nfix: zaktualizować @alcalzone/release-script do >=5.2.1 (E0036)",
-        "uk": "виправлення: замінити недійсні ролі об'єктів допустимими ролями каталогу ioBroker (E1008)\nвиправлення: оновити @alcalzone/release-script до >=5.2.1 (E0036)",
-        "zh-cn": "修复：用ioBroker目录中的有效角色替换无效的对象角色（E1008）\n修复：将@alcalzone/release-script更新至>=5.2.1（E0036）"
       }
     },
     "titleLang": {
