@@ -660,6 +660,11 @@ class Openmeteo extends utils.Adapter {
 		this.warnState = {};
 		this.customNightIcons = new Set();
 		this._locationInfo = {};
+		this._systemLang = "en";
+		// Jitter values computed once at adapter start to spread cloud requests
+		this._jitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for sub-daily intervals
+		this._dailyJitterMs = Math.floor(Math.random() * 300_000); // up to 5 min for daily interval
+		this._warnJitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for warn interval
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
@@ -800,6 +805,16 @@ class Openmeteo extends utils.Adapter {
 		await this.ensureCustomIconsReadme();
 		await this._loadCustomNightIcons();
 
+		// Fetch system language once for use in Nominatim requests
+		const sysConfig = await this.getForeignObjectAsync("system.config");
+		this._systemLang = sysConfig?.common?.language ?? "en";
+
+		// Validate warnIntervalMinutes before use
+		if (!this.config.warnIntervalMinutes || this.config.warnIntervalMinutes < 1) {
+			this.config.warnIntervalMinutes = 15;
+			this.log.warn("warnIntervalMinutes must be >= 1, reset to 15");
+		}
+
 		// Sofort beim Start abrufen
 		await this.runUpdate();
 		await this.runWarnUpdate();
@@ -820,9 +835,9 @@ class Openmeteo extends utils.Adapter {
 			};
 			const scheduleDailyNext = async () => {
 				await this.runUpdate();
-				this.updateTimeout = this.setTimeout(scheduleDailyNext, msUntilNext1am());
+				this.updateTimeout = this.setTimeout(scheduleDailyNext, msUntilNext1am() + this._dailyJitterMs);
 			};
-			this.updateTimeout = this.setTimeout(scheduleDailyNext, msUntilNext1am());
+			this.updateTimeout = this.setTimeout(scheduleDailyNext, msUntilNext1am() + this._dailyJitterMs);
 		} else {
 			const intervalMs = intervalMinutes * 60 * 1000;
 			const msUntilNextAligned = () => {
@@ -835,19 +850,19 @@ class Openmeteo extends utils.Adapter {
 			};
 			const scheduleNext = async () => {
 				await this.runUpdate();
-				const delay = msUntilNextAligned();
+				const delay = msUntilNextAligned() + this._jitterMs;
 				const nextTime = new Date(Date.now() + delay);
 				this.log.debug(`Next weather update: ${nextTime.toLocaleTimeString()}`);
 				this.updateTimeout = this.setTimeout(scheduleNext, delay);
 			};
-			const delay = msUntilNextAligned();
+			const delay = msUntilNextAligned() + this._jitterMs;
 			this.log.debug(`First weather update: ${new Date(Date.now() + delay).toLocaleTimeString()}`);
 			this.updateTimeout = this.setTimeout(scheduleNext, delay);
 		}
 
 		// Schedule separate official warning updates aligned to clock boundaries
 		if (this.config.warnOfficial || this.config.warnOfficialFetch) {
-			const warnIntervalMinutes = Math.min(Math.max(1, this.config.warnIntervalMinutes || 5), 35791);
+			const warnIntervalMinutes = Math.min(Math.max(1, this.config.warnIntervalMinutes || 15), 35791);
 			const warnIntervalMs = warnIntervalMinutes * 60 * 1000;
 			const msUntilNextWarn = () => {
 				const now = new Date();
@@ -858,11 +873,11 @@ class Openmeteo extends utils.Adapter {
 			};
 			const scheduleNextWarn = async () => {
 				await this.runWarnUpdate();
-				const delay = msUntilNextWarn();
+				const delay = msUntilNextWarn() + this._warnJitterMs;
 				this.log.debug(`Next warning update: ${new Date(Date.now() + delay).toLocaleTimeString()}`);
 				this.warnTimeout = this.setTimeout(scheduleNextWarn, delay);
 			};
-			const warnDelay = msUntilNextWarn();
+			const warnDelay = msUntilNextWarn() + this._warnJitterMs;
 			this.log.debug(`First warning update: ${new Date(Date.now() + warnDelay).toLocaleTimeString()}`);
 			this.warnTimeout = this.setTimeout(scheduleNextWarn, warnDelay);
 		}
@@ -2293,7 +2308,10 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		}
 		return new Promise((resolve, reject) => {
 			const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&extratags=1&zoom=9`;
-			const options = { headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0" }, timeout: 30000 };
+			const options = {
+				headers: { "User-Agent": "ioBroker.openmeteo-notify/1.0", "accept-language": this._systemLang },
+				timeout: 30000,
+			};
 			const req = https.get(url, options, res => {
 				let raw = "";
 				res.on("data", c => (raw += c));

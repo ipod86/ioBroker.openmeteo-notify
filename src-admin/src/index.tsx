@@ -1,18 +1,18 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
 
 declare global {
-    interface Window {
-        adapterName: string;
-        sentryDSN: string;
-    }
+	interface Window {
+		adapterName: string;
+		sentryDSN: string;
+	}
 }
 
-window.adapterName = 'openmeteo-notify';
-window.sentryDSN = '';
+window.adapterName = "openmeteo-notify";
+window.sentryDSN = "";
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 if (container) {
-    createRoot(container).render(<App />);
+	createRoot(container).render(<App />);
 }
