@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "news": {
+      "0.1.13": {
+        "en": "fix: add random jitter to update scheduling to spread cloud load; validate warnIntervalMinutes (reset to 15 if < 1); remove orphaned i18n keys; fix warnIntervalMinutes default in admin UI; bump MUI 9, TypeScript 7, Vite 8.1, suncalc 2",
+        "de": "fix: zufälliger Jitter für Update-Zeitplanung; warnIntervalMinutes validieren (Reset auf 15 wenn < 1); verwaiste i18n-Schlüssel entfernt; warnIntervalMinutes-Standard in Admin-UI korrigiert; MUI 9, TypeScript 7, Vite 8.1, suncalc 2 aktualisiert",
+        "ru": "исправление: случайный джиттер для расписания обновлений; проверка warnIntervalMinutes; исправление i18n; обновление MUI 9, TypeScript 7, Vite 8.1, suncalc 2",
+        "pt": "correção: jitter aleatório no agendamento; validação de warnIntervalMinutes; chaves i18n corrigidas; atualização de dependências",
+        "nl": "fix: willekeurige jitter voor update-planning; warnIntervalMinutes valideren; verweesde i18n-sleutels verwijderd; afhankelijkheden bijgewerkt",
+        "fr": "correctif: jitter aléatoire pour la planification; validation de warnIntervalMinutes; clés i18n orphelines supprimées; dépendances mises à jour",
+        "it": "fix: jitter casuale per la pianificazione; validazione warnIntervalMinutes; chiavi i18n orfane rimosse; dipendenze aggiornate",
+        "es": "corrección: jitter aleatorio en la programación; validación de warnIntervalMinutes; claves i18n huérfanas eliminadas; dependencias actualizadas",
+        "pl": "poprawka: losowe opóźnienie harmonogramu; walidacja warnIntervalMinutes; usunięcie osieroconych kluczy i18n; aktualizacja zależności",
+        "uk": "виправлення: випадковий джитер для розкладу оновлень; перевірка warnIntervalMinutes; видалення зайвих i18n ключів; оновлення залежностей",
+        "zh-cn": "修复：为更新调度添加随机抖动；验证warnIntervalMinutes；删除孤立i18n键；更新MUI 9、TypeScript 7、Vite 8.1、suncalc 2"
+      },
       "0.1.12": {
         "en": "fix: translate 84 missing admin i18n keys into all 10 languages (W5606)",
         "de": "Behebung: Übersetzung von 84 fehlenden i18n-Schlüsseln für Administratoren in alle 10 Sprachen (W5606)",
@@ -80,19 +93,6 @@
         "pl": "fix: przetłumaczyć wszystkie niemieckie wartości common.name i teksty ostrzeżeń widgetu na angielski",
         "uk": "fix: перекласти всі німецькі значення common.name та тексти попереджень віджету на англійську",
         "zh-cn": "fix: 将所有德文 common.name 值和小部件警告文本翻译为英文"
-      },
-      "0.1.6": {
-        "en": "fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day1+ (role not in ioBroker catalogue)\nchore: bump react-dom and @types/react-dom from 18 to 19",
-        "de": "fix: Verwenden Sie wetter.direction.wind statt wetter.wind.forecast.1 für Tag1+ (role nicht im ioBroker Katalog)\nchore: stoßreaktanz und @types/react-dom von 18 bis 19",
-        "ru": "фиксировать: используйте weather.direction.wind вместо weather.direction.wind.forecast.1 для day1+ (роль не в каталоге ioBroker)\n@types/react-dom с 18 по 19",
-        "pt": "correção: usar weather.direction.wind em vez de weather.direction.wind.precast.1 para dia1+ (papel não no catálogo ioBroker)\ntarefa: colisão reactive-dom e @types/react-dom de 18 para 19",
-        "nl": "fix: gebruik weer.richting.wind in plaats van weer.richting.wind.forecast.1 voor dag1+ (rol niet in ioBroker catalogus)\nkoor: bump reaction-dom en @types/react-dom van 18 tot 19",
-        "fr": "fix: utiliser weather.direction.wind au lieu de weather.direction.wind.forcast.1 pour jour1+ (rôle non dans le catalogue ioBroker)\ncorvée: bloc de réaction et @types/réaction de 18 à 19",
-        "it": "fix: usare meteo.direction.wind invece di meteo.direction.wind.forecast.1 per giorno1+ (rolo non in catalogo ioBroker)\ncore: urto reage-dom e @types/react-dom da 18 a 19",
-        "es": "fijado: use weather.direction.wind en lugar de tiempo.direction.wind.forecast.1 for day1+ (role not in ioBroker catalog)\nde 18 a 19 años",
-        "pl": "fix: użyj weather.direction.wind zamiast weather.direction.wind.projecast.1 dla dnia 1 + (rola nie w katalogu jOBroker)\nchore: bump react- dom i @ types / react- dom od 18 do 19",
-        "uk": "виправити: використовувати погоду.direction.wind замість погоди.direction.wind.forecast.1 на день1+ (role не в каталозі ioBroker)\nchore: bump re-dom і @types/react-dom від 18 до 19",
-        "zh-cn": "固定:使用天气. 方向. wind 代替天气. 方向. wind. forecast.1 for day1+(在ioBroker目录中没有作用)\n弦乐: 凸起反应- 度和 @ 类型/ 反应- 度从 18 到 19"
       }
     },
     "titleLang": {

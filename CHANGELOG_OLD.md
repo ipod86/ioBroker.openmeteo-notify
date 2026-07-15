@@ -1,5 +1,9 @@
 # Older Changelog
 
+### 0.1.6 (2026-06-06)
+* (ipod86) fix: use weather.direction.wind instead of weather.direction.wind.forecast.1 for day 1+ (role not in ioBroker catalogue)
+* (ipod86) chore: bump react-dom and @types/react-dom from 18 to 19
+
 ### 0.0.41
 * Fix: React crash on address search in location settings (`setRowStates` inside updater)
 

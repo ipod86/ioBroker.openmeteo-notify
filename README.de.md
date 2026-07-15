@@ -266,6 +266,16 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### 0.1.13 (2026-07-15)
+* (ipod86) fix: zufälliger Jitter für tägliche und intervallbasierte Update-Zeitplanung zur Verteilung der Cloud-Last
+* (ipod86) fix: warnIntervalMinutes validieren — wird auf 15 zurückgesetzt wenn < 1
+* (ipod86) fix: verwaiste i18n-Schlüssel aus allen 11 Sprachdateien entfernt
+* (ipod86) fix: warnIntervalMinutes-Standard in Admin-WarningsPanel auf 15 korrigiert
+* (ipod86) chore: @mui/material und @mui/icons-material auf 9.x, TypeScript auf 7.x, Vite auf 8.1, suncalc auf 2.0 aktualisiert
+
+### 0.1.12 (2026-07-01)
+* (ipod86) fix: 84 fehlende Admin-i18n-Schlüssel in alle 10 Sprachen übersetzt (W5606)
+
 ### 0.1.11 (2026-06-24)
 - (ioBroker-Bot) Adapter setzt jetzt admin >= 7.8.23 voraus.
 * (ipod86) fix: Stunden-Slots ohne Icon-Daten im detaillierten Widget überspringen (fehlende Icons um 00h/02h/04h)
