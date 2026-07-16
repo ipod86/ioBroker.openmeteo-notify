@@ -93,7 +93,7 @@
         "pl": "fix: dodano limity czasu HTTP; przetłumaczono wszystkie pozostałe niemieckie wartości common.name; poprawiono ustawienia regionalne czasu ostrzeżeń; dodano walidację interwału; dodano brakujące natywne wartości domyślne",
         "uk": "fix: додано таймаути HTTP-запитів; перекладено всі German common.name значення; виправлено локаль часу попереджень; додано валідацію інтервалу; додано відсутні native-налаштування",
         "zh-cn": "fix: 添加HTTP请求超时；翻译所有剩余的德文common.name值；修复警告时间区域设置；添加间隔验证；添加缺失的native默认值"
-      },
+      }
     },
     "titleLang": {
       "en": "OpenMeteo Notify",
