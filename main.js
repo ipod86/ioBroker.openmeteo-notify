@@ -2407,7 +2407,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		try {
 			await this.setObjectNotExistsAsync("internal.warnState", {
 				type: "state",
-				common: { name: "Warning deduplication state", type: "string", role: "state", read: true, write: false },
+				common: {
+					name: "Warning deduplication state",
+					type: "string",
+					role: "json",
+					read: true,
+					write: false,
+				},
 				native: {},
 			});
 			const st = await this.getStateAsync("internal.warnState");
