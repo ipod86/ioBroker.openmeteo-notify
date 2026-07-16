@@ -266,6 +266,10 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### 0.1.14 (2026-07-16)
+* (ipod86) fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden
+* (ipod86) fix: DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren (gleicher Event auf Minute gerundet)
+
 ### 0.1.13 (2026-07-15)
 * (ipod86) fix: zufälliger Jitter für tägliche und intervallbasierte Update-Zeitplanung zur Verteilung der Cloud-Last
 * (ipod86) fix: warnIntervalMinutes validieren — wird auf 15 zurückgesetzt wenn < 1

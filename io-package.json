@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "news": {
+      "0.1.14": {
+        "en": "fix: persist warning dedup state across adapter restarts to prevent duplicate notifications; deduplicate DWD warnings from combined warnings+vorabInformation arrays",
+        "de": "fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden; DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren",
+        "ru": "fix: сохранять состояние дедупликации предупреждений при перезапуске адаптера; дедупликация предупреждений DWD из объединённых массивов warnings+vorabInformation",
+        "pt": "fix: persistir estado de deduplicação de avisos entre reinicializações do adaptador; deduplicar avisos DWD de arrays combinados warnings+vorabInformation",
+        "nl": "fix: waarschuwings-dedupstatus bewaren bij herstart van adapter; DWD-waarschuwingen uit gecombineerde warnings+vorabInformation-arrays dedupliceren",
+        "fr": "fix: conserver l'état de déduplication des avertissements après redémarrage de l'adaptateur; dédupliquer les avertissements DWD des tableaux combinés warnings+vorabInformation",
+        "it": "fix: persistere lo stato di deduplicazione degli avvisi tra i riavvii dell'adattatore; deduplicare gli avvisi DWD dagli array combinati warnings+vorabInformation",
+        "es": "fix: persistir estado de deduplicación de avisos en reinicios del adaptador; deduplicar avisos DWD de arrays combinados warnings+vorabInformation",
+        "pl": "fix: zachowanie stanu deduplikacji ostrzeżeń przy ponownym uruchomieniu adaptera; deduplikacja ostrzeżeń DWD z połączonych tablic warnings+vorabInformation",
+        "uk": "fix: зберігати стан дедуплікації попереджень при перезапуску адаптера; дедуплікація попереджень DWD з об'єднаних масивів warnings+vorabInformation",
+        "zh-cn": "修复：在适配器重启时持久化警告去重状态以防止重复通知；去重来自warnings+vorabInformation合并数组的DWD警告"
+      },
       "0.1.13": {
         "en": "fix: add random jitter to update scheduling to spread cloud load; validate warnIntervalMinutes (reset to 15 if < 1); remove orphaned i18n keys; fix warnIntervalMinutes default in admin UI; bump MUI 9, TypeScript 7, Vite 8.1, suncalc 2",
         "de": "fix: zufälliger Jitter für Update-Zeitplanung; warnIntervalMinutes validieren (Reset auf 15 wenn < 1); verwaiste i18n-Schlüssel entfernt; warnIntervalMinutes-Standard in Admin-UI korrigiert; MUI 9, TypeScript 7, Vite 8.1, suncalc 2 aktualisiert",
@@ -81,19 +94,6 @@
         "uk": "fix: додано таймаути HTTP-запитів; перекладено всі German common.name значення; виправлено локаль часу попереджень; додано валідацію інтервалу; додано відсутні native-налаштування",
         "zh-cn": "fix: 添加HTTP请求超时；翻译所有剩余的德文common.name值；修复警告时间区域设置；添加间隔验证；添加缺失的native默认值"
       },
-      "0.1.7": {
-        "en": "fix: translate all German common.name values and widget warning strings to English",
-        "de": "fix: alle deutschen common.name-Werte und Widget-Warnungstexte auf Englisch übersetzt",
-        "ru": "fix: перевести все немецкие значения common.name и тексты предупреждений виджета на английский",
-        "pt": "fix: traduzir todos os valores common.name alemães e textos de aviso do widget para inglês",
-        "nl": "fix: alle Duitse common.name-waarden en widgetwaarschuwingsteksten vertalen naar het Engels",
-        "fr": "fix: traduire toutes les valeurs common.name allemandes et les textes d'avertissement du widget en anglais",
-        "it": "fix: tradurre tutti i valori common.name tedeschi e i testi di avviso del widget in inglese",
-        "es": "fix: traducir todos los valores common.name alemanes y los textos de advertencia del widget al inglés",
-        "pl": "fix: przetłumaczyć wszystkie niemieckie wartości common.name i teksty ostrzeżeń widgetu na angielski",
-        "uk": "fix: перекласти всі німецькі значення common.name та тексти попереджень віджету на англійську",
-        "zh-cn": "fix: 将所有德文 common.name 值和小部件警告文本翻译为英文"
-      }
     },
     "titleLang": {
       "en": "OpenMeteo Notify",

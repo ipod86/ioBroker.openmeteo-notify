@@ -815,6 +815,9 @@ class Openmeteo extends utils.Adapter {
 			this.log.warn("warnIntervalMinutes must be >= 1, reset to 15");
 		}
 
+		// Restore warnState so restart does not re-send already-sent warnings
+		await this._loadWarnState();
+
 		// Sofort beim Start abrufen
 		await this.runUpdate();
 		await this.runWarnUpdate();
@@ -1182,6 +1185,7 @@ class Openmeteo extends utils.Adapter {
 					: " (service may be unavailable or location outside supported region)";
 				this.log.warn(`Official warnings fetch failed for "${loc.name}": ${err.message}${hint}`);
 			}
+			await this._saveWarnState();
 
 			// Rebuild widgets for this location so the badge reflects current warnings
 			const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
@@ -2399,6 +2403,45 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 	 * @param {string} warncellId
 	 * @returns {Promise<Array>} Array of warning objects for the location
 	 */
+	async _loadWarnState() {
+		try {
+			await this.setObjectNotExistsAsync("internal.warnState", {
+				type: "state",
+				common: { name: "Warning deduplication state", type: "string", role: "json", read: true, write: false },
+				native: {},
+			});
+			const st = await this.getStateAsync("internal.warnState");
+			if (st?.val) {
+				const parsed = JSON.parse(st.val);
+				const now = Date.now();
+				for (const [key, val] of Object.entries(parsed)) {
+					if (val && typeof val === "object") {
+						const endMs = val.end
+							? typeof val.end === "number"
+								? val.end
+								: new Date(val.end).getTime()
+							: val.endMs || null;
+						if (endMs && endMs < now - 3_600_000) {
+							delete parsed[key];
+						}
+					}
+				}
+				this.warnState = parsed;
+				this.log.debug(`Restored warnState with ${Object.keys(parsed).length} entries`);
+			}
+		} catch (e) {
+			this.log.warn(`Could not restore warnState: ${e.message}`);
+		}
+	}
+
+	async _saveWarnState() {
+		try {
+			await this.setState("internal.warnState", JSON.stringify(this.warnState), true);
+		} catch (e) {
+			this.log.warn(`Could not save warnState: ${e.message}`);
+		}
+	}
+
 	fetchDwdWarnings(warncellId) {
 		return new Promise((resolve, reject) => {
 			const url = "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json";
@@ -2411,10 +2454,16 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						// Strip JSONP wrapper: warnWetter.loadWarnings({...});
 						const json = raw.replace(/^warnWetter\.loadWarnings\(/, "").replace(/\);?\s*$/, "");
 						const data = JSON.parse(json);
-						const warnings = [
+						const raw = [
 							...(data.warnings[warncellId] || []),
 							...(data.vorabInformation[warncellId] || []),
 						];
+						// Deduplicate: same event + start rounded to minute = same warning
+						const seen = new Set();
+						const warnings = raw.filter(w => {
+							const k = `${w.event}_${Math.round((w.start || 0) / 60000)}`;
+							return seen.has(k) ? false : (seen.add(k), true);
+						});
 						resolve(warnings);
 					} catch (e) {
 						reject(e);
