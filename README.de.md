@@ -16,6 +16,9 @@ Dieser Adapter ruft Wetterdaten von der kostenlosen [Open-Meteo API](https://ope
 
 ## Highlights
 
+### Wettermeldungen über den ioBroker Notification Manager
+Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Alle Benachrichtigungsziele (Telegram, E-Mail, Pushover, …) werden zentral über den **ioBroker Notification Manager** konfiguriert — keine adapterspezifische Einrichtung erforderlich.
+
 ### Konfigurierbares HTML-Widget
 Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar.
 
@@ -27,9 +30,6 @@ Je nach gewähltem Wettermodell sind tägliche Vorhersagen für bis zu **16 Tage
 
 ### Wetter-Zusammenfassungstexte
 Der Adapter erzeugt natürlichsprachige Wetterzusammenfassungen (`current.summary`, `dayX.summary_day`, `dayX.summary_night`) in **11 Sprachen**, unter Verwendung von DWD-Standardschwellenwerten für Temperatur, Wind und Niederschlag, einschließlich CAPE-basiertem Gewitterrisiko.
-
-### Wettermeldungen über den ioBroker Notification Manager
-Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Alle Benachrichtigungsziele (Telegram, E-Mail, Pushover, …) werden zentral über den **ioBroker Notification Manager** konfiguriert — keine adapterspezifische Einrichtung erforderlich.
 
 ## Funktionen
 

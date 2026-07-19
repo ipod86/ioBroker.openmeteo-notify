@@ -16,6 +16,9 @@ This adapter retrieves weather forecast data from the free [Open-Meteo API](http
 
 ## Highlights
 
+### Weather notifications via ioBroker notification manager
+The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). All notification targets (Telegram, email, Pushover, …) are configured centrally via the **ioBroker notification manager** — no per-adapter setup required.
+
 ### Configurable HTML widget
 The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
 
@@ -27,9 +30,6 @@ Depending on the selected weather model, daily forecasts for up to **16 days** a
 
 ### Weather summary texts
 The adapter generates natural-language weather summaries (`current.summary`, `dayX.summary_day`, `dayX.summary_night`) in **11 languages**, using DWD-standard thresholds for temperature, wind and precipitation, including CAPE-based thunderstorm risk.
-
-### Weather notifications via ioBroker notification manager
-The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). All notification targets (Telegram, email, Pushover, …) are configured centrally via the **ioBroker notification manager** — no per-adapter setup required.
 
 ## Features
 
