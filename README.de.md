@@ -12,7 +12,7 @@
 
 ## ioBroker-Adapter für Open-Meteo Wettervorhersagen
 
-Dieser Adapter ruft Wetterdaten von der kostenlosen [Open-Meteo API](https://open-meteo.com) ab und stellt sie als ioBroker-Datenpunkte bereit. Es wird kein API-Schlüssel benötigt.
+Dieser Adapter ruft Wetterdaten von der kostenlosen [Open-Meteo API](https://open-meteo.com) ab und stellt sie als ioBroker-Datenpunkte bereit. Es wird kein API-Schlüssel benötigt. Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen (Sturm, Gewitter, amtliche Warnungen) und bietet mehrere unabhängig konfigurierbare HTML-Widgets pro Standort.
 
 ## Highlights
 

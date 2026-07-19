@@ -12,7 +12,7 @@
 
 ## ioBroker adapter for Open-Meteo weather forecasts
 
-This adapter retrieves weather forecast data from the free [Open-Meteo API](https://open-meteo.com) and makes it available as ioBroker data points. No API key is required.
+This adapter retrieves weather forecast data from the free [Open-Meteo API](https://open-meteo.com) and makes it available as ioBroker data points. No API key is required. It sends individual notifications for configurable weather events (storms, thunderstorms, official warnings) and provides multiple independently configurable HTML widgets per location.
 
 ## Highlights
 
