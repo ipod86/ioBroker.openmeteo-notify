@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "news": {
+      "0.1.15": {
+        "en": "fix: sanitize widget.id through normalizeId before use as ioBroker object ID path",
+        "de": "Behebung: Die widget.id wird vor der Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigt.",
+        "ru": "Исправление: необходимо проверить widget.id с помощью normalizeId перед использованием в качестве пути к идентификатору объекта ioBroker.",
+        "pt": "Correção: sanitizar widget.id através de normalizeId antes de usar como caminho de ID do objeto ioBroker",
+        "nl": "Oplossing: valideer widget.id via normalizeId voordat het wordt gebruikt als pad naar het ioBroker-object-ID.",
+        "fr": "Correction : nettoyer widget.id via normalizeId avant de l’utiliser comme chemin d’identification de l’objet ioBroker",
+        "it": "Correzione: sanifica widget.id tramite normalizeId prima di utilizzarlo come percorso ID oggetto ioBroker",
+        "es": "Corrección: sanitizar widget.id mediante normalizeId antes de usarlo como ruta de ID de objeto de ioBroker",
+        "pl": "naprawiono: oczyszczanie widget.id przez normalizeId przed użyciem jako ścieżka ID obiektu ioBroker",
+        "uk": "виправлення: очищено widget.id через normalizeId перед використанням як шляху ідентифікатора об'єкта ioBroker",
+        "zh-cn": "修复：在使用 widget.id 作为 ioBroker 对象 ID 路径之前，通过 normalizeId 对其进行清理。"
+      },
       "0.1.14": {
         "en": "fix: persist warning dedup state across adapter restarts to prevent duplicate notifications; deduplicate DWD warnings from combined warnings+vorabInformation arrays",
         "de": "fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden; DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren",
@@ -80,19 +93,6 @@
         "pl": "fix: limit czasu HTTP zwiększony z 10s do 30s; usunięto zbędną wartość domyślną native; zaktualizowano zależności",
         "uk": "fix: таймаут HTTP збільшено з 10s до 30s; видалено зайве native-налаштування; оновлено залежності",
         "zh-cn": "fix: HTTP超时从10秒增加到30秒；删除多余的native默认值；更新依赖项"
-      },
-      "0.1.8": {
-        "en": "fix: add HTTP request timeouts; translate all remaining German common.name values; fix warning time locale; add interval validation; add missing native defaults",
-        "de": "fix: HTTP-Timeouts ergänzt; alle verbleibenden deutschen common.name-Werte übersetzt; Warnungs-Zeitformat korrigiert; Intervall-Validierung ergänzt; fehlende native-Defaults ergänzt",
-        "ru": "fix: добавлены таймауты HTTP-запросов; переведены все оставшиеся немецкие значения common.name; исправлена локаль времени предупреждений; добавлена валидация интервала; добавлены недостающие native-умолчания",
-        "pt": "fix: timeouts HTTP adicionados; todos os valores common.name alemães restantes traduzidos; localidade de tempo de aviso corrigida; validação de intervalo adicionada; padrões nativos ausentes adicionados",
-        "nl": "fix: HTTP-time-outs toegevoegd; alle resterende Duitse common.name-waarden vertaald; tijdlandinstelling voor waarschuwingen gecorrigeerd; intervalvalidatie toegevoegd; ontbrekende native-standaarden toegevoegd",
-        "fr": "fix: délais d'expiration HTTP ajoutés; toutes les valeurs common.name allemandes restantes traduites; paramètres régionaux de l'heure d'avertissement corrigés; validation d'intervalle ajoutée; valeurs natives manquantes ajoutées",
-        "it": "fix: timeout HTTP aggiunti; tutti i valori common.name tedeschi rimanenti tradotti; impostazioni locali del tempo di avviso corrette; validazione intervallo aggiunta; valori predefiniti nativi mancanti aggiunti",
-        "es": "fix: tiempos de espera HTTP añadidos; todos los valores common.name alemanes restantes traducidos; configuración regional de tiempo de advertencia corregida; validación de intervalo añadida; valores nativos predeterminados faltantes añadidos",
-        "pl": "fix: dodano limity czasu HTTP; przetłumaczono wszystkie pozostałe niemieckie wartości common.name; poprawiono ustawienia regionalne czasu ostrzeżeń; dodano walidację interwału; dodano brakujące natywne wartości domyślne",
-        "uk": "fix: додано таймаути HTTP-запитів; перекладено всі German common.name значення; виправлено локаль часу попереджень; додано валідацію інтервалу; додано відсутні native-налаштування",
-        "zh-cn": "fix: 添加HTTP请求超时；翻译所有剩余的德文common.name值；修复警告时间区域设置；添加间隔验证；添加缺失的native默认值"
       }
     },
     "titleLang": {
