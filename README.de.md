@@ -28,6 +28,9 @@ Je nach gewähltem Wettermodell sind tägliche Vorhersagen für bis zu **16 Tage
 ### Wetter-Zusammenfassungstexte
 Der Adapter erzeugt natürlichsprachige Wetterzusammenfassungen (`current.summary`, `dayX.summary_day`, `dayX.summary_night`) in **11 Sprachen**, unter Verwendung von DWD-Standardschwellenwerten für Temperatur, Wind und Niederschlag, einschließlich CAPE-basiertem Gewitterrisiko.
 
+### Wettermeldungen über den ioBroker Notification Manager
+Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Alle Benachrichtigungsziele (Telegram, E-Mail, Pushover, …) werden zentral über den **ioBroker Notification Manager** konfiguriert — keine adapterspezifische Einrichtung erforderlich.
+
 ## Funktionen
 
 - **Kostenlos & kein API-Schlüssel** – Open-Meteo ist eine freie, quelloffene Wetter-API

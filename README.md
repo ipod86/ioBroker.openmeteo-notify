@@ -28,6 +28,9 @@ Depending on the selected weather model, daily forecasts for up to **16 days** a
 ### Weather summary texts
 The adapter generates natural-language weather summaries (`current.summary`, `dayX.summary_day`, `dayX.summary_night`) in **11 languages**, using DWD-standard thresholds for temperature, wind and precipitation, including CAPE-based thunderstorm risk.
 
+### Weather notifications via ioBroker notification manager
+The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). All notification targets (Telegram, email, Pushover, …) are configured centrally via the **ioBroker notification manager** — no per-adapter setup required.
+
 ## Features
 
 - **Free & no API key** – Open-Meteo is a free, open-source weather API
