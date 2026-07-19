@@ -258,10 +258,9 @@ This adapter is an independent community project and is not affiliated with or e
 
 ## Changelog
 
-<!--
-	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
--->
+### **WORK IN PROGRESS**
+* (ipod86) fix: sanitize widget.id through normalizeId before use as ioBroker object ID path
+
 ### 0.1.14 (2026-07-16)
 * (ipod86) fix: persist warning dedup state across adapter restarts to prevent duplicate notifications on restart
 * (ipod86) fix: deduplicate DWD warnings from combined warnings+vorabInformation API arrays (same event rounded to minute)
