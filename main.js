@@ -1113,11 +1113,15 @@ class Openmeteo extends utils.Adapter {
 				if (!widget.id || !widget.locationName) {
 					continue;
 				}
+				const safeWidgetId = normalizeId(widget.id);
+				if (!safeWidgetId) {
+					continue;
+				}
 				const locId = normalizeId(widget.locationName);
 				if (!validLocationIds.has(locId)) {
 					continue;
 				}
-				const dpKey = `${locId}.widget.${widget.id}`;
+				const dpKey = `${locId}.widget.${safeWidgetId}`;
 				activeWidgetKeys.add(dpKey);
 				try {
 					const html =
@@ -1190,7 +1194,8 @@ class Openmeteo extends utils.Adapter {
 			// Rebuild widgets for this location so the badge reflects current warnings
 			const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
 			for (const widget of widgets) {
-				if (!widget.id || normalizeId(widget.locationName) !== locId) {
+				const safeWId = normalizeId(widget.id || "");
+				if (!safeWId || normalizeId(widget.locationName) !== locId) {
 					continue;
 				}
 				try {
@@ -1198,7 +1203,7 @@ class Openmeteo extends utils.Adapter {
 						widget.variant === "detailed"
 							? await this.buildDetailedWidgetHtml(widget, locId)
 							: await this.buildWidgetHtml(widget, locId);
-					await this.setDP(`${locId}.widget.${widget.id}`, html, {
+					await this.setDP(`${locId}.widget.${safeWId}`, html, {
 						name: `Widget ${widget.id}`,
 						type: "string",
 						role: "html",
