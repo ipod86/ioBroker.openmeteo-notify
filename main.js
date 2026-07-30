@@ -658,6 +658,8 @@ class Openmeteo extends utils.Adapter {
 		this.warnTimeout = null;
 		this.consecutiveFailures = 0;
 		this.warnState = {};
+		this._recentNotifications = new Map();
+		this._notifyHistory = [];
 		this.customNightIcons = new Set();
 		this._locationInfo = {};
 		this._systemLang = "en";
@@ -1305,11 +1307,7 @@ class Openmeteo extends utils.Adapter {
 						if (!this.warnState[stormKey]) {
 							this.warnState[stormKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Storm warning for ${loc.name} in ${leadHours}h`);
-							await this.registerNotification(
-								"openmeteo-notify",
-								"storm",
-								warnT.storm(loc.name, stormBft, timeRange),
-							);
+							await this._sendNotification("storm", warnT.storm(loc.name, stormBft, timeRange));
 						} else if (
 							end &&
 							this.warnState[stormKey].endMs &&
@@ -1317,11 +1315,7 @@ class Openmeteo extends utils.Adapter {
 						) {
 							this.warnState[stormKey].endMs = end.endMs;
 							this.log.warn(`Storm warning extended for ${loc.name}`);
-							await this.registerNotification(
-								"openmeteo-notify",
-								"storm",
-								warnT.stormExt(loc.name, stormBft, end.str),
-							);
+							await this._sendNotification("storm", warnT.stormExt(loc.name, stormBft, end.str));
 						}
 					} else {
 						this.warnState[stormKey] = null;
@@ -1341,11 +1335,7 @@ class Openmeteo extends utils.Adapter {
 						if (!this.warnState[thunderKey]) {
 							this.warnState[thunderKey] = { active: true, endMs: end?.endMs ?? null };
 							this.log.warn(`Thunderstorm warning for ${loc.name} in ${leadHours}h`);
-							await this.registerNotification(
-								"openmeteo-notify",
-								"thunderstorm",
-								warnT.thunder(loc.name, timeRange),
-							);
+							await this._sendNotification("thunderstorm", warnT.thunder(loc.name, timeRange));
 						} else if (
 							end &&
 							this.warnState[thunderKey].endMs &&
@@ -1353,11 +1343,7 @@ class Openmeteo extends utils.Adapter {
 						) {
 							this.warnState[thunderKey].endMs = end.endMs;
 							this.log.warn(`Thunderstorm warning extended for ${loc.name}`);
-							await this.registerNotification(
-								"openmeteo-notify",
-								"thunderstorm",
-								warnT.thunderExt(loc.name, end.str),
-							);
+							await this._sendNotification("thunderstorm", warnT.thunderExt(loc.name, end.str));
 						}
 					} else {
 						this.warnState[thunderKey] = null;
@@ -1378,8 +1364,7 @@ class Openmeteo extends utils.Adapter {
 							);
 							const timeRange = end ? warnT.timeRange(fromStr, end.str) : warnT.timeAt(fromStr);
 							this.log.warn(`Frost warning for ${loc.name}: ${hData.temperature}°C in ${leadHours}h`);
-							await this.registerNotification(
-								"openmeteo-notify",
+							await this._sendNotification(
 								"frost_warning",
 								warnT.frost(loc.name, hData.temperature, timeRange),
 							);
@@ -2406,14 +2391,58 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 	 * Fetches current DWD weather warnings (all of Germany) and returns warnings for the given Warncell-ID.
 	 *
 	 * @param {string} warncellId
+	 * @param category
+	 * @param msg
 	 * @returns {Promise<Array>} Array of warning objects for the location
 	 */
+	async _sendNotification(category, msg) {
+		const now = Date.now();
+		const dedupKey = `${category}|${msg}`;
+		const lastTs = this._recentNotifications.get(dedupKey);
+		if (lastTs !== undefined && now - lastTs < 120_000) {
+			this.log.warn(
+				`[dedup] Duplicate notification suppressed (${Math.round((now - lastTs) / 1000)}s ago): ${msg}`,
+			);
+			return;
+		}
+		this._recentNotifications.set(dedupKey, now);
+		if (this._recentNotifications.size > 500) {
+			const cutoff = now - 120_000;
+			for (const [k, v] of this._recentNotifications) {
+				if (v < cutoff) {
+					this._recentNotifications.delete(k);
+				}
+			}
+		}
+		this._notifyHistory.unshift({ ts: new Date(now).toISOString(), cat: category, msg });
+		if (this._notifyHistory.length > 20) {
+			this._notifyHistory.splice(20);
+		}
+		try {
+			await this.setState("internal.notificationHistory", JSON.stringify(this._notifyHistory), true);
+		} catch {
+			// noop — history is non-critical
+		}
+		await this.registerNotification("openmeteo-notify", category, msg);
+	}
+
 	async _loadWarnState() {
 		try {
 			await this.setObjectNotExistsAsync("internal.warnState", {
 				type: "state",
 				common: {
 					name: "Warning deduplication state",
+					type: "string",
+					role: "json",
+					read: true,
+					write: false,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync("internal.notificationHistory", {
+				type: "state",
+				common: {
+					name: "Notification history (last 20)",
 					type: "string",
 					role: "json",
 					read: true,
@@ -2439,6 +2468,14 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				}
 				this.warnState = parsed;
 				this.log.debug(`Restored warnState with ${Object.keys(parsed).length} entries`);
+			}
+			const hist = await this.getStateAsync("internal.notificationHistory");
+			if (hist?.val) {
+				try {
+					this._notifyHistory = JSON.parse(hist.val);
+				} catch {
+					this._notifyHistory = [];
+				}
 			}
 		} catch (e) {
 			this.log.warn(`Could not restore warnState: ${e.message}`);
@@ -2612,7 +2649,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					const desc = w.description ? `\n${w.description}` : "";
 					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}${timeRange}${desc}`;
 					this.log.warn(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					await this._sendNotification("official_warning", msg);
 				}
 			} else if (this.warnState[key].sent) {
 				const prev = this.warnState[key];
@@ -2632,7 +2669,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					}
 					const msg = `DWD Aktualisierung für ${locId}: ${w.headline || w.event} (${parts.join(", ")})`;
 					this.log.warn(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					await this._sendNotification("official_warning", msg);
 				}
 			}
 		}
@@ -2645,7 +2682,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						liftedHeadlines.add(headline);
 						const msg = `DWD Warnung aufgehoben für ${locId}: ${headline}`;
 						this.log.info(msg);
-						await this.registerNotification("openmeteo-notify", "official_warning", msg);
+						await this._sendNotification("official_warning", msg);
 					}
 				}
 				delete this.warnState[key];
@@ -2768,7 +2805,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					const desc = w.description ? `\n${w.description}` : "";
 					const msg = `MeteoAlarm ${w.severity} für ${locId}: ${w.headline || w.event}${timeRange}${desc}`;
 					this.log.warn(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					await this._sendNotification("official_warning", msg);
 				}
 			} else if (this.warnState[key].sent) {
 				const prev = this.warnState[key];
@@ -2787,7 +2824,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					}
 					const msg = `MeteoAlarm Aktualisierung für ${locId}: ${w.headline || w.event} (${parts.join(", ")})`;
 					this.log.warn(msg);
-					await this.registerNotification("openmeteo-notify", "official_warning", msg);
+					await this._sendNotification("official_warning", msg);
 				}
 			}
 		}
@@ -2800,7 +2837,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						liftedHeadlines.add(headline);
 						const msg = `MeteoAlarm Warnung aufgehoben für ${locId}: ${headline}`;
 						this.log.info(msg);
-						await this.registerNotification("openmeteo-notify", "official_warning", msg);
+						await this._sendNotification("official_warning", msg);
 					}
 				}
 				delete this.warnState[key];
