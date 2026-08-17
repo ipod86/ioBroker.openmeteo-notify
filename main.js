@@ -1154,6 +1154,31 @@ class Openmeteo extends utils.Adapter {
 		}
 	}
 
+	/**
+	 * Races a promise against a hard timeout so a single hung request (e.g. a socket that never
+	 * emits "timeout" or "error") can never permanently stall the recurring warning-update schedule.
+	 *
+	 * @param {Promise} promise
+	 * @param {number} ms
+	 * @param {string} label
+	 * @returns {Promise}
+	 */
+	_withHardTimeout(promise, ms, label) {
+		return new Promise((resolve, reject) => {
+			const t = this.setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+			promise.then(
+				v => {
+					this.clearTimeout(t);
+					resolve(v);
+				},
+				e => {
+					this.clearTimeout(t);
+					reject(e);
+				},
+			);
+		});
+	}
+
 	async runWarnUpdate() {
 		if (!this.config.warnOfficial && !this.config.warnOfficialFetch) {
 			return;
@@ -1168,23 +1193,29 @@ class Openmeteo extends utils.Adapter {
 				continue;
 			}
 			try {
-				const locInfo = await this.fetchLocationInfo(loc.lat, loc.lon);
-				this.log.debug(
-					`Location info for "${loc.name}": country=${locInfo.countryCode}, warnCell=${locInfo.warncellId}`,
+				await this._withHardTimeout(
+					(async () => {
+						const locInfo = await this.fetchLocationInfo(loc.lat, loc.lon);
+						this.log.debug(
+							`Location info for "${loc.name}": country=${locInfo.countryCode}, warnCell=${locInfo.warncellId}`,
+						);
+						if (locInfo.countryCode === "de" && locInfo.warncellId) {
+							const dwdWarnings = await this.fetchDwdWarnings(locInfo.warncellId);
+							this.log.debug(`DWD: ${dwdWarnings.length} warning(s) for "${loc.name}"`);
+							await this.processDwdWarnings(dwdWarnings, locId);
+						} else if (METEOALARM_COUNTRIES[locInfo.countryCode]) {
+							const warnings = await this.fetchMeteoAlarmWarnings(loc.lat, loc.lon, locInfo.countryCode);
+							this.log.debug(`MeteoAlarm: ${warnings.length} warning(s) for "${loc.name}"`);
+							await this.processMeteoAlarmWarnings(warnings, locId);
+						} else {
+							this.log.debug(
+								`Official warnings: no supported service for country "${locInfo.countryCode}" (${loc.name})`,
+							);
+						}
+					})(),
+					60000,
+					`Official warnings fetch for "${loc.name}"`,
 				);
-				if (locInfo.countryCode === "de" && locInfo.warncellId) {
-					const dwdWarnings = await this.fetchDwdWarnings(locInfo.warncellId);
-					this.log.debug(`DWD: ${dwdWarnings.length} warning(s) for "${loc.name}"`);
-					await this.processDwdWarnings(dwdWarnings, locId);
-				} else if (METEOALARM_COUNTRIES[locInfo.countryCode]) {
-					const warnings = await this.fetchMeteoAlarmWarnings(loc.lat, loc.lon, locInfo.countryCode);
-					this.log.debug(`MeteoAlarm: ${warnings.length} warning(s) for "${loc.name}"`);
-					await this.processMeteoAlarmWarnings(warnings, locId);
-				} else {
-					this.log.debug(
-						`Official warnings: no supported service for country "${locInfo.countryCode}" (${loc.name})`,
-					);
-				}
 			} catch (err) {
 				const hint = err.message.includes("timed out")
 					? " (network timeout – will retry next cycle)"
