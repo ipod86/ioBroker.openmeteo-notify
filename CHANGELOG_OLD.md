@@ -100,6 +100,15 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.11 (2026-06-24)
+- (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
+* (ipod86) fix: skip hourly slots without icon data in detailed widget (missing icons at 00h/02h/04h)
+* (ipod86) feat: grey out hourlyRange options that exceed configured hourly days; add explanatory hint
+* (ipod86) fix: reposition moon badge in simple and detailed widget header
+* (ipod86) feat: add moon phase overlay to simple widget (showMoon option)
+* (ipod86) fix: complete and correct i18n translations in all 11 languages (50+ missing keys)
+* (ipod86) ci: remove broken build-admin GitHub Actions workflow
+
 ## 0.1.10 (2026-06-23)
 * (ipod86) fix: improve air quality/pollen error log message – distinguish timeout from unsupported region
 

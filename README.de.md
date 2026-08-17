@@ -269,6 +269,13 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### 0.1.16 (2026-08-17)
+* (ipod86) fix: Variablenüberschattung in fetchDwdWarnings führte dazu, dass jede offizielle DWD-Warnungsanfrage mit „Zugriff auf 'raw' vor der Initialisierung nicht möglich" fehlschlug und die betroffenen Warnzustände stillschweigend einfroren
+* (ipod86) fix: offiziellen Warnungs-Abruf gegen eine einzelne hängende Anfrage absichern, die den wiederkehrenden Zeitplan sonst dauerhaft blockieren könnte
+
+### 0.1.15 (2026-07-19)
+* (ipod86) fix: widget.id vor Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigen
+
 ### 0.1.14 (2026-07-16)
 * (ipod86) fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden
 * (ipod86) fix: DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren (gleicher Event auf Minute gerundet)

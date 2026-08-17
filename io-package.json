@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.1.15",
+    "version": "0.1.16",
     "news": {
+      "0.1.16": {
+        "en": "fix: variable shadowing in fetchDwdWarnings caused every DWD official warning request to fail with \"Cannot access 'raw' before initialization\", silently freezing the affected warning states\nfix: guard the official warning update against a single hung request permanently stalling the recurring schedule",
+        "de": "Behoben: Die Variablenüberschattung in fetchDwdWarnings führte dazu, dass jede offizielle DWD-Warnungsanfrage mit der Fehlermeldung „Zugriff auf 'raw' vor der Initialisierung nicht möglich“ fehlschlug und die betroffenen Warnzustände stillschweigend einfror.\nBehebung: Die offizielle Warnmeldung soll so geschützt werden, dass eine einzelne hängende Anfrage den wiederkehrenden Zeitplan dauerhaft blockiert.",
+        "ru": "Исправление: переопределение переменных в fetchDwdWarnings приводило к тому, что каждый запрос на официальное предупреждение DWD завершался ошибкой \"Невозможно получить доступ к 'raw' до инициализации\", молча фиксируя соответствующие состояния предупреждений.\nИсправление: защита официального предупреждения от зависания запроса, приводящего к необратимой остановке повторяющегося расписания.",
+        "pt": "Correção: o sombreamento de variáveis em `fetchDwdWarnings` fazia com que todas as solicitações de aviso oficial do DWD falhassem com a mensagem \"Não é possível acessar 'raw' antes da inicialização\", congelando silenciosamente os estados de aviso afetados.\nCorreção: proteger a atualização oficial de avisos contra uma única solicitação travada que possa interromper permanentemente o agendamento recorrente.",
+        "nl": "Oplossing: variabele overschaduwing in fetchDwdWarnings zorgde ervoor dat elk officieel DWD-waarschuwingsverzoek mislukte met de foutmelding \"Kan 'raw' niet benaderen vóór initialisatie\", waardoor de betreffende waarschuwingsstatussen stilzwijgend werden bevroren.\nOplossing: bescherm de officiële waarschuwingsupdate tegen een vastgelopen verzoek dat het terugkerende schema permanent blokkeert.",
+        "fr": "Correction : le masquage de variables dans fetchDwdWarnings entraînait l’échec de toutes les requêtes d’avertissement officielles du DWD avec le message « Impossible d’accéder à 'raw' avant l’initialisation », bloquant silencieusement les états d’avertissement concernés.\nCorrection : protéger la mise à jour officielle des avertissements contre le blocage permanent de la planification récurrente suite à une requête unique bloquée.",
+        "it": "Correzione: l'oscuramento delle variabili in fetchDwdWarnings causava il fallimento di ogni richiesta di avviso ufficiale DWD con \"Impossibile accedere a 'raw' prima dell'inizializzazione\", bloccando silenziosamente gli stati di avviso interessati.\nCorrezione: proteggere l'aggiornamento di avviso ufficiale da una singola richiesta bloccata che interrompe permanentemente la pianificazione ricorrente",
+        "es": "Corrección: el enmascaramiento de variables en fetchDwdWarnings provocaba que todas las solicitudes de advertencia oficiales de DWD fallaran con el mensaje \"No se puede acceder a 'raw' antes de la inicialización\", congelando silenciosamente los estados de advertencia afectados.\nSolución: proteger la actualización de advertencia oficial contra una única solicitud bloqueada que detenga permanentemente el cronograma recurrente.",
+        "pl": "naprawiono: zmienne przysłaniające w fetchDwdWarnings powodowały, że każde oficjalne żądanie ostrzeżenia DWD kończyło się niepowodzeniem z komunikatem „Nie można uzyskać dostępu do „raw” przed inicjalizacją”, co powodowało ciche zamrożenie odpowiednich stanów ostrzegawczych\nnaprawiono: zabezpiecz oficjalną aktualizację ostrzegawczą przed pojedynczym zawieszonym żądaniem, które na stałe wstrzymuje powtarzający się harmonogram",
+        "uk": "виправлення: змінне затінення у fetchDwdWarnings призводило до того, що кожен офіційний запит на попередження DWD завершувався невдачею з повідомленням \"Неможливо отримати доступ до 'raw' перед ініціалізацією\", що непомітно заморожувало відповідні стани попередження.\nвиправлення: захист офіційного попереджувального оновлення від зависання одного запиту, що назавжди зупиняє повторюваний розклад.",
+        "zh-cn": "修复：fetchDwdWarnings 中的变量遮蔽导致所有 DWD 官方警告请求均失败，并显示“初始化前无法访问 'raw'”错误，从而静默地冻结了受影响的警告状态。\n修复：防止单个挂起的请求永久性地导致官方警告更新周期停止"
+      },
       "0.1.15": {
         "en": "fix: sanitize widget.id through normalizeId before use as ioBroker object ID path",
         "de": "Behebung: Die widget.id wird vor der Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigt.",
@@ -80,19 +93,6 @@
         "pl": "fix: poprawiono komunikat o błędzie pyłku/jakości powietrza – rozróżniany timeout od nieobsługiwanego regionu",
         "uk": "fix: покращено повідомлення про помилку пилку/повітря – розрізняється тайм-аут і непідтримуваний регіон",
         "zh-cn": "fix: 改进花粉/空气质量错误消息 – 区分超时和不支持的地区"
-      },
-      "0.1.9": {
-        "en": "fix: increase HTTP request timeout from 10s to 30s; remove spurious native default; update dependencies",
-        "de": "fix: HTTP-Timeout von 10s auf 30s erhöht; überflüssiges native-Default entfernt; Abhängigkeiten aktualisiert",
-        "ru": "fix: таймаут HTTP увеличен с 10s до 30s; удалён лишний native-default; обновлены зависимости",
-        "pt": "fix: timeout HTTP aumentado de 10s para 30s; padrão nativo desnecessário removido; dependências atualizadas",
-        "nl": "fix: HTTP-time-out verhoogd van 10s naar 30s; overbodige native-standaard verwijderd; afhankelijkheden bijgewerkt",
-        "fr": "fix: délai HTTP augmenté de 10s à 30s; valeur native superflue supprimée; dépendances mises à jour",
-        "it": "fix: timeout HTTP aumentato da 10s a 30s; valore predefinito nativo superfluo rimosso; dipendenze aggiornate",
-        "es": "fix: tiempo de espera HTTP aumentado de 10s a 30s; valor nativo superfluo eliminado; dependencias actualizadas",
-        "pl": "fix: limit czasu HTTP zwiększony z 10s do 30s; usunięto zbędną wartość domyślną native; zaktualizowano zależności",
-        "uk": "fix: таймаут HTTP збільшено з 10s до 30s; видалено зайве native-налаштування; оновлено залежності",
-        "zh-cn": "fix: HTTP超时从10秒增加到30秒；删除多余的native默认值；更新依赖项"
       }
     },
     "titleLang": {
