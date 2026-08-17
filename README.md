@@ -260,6 +260,8 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+### **WORK IN PROGRESS**
+
 ### 0.1.15 (2026-07-19)
 * (ipod86) fix: sanitize widget.id through normalizeId before use as ioBroker object ID path
 
