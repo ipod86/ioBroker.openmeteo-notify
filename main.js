@@ -2533,13 +2533,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						// Strip JSONP wrapper: warnWetter.loadWarnings({...});
 						const json = raw.replace(/^warnWetter\.loadWarnings\(/, "").replace(/\);?\s*$/, "");
 						const data = JSON.parse(json);
-						const raw = [
+						const combined = [
 							...(data.warnings[warncellId] || []),
 							...(data.vorabInformation[warncellId] || []),
 						];
 						// Deduplicate: same event + start rounded to minute = same warning
 						const seen = new Set();
-						const warnings = raw.filter(w => {
+						const warnings = combined.filter(w => {
 							const k = `${w.event}_${Math.round((w.start || 0) / 60000)}`;
 							return seen.has(k) ? false : (seen.add(k), true);
 						});
