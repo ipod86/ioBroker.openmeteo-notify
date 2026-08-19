@@ -2664,6 +2664,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				minute: "2-digit",
 			});
 		};
+		const timeRangeAndDesc = w => {
+			const from = fmtTime(w.start);
+			const to = fmtTime(w.end);
+			const timeRange = from && to ? ` | ${from}–${to}` : from ? ` | ab ${from}` : "";
+			const desc = w.description ? `\n${w.description}` : "";
+			return `${timeRange}${desc}`;
+		};
 		for (const w of warnings) {
 			const key = `${locId}_dwd_${w.event}_${w.start}`;
 			activeKeys.add(key);
@@ -2671,14 +2678,42 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				const text = `${w.headline || ""} ${w.event || ""}`.toLowerCase();
 				const excluded = excludeKeywords.some(k => text.includes(k));
 				const passes = (w.level || 0) >= minLevel && !excluded;
+
+				// DWD sometimes reissues an ongoing warning with a shifted start (a new
+				// key here), which would otherwise look like "old one vanished, brand
+				// new one appeared" - a lift + new notification back to back for what's
+				// really the same episode. Only merge into the same episode when the new
+				// window genuinely overlaps or touches an existing tracked warning of the
+				// same event - never just because the event type matches, or two truly
+				// separate same-day warnings (e.g. a thunderstorm this morning and an
+				// unrelated one tonight) could get merged and one of them lost.
+				const continuationKey = passes
+					? Object.keys(this.warnState).find(k => {
+							if (k === key || activeKeys.has(k) || !k.startsWith(`${locId}_dwd_${w.event}_`)) {
+								return false;
+							}
+							const prev = this.warnState[k];
+							return prev?.sent && prev.end != null && w.start != null && w.start <= prev.end;
+						})
+					: null;
+
+				if (continuationKey) {
+					const prev = this.warnState[continuationKey];
+					delete this.warnState[continuationKey];
+					this.warnState[key] = { headline: w.headline || w.event, sent: true, level: w.level, end: w.end };
+					const levelUp = (w.level || 0) > (prev.level || 0);
+					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
+					const reason = levelUp ? `jetzt ${levelText}, ` : "";
+					const msg = `DWD Aktualisierung für ${locId}: ${w.headline || w.event} (${reason}verschoben/verlängert)${timeRangeAndDesc(w)}`;
+					this.log.warn(msg);
+					await this._sendNotification("official_warning", msg);
+					continue;
+				}
+
 				this.warnState[key] = { headline: w.headline || w.event, sent: passes, level: w.level, end: w.end };
 				if (passes) {
 					const levelText = levelTexts[w.level] || `Stufe ${w.level}`;
-					const from = fmtTime(w.start);
-					const to = fmtTime(w.end);
-					const timeRange = from && to ? ` | ${from}–${to}` : from ? ` | ab ${from}` : "";
-					const desc = w.description ? `\n${w.description}` : "";
-					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}${timeRange}${desc}`;
+					const msg = `DWD ${levelText} für ${locId}: ${w.headline || w.event}${timeRangeAndDesc(w)}`;
 					this.log.warn(msg);
 					await this._sendNotification("official_warning", msg);
 				}
