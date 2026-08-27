@@ -3278,6 +3278,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				precip_prob: h.precipitation_probability[i],
 				windspeed: rawWind,
 				windspeedKmh: windKmh,
+				gust: rawGust,
 				gustKmh,
 				winddirection: h.winddirection_10m[i],
 				cloudcover: h.cloudcover[i],
@@ -3757,6 +3758,66 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					name: "Storm (Bft ≥ 8)",
 					type: "boolean",
 					role: "indicator.alarm",
+				});
+
+				// Day/night split versions of precipitation/thunderstorm probability and wind -
+				// same dayHours/nightHours split already used above for summary_day/summary_night.
+				const maxProb = hours => (hours.length ? Math.max(...hours.map(hd => hd.precip_prob ?? 0)) : null);
+				await this.setDP(`${prefix}.precipitation_probability_day`, maxProb(dayHours), {
+					name: "Precipitation probability (day)",
+					type: "number",
+					unit: "%",
+					role: "value.precipitation",
+				});
+				await this.setDP(`${prefix}.precipitation_probability_night`, maxProb(nightHours), {
+					name: "Precipitation probability (night)",
+					type: "number",
+					unit: "%",
+					role: "value.precipitation",
+				});
+
+				const thunderProb = hours => {
+					const thunderHours = hours.filter(hd => [95, 96, 99].includes(hd.weathercode));
+					return thunderHours.length ? Math.max(...thunderHours.map(hd => hd.precip_prob ?? 0)) : 0;
+				};
+				await this.setDP(`${prefix}.thunderstorm_probability_day`, thunderProb(dayHours), {
+					name: "Thunderstorm probability (day)",
+					type: "number",
+					unit: "%",
+					role: "value",
+				});
+				await this.setDP(`${prefix}.thunderstorm_probability_night`, thunderProb(nightHours), {
+					name: "Thunderstorm probability (night)",
+					type: "number",
+					unit: "%",
+					role: "value",
+				});
+
+				const maxOf = (hours, field) =>
+					hours.length ? Math.max(...hours.map(hd => hd[field]).filter(v => v != null)) : null;
+				await this.setDP(`${prefix}.windspeed_day`, maxOf(dayHours, "windspeed"), {
+					name: "Wind max (day)",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind",
+				});
+				await this.setDP(`${prefix}.windspeed_night`, maxOf(nightHours, "windspeed"), {
+					name: "Wind max (night)",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind",
+				});
+				await this.setDP(`${prefix}.windgusts_day`, maxOf(dayHours, "gust"), {
+					name: "Wind gusts max (day)",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind.gust",
+				});
+				await this.setDP(`${prefix}.windgusts_night`, maxOf(nightHours, "gust"), {
+					name: "Wind gusts max (night)",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind.gust",
 				});
 			}
 
