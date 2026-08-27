@@ -3819,6 +3819,33 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					unit: windUnit,
 					role: "value.speed.wind.gust",
 				});
+
+				const sumOf = (hours, field) =>
+					hours.length ? Math.round(hours.reduce((sum, hd) => sum + (hd[field] ?? 0), 0) * 10) / 10 : null;
+				await this.setDP(`${prefix}.rain_day`, sumOf(dayHours, "rain"), {
+					name: "Rain (day)",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation",
+				});
+				await this.setDP(`${prefix}.rain_night`, sumOf(nightHours, "rain"), {
+					name: "Rain (night)",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation",
+				});
+				await this.setDP(`${prefix}.snowfall_day`, sumOf(dayHours, "snowfall"), {
+					name: "Snowfall (day)",
+					type: "number",
+					unit: "cm",
+					role: "value.snow",
+				});
+				await this.setDP(`${prefix}.snowfall_night`, sumOf(nightHours, "snowfall"), {
+					name: "Snowfall (night)",
+					type: "number",
+					unit: "cm",
+					role: "value.snow",
+				});
 			}
 
 			// Astronomy channel (sun + moon)
