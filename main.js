@@ -3420,13 +3420,19 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				});
 
 				// Alle gefundenen web-Instanzen als Kandidaten anbieten statt blind die
-				// erste zu nehmen - nicht jede web-Instanz bedient zwangslaeufig
-				// /files/... (z.B. wenn sie fuer ein bestimmtes VIS-Projekt eingerichtet
-				// ist), daher muss man ggf. selbst durchprobieren, welche funktioniert.
+				// erste zu nehmen - nicht jede web-Instanz bedient zwangslaeufig Dateien
+				// (z.B. wenn sie fuer ein bestimmtes VIS-Projekt eingerichtet ist), daher
+				// muss man ggf. selbst durchprobieren, welche funktioniert.
+				// WICHTIG: kein "/files/"-Praefix hier - das ist eine VIS-interne
+				// Konvention, die vis.js selbst in die echte URL uebersetzt, wenn sie in
+				// einem Widget gebunden ist (z.B. bei den Custom-Icons oben). Direkt per
+				// Browser/Tablet aufgerufen (unser Fall hier) gibt es diese Uebersetzung
+				// nicht - live gegen die echte Instanz geprueft: "/files/<namespace>/..."
+				// gibt 404, "/<namespace>/..." direkt gibt 200.
 				const webInstances = this._webApiInstances.filter(i => i.adapterType === "web" && i.baseUrl);
-				const wallpaperUrls = webInstances.map(i => `${i.baseUrl}/files/${this.namespace}/${wallpaperPath}`);
+				const wallpaperUrls = webInstances.map(i => `${i.baseUrl}/${this.namespace}/${wallpaperPath}`);
 				if (wallpaperUrls.length === 0) {
-					wallpaperUrls.push(`/files/${this.namespace}/${wallpaperPath}`);
+					wallpaperUrls.push(`/${this.namespace}/${wallpaperPath}`);
 				}
 				await this.setDP(`${locId}.current.wallpaper_url`, wallpaperUrls[0], {
 					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL - erster Kandidat)",
