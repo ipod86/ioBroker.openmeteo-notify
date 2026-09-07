@@ -191,15 +191,27 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType, namespace
 				>
 					{I18n.t("liveUpdateMinutes")}
 				</Typography>
-				<TextField
-					label={I18n.t("liveUpdateMinutes")}
-					type="number"
-					value={native.liveUpdateMinutes ?? 0}
-					inputProps={{ min: 0, max: 1440 }}
-					onChange={e => update("liveUpdateMinutes", parseInt(e.target.value, 10) || 0)}
-					helperText={I18n.t("liveUpdateMinutesHelp")}
-					sx={{ width: 260 }}
-				/>
+				<FormControl sx={{ width: 200 }}>
+					<InputLabel>{I18n.t("liveUpdateMinutes")}</InputLabel>
+					<Select
+						value={native.liveUpdateMinutes ?? 0}
+						label={I18n.t("liveUpdateMinutes")}
+						onChange={e => update("liveUpdateMinutes", Number(e.target.value))}
+					>
+						<MenuItem value={0}>{I18n.t("liveUpdateDisabled")}</MenuItem>
+						<MenuItem value={5}>5 {I18n.t("minutes")}</MenuItem>
+						<MenuItem value={10}>10 {I18n.t("minutes")}</MenuItem>
+						<MenuItem value={15}>15 {I18n.t("minutes")}</MenuItem>
+						<MenuItem value={30}>30 {I18n.t("minutes")}</MenuItem>
+					</Select>
+				</FormControl>
+				<Typography
+					variant="caption"
+					color="text.secondary"
+					sx={{ display: "block", mt: 0.5, maxWidth: 400 }}
+				>
+					{I18n.t("liveUpdateMinutesHelp")}
+				</Typography>
 			</Box>
 
 			<Divider />

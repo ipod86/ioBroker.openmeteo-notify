@@ -136,5 +136,6 @@
 	"wallpaperCarouselSection": "轮播（多个地点）",
 	"wallpaperCarouselEnabled": "显示左右箭头以在地点间切换",
 	"liveUpdateMinutes": "实时更新间隔（分钟，仅当前状况）",
-	"liveUpdateMinutesHelp": "0 = 禁用。比完整预报更新更频繁地仅刷新 current.* 和壁纸，无需重新获取整个每日/每小时预报。"
+	"liveUpdateMinutesHelp": "0 = 禁用。比完整预报更新更频繁地仅刷新 current.* 和壁纸，无需重新获取整个每日/每小时预报。",
+	"liveUpdateDisabled": "关闭"
 }

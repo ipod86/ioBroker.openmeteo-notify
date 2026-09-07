@@ -136,5 +136,6 @@
 	"wallpaperCarouselSection": "Carrusel (varias ubicaciones)",
 	"wallpaperCarouselEnabled": "Mostrar flechas izquierda/derecha para cambiar de ubicación",
 	"liveUpdateMinutes": "Intervalo de actualización en vivo (minutos, solo condiciones actuales)",
-	"liveUpdateMinutesHelp": "0 = desactivado. Actualiza solo current.* y el fondo de pantalla con más frecuencia que la actualización completa del pronóstico, sin volver a descargar todo el pronóstico diario/horario."
+	"liveUpdateMinutesHelp": "0 = desactivado. Actualiza solo current.* y el fondo de pantalla con más frecuencia que la actualización completa del pronóstico, sin volver a descargar todo el pronóstico diario/horario.",
+	"liveUpdateDisabled": "Desactivado"
 }

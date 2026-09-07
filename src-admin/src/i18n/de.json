@@ -136,5 +136,6 @@
 	"wallpaperCarouselSection": "Karussell (mehrere Orte)",
 	"wallpaperCarouselEnabled": "Pfeile links/rechts zum Durchblättern zwischen Orten",
 	"liveUpdateMinutes": "Live-Update-Intervall (Minuten, nur aktuelle Werte)",
-	"liveUpdateMinutesHelp": "0 = deaktiviert. Aktualisiert nur current.* und das Wallpaper öfter als der volle Vorhersage-Abruf, ohne die komplette Tages-/Stundenvorhersage neu zu holen."
+	"liveUpdateMinutesHelp": "0 = deaktiviert. Aktualisiert nur current.* und das Wallpaper öfter als der volle Vorhersage-Abruf, ohne die komplette Tages-/Stundenvorhersage neu zu holen.",
+	"liveUpdateDisabled": "Aus"
 }
