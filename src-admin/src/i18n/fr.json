@@ -109,5 +109,22 @@
 	"warnStormBft": "Seuil de tempête (Bft)",
 	"warnThunderstorm": "Alerte orage",
 	"warningsOpenMeteo": "Alertes Open-Meteo",
-	"widgetOptionsGreyed": "Les options grisées indiquent qu un paramètre des réglages généraux doit être augmenté."
+	"widgetOptionsGreyed": "Les options grisées indiquent qu un paramètre des réglages généraux doit être augmenté.",
+	"tabWallpaper": "Fond d'écran",
+	"wallpaperHint": "Configurez le fond d'écran météo animé (WMO) généré par lieu - voir current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Aucun champ activé - l'incrustation restera vide.",
+	"wallpaperPreviewLocation": "Ville exemple",
+	"wallpaperPosition": "Position",
+	"wallpaperPositionTopLeft": "En haut à gauche",
+	"wallpaperPositionTopRight": "En haut à droite",
+	"wallpaperPositionBottomLeft": "En bas à gauche",
+	"wallpaperPositionBottomRight": "En bas à droite",
+	"wallpaperShowLocation": "Lieu",
+	"wallpaperShowTemperature": "Température",
+	"wallpaperShowWindDirection": "Direction du vent",
+	"wallpaperShowWindSpeed": "Vitesse du vent",
+	"wallpaperFontSize": "Taille de police",
+	"wallpaperTextColor": "Couleur du texte",
+	"wallpaperBgColor": "Arrière-plan",
+	"wallpaperBgOpacity": "Opacité de l'arrière-plan"
 }

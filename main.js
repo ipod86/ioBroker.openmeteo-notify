@@ -104,23 +104,122 @@ function wallpaperTimeOfDayValue(sunriseIso, sunsetIso) {
 	return Math.round(Math.sin(progress * Math.PI) * 100);
 }
 
+// Muss zu WallpaperConfig in src-admin/src/types.ts passen (Defaults dort und in
+// io-package.json native.wallpaper identisch halten).
+const DEFAULT_WALLPAPER_CONFIG = {
+	position: "bottom-left",
+	showLocation: true,
+	showTemperature: true,
+	showWindDirection: false,
+	showWindSpeed: false,
+	fontSize: 17,
+	textColor: "#ffffff",
+	bgColor: "#0f172a",
+	bgOpacity: 55,
+};
+
+const WALLPAPER_POSITION_CSS = {
+	"top-left": "top:12px;left:12px;",
+	"top-right": "top:12px;right:12px;",
+	"bottom-left": "bottom:12px;left:12px;",
+	"bottom-right": "bottom:12px;right:12px;",
+};
+
+function escapeHtmlText(str) {
+	return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// Fuer's Einbetten eines HTML-Strings als JS-String-Literal (Startwert direkt im
+// Script, siehe __OVERLAY_HTML_JS__) - der String selbst enthaelt "..." von den
+// HTML-Attributen, die sonst das umschliessende JS-String-Literal aufbrechen wuerden.
+function toJsStringLiteral(str) {
+	return String(str).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
+}
+
+function hexToRgba(hex, opacityPercent) {
+	const clean = /^#[0-9a-fA-F]{6}$/.test(hex || "") ? hex : "#0f172a";
+	const r = parseInt(clean.slice(1, 3), 16);
+	const g = parseInt(clean.slice(3, 5), 16);
+	const b = parseInt(clean.slice(5, 7), 16);
+	const opacity = Math.max(0, Math.min(100, Number(opacityPercent) || 0)) / 100;
+	return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
 /**
- * Berechnet die drei Anzeigewerte des Wallpapers aus den Rohdaten - einmal hier,
- * damit sowohl das gebackene HTML als auch die kleine Begleit-JSON-Datei (die das
- * HTML selbst per fetch() nachlaedt) exakt dieselben Werte verwenden.
+ * Baut den HTML-Block fuer die Info-Anzeige (Ort/Temperatur/Windrichtung/-staerke)
+ * im Wallpaper, konfigurierbar ueber den Admin-Tab "Wallpaper" (Position, welche
+ * Felder, Farben, Schriftgroesse). Gibt "" zurueck, wenn kein Feld aktiviert ist.
  *
- * @param {number} wmoCode - aktueller WMO-Wettercode
- * @param {string} sunriseIso - Sonnenaufgang heute (ISO-Zeitstempel)
- * @param {string} sunsetIso - Sonnenuntergang heute (ISO-Zeitstempel)
- * @param {number|null} temperature - aktuelle Temperatur
- * @param {string} tempUnit - Einheit, z.B. "°C"
- * @returns {{bucket: number, timeValue: number, tempText: string}}
+ * @param {object} rawConfig - native.wallpaper (kann unvollstaendig/undefined sein, z.B. bei alten Configs)
+ * @param {string} locationName - Anzeigename des Ortes
+ * @param {string} tempText - fertig formatierter Temperaturtext, z.B. "18.3°C"
+ * @param {string} windDirText - Windrichtung als Kompasstext, z.B. "NW"
+ * @param {string} windSpeedText - fertig formatierter Windgeschwindigkeitstext
+ * @returns {string} fertiger HTML-Block oder "" wenn kein Feld aktiviert ist
  */
-function computeWallpaperValues(wmoCode, sunriseIso, sunsetIso, temperature, tempUnit) {
+function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirText, windSpeedText) {
+	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
+	const fields = [];
+	if (config.showLocation) {
+		fields.push(escapeHtmlText(locationName));
+	}
+	if (config.showTemperature && tempText) {
+		fields.push(escapeHtmlText(tempText));
+	}
+	if (config.showWindDirection && windDirText) {
+		fields.push(escapeHtmlText(windDirText));
+	}
+	if (config.showWindSpeed && windSpeedText) {
+		fields.push(escapeHtmlText(windSpeedText));
+	}
+	if (fields.length === 0) {
+		return "";
+	}
+	const posCss = WALLPAPER_POSITION_CSS[config.position] || WALLPAPER_POSITION_CSS["bottom-left"];
+	const fontSize = Math.max(10, Math.min(48, Number(config.fontSize) || 17));
+	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.textColor || "") ? config.textColor : "#ffffff";
+	const background = hexToRgba(config.bgColor, config.bgOpacity);
+	return `<div class="info-overlay" style="${posCss}color:${textColor};font-size:${fontSize}px;background:${background};">${fields.join(" · ")}</div>`;
+}
+
+/**
+ * Berechnet die Anzeigewerte des Wallpapers aus den Rohdaten - einmal hier, damit
+ * sowohl das gebackene HTML als auch die kleine Begleit-JSON-Datei (die das HTML
+ * selbst per fetch() nachlaedt) exakt dieselben Werte verwenden.
+ *
+ * @param {object} p - Parameter
+ * @param {number} p.wmoCode - aktueller WMO-Wettercode
+ * @param {string} p.sunriseIso - Sonnenaufgang heute (ISO-Zeitstempel)
+ * @param {string} p.sunsetIso - Sonnenuntergang heute (ISO-Zeitstempel)
+ * @param {number|null} p.temperature - aktuelle Temperatur
+ * @param {string} p.tempUnit - Einheit, z.B. "°C"
+ * @param {object} p.wallpaperConfig - native.wallpaper
+ * @param {string} p.locationName - Anzeigename des Ortes
+ * @param {number|null} p.windDirDeg - Windrichtung in Grad
+ * @param {number|null} p.windSpeedRaw - Windgeschwindigkeit (schon in windUnit)
+ * @param {string} p.windUnit - Einheit, z.B. "km/h"
+ * @returns {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}}
+ */
+function computeWallpaperValues({
+	wmoCode,
+	sunriseIso,
+	sunsetIso,
+	temperature,
+	tempUnit,
+	wallpaperConfig,
+	locationName,
+	windDirDeg,
+	windSpeedRaw,
+	windUnit,
+}) {
+	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
+	const windDirText = windDirDeg != null ? degreesToCompass(windDirDeg) : "";
+	const windSpeedText = windSpeedRaw != null ? `${Math.round(windSpeedRaw)} ${windUnit}` : "";
 	return {
 		bucket: mapWmoToWallpaperBucket(wmoCode),
 		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso),
-		tempText: temperature != null ? `${temperature}${tempUnit}` : "",
+		tempText,
+		overlayHtml: buildWallpaperOverlayHtml(wallpaperConfig, locationName, tempText, windDirText, windSpeedText),
 	};
 }
 
@@ -135,7 +234,7 @@ function computeWallpaperValues(wmoCode, sunriseIso, sunsetIso, temperature, tem
  *
  * @param {string} locationName - Anzeigename des Ortes
  * @param {string} dataFilename - Dateiname der Begleit-JSON (liegt im selben Ordner)
- * @param {{bucket: number, timeValue: number, tempText: string}} values - siehe computeWallpaperValues()
+ * @param {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}} values - siehe computeWallpaperValues()
  * @returns {string} fertiges HTML-Dokument
  */
 function buildWallpaperHtml(locationName, dataFilename, values) {
@@ -151,8 +250,10 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
 		.join(String(values.timeValue))
-		.split("__TEMP_TEXT__")
-		.join(values.tempText);
+		.split("__OVERLAY_HTML_JS__")
+		.join(toJsStringLiteral(values.overlayHtml))
+		.split("__OVERLAY_HTML__")
+		.join(values.overlayHtml);
 }
 
 /**
@@ -163,7 +264,7 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
  * @param {string} locationName - Anzeigename des Ortes
  * @param {string} statePrefix - z.B. "openmeteo-notify.0.hilchenbach"
  * @param {string} restBase - z.B. "http://192.168.99.33:8087"
- * @param {{bucket: number, timeValue: number, tempText: string}} values - Startwerte, siehe computeWallpaperValues()
+ * @param {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}} values - Startwerte, siehe computeWallpaperValues()
  * @returns {string} fertiges HTML-Dokument
  */
 function buildWallpaperHtmlRestApi(locationName, statePrefix, restBase, values) {
@@ -181,8 +282,10 @@ function buildWallpaperHtmlRestApi(locationName, statePrefix, restBase, values) 
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
 		.join(String(values.timeValue))
-		.split("__TEMP_TEXT__")
-		.join(values.tempText);
+		.split("__OVERLAY_HTML_JS__")
+		.join(toJsStringLiteral(values.overlayHtml))
+		.split("__OVERLAY_HTML__")
+		.join(values.overlayHtml);
 }
 
 // MeteoAlarm country feed names (ISO 3166-1 alpha-2 → feed slug)
@@ -3376,13 +3479,18 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			try {
 				const sunriseToday = d && Array.isArray(d.sunrise) ? d.sunrise[0] : null;
 				const sunsetToday = d && Array.isArray(d.sunset) ? d.sunset[0] : null;
-				const wallpaperValues = computeWallpaperValues(
-					curCode,
-					sunriseToday,
-					sunsetToday,
-					Math.round(cur.temperature_2m * 10) / 10,
+				const wallpaperValues = computeWallpaperValues({
+					wmoCode: curCode,
+					sunriseIso: sunriseToday,
+					sunsetIso: sunsetToday,
+					temperature: Math.round(cur.temperature_2m * 10) / 10,
 					tempUnit,
-				);
+					wallpaperConfig: this.config.wallpaper,
+					locationName: loc.name,
+					windDirDeg: cur.winddirection_10m,
+					windSpeedRaw: cur.windspeed_10m,
+					windUnit,
+				});
 				const dataFilename = `${locId}-data.json`;
 				const wallpaperHtml = buildWallpaperHtml(loc.name, dataFilename, wallpaperValues);
 
@@ -3417,6 +3525,11 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					name: "Wallpaper Temperaturtext (fuer REST-Abruf)",
 					type: "string",
 					role: "text",
+				});
+				await this.setDP(`${locId}.current.wallpaperOverlayHtml`, wallpaperValues.overlayHtml, {
+					name: 'Wallpaper Info-Anzeige als HTML (Ort/Temp/Wind, gemaess Admin-Tab "Wallpaper")',
+					type: "string",
+					role: "html",
 				});
 
 				// Alle gefundenen web-Instanzen als Kandidaten anbieten statt blind die

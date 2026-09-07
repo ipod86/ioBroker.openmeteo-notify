@@ -200,7 +200,18 @@
     "warnIntervalMinutes": 15,
     "warnNotifyLift": false,
     "warnOfficialFetch": false,
-    "widgets": []
+    "widgets": [],
+    "wallpaper": {
+      "position": "bottom-left",
+      "showLocation": true,
+      "showTemperature": true,
+      "showWindDirection": false,
+      "showWindSpeed": false,
+      "fontSize": 17,
+      "textColor": "#ffffff",
+      "bgColor": "#0f172a",
+      "bgOpacity": 55
+    }
   },
   "notifications": [
     {

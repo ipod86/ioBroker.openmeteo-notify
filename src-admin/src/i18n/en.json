@@ -109,5 +109,22 @@
 	"warnStormBft": "Storm threshold (Bft)",
 	"warnThunderstorm": "Thunderstorm warning",
 	"warningsOpenMeteo": "Open-Meteo Warnings",
-	"widgetOptionsGreyed": "Greyed-out options indicate that a value in General settings needs to be increased."
+	"widgetOptionsGreyed": "Greyed-out options indicate that a value in General settings needs to be increased.",
+	"tabWallpaper": "Wallpaper",
+	"wallpaperHint": "Configure the animated WMO weather wallpaper generated per location - see current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "No fields are enabled - the overlay will be empty.",
+	"wallpaperPreviewLocation": "Sample Town",
+	"wallpaperPosition": "Position",
+	"wallpaperPositionTopLeft": "Top left",
+	"wallpaperPositionTopRight": "Top right",
+	"wallpaperPositionBottomLeft": "Bottom left",
+	"wallpaperPositionBottomRight": "Bottom right",
+	"wallpaperShowLocation": "Location",
+	"wallpaperShowTemperature": "Temperature",
+	"wallpaperShowWindDirection": "Wind direction",
+	"wallpaperShowWindSpeed": "Wind speed",
+	"wallpaperFontSize": "Font size",
+	"wallpaperTextColor": "Text color",
+	"wallpaperBgColor": "Background",
+	"wallpaperBgOpacity": "Background opacity"
 }

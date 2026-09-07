@@ -109,5 +109,22 @@
 	"warnStormBft": "Sturm-Schwellenwert (Bft)",
 	"warnThunderstorm": "Gewitterwarnung",
 	"warningsOpenMeteo": "Open-Meteo-Warnungen",
-	"widgetOptionsGreyed": "Ausgegraute Optionen bedeuten, dass ein Wert in den Allgemeinen Einstellungen erhöht werden muss."
+	"widgetOptionsGreyed": "Ausgegraute Optionen bedeuten, dass ein Wert in den Allgemeinen Einstellungen erhöht werden muss.",
+	"tabWallpaper": "Wallpaper",
+	"wallpaperHint": "Animiertes WMO-Wetter-Wallpaper pro Ort konfigurieren - siehe current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Kein Feld aktiviert - die Anzeige bleibt leer.",
+	"wallpaperPreviewLocation": "Musterstadt",
+	"wallpaperPosition": "Position",
+	"wallpaperPositionTopLeft": "Oben links",
+	"wallpaperPositionTopRight": "Oben rechts",
+	"wallpaperPositionBottomLeft": "Unten links",
+	"wallpaperPositionBottomRight": "Unten rechts",
+	"wallpaperShowLocation": "Ort",
+	"wallpaperShowTemperature": "Temperatur",
+	"wallpaperShowWindDirection": "Windrichtung",
+	"wallpaperShowWindSpeed": "Windstärke",
+	"wallpaperFontSize": "Schriftgröße",
+	"wallpaperTextColor": "Textfarbe",
+	"wallpaperBgColor": "Hintergrund",
+	"wallpaperBgOpacity": "Hintergrund-Deckkraft"
 }

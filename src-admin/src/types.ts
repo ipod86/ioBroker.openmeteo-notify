@@ -22,6 +22,18 @@ export interface Widget {
 	showMoon?: boolean; // show moon phase overlay on forecast icons (default true)
 }
 
+export interface WallpaperConfig {
+	position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+	showLocation: boolean;
+	showTemperature: boolean;
+	showWindDirection: boolean;
+	showWindSpeed: boolean;
+	fontSize: number; // px, 10-48
+	textColor: string; // hex '#rrggbb'
+	bgColor: string; // hex '#rrggbb'
+	bgOpacity: number; // %, 0-100
+}
+
 export interface OpenMeteoConfig {
 	locations: Location[];
 	daysCount: number;
@@ -54,4 +66,5 @@ export interface OpenMeteoConfig {
 	warnFrost: boolean;
 	warnFrostThreshold: number;
 	warnLeadHours: number;
+	wallpaper: WallpaperConfig;
 }

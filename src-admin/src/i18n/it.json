@@ -109,5 +109,22 @@
 	"warnStormBft": "Soglia temporale (Bft)",
 	"warnThunderstorm": "Avviso temporale",
 	"warningsOpenMeteo": "Avvisi Open-Meteo",
-	"widgetOptionsGreyed": "Le opzioni disabilitate indicano che un valore nelle impostazioni generali deve essere aumentato."
+	"widgetOptionsGreyed": "Le opzioni disabilitate indicano che un valore nelle impostazioni generali deve essere aumentato.",
+	"tabWallpaper": "Sfondo animato",
+	"wallpaperHint": "Configura lo sfondo meteo animato (WMO) generato per ogni luogo - vedi current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Nessun campo attivo - la sovrapposizione rimarrà vuota.",
+	"wallpaperPreviewLocation": "Città esempio",
+	"wallpaperPosition": "Posizione",
+	"wallpaperPositionTopLeft": "In alto a sinistra",
+	"wallpaperPositionTopRight": "In alto a destra",
+	"wallpaperPositionBottomLeft": "In basso a sinistra",
+	"wallpaperPositionBottomRight": "In basso a destra",
+	"wallpaperShowLocation": "Località",
+	"wallpaperShowTemperature": "Temperatura",
+	"wallpaperShowWindDirection": "Direzione del vento",
+	"wallpaperShowWindSpeed": "Velocità del vento",
+	"wallpaperFontSize": "Dimensione carattere",
+	"wallpaperTextColor": "Colore testo",
+	"wallpaperBgColor": "Sfondo",
+	"wallpaperBgOpacity": "Opacità sfondo"
 }

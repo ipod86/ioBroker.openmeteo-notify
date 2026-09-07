@@ -109,5 +109,22 @@
 	"warnStormBft": "Stormdrempel (Bft)",
 	"warnThunderstorm": "Onweerswaarschuwing",
 	"warningsOpenMeteo": "Open-Meteo-waarschuwingen",
-	"widgetOptionsGreyed": "Grijze opties geven aan dat een waarde in de algemene instellingen verhoogd moet worden."
+	"widgetOptionsGreyed": "Grijze opties geven aan dat een waarde in de algemene instellingen verhoogd moet worden.",
+	"tabWallpaper": "Wallpaper",
+	"wallpaperHint": "Configureer de geanimeerde WMO-weer-wallpaper per locatie - zie current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Geen veld ingeschakeld - de overlay blijft leeg.",
+	"wallpaperPreviewLocation": "Voorbeeldstad",
+	"wallpaperPosition": "Positie",
+	"wallpaperPositionTopLeft": "Linksboven",
+	"wallpaperPositionTopRight": "Rechtsboven",
+	"wallpaperPositionBottomLeft": "Linksonder",
+	"wallpaperPositionBottomRight": "Rechtsonder",
+	"wallpaperShowLocation": "Locatie",
+	"wallpaperShowTemperature": "Temperatuur",
+	"wallpaperShowWindDirection": "Windrichting",
+	"wallpaperShowWindSpeed": "Windsnelheid",
+	"wallpaperFontSize": "Lettergrootte",
+	"wallpaperTextColor": "Tekstkleur",
+	"wallpaperBgColor": "Achtergrond",
+	"wallpaperBgOpacity": "Achtergrondtransparantie"
 }

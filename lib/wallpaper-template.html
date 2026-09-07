@@ -45,21 +45,19 @@
     select option { background: #1e293b; color: white; }
     input[type="range"] { width: 110px; padding: 0; }
 
+    /* Position/Farbe/Groesse/Hintergrund kommen als Inline-Style vom Adapter (siehe
+       Admin-Tab "Wallpaper") - hier nur die gemeinsame, konfigurationsunabhaengige
+       Optik (Abstand, Ecken, Schatten, Weichzeichnung). */
     .info-overlay {
       position: absolute;
-      left: 20px; bottom: 20px;
       z-index: 10;
-      color: white;
-      font-size: 17px;
       font-weight: 500;
       text-shadow: 0 1px 4px rgba(0,0,0,0.7);
-      background: rgba(15, 23, 42, 0.55);
       padding: 8px 16px;
       border-radius: 8px;
       backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.12);
     }
-    #infoTemp:not(:empty)::before { content: " · "; }
   </style>
 </head>
 <body>
@@ -67,9 +65,7 @@
   <div class="bg-container" id="bg"></div>
   <canvas id="weatherCanvas"></canvas>
 
-  <div class="info-overlay">
-    <span id="infoLocation">__LOCATION_NAME__</span><span id="infoTemp"></span>
-  </div>
+  <div id="overlayContainer">__OVERLAY_HTML__</div>
 
   <div class="ui-panel">
     <div class="ui-group">
@@ -448,18 +444,19 @@
 
     // ---- Ab hier automatisch generiert ----
     // Startwerte kommen direkt vom ioBroker-Adapter, schon fertig berechnet
-    // (WMO-Bucket, Tageszeit-Wert, Temperaturtext) - beim ersten Anzeigen sofort
+    // (WMO-Bucket, Tageszeit-Wert, Info-Anzeige als fertiges HTML gemaess der
+    // Einstellungen im Admin-Tab "Wallpaper") - beim ersten Anzeigen sofort
     // korrekt, kein Warten auf einen ersten fetch().
-    const infoTempEl = document.getElementById('infoTemp');
-    function applyWallpaperValues(bucket, timeValue, tempText) {
+    const overlayContainer = document.getElementById('overlayContainer');
+    function applyWallpaperValues(bucket, timeValue, overlayHtml) {
       wmoSelect.value = String(bucket);
       timeSlider.value = String(timeValue);
-      if (infoTempEl) {
-        infoTempEl.textContent = tempText || '';
+      if (overlayContainer) {
+        overlayContainer.innerHTML = overlayHtml || '';
       }
       initWeather();
     }
-    applyWallpaperValues(__WMO_BUCKET__, __TIME_VALUE__, "__TEMP_TEXT__");
+    applyWallpaperValues(__WMO_BUCKET__, __TIME_VALUE__, "__OVERLAY_HTML_JS__");
 
     resize();
     update();
@@ -473,7 +470,7 @@
       try {
         const res = await fetch("__DATA_FILENAME__", { cache: 'no-store' });
         const data = await res.json();
-        applyWallpaperValues(data.bucket, data.timeValue, data.tempText);
+        applyWallpaperValues(data.bucket, data.timeValue, data.overlayHtml);
       } catch (e) {
         console.error('Wallpaper-Daten konnten nicht aktualisiert werden:', e);
       }

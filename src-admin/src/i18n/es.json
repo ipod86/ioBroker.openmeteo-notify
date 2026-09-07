@@ -109,5 +109,22 @@
 	"warnStormBft": "Umbral de tormenta (Bft)",
 	"warnThunderstorm": "Aviso de tormenta eléctrica",
 	"warningsOpenMeteo": "Avisos de Open-Meteo",
-	"widgetOptionsGreyed": "Las opciones en gris indican que un valor en los ajustes generales debe aumentarse."
+	"widgetOptionsGreyed": "Las opciones en gris indican que un valor en los ajustes generales debe aumentarse.",
+	"tabWallpaper": "Fondo animado",
+	"wallpaperHint": "Configura el fondo animado del tiempo (WMO) generado por ubicación - ver current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Ningún campo está activado - la superposición quedará vacía.",
+	"wallpaperPreviewLocation": "Ciudad ejemplo",
+	"wallpaperPosition": "Posición",
+	"wallpaperPositionTopLeft": "Arriba izquierda",
+	"wallpaperPositionTopRight": "Arriba derecha",
+	"wallpaperPositionBottomLeft": "Abajo izquierda",
+	"wallpaperPositionBottomRight": "Abajo derecha",
+	"wallpaperShowLocation": "Ubicación",
+	"wallpaperShowTemperature": "Temperatura",
+	"wallpaperShowWindDirection": "Dirección del viento",
+	"wallpaperShowWindSpeed": "Velocidad del viento",
+	"wallpaperFontSize": "Tamaño de fuente",
+	"wallpaperTextColor": "Color del texto",
+	"wallpaperBgColor": "Fondo",
+	"wallpaperBgOpacity": "Opacidad del fondo"
 }

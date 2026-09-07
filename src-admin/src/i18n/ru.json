@@ -109,5 +109,22 @@
 	"warnStormBft": "Порог шторма (Бф)",
 	"warnThunderstorm": "Предупреждение о грозе",
 	"warningsOpenMeteo": "Предупреждения Open-Meteo",
-	"widgetOptionsGreyed": "Неактивные параметры означают, что значение в общих настройках необходимо увеличить."
+	"widgetOptionsGreyed": "Неактивные параметры означают, что значение в общих настройках необходимо увеличить.",
+	"tabWallpaper": "Обои",
+	"wallpaperHint": "Настройте анимированные обои погоды (WMO), создаваемые для каждого места - см. current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Ни одно поле не включено - оверлей будет пустым.",
+	"wallpaperPreviewLocation": "Город-пример",
+	"wallpaperPosition": "Позиция",
+	"wallpaperPositionTopLeft": "Слева сверху",
+	"wallpaperPositionTopRight": "Справа сверху",
+	"wallpaperPositionBottomLeft": "Слева снизу",
+	"wallpaperPositionBottomRight": "Справа снизу",
+	"wallpaperShowLocation": "Место",
+	"wallpaperShowTemperature": "Температура",
+	"wallpaperShowWindDirection": "Направление ветра",
+	"wallpaperShowWindSpeed": "Скорость ветра",
+	"wallpaperFontSize": "Размер шрифта",
+	"wallpaperTextColor": "Цвет текста",
+	"wallpaperBgColor": "Фон",
+	"wallpaperBgOpacity": "Непрозрачность фона"
 }

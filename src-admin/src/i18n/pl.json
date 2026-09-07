@@ -109,5 +109,22 @@
 	"warnStormBft": "Próg burzy (Bft)",
 	"warnThunderstorm": "Ostrzeżenie burzowe",
 	"warningsOpenMeteo": "Ostrzeżenia Open-Meteo",
-	"widgetOptionsGreyed": "Wyszarzone opcje oznaczają, że wartość w ustawieniach ogólnych musi zostać zwiększona."
+	"widgetOptionsGreyed": "Wyszarzone opcje oznaczają, że wartość w ustawieniach ogólnych musi zostać zwiększona.",
+	"tabWallpaper": "Tapeta",
+	"wallpaperHint": "Skonfiguruj animowaną tapetę pogodową WMO generowaną dla lokalizacji - zobacz current.wallpaper_html / wallpaper_url.",
+	"wallpaperNoFieldsWarning": "Żadne pole nie jest włączone - nakładka pozostanie pusta.",
+	"wallpaperPreviewLocation": "Przykładowe miasto",
+	"wallpaperPosition": "Pozycja",
+	"wallpaperPositionTopLeft": "Góra lewo",
+	"wallpaperPositionTopRight": "Góra prawo",
+	"wallpaperPositionBottomLeft": "Dół lewo",
+	"wallpaperPositionBottomRight": "Dół prawo",
+	"wallpaperShowLocation": "Lokalizacja",
+	"wallpaperShowTemperature": "Temperatura",
+	"wallpaperShowWindDirection": "Kierunek wiatru",
+	"wallpaperShowWindSpeed": "Prędkość wiatru",
+	"wallpaperFontSize": "Rozmiar czcionki",
+	"wallpaperTextColor": "Kolor tekstu",
+	"wallpaperBgColor": "Tło",
+	"wallpaperBgOpacity": "Krycie tła"
 }

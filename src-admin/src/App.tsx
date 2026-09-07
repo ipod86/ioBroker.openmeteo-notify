@@ -5,6 +5,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import SettingsPanel from "./components/SettingsPanel";
 import WarningsPanel from "./components/WarningsPanel";
 import WidgetsTable from "./components/WidgetsTable";
+import WallpaperPanel, { DEFAULT_WALLPAPER } from "./components/WallpaperPanel";
 import { OpenMeteoConfig } from "./types";
 
 import en from "./i18n/en.json";
@@ -140,6 +141,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 								<Tab label={I18n.t("tabGeneral")} />
 								<Tab label={I18n.t("tabNotifications")} />
 								<Tab label={I18n.t("tabWidgets")} />
+								<Tab label={I18n.t("tabWallpaper")} />
 							</Tabs>
 						</Box>
 						<div
@@ -176,6 +178,12 @@ class App extends GenericApp<GenericAppProps, AppState> {
 									enableAstronomy={native.enableAstronomy !== false}
 									warnDataActive={!!native.warnOfficialFetch || !!native.warnOfficial}
 									onChange={wgts => handleChange({ ...native, widgets: wgts })}
+								/>
+							)}
+							{tab === 3 && (
+								<WallpaperPanel
+									wallpaper={{ ...DEFAULT_WALLPAPER, ...native.wallpaper }}
+									onChange={wp => handleChange({ ...native, wallpaper: wp })}
 								/>
 							)}
 						</div>
