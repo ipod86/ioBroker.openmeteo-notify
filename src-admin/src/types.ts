@@ -28,7 +28,6 @@ export interface WallpaperConfig {
 	showTemperature: boolean;
 	showWindDirection: boolean;
 	showWindSpeed: boolean;
-	showTime: boolean;
 	fontSize: number; // px, 10-100
 	textColor: string; // hex '#rrggbb'
 	bgColor: string; // hex '#rrggbb'
@@ -38,6 +37,15 @@ export interface WallpaperConfig {
 	warnTextColor: string; // hex '#rrggbb'
 	warnFontSize: number; // px, 10-100
 	carouselEnabled: boolean; // zwischen mehreren Orten durchblaettern (Pfeile links/rechts)
+	// Uhrzeit ist ein eigenstaendiges, unabhaengig positionierbares Element (nicht Teil
+	// der Info-Anzeige oben) - eigene Position/Farben/Groesse/Randabstand.
+	timeEnabled: boolean;
+	timePosition: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+	timeTextColor: string; // hex '#rrggbb'
+	timeBgColor: string; // hex '#rrggbb'
+	timeBgOpacity: number; // %, 0-100
+	timeFontSize: number; // px, 10-100
+	timeEdgeMargin: number; // px, 0-100
 }
 
 export interface OpenMeteoConfig {

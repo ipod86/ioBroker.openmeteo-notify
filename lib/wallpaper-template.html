@@ -116,6 +116,7 @@
 
   <div id="warningContainer">__WARNING_HTML__</div>
   <div id="overlayContainer">__OVERLAY_HTML__</div>
+  <div id="clockContainer">__CLOCK_HTML__</div>
 
   <!-- Nur sichtbar/aktiv, wenn im Admin-Tab "Wallpaper" das Karussell aktiviert ist
        und mehr als ein Ort konfiguriert ist (siehe Skript unten). -->
@@ -539,7 +540,32 @@
     // beim ersten Anzeigen sofort korrekt, kein Warten auf einen ersten fetch().
     const overlayContainer = document.getElementById('overlayContainer');
     const warningContainer = document.getElementById('warningContainer');
+    const clockContainer = document.getElementById('clockContainer');
     const moonIcon = document.getElementById('moonIcon');
+
+    // Info-Anzeige, Uhr und Warnungs-Banner sind unabhaengig voneinander positionierbar
+    // (Admin-Tab "Wallpaper") - landen zwei davon zufaellig auf derselben Bildschirmkante,
+    // wuerden sie sich sonst ueberlappen. Der Warnungs-Banner (volle Breite) "drueckt"
+    // deshalb jedes andere Element auf derselben Kante (oben/unten) um seine tatsaechlich
+    // gerenderte Hoehe weg - per echter Messung (getBoundingClientRect), nicht geschaetzt,
+    // da die Hoehe je nach Textlaenge/Schriftgroesse variiert.
+    function adjustForWarningOverlap() {
+      requestAnimationFrame(() => {
+        const warnEl = warningContainer.querySelector('.warning-banner');
+        const warnHeight = warnEl ? warnEl.getBoundingClientRect().height : 0;
+        const warnEdge = warnEl ? (warnEl.style.top !== '' ? 'top' : 'bottom') : null;
+
+        [overlayContainer, clockContainer].forEach(container => {
+          const el = container.querySelector('.info-overlay');
+          if (!el) return;
+          const edge = (el.dataset.edge || '').startsWith('top') ? 'top' : 'bottom';
+          if (warnHeight > 0 && edge === warnEdge) {
+            const baseMargin = parseFloat(el.style[edge]) || 0;
+            el.style[edge] = (baseMargin + warnHeight) + 'px';
+          }
+        });
+      });
+    }
 
     // Die Uhrzeit muss wirklich live ticken statt nur alle 5 Minuten (Refresh-Takt)
     // vom Server nachgeladen zu werden - deshalb clientseitig per setInterval() statt
@@ -560,10 +586,14 @@
       if (overlayContainer) {
         overlayContainer.innerHTML = v.overlayHtml || '';
       }
+      if (clockContainer) {
+        clockContainer.innerHTML = v.clockHtml || '';
+      }
       if (warningContainer) {
         warningContainer.innerHTML = v.warningHtml || '';
       }
       updateClock();
+      adjustForWarningOverlap();
       windDrift = v.windDrift || 0;
       precipScale = v.precipScale || 1;
       sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };
@@ -586,6 +616,7 @@
       bucket: __WMO_BUCKET__,
       timeValue: __TIME_VALUE__,
       overlayHtml: "__OVERLAY_HTML_JS__",
+      clockHtml: "__CLOCK_HTML_JS__",
       warningHtml: "__WARNING_HTML_JS__",
       windDrift: __WIND_DRIFT__,
       precipScale: __PRECIP_SCALE__,

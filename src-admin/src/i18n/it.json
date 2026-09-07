@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "Tablet orizzontale",
 	"wallpaperResTabletPortrait": "Tablet verticale",
-	"wallpaperResPhonePortrait": "Telefono verticale"
+	"wallpaperResPhonePortrait": "Telefono verticale",
+	"wallpaperInfoSection": "Pannello informazioni (luogo/temperatura/vento)",
+	"wallpaperTimeSection": "Ora",
+	"wallpaperOverlapHint": "Stesso angolo del pannello informazioni - si sovrapporranno."
 }

@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "平板横向",
 	"wallpaperResTabletPortrait": "平板竖向",
-	"wallpaperResPhonePortrait": "手机竖向"
+	"wallpaperResPhonePortrait": "手机竖向",
+	"wallpaperInfoSection": "信息显示（地点/温度/风）",
+	"wallpaperTimeSection": "时间",
+	"wallpaperOverlapHint": "与信息显示位于同一角落 - 会重叠。"
 }

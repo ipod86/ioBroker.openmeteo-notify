@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "Планшет горизонтально",
 	"wallpaperResTabletPortrait": "Планшет вертикально",
-	"wallpaperResPhonePortrait": "Телефон вертикально"
+	"wallpaperResPhonePortrait": "Телефон вертикально",
+	"wallpaperInfoSection": "Информационная панель (место/температура/ветер)",
+	"wallpaperTimeSection": "Время",
+	"wallpaperOverlapHint": "Тот же угол, что и информационная панель - они будут перекрываться."
 }

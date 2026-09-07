@@ -208,7 +208,6 @@
       "showTemperature": true,
       "showWindDirection": false,
       "showWindSpeed": false,
-      "showTime": false,
       "fontSize": 17,
       "textColor": "#ffffff",
       "bgColor": "#0f172a",
@@ -217,7 +216,14 @@
       "warnEnabled": true,
       "warnTextColor": "#ff5252",
       "warnFontSize": 20,
-      "carouselEnabled": false
+      "carouselEnabled": false,
+      "timeEnabled": false,
+      "timePosition": "top-left",
+      "timeTextColor": "#ffffff",
+      "timeBgColor": "#0f172a",
+      "timeBgOpacity": 55,
+      "timeFontSize": 24,
+      "timeEdgeMargin": 12
     }
   },
   "notifications": [

@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "Tablet liggend",
 	"wallpaperResTabletPortrait": "Tablet staand",
-	"wallpaperResPhonePortrait": "Telefoon staand"
+	"wallpaperResPhonePortrait": "Telefoon staand",
+	"wallpaperInfoSection": "Infoweergave (locatie/temperatuur/wind)",
+	"wallpaperTimeSection": "Tijd",
+	"wallpaperOverlapHint": "Zelfde hoek als de infoweergave - ze overlappen elkaar."
 }

@@ -27,7 +27,6 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	showTemperature: true,
 	showWindDirection: false,
 	showWindSpeed: false,
-	showTime: false,
 	fontSize: 17,
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
@@ -37,6 +36,13 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	warnTextColor: "#ff5252",
 	warnFontSize: 20,
 	carouselEnabled: false,
+	timeEnabled: false,
+	timePosition: "top-left",
+	timeTextColor: "#ffffff",
+	timeBgColor: "#0f172a",
+	timeBgOpacity: 55,
+	timeFontSize: 24,
+	timeEdgeMargin: 12,
 };
 
 // Nur fuer die Vorschau (nicht Teil der gespeicherten Config) - simuliert eine echte
@@ -50,6 +56,8 @@ const PREVIEW_RESOLUTIONS: { key: string; w: number; h: number }[] = [
 	{ key: "wallpaperResTabletPortrait", w: 800, h: 1280 },
 	{ key: "wallpaperResPhonePortrait", w: 1080, h: 2340 },
 ];
+
+const POSITIONS: WallpaperConfig["position"][] = ["top-left", "top-right", "bottom-left", "bottom-right"];
 
 const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = ({ value, onChange }) => (
 	<Box
@@ -71,16 +79,89 @@ const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = 
 	/>
 );
 
-const POSITIONS: WallpaperConfig["position"][] = ["top-left", "top-right", "bottom-left", "bottom-right"];
+const PositionPicker: React.FC<{
+	value: WallpaperConfig["position"];
+	onChange: (v: WallpaperConfig["position"]) => void;
+}> = ({ value, onChange }) => (
+	<ToggleButtonGroup
+		value={value}
+		exclusive
+		size="small"
+		onChange={(_, v) => v && onChange(v)}
+	>
+		{POSITIONS.map(p => (
+			<ToggleButton
+				key={p}
+				value={p}
+			>
+				{I18n.t(
+					p === "top-left"
+						? "wallpaperPositionTopLeft"
+						: p === "top-right"
+							? "wallpaperPositionTopRight"
+							: p === "bottom-left"
+								? "wallpaperPositionBottomLeft"
+								: "wallpaperPositionBottomRight",
+				)}
+			</ToggleButton>
+		))}
+	</ToggleButtonGroup>
+);
 
-const positionStyle = (position: WallpaperConfig["position"], edgeMargin: number): React.CSSProperties => {
+const SizeSlider: React.FC<{
+	label: string;
+	value: number;
+	min: number;
+	max: number;
+	onChange: (v: number) => void;
+}> = ({ label, value, min, max, onChange }) => (
+	<Box sx={{ width: 160 }}>
+		<Typography
+			variant="caption"
+			color="text.secondary"
+			sx={{ display: "block", mb: 0.5 }}
+		>
+			{label} ({value}px)
+		</Typography>
+		<Slider
+			value={value}
+			min={min}
+			max={max}
+			step={1}
+			size="small"
+			marks
+			onChange={(_, v) => onChange(v as number)}
+		/>
+	</Box>
+);
+
+const ColorPicker: React.FC<{ label: string; value: string; onChange: (v: string) => void }> = ({
+	label,
+	value,
+	onChange,
+}) => (
+	<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+		<Typography
+			variant="caption"
+			color="text.secondary"
+		>
+			{label}
+		</Typography>
+		<ColorSwatch
+			value={value}
+			onChange={onChange}
+		/>
+	</Box>
+);
+
+function positionStyle(position: WallpaperConfig["position"], edgeMargin: number): React.CSSProperties {
 	const [vertical, horizontal] = position.split("-") as ["top" | "bottom", "left" | "right"];
 	return {
 		position: "absolute",
 		[vertical]: edgeMargin,
 		[horizontal]: edgeMargin,
 	};
-};
+}
 
 function hexToRgba(hex: string, opacityPercent: number): string {
 	const clean = /^#[0-9a-fA-F]{6}$/.test(hex) ? hex : "#0f172a";
@@ -99,7 +180,6 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 	};
 
 	const previewFields: string[] = [];
-	if (w.showTime) previewFields.push("14:32");
 	if (w.showLocation) previewFields.push(I18n.t("wallpaperPreviewLocation"));
 	if (w.showTemperature) previewFields.push("18.3°C");
 	if (w.showWindDirection) previewFields.push("NW");
@@ -158,6 +238,23 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 							{previewFields.join(" · ")}
 						</Box>
 					)}
+					{w.timeEnabled && (
+						<Box
+							sx={{
+								...positionStyle(w.timePosition, w.timeEdgeMargin * scale),
+								px: 1.5 * scale,
+								py: 0.75 * scale,
+								borderRadius: 1,
+								color: w.timeTextColor,
+								fontSize: Math.max(2, w.timeFontSize * scale),
+								fontWeight: 500,
+								whiteSpace: "nowrap",
+								background: hexToRgba(w.timeBgColor, w.timeBgOpacity),
+							}}
+						>
+							14:32
+						</Box>
+					)}
 					{w.warnEnabled && (
 						<Box
 							sx={{
@@ -179,186 +276,129 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 					)}
 				</Box>
 
-				<FormControl
-					size="small"
-					sx={{ minWidth: 200 }}
-				>
-					<InputLabel>{I18n.t("wallpaperPreviewResolution")}</InputLabel>
-					<Select
-						value={resIndex}
-						label={I18n.t("wallpaperPreviewResolution")}
-						onChange={e => setResIndex(Number(e.target.value))}
+				<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+					<FormControl
+						size="small"
+						sx={{ minWidth: 200 }}
 					>
-						{PREVIEW_RESOLUTIONS.map((r, i) => (
-							<MenuItem
-								key={r.key}
-								value={i}
-							>
-								{I18n.t(r.key)} ({r.w}×{r.h})
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-			</Box>
-
-			{/* Position */}
-			<Box>
-				<Typography
-					variant="caption"
-					color="text.secondary"
-					sx={{ display: "block", mb: 0.5 }}
-				>
-					{I18n.t("wallpaperPosition")}
-				</Typography>
-				<ToggleButtonGroup
-					value={w.position}
-					exclusive
-					size="small"
-					onChange={(_, v) => v && update({ position: v })}
-				>
-					{POSITIONS.map(p => (
-						<ToggleButton
-							key={p}
-							value={p}
+						<InputLabel>{I18n.t("wallpaperPreviewResolution")}</InputLabel>
+						<Select
+							value={resIndex}
+							label={I18n.t("wallpaperPreviewResolution")}
+							onChange={e => setResIndex(Number(e.target.value))}
 						>
-							{I18n.t(
-								p === "top-left"
-									? "wallpaperPositionTopLeft"
-									: p === "top-right"
-										? "wallpaperPositionTopRight"
-										: p === "bottom-left"
-											? "wallpaperPositionBottomLeft"
-											: "wallpaperPositionBottomRight",
-							)}
-						</ToggleButton>
-					))}
-				</ToggleButtonGroup>
+							{PREVIEW_RESOLUTIONS.map((r, i) => (
+								<MenuItem
+									key={r.key}
+									value={i}
+								>
+									{I18n.t(r.key)} ({r.w}×{r.h})
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+					{w.timeEnabled && w.timePosition === w.position && previewFields.length > 0 && (
+						<Alert
+							severity="warning"
+							sx={{ maxWidth: 260 }}
+						>
+							{I18n.t("wallpaperOverlapHint")}
+						</Alert>
+					)}
+				</Box>
 			</Box>
 
-			{/* Which fields */}
-			<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-				<FormControlLabel
-					control={
-						<Switch
-							size="small"
-							checked={w.showLocation}
-							onChange={e => update({ showLocation: e.target.checked })}
-						/>
-					}
-					label={<Typography variant="caption">{I18n.t("wallpaperShowLocation")}</Typography>}
-				/>
-				<FormControlLabel
-					control={
-						<Switch
-							size="small"
-							checked={w.showTemperature}
-							onChange={e => update({ showTemperature: e.target.checked })}
-						/>
-					}
-					label={<Typography variant="caption">{I18n.t("wallpaperShowTemperature")}</Typography>}
-				/>
-				<FormControlLabel
-					control={
-						<Switch
-							size="small"
-							checked={w.showWindDirection}
-							onChange={e => update({ showWindDirection: e.target.checked })}
-						/>
-					}
-					label={<Typography variant="caption">{I18n.t("wallpaperShowWindDirection")}</Typography>}
-				/>
-				<FormControlLabel
-					control={
-						<Switch
-							size="small"
-							checked={w.showWindSpeed}
-							onChange={e => update({ showWindSpeed: e.target.checked })}
-						/>
-					}
-					label={<Typography variant="caption">{I18n.t("wallpaperShowWindSpeed")}</Typography>}
-				/>
-				<FormControlLabel
-					control={
-						<Switch
-							size="small"
-							checked={w.showTime}
-							onChange={e => update({ showTime: e.target.checked })}
-						/>
-					}
-					label={<Typography variant="caption">{I18n.t("wallpaperShowTime")}</Typography>}
-				/>
-			</Box>
-
-			{/* Font size */}
-			<Box sx={{ maxWidth: 320 }}>
-				<Typography
-					variant="caption"
-					color="text.secondary"
-					sx={{ display: "block", mb: 0.5 }}
-				>
-					{I18n.t("wallpaperFontSize")} ({w.fontSize}px)
-				</Typography>
-				<Slider
-					value={w.fontSize}
-					min={10}
-					max={100}
-					step={1}
-					size="small"
-					marks
-					sx={{ width: 160 }}
-					onChange={(_, v) => update({ fontSize: v as number })}
-				/>
-			</Box>
-
-			{/* Edge margin */}
-			<Box sx={{ maxWidth: 320 }}>
-				<Typography
-					variant="caption"
-					color="text.secondary"
-					sx={{ display: "block", mb: 0.5 }}
-				>
-					{I18n.t("wallpaperEdgeMargin")} ({w.edgeMargin}px)
-				</Typography>
-				<Slider
-					value={w.edgeMargin}
-					min={0}
-					max={100}
-					step={1}
-					size="small"
-					marks
-					sx={{ width: 160 }}
-					onChange={(_, v) => update({ edgeMargin: v as number })}
-				/>
-			</Box>
-
-			{/* Colors */}
+			{/* Info-Anzeige: Ort/Temperatur/Wind */}
 			<Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+				<Typography variant="subtitle2">{I18n.t("wallpaperInfoSection")}</Typography>
+
+				<Box>
 					<Typography
 						variant="caption"
 						color="text.secondary"
-						sx={{ width: 110, flexShrink: 0 }}
+						sx={{ display: "block", mb: 0.5 }}
 					>
-						{I18n.t("wallpaperTextColor")}
+						{I18n.t("wallpaperPosition")}
 					</Typography>
-					<ColorSwatch
+					<PositionPicker
+						value={w.position}
+						onChange={v => update({ position: v })}
+					/>
+				</Box>
+
+				<Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+					<FormControlLabel
+						control={
+							<Switch
+								size="small"
+								checked={w.showLocation}
+								onChange={e => update({ showLocation: e.target.checked })}
+							/>
+						}
+						label={<Typography variant="caption">{I18n.t("wallpaperShowLocation")}</Typography>}
+					/>
+					<FormControlLabel
+						control={
+							<Switch
+								size="small"
+								checked={w.showTemperature}
+								onChange={e => update({ showTemperature: e.target.checked })}
+							/>
+						}
+						label={<Typography variant="caption">{I18n.t("wallpaperShowTemperature")}</Typography>}
+					/>
+					<FormControlLabel
+						control={
+							<Switch
+								size="small"
+								checked={w.showWindDirection}
+								onChange={e => update({ showWindDirection: e.target.checked })}
+							/>
+						}
+						label={<Typography variant="caption">{I18n.t("wallpaperShowWindDirection")}</Typography>}
+					/>
+					<FormControlLabel
+						control={
+							<Switch
+								size="small"
+								checked={w.showWindSpeed}
+								onChange={e => update({ showWindSpeed: e.target.checked })}
+							/>
+						}
+						label={<Typography variant="caption">{I18n.t("wallpaperShowWindSpeed")}</Typography>}
+					/>
+				</Box>
+
+				<Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+					<SizeSlider
+						label={I18n.t("wallpaperFontSize")}
+						value={w.fontSize}
+						min={10}
+						max={100}
+						onChange={v => update({ fontSize: v })}
+					/>
+					<SizeSlider
+						label={I18n.t("wallpaperEdgeMargin")}
+						value={w.edgeMargin}
+						min={0}
+						max={100}
+						onChange={v => update({ edgeMargin: v })}
+					/>
+				</Box>
+
+				<Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+					<ColorPicker
+						label={I18n.t("wallpaperTextColor")}
 						value={w.textColor}
 						onChange={v => update({ textColor: v })}
 					/>
-				</Box>
-				<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-					<Typography
-						variant="caption"
-						color="text.secondary"
-						sx={{ width: 110, flexShrink: 0 }}
-					>
-						{I18n.t("wallpaperBgColor")}
-					</Typography>
-					<ColorSwatch
+					<ColorPicker
+						label={I18n.t("wallpaperBgColor")}
 						value={w.bgColor}
 						onChange={v => update({ bgColor: v })}
 					/>
 				</Box>
+
 				<Box sx={{ maxWidth: 320 }}>
 					<Typography
 						variant="caption"
@@ -382,14 +422,93 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 				</Box>
 			</Box>
 
+			{/* Uhrzeit - eigenstaendiges, unabhaengig positionierbares Element */}
+			<Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+				<Typography variant="subtitle2">{I18n.t("wallpaperTimeSection")}</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							size="small"
+							checked={w.timeEnabled}
+							onChange={e => update({ timeEnabled: e.target.checked })}
+						/>
+					}
+					label={<Typography variant="caption">{I18n.t("wallpaperShowTime")}</Typography>}
+				/>
+				{w.timeEnabled && (
+					<>
+						<Box>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								sx={{ display: "block", mb: 0.5 }}
+							>
+								{I18n.t("wallpaperPosition")}
+							</Typography>
+							<PositionPicker
+								value={w.timePosition}
+								onChange={v => update({ timePosition: v })}
+							/>
+						</Box>
+
+						<Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+							<SizeSlider
+								label={I18n.t("wallpaperFontSize")}
+								value={w.timeFontSize}
+								min={10}
+								max={100}
+								onChange={v => update({ timeFontSize: v })}
+							/>
+							<SizeSlider
+								label={I18n.t("wallpaperEdgeMargin")}
+								value={w.timeEdgeMargin}
+								min={0}
+								max={100}
+								onChange={v => update({ timeEdgeMargin: v })}
+							/>
+						</Box>
+
+						<Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+							<ColorPicker
+								label={I18n.t("wallpaperTextColor")}
+								value={w.timeTextColor}
+								onChange={v => update({ timeTextColor: v })}
+							/>
+							<ColorPicker
+								label={I18n.t("wallpaperBgColor")}
+								value={w.timeBgColor}
+								onChange={v => update({ timeBgColor: v })}
+							/>
+						</Box>
+
+						<Box sx={{ maxWidth: 320 }}>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								sx={{ display: "block", mb: 0.5 }}
+							>
+								{I18n.t("wallpaperBgOpacity")} ({w.timeBgOpacity}%)
+							</Typography>
+							<Slider
+								value={w.timeBgOpacity}
+								min={0}
+								max={100}
+								step={5}
+								size="small"
+								marks={[
+									{ value: 0, label: "0%" },
+									{ value: 100, label: "100%" },
+								]}
+								onChange={(_, v) => update({ timeBgOpacity: v as number })}
+							/>
+						</Box>
+					</>
+				)}
+			</Box>
+
 			{/* Amtliche Warnungen als Text-Banner */}
 			<Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-				<Typography
-					variant="subtitle2"
-					sx={{ display: "block" }}
-				>
-					{I18n.t("wallpaperWarnSection")}
-				</Typography>
+				<Typography variant="subtitle2">{I18n.t("wallpaperWarnSection")}</Typography>
 				<FormControlLabel
 					control={
 						<Switch
@@ -401,40 +520,20 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 					label={<Typography variant="caption">{I18n.t("wallpaperWarnEnabled")}</Typography>}
 				/>
 				{w.warnEnabled && (
-					<>
-						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-							<Typography
-								variant="caption"
-								color="text.secondary"
-								sx={{ width: 110, flexShrink: 0 }}
-							>
-								{I18n.t("wallpaperWarnTextColor")}
-							</Typography>
-							<ColorSwatch
-								value={w.warnTextColor}
-								onChange={v => update({ warnTextColor: v })}
-							/>
-						</Box>
-						<Box sx={{ maxWidth: 320 }}>
-							<Typography
-								variant="caption"
-								color="text.secondary"
-								sx={{ display: "block", mb: 0.5 }}
-							>
-								{I18n.t("wallpaperWarnFontSize")} ({w.warnFontSize}px)
-							</Typography>
-							<Slider
-								value={w.warnFontSize}
-								min={10}
-								max={100}
-								step={1}
-								size="small"
-								marks
-								sx={{ width: 160 }}
-								onChange={(_, v) => update({ warnFontSize: v as number })}
-							/>
-						</Box>
-					</>
+					<Box sx={{ display: "flex", flexWrap: "wrap", gap: 3, alignItems: "flex-end" }}>
+						<ColorPicker
+							label={I18n.t("wallpaperWarnTextColor")}
+							value={w.warnTextColor}
+							onChange={v => update({ warnTextColor: v })}
+						/>
+						<SizeSlider
+							label={I18n.t("wallpaperWarnFontSize")}
+							value={w.warnFontSize}
+							min={10}
+							max={100}
+							onChange={v => update({ warnFontSize: v })}
+						/>
+					</Box>
 				)}
 			</Box>
 

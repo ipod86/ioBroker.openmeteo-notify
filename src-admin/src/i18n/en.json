@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "Tablet landscape",
 	"wallpaperResTabletPortrait": "Tablet portrait",
-	"wallpaperResPhonePortrait": "Phone portrait"
+	"wallpaperResPhonePortrait": "Phone portrait",
+	"wallpaperInfoSection": "Info display (location/temperature/wind)",
+	"wallpaperTimeSection": "Time",
+	"wallpaperOverlapHint": "Same corner as the info display - they will overlap."
 }

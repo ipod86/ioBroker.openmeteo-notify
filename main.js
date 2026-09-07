@@ -110,7 +110,6 @@ const DEFAULT_WALLPAPER_CONFIG = {
 	showTemperature: true,
 	showWindDirection: false,
 	showWindSpeed: false,
-	showTime: false,
 	fontSize: 17,
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
@@ -120,6 +119,13 @@ const DEFAULT_WALLPAPER_CONFIG = {
 	warnTextColor: "#ff5252",
 	warnFontSize: 20,
 	carouselEnabled: false,
+	timeEnabled: false,
+	timePosition: "top-left",
+	timeTextColor: "#ffffff",
+	timeBgColor: "#0f172a",
+	timeBgOpacity: 55,
+	timeFontSize: 24,
+	timeEdgeMargin: 12,
 };
 
 // Abstand vom Bildschirmrand ist jetzt konfigurierbar (edgeMargin) statt fest 12px.
@@ -164,12 +170,6 @@ function hexToRgba(hex, opacityPercent) {
 function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirText, windSpeedText) {
 	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
 	const fields = [];
-	if (config.showTime) {
-		// Leerer Platzhalter - wird im Browser per setInterval() sekuendlich befuellt
-		// (siehe Template), da eine serverseitig gebackene Uhrzeit sonst zwischen zwei
-		// Refreshs (5-60 Min.) einfach stehen bliebe statt wirklich "live" zu wirken.
-		fields.push('<span id="wallpaperClock"></span>');
-	}
 	if (config.showLocation) {
 		fields.push(escapeHtmlText(locationName));
 	}
@@ -189,7 +189,29 @@ function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirTex
 	const fontSize = Math.max(10, Math.min(100, Number(config.fontSize) || 17));
 	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.textColor || "") ? config.textColor : "#ffffff";
 	const background = hexToRgba(config.bgColor, config.bgOpacity);
-	return `<div class="info-overlay" style="${posCss}color:${textColor};font-size:${fontSize}px;background:${background};">${fields.join(" · ")}</div>`;
+	return `<div class="info-overlay" data-edge="${config.position}" style="${posCss}color:${textColor};font-size:${fontSize}px;background:${background};">${fields.join(" · ")}</div>`;
+}
+
+/**
+ * Baut die Uhrzeit-Anzeige als eigenstaendiges, unabhaengig positionierbares Element
+ * (eigene Position/Farben/Groesse/Randabstand, Admin-Tab "Wallpaper" -> "Uhrzeit").
+ * Enthaelt nur einen leeren Platzhalter-Span - der wird im Browser per setInterval()
+ * sekuendlich befuellt (siehe Template), da eine serverseitig gebackene Uhrzeit sonst
+ * zwischen zwei Refreshs (5-60 Min.) einfach stehen bliebe statt wirklich live zu sein.
+ *
+ * @param {object} rawConfig - native.wallpaper (kann unvollstaendig/undefined sein)
+ * @returns {string} fertiger HTML-Block oder "" wenn deaktiviert
+ */
+function buildWallpaperClockHtml(rawConfig) {
+	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
+	if (!config.timeEnabled) {
+		return "";
+	}
+	const posCss = wallpaperPositionCss(config.timePosition, config.timeEdgeMargin);
+	const fontSize = Math.max(10, Math.min(100, Number(config.timeFontSize) || 24));
+	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.timeTextColor || "") ? config.timeTextColor : "#ffffff";
+	const background = hexToRgba(config.timeBgColor, config.timeBgOpacity);
+	return `<div class="info-overlay" data-edge="${config.timePosition}" style="${posCss}color:${textColor};font-size:${fontSize}px;background:${background};"><span id="wallpaperClock"></span></div>`;
 }
 
 /**
@@ -324,6 +346,7 @@ function computeWallpaperValues({
 		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso),
 		tempText,
 		overlayHtml: buildWallpaperOverlayHtml(wallpaperConfig, locationName, tempText, windDirText, windSpeedText),
+		clockHtml: buildWallpaperClockHtml(wallpaperConfig),
 		warningHtml: buildWallpaperWarningHtml(wallpaperConfig, warnings),
 		windDrift: wallpaperWindDrift(windDirDeg, windSpeedRaw),
 		precipScale: wallpaperPrecipScale(precipAmount),
@@ -395,6 +418,10 @@ function buildWallpaperHtml(locationName, locId, dataFilename, bgFilename, value
 		.join(toJsStringLiteral(values.overlayHtml))
 		.split("__OVERLAY_HTML__")
 		.join(values.overlayHtml)
+		.split("__CLOCK_HTML_JS__")
+		.join(toJsStringLiteral(values.clockHtml))
+		.split("__CLOCK_HTML__")
+		.join(values.clockHtml)
 		.split("__WARNING_HTML_JS__")
 		.join(toJsStringLiteral(values.warningHtml))
 		.split("__WARNING_HTML__")

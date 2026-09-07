@@ -145,5 +145,8 @@
 	"wallpaperResUHD4K": "4K",
 	"wallpaperResTabletLandscape": "Tablet poziomo",
 	"wallpaperResTabletPortrait": "Tablet pionowo",
-	"wallpaperResPhonePortrait": "Telefon pionowo"
+	"wallpaperResPhonePortrait": "Telefon pionowo",
+	"wallpaperInfoSection": "Panel informacyjny (lokalizacja/temperatura/wiatr)",
+	"wallpaperTimeSection": "Godzina",
+	"wallpaperOverlapHint": "Ten sam róg co panel informacyjny - będą się nakładać."
 }
