@@ -127,5 +127,6 @@
 	"wallpaperTextColor": "Kolor tekstu",
 	"wallpaperBgColor": "Tło",
 	"wallpaperBgOpacity": "Krycie tła",
-	"wallpaperBgPhotoHint": "Zdjęcie tła znajduje się w Admin → Pliki → <instancja>/wallpapers/<lokalizacja>.jpg - domyślne zdjęcie jest tworzone automatycznie, zastąp je, przesyłając własny plik o tej samej nazwie."
+	"wallpaperBgPhotoHint": "Zdjęcie tła znajduje się w Admin → Pliki → <instancja>/wallpapers/<lokalizacja>.jpg - domyślne zdjęcie jest tworzone automatycznie, zastąp je, przesyłając własny plik o tej samej nazwie.",
+	"wallpaperEdgeMargin": "Odstęp od krawędzi"
 }

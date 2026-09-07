@@ -127,5 +127,6 @@
 	"wallpaperTextColor": "Cor do texto",
 	"wallpaperBgColor": "Fundo",
 	"wallpaperBgOpacity": "Opacidade do fundo",
-	"wallpaperBgPhotoHint": "A foto de fundo fica em Admin → Arquivos → <instância>/wallpapers/<local>.jpg - uma foto padrão é criada automaticamente, substitua-a enviando seu próprio arquivo com o mesmo nome."
+	"wallpaperBgPhotoHint": "A foto de fundo fica em Admin → Arquivos → <instância>/wallpapers/<local>.jpg - uma foto padrão é criada automaticamente, substitua-a enviando seu próprio arquivo com o mesmo nome.",
+	"wallpaperEdgeMargin": "Distância da borda"
 }

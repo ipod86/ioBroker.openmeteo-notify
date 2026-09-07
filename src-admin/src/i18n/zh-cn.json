@@ -127,5 +127,6 @@
 	"wallpaperTextColor": "文字颜色",
 	"wallpaperBgColor": "背景",
 	"wallpaperBgOpacity": "背景不透明度",
-	"wallpaperBgPhotoHint": "背景图片位于 Admin → 文件 → <实例>/wallpapers/<地点>.jpg - 会自动创建一张默认图片，上传同名的自定义文件即可替换它。"
+	"wallpaperBgPhotoHint": "背景图片位于 Admin → 文件 → <实例>/wallpapers/<地点>.jpg - 会自动创建一张默认图片，上传同名的自定义文件即可替换它。",
+	"wallpaperEdgeMargin": "边缘间距"
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Box, FormControlLabel, Slider, Switch, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Alert, Box, FormControlLabel, Slider, Switch, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { WallpaperConfig } from "../types";
 
@@ -18,6 +18,7 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
 	bgOpacity: 55,
+	edgeMargin: 12,
 };
 
 const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = ({ value, onChange }) => (
@@ -42,12 +43,12 @@ const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = 
 
 const POSITIONS: WallpaperConfig["position"][] = ["top-left", "top-right", "bottom-left", "bottom-right"];
 
-const positionStyle = (position: WallpaperConfig["position"]): React.CSSProperties => {
+const positionStyle = (position: WallpaperConfig["position"], edgeMargin: number): React.CSSProperties => {
 	const [vertical, horizontal] = position.split("-") as ["top" | "bottom", "left" | "right"];
 	return {
 		position: "absolute",
-		[vertical]: 12,
-		[horizontal]: 12,
+		[vertical]: edgeMargin,
+		[horizontal]: edgeMargin,
 	};
 };
 
@@ -71,8 +72,6 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 	if (w.showTemperature) previewFields.push("18.3°C");
 	if (w.showWindDirection) previewFields.push("NW");
 	if (w.showWindSpeed) previewFields.push("12 km/h");
-
-	const fontSizeInvalid = w.fontSize < 10 || w.fontSize > 48;
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -103,7 +102,7 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 				{previewFields.length > 0 && (
 					<Box
 						sx={{
-							...positionStyle(w.position),
+							...positionStyle(w.position, w.edgeMargin),
 							px: 1.5,
 							py: 0.75,
 							borderRadius: 1,
@@ -209,22 +208,33 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 				<Slider
 					value={w.fontSize}
 					min={10}
-					max={48}
+					max={100}
 					step={1}
 					size="small"
 					marks
 					sx={{ width: 160 }}
 					onChange={(_, v) => update({ fontSize: v as number })}
 				/>
-				<TextField
-					type="number"
+			</Box>
+
+			{/* Edge margin */}
+			<Box sx={{ maxWidth: 320 }}>
+				<Typography
+					variant="caption"
+					color="text.secondary"
+					sx={{ display: "block", mb: 0.5 }}
+				>
+					{I18n.t("wallpaperEdgeMargin")} ({w.edgeMargin}px)
+				</Typography>
+				<Slider
+					value={w.edgeMargin}
+					min={0}
+					max={100}
+					step={1}
 					size="small"
-					value={w.fontSize}
-					inputProps={{ min: 10, max: 48 }}
-					error={fontSizeInvalid}
-					helperText={fontSizeInvalid ? I18n.t("validRange", "10–48") : undefined}
-					onChange={e => update({ fontSize: parseInt(e.target.value, 10) || 10 })}
-					sx={{ width: 100, mt: 1 }}
+					marks
+					sx={{ width: 160 }}
+					onChange={(_, v) => update({ edgeMargin: v as number })}
 				/>
 			</Box>
 

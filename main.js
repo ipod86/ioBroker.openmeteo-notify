@@ -114,14 +114,15 @@ const DEFAULT_WALLPAPER_CONFIG = {
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
 	bgOpacity: 55,
+	edgeMargin: 12,
 };
 
-const WALLPAPER_POSITION_CSS = {
-	"top-left": "top:12px;left:12px;",
-	"top-right": "top:12px;right:12px;",
-	"bottom-left": "bottom:12px;left:12px;",
-	"bottom-right": "bottom:12px;right:12px;",
-};
+// Abstand vom Bildschirmrand ist jetzt konfigurierbar (edgeMargin) statt fest 12px.
+function wallpaperPositionCss(position, edgeMargin) {
+	const margin = Math.max(0, Math.min(100, Number(edgeMargin) || 0));
+	const [vertical, horizontal] = (position || "bottom-left").split("-");
+	return `${vertical}:${margin}px;${horizontal}:${margin}px;`;
+}
 
 function escapeHtmlText(str) {
 	return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -173,8 +174,8 @@ function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirTex
 	if (fields.length === 0) {
 		return "";
 	}
-	const posCss = WALLPAPER_POSITION_CSS[config.position] || WALLPAPER_POSITION_CSS["bottom-left"];
-	const fontSize = Math.max(10, Math.min(48, Number(config.fontSize) || 17));
+	const posCss = wallpaperPositionCss(config.position, config.edgeMargin);
+	const fontSize = Math.max(10, Math.min(100, Number(config.fontSize) || 17));
 	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.textColor || "") ? config.textColor : "#ffffff";
 	const background = hexToRgba(config.bgColor, config.bgOpacity);
 	return `<div class="info-overlay" style="${posCss}color:${textColor};font-size:${fontSize}px;background:${background};">${fields.join(" · ")}</div>`;

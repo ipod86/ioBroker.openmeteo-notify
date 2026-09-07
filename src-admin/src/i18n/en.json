@@ -127,5 +127,6 @@
 	"wallpaperTextColor": "Text color",
 	"wallpaperBgColor": "Background",
 	"wallpaperBgOpacity": "Background opacity",
-	"wallpaperBgPhotoHint": "The background photo lives at Admin → Files → <instance>/wallpapers/<location>.jpg - a default photo is created automatically, replace it by uploading your own file with the same name."
+	"wallpaperBgPhotoHint": "The background photo lives at Admin → Files → <instance>/wallpapers/<location>.jpg - a default photo is created automatically, replace it by uploading your own file with the same name.",
+	"wallpaperEdgeMargin": "Distance from edge"
 }

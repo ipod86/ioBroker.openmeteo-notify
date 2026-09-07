@@ -210,7 +210,8 @@
       "fontSize": 17,
       "textColor": "#ffffff",
       "bgColor": "#0f172a",
-      "bgOpacity": 55
+      "bgOpacity": 55,
+      "edgeMargin": 12
     }
   },
   "notifications": [

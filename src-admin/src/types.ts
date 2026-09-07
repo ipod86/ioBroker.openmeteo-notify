@@ -28,10 +28,11 @@ export interface WallpaperConfig {
 	showTemperature: boolean;
 	showWindDirection: boolean;
 	showWindSpeed: boolean;
-	fontSize: number; // px, 10-48
+	fontSize: number; // px, 10-100
 	textColor: string; // hex '#rrggbb'
 	bgColor: string; // hex '#rrggbb'
 	bgOpacity: number; // %, 0-100
+	edgeMargin: number; // px, 0-100 - Abstand der Anzeige vom Bildschirmrand
 }
 
 export interface OpenMeteoConfig {
