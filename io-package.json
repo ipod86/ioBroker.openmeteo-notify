@@ -208,6 +208,7 @@
       "showTemperature": true,
       "showWindDirection": false,
       "showWindSpeed": false,
+      "showTime": false,
       "fontSize": 17,
       "textColor": "#ffffff",
       "bgColor": "#0f172a",

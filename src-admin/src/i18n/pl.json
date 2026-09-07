@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Interwał aktualizacji na żywo (minuty, tylko bieżące warunki)",
 	"liveUpdateMinutesHelp": "0 = wyłączone. Odświeża tylko current.* i tapetę częściej niż pełna aktualizacja prognozy, bez ponownego pobierania całej prognozy dziennej/godzinowej.",
 	"liveUpdateDisabled": "Wyłączone",
-	"wallpaperPreviewWarning": "Ostrzeżenie o burzy"
+	"wallpaperPreviewWarning": "Ostrzeżenie o burzy",
+	"wallpaperShowTime": "Godzina",
+	"wallpaperPreviewResolution": "Symuluj rozdzielczość ekranu",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet poziomo",
+	"wallpaperResTabletPortrait": "Tablet pionowo",
+	"wallpaperResPhonePortrait": "Telefon pionowo"
 }

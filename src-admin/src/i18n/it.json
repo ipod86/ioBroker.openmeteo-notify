@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Intervallo di aggiornamento live (minuti, solo condizioni attuali)",
 	"liveUpdateMinutesHelp": "0 = disattivato. Aggiorna solo current.* e lo sfondo più spesso rispetto all'aggiornamento completo delle previsioni, senza riscaricare l'intera previsione giornaliera/oraria.",
 	"liveUpdateDisabled": "Disattivato",
-	"wallpaperPreviewWarning": "Allerta temporale"
+	"wallpaperPreviewWarning": "Allerta temporale",
+	"wallpaperShowTime": "Ora",
+	"wallpaperPreviewResolution": "Simula risoluzione dello schermo",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet orizzontale",
+	"wallpaperResTabletPortrait": "Tablet verticale",
+	"wallpaperResPhonePortrait": "Telefono verticale"
 }

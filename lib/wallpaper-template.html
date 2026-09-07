@@ -541,6 +541,19 @@
     const warningContainer = document.getElementById('warningContainer');
     const moonIcon = document.getElementById('moonIcon');
 
+    // Die Uhrzeit muss wirklich live ticken statt nur alle 5 Minuten (Refresh-Takt)
+    // vom Server nachgeladen zu werden - deshalb clientseitig per setInterval() statt
+    // gebacken. #wallpaperClock wird bei jedem applyWallpaperValues()-Aufruf neu aus
+    // overlayHtml erzeugt (falls "Uhrzeit" aktiviert ist), daher hier immer frisch
+    // per getElementById gesucht statt einmalig gecacht.
+    function updateClock() {
+      const clockEl = document.getElementById('wallpaperClock');
+      if (clockEl) {
+        clockEl.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+    setInterval(updateClock, 1000);
+
     function applyWallpaperValues(v) {
       wmoSelect.value = String(v.bucket);
       timeSlider.value = String(v.timeValue);
@@ -550,6 +563,7 @@
       if (warningContainer) {
         warningContainer.innerHTML = v.warningHtml || '';
       }
+      updateClock();
       windDrift = v.windDrift || 0;
       precipScale = v.precipScale || 1;
       sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };

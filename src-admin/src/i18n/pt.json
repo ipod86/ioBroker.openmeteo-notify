@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Intervalo de atualização ao vivo (minutos, apenas condições atuais)",
 	"liveUpdateMinutesHelp": "0 = desativado. Atualiza apenas current.* e o papel de parede com mais frequência do que a atualização completa da previsão, sem buscar novamente toda a previsão diária/horária.",
 	"liveUpdateDisabled": "Desativado",
-	"wallpaperPreviewWarning": "Aviso de tempestade"
+	"wallpaperPreviewWarning": "Aviso de tempestade",
+	"wallpaperShowTime": "Hora",
+	"wallpaperPreviewResolution": "Simular resolução de tela",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet paisagem",
+	"wallpaperResTabletPortrait": "Tablet retrato",
+	"wallpaperResPhonePortrait": "Celular retrato"
 }

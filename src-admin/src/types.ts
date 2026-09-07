@@ -28,6 +28,7 @@ export interface WallpaperConfig {
 	showTemperature: boolean;
 	showWindDirection: boolean;
 	showWindSpeed: boolean;
+	showTime: boolean;
 	fontSize: number; // px, 10-100
 	textColor: string; // hex '#rrggbb'
 	bgColor: string; // hex '#rrggbb'

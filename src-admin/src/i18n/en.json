@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Live update interval (minutes, current conditions only)",
 	"liveUpdateMinutesHelp": "0 = disabled. Refreshes only current.* and the Wallpaper more often than the full forecast update, without re-fetching the whole daily/hourly forecast.",
 	"liveUpdateDisabled": "Off",
-	"wallpaperPreviewWarning": "Storm warning"
+	"wallpaperPreviewWarning": "Storm warning",
+	"wallpaperShowTime": "Time",
+	"wallpaperPreviewResolution": "Simulate screen resolution",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet landscape",
+	"wallpaperResTabletPortrait": "Tablet portrait",
+	"wallpaperResPhonePortrait": "Phone portrait"
 }

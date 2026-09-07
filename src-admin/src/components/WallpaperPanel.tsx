@@ -1,5 +1,18 @@
 import React from "react";
-import { Alert, Box, FormControlLabel, Slider, Switch, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import {
+	Alert,
+	Box,
+	FormControl,
+	FormControlLabel,
+	InputLabel,
+	MenuItem,
+	Select,
+	Slider,
+	Switch,
+	ToggleButton,
+	ToggleButtonGroup,
+	Typography,
+} from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { WallpaperConfig } from "../types";
 
@@ -14,6 +27,7 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	showTemperature: true,
 	showWindDirection: false,
 	showWindSpeed: false,
+	showTime: false,
 	fontSize: 17,
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
@@ -24,6 +38,18 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	warnFontSize: 20,
 	carouselEnabled: false,
 };
+
+// Nur fuer die Vorschau (nicht Teil der gespeicherten Config) - simuliert eine echte
+// Bildschirmaufloesung, damit Schriftgroesse/Randabstand nicht 1:1 in der kleinen
+// Box landen (dort waeren 17-100px riesig), sondern proportional wie auf einem
+// echten Bildschirm dieser Groesse skaliert dargestellt werden.
+const PREVIEW_RESOLUTIONS: { key: string; w: number; h: number }[] = [
+	{ key: "wallpaperResFullHD", w: 1920, h: 1080 },
+	{ key: "wallpaperResUHD4K", w: 3840, h: 2160 },
+	{ key: "wallpaperResTabletLandscape", w: 1280, h: 800 },
+	{ key: "wallpaperResTabletPortrait", w: 800, h: 1280 },
+	{ key: "wallpaperResPhonePortrait", w: 1080, h: 2340 },
+];
 
 const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = ({ value, onChange }) => (
 	<Box
@@ -66,16 +92,26 @@ function hexToRgba(hex: string, opacityPercent: number): string {
 
 const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 	const w = { ...DEFAULT_WALLPAPER, ...wallpaper };
+	const [resIndex, setResIndex] = React.useState(0);
 
 	const update = (patch: Partial<WallpaperConfig>): void => {
 		onChange({ ...w, ...patch });
 	};
 
 	const previewFields: string[] = [];
+	if (w.showTime) previewFields.push("14:32");
 	if (w.showLocation) previewFields.push(I18n.t("wallpaperPreviewLocation"));
 	if (w.showTemperature) previewFields.push("18.3°C");
 	if (w.showWindDirection) previewFields.push("NW");
 	if (w.showWindSpeed) previewFields.push("12 km/h");
+
+	// Skalierungsfaktor: Vorschau-Box (max. 320x260) im Verhaeltnis zur simulierten
+	// echten Aufloesung - damit werden Schriftgroesse/Randabstand proportional
+	// dargestellt, statt in der kleinen Box riesig/abgeschnitten zu wirken.
+	const res = PREVIEW_RESOLUTIONS[resIndex];
+	const scale = Math.min(320 / res.w, 260 / res.h);
+	const boxW = Math.round(res.w * scale);
+	const boxH = Math.round(res.h * scale);
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -91,54 +127,78 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 			{previewFields.length === 0 && <Alert severity="warning">{I18n.t("wallpaperNoFieldsWarning")}</Alert>}
 
 			{/* Live preview */}
-			<Box
-				sx={{
-					position: "relative",
-					width: 320,
-					height: 180,
-					borderRadius: 1,
-					border: "1px solid",
-					borderColor: "divider",
-					background: "linear-gradient(160deg, #1e293b, #0b1120)",
-					overflow: "hidden",
-				}}
-			>
-				{previewFields.length > 0 && (
-					<Box
-						sx={{
-							...positionStyle(w.position, w.edgeMargin),
-							px: 1.5,
-							py: 0.75,
-							borderRadius: 1,
-							color: w.textColor,
-							fontSize: Math.max(10, Math.min(24, w.fontSize)),
-							fontWeight: 500,
-							whiteSpace: "nowrap",
-							background: hexToRgba(w.bgColor, w.bgOpacity),
-						}}
+			<Box sx={{ display: "flex", alignItems: "flex-start", gap: 2, flexWrap: "wrap" }}>
+				<Box
+					sx={{
+						position: "relative",
+						width: boxW,
+						height: boxH,
+						borderRadius: 1,
+						border: "1px solid",
+						borderColor: "divider",
+						background: "linear-gradient(160deg, #1e293b, #0b1120)",
+						overflow: "hidden",
+						flexShrink: 0,
+					}}
+				>
+					{previewFields.length > 0 && (
+						<Box
+							sx={{
+								...positionStyle(w.position, w.edgeMargin * scale),
+								px: 1.5 * scale,
+								py: 0.75 * scale,
+								borderRadius: 1,
+								color: w.textColor,
+								fontSize: Math.max(2, w.fontSize * scale),
+								fontWeight: 500,
+								whiteSpace: "nowrap",
+								background: hexToRgba(w.bgColor, w.bgOpacity),
+							}}
+						>
+							{previewFields.join(" · ")}
+						</Box>
+					)}
+					{w.warnEnabled && (
+						<Box
+							sx={{
+								position: "absolute",
+								left: 0,
+								right: 0,
+								...(w.position.startsWith("top") ? { bottom: 0 } : { top: 0 }),
+								px: 1.5,
+								py: 0.5,
+								textAlign: "center",
+								fontWeight: 700,
+								fontSize: Math.max(2, w.warnFontSize * scale),
+								color: w.warnTextColor,
+								background: "rgba(0,0,0,0.35)",
+							}}
+						>
+							⚠ {I18n.t("wallpaperPreviewWarning")}
+						</Box>
+					)}
+				</Box>
+
+				<FormControl
+					size="small"
+					sx={{ minWidth: 200 }}
+				>
+					<InputLabel>{I18n.t("wallpaperPreviewResolution")}</InputLabel>
+					<Select
+						value={resIndex}
+						label={I18n.t("wallpaperPreviewResolution")}
+						onChange={e => setResIndex(Number(e.target.value))}
 					>
-						{previewFields.join(" · ")}
-					</Box>
-				)}
-				{w.warnEnabled && (
-					<Box
-						sx={{
-							position: "absolute",
-							left: 0,
-							right: 0,
-							...(w.position.startsWith("top") ? { bottom: 0 } : { top: 0 }),
-							px: 1.5,
-							py: 0.5,
-							textAlign: "center",
-							fontWeight: 700,
-							fontSize: Math.max(10, Math.min(20, w.warnFontSize)),
-							color: w.warnTextColor,
-							background: "rgba(0,0,0,0.35)",
-						}}
-					>
-						⚠ {I18n.t("wallpaperPreviewWarning")}
-					</Box>
-				)}
+						{PREVIEW_RESOLUTIONS.map((r, i) => (
+							<MenuItem
+								key={r.key}
+								value={i}
+							>
+								{I18n.t(r.key)} ({r.w}×{r.h})
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
 			</Box>
 
 			{/* Position */}
@@ -216,6 +276,16 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 						/>
 					}
 					label={<Typography variant="caption">{I18n.t("wallpaperShowWindSpeed")}</Typography>}
+				/>
+				<FormControlLabel
+					control={
+						<Switch
+							size="small"
+							checked={w.showTime}
+							onChange={e => update({ showTime: e.target.checked })}
+						/>
+					}
+					label={<Typography variant="caption">{I18n.t("wallpaperShowTime")}</Typography>}
 				/>
 			</Box>
 

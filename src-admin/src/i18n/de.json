@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Live-Update-Intervall (Minuten, nur aktuelle Werte)",
 	"liveUpdateMinutesHelp": "0 = deaktiviert. Aktualisiert nur current.* und das Wallpaper öfter als der volle Vorhersage-Abruf, ohne die komplette Tages-/Stundenvorhersage neu zu holen.",
 	"liveUpdateDisabled": "Aus",
-	"wallpaperPreviewWarning": "Sturmwarnung"
+	"wallpaperPreviewWarning": "Sturmwarnung",
+	"wallpaperShowTime": "Uhrzeit",
+	"wallpaperPreviewResolution": "Bildschirmauflösung simulieren",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet quer",
+	"wallpaperResTabletPortrait": "Tablet hoch",
+	"wallpaperResPhonePortrait": "Smartphone hoch"
 }

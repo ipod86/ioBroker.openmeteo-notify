@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Інтервал живого оновлення (хвилини, лише поточні умови)",
 	"liveUpdateMinutesHelp": "0 = вимкнено. Оновлює лише current.* та шпалери частіше, ніж повне оновлення прогнозу, без повторного завантаження всього денного/погодинного прогнозу.",
 	"liveUpdateDisabled": "Вимкнено",
-	"wallpaperPreviewWarning": "Штормове попередження"
+	"wallpaperPreviewWarning": "Штормове попередження",
+	"wallpaperShowTime": "Час",
+	"wallpaperPreviewResolution": "Симулювати роздільність екрана",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Планшет горизонтально",
+	"wallpaperResTabletPortrait": "Планшет вертикально",
+	"wallpaperResPhonePortrait": "Телефон вертикально"
 }

@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Интервал живого обновления (минуты, только текущие условия)",
 	"liveUpdateMinutesHelp": "0 = отключено. Обновляет только current.* и обои чаще, чем полное обновление прогноза, без повторной загрузки всего дневного/почасового прогноза.",
 	"liveUpdateDisabled": "Выкл.",
-	"wallpaperPreviewWarning": "Штормовое предупреждение"
+	"wallpaperPreviewWarning": "Штормовое предупреждение",
+	"wallpaperShowTime": "Время",
+	"wallpaperPreviewResolution": "Симулировать разрешение экрана",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Планшет горизонтально",
+	"wallpaperResTabletPortrait": "Планшет вертикально",
+	"wallpaperResPhonePortrait": "Телефон вертикально"
 }

@@ -110,6 +110,7 @@ const DEFAULT_WALLPAPER_CONFIG = {
 	showTemperature: true,
 	showWindDirection: false,
 	showWindSpeed: false,
+	showTime: false,
 	fontSize: 17,
 	textColor: "#ffffff",
 	bgColor: "#0f172a",
@@ -163,6 +164,12 @@ function hexToRgba(hex, opacityPercent) {
 function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirText, windSpeedText) {
 	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
 	const fields = [];
+	if (config.showTime) {
+		// Leerer Platzhalter - wird im Browser per setInterval() sekuendlich befuellt
+		// (siehe Template), da eine serverseitig gebackene Uhrzeit sonst zwischen zwei
+		// Refreshs (5-60 Min.) einfach stehen bliebe statt wirklich "live" zu wirken.
+		fields.push('<span id="wallpaperClock"></span>');
+	}
 	if (config.showLocation) {
 		fields.push(escapeHtmlText(locationName));
 	}

@@ -138,5 +138,12 @@
 	"liveUpdateMinutes": "Live-updateinterval (minuten, alleen actuele condities)",
 	"liveUpdateMinutesHelp": "0 = uitgeschakeld. Ververst alleen current.* en de wallpaper vaker dan de volledige voorspellingsupdate, zonder de hele dag-/uurvoorspelling opnieuw op te halen.",
 	"liveUpdateDisabled": "Uit",
-	"wallpaperPreviewWarning": "Stormwaarschuwing"
+	"wallpaperPreviewWarning": "Stormwaarschuwing",
+	"wallpaperShowTime": "Tijd",
+	"wallpaperPreviewResolution": "Schermresolutie simuleren",
+	"wallpaperResFullHD": "Full HD",
+	"wallpaperResUHD4K": "4K",
+	"wallpaperResTabletLandscape": "Tablet liggend",
+	"wallpaperResTabletPortrait": "Tablet staand",
+	"wallpaperResPhonePortrait": "Telefoon staand"
 }
