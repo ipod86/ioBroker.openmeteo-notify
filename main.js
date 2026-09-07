@@ -55,9 +55,7 @@ const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
-const WALLPAPER_TEMPLATE_RESTAPI_PATH = path.join(__dirname, "lib", "wallpaper-template-restapi.html");
 let wallpaperTemplateCache = null;
-let wallpaperTemplateRestApiCache = null;
 
 // WMO-Rohcode (0-99) auf die 8 Wetterlagen-Buckets der Wallpaper-Animation abbilden.
 function mapWmoToWallpaperBucket(code) {
@@ -246,38 +244,6 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
 		.join(locationName)
 		.split("__DATA_FILENAME__")
 		.join(dataFilename)
-		.split("__WMO_BUCKET__")
-		.join(String(values.bucket))
-		.split("__TIME_VALUE__")
-		.join(String(values.timeValue))
-		.split("__OVERLAY_HTML_JS__")
-		.join(toJsStringLiteral(values.overlayHtml))
-		.split("__OVERLAY_HTML__")
-		.join(values.overlayHtml);
-}
-
-/**
- * TEST-VARIANTE von buildWallpaperHtml(): holt die Live-Werte per simple-api/REST
- * statt per eigener Begleit-JSON-Datei. restBase kommt aus this._webApiInstances
- * (discoverWebApiInstances()) - keine manuelle IP/Port-Konfiguration noetig.
- *
- * @param {string} locationName - Anzeigename des Ortes
- * @param {string} statePrefix - z.B. "openmeteo-notify.0.hilchenbach"
- * @param {string} restBase - z.B. "http://192.168.99.33:8087"
- * @param {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}} values - Startwerte, siehe computeWallpaperValues()
- * @returns {string} fertiges HTML-Dokument
- */
-function buildWallpaperHtmlRestApi(locationName, statePrefix, restBase, values) {
-	if (wallpaperTemplateRestApiCache === null) {
-		wallpaperTemplateRestApiCache = fs.readFileSync(WALLPAPER_TEMPLATE_RESTAPI_PATH, "utf8");
-	}
-	return wallpaperTemplateRestApiCache
-		.split("__LOCATION_NAME__")
-		.join(locationName)
-		.split("__STATE_PREFIX__")
-		.join(statePrefix)
-		.split("__REST_BASE__")
-		.join(restBase)
 		.split("__WMO_BUCKET__")
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
@@ -3507,31 +3473,6 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					JSON.stringify(wallpaperValues),
 				);
 
-				// Fuer die REST-Test-Variante (und generell fuer eine vollstaendige
-				// URL statt eines relativen Pfads) auch die drei Anzeigewerte als
-				// eigene kleine Datenpunkte fuehren - so muss die REST-Variante keine
-				// eigene WMO-Bucket-Logik im Browser duplizieren.
-				await this.setDP(`${locId}.current.wallpaperBucket`, wallpaperValues.bucket, {
-					name: "Wallpaper WMO-Bucket (fuer REST-Abruf)",
-					type: "number",
-					role: "value",
-				});
-				await this.setDP(`${locId}.current.wallpaperTimeValue`, wallpaperValues.timeValue, {
-					name: "Wallpaper Tageszeit-Wert 0-100 (fuer REST-Abruf)",
-					type: "number",
-					role: "value",
-				});
-				await this.setDP(`${locId}.current.wallpaperTempText`, wallpaperValues.tempText, {
-					name: "Wallpaper Temperaturtext (fuer REST-Abruf)",
-					type: "string",
-					role: "text",
-				});
-				await this.setDP(`${locId}.current.wallpaperOverlayHtml`, wallpaperValues.overlayHtml, {
-					name: 'Wallpaper Info-Anzeige als HTML (Ort/Temp/Wind, gemaess Admin-Tab "Wallpaper")',
-					type: "string",
-					role: "html",
-				});
-
 				// Alle gefundenen web-Instanzen als Kandidaten anbieten statt blind die
 				// erste zu nehmen - nicht jede web-Instanz bedient zwangslaeufig Dateien
 				// (z.B. wenn sie fuer ein bestimmtes VIS-Projekt eingerichtet ist), daher
@@ -3562,25 +3503,6 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						type: "string",
 						role: "text.url",
 					});
-				}
-
-				const simpleApiInstance = this._webApiInstances.find(i => i.adapterType === "simple-api" && i.baseUrl);
-				if (simpleApiInstance) {
-					const wallpaperHtmlRestApi = buildWallpaperHtmlRestApi(
-						loc.name,
-						`${this.namespace}.${locId}`,
-						simpleApiInstance.baseUrl,
-						wallpaperValues,
-					);
-					await this.setDP(`${locId}.current.wallpaper_html_restapi`, wallpaperHtmlRestApi, {
-						name: "Wallpaper HTML - TEST-Variante per simple-api (statt Begleit-Datei)",
-						type: "string",
-						role: "html",
-					});
-				} else {
-					this.log.debug(
-						`Keine aktivierte simple-api-Instanz gefunden - REST-Wallpaper-Variante fuer ${locId} uebersprungen.`,
-					);
 				}
 			} catch (e) {
 				this.log.warn(`Wallpaper fuer ${locId} konnte nicht geschrieben werden: ${e.message}`);
