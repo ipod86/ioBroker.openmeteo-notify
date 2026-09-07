@@ -54,6 +54,86 @@ const ICONS = {
 const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99]);
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
+const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
+let wallpaperTemplateCache = null;
+
+// WMO-Rohcode (0-99) auf die 8 Wetterlagen-Buckets der Wallpaper-Animation abbilden.
+function mapWmoToWallpaperBucket(code) {
+	if (code === 0) {
+		return 0;
+	}
+	if ([1, 2, 3].includes(code)) {
+		return 2;
+	}
+	if ([45, 48].includes(code)) {
+		return 45;
+	}
+	if ([51, 53, 55, 56, 57].includes(code)) {
+		return 51;
+	}
+	if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+		return 63;
+	}
+	if (SNOW_CODES.has(code)) {
+		return 73;
+	}
+	if (code === 95) {
+		return 95;
+	}
+	if ([96, 99].includes(code)) {
+		return 99;
+	}
+	return 2;
+}
+
+// 0 = Nacht, 100 = Sonnenhoechststand - aus den echten Sonnenauf-/-untergangszeiten
+// des Ortes berechnet, nicht aus einer fest programmierten Uhrzeit.
+function wallpaperTimeOfDayValue(sunriseIso, sunsetIso) {
+	if (!sunriseIso || !sunsetIso) {
+		return 50;
+	}
+	const now = Date.now();
+	const sr = new Date(sunriseIso).getTime();
+	const ss = new Date(sunsetIso).getTime();
+	if (Number.isNaN(sr) || Number.isNaN(ss) || now < sr || now > ss) {
+		return 5;
+	}
+	const progress = (now - sr) / (ss - sr);
+	return Math.round(Math.sin(progress * Math.PI) * 100);
+}
+
+/**
+ * Baut das self-contained Wallpaper-HTML fuer einen Ort aus dem Template
+ * (lib/wallpaper-template.html) - Platzhalter statt Template-Strings, damit das
+ * im Template enthaltene JavaScript (das selbst massenhaft ${...} verwendet)
+ * nicht versehentlich hier ausgewertet wird. Alle Live-Werte werden fertig
+ * berechnet eingesetzt - der Adapter hat sie beim Wetter-Update schon vorliegen,
+ * daher braucht das HTML selbst keinen Nachlade-Mechanismus (kein fetch/Intervall).
+ *
+ * @param {string} locationName - Anzeigename des Ortes
+ * @param {number} wmoCode - aktueller WMO-Wettercode
+ * @param {string} sunriseIso - Sonnenaufgang heute (ISO-Zeitstempel)
+ * @param {string} sunsetIso - Sonnenuntergang heute (ISO-Zeitstempel)
+ * @param {number|null} temperature - aktuelle Temperatur
+ * @param {string} tempUnit - Einheit, z.B. "°C"
+ * @returns {string} fertiges HTML-Dokument
+ */
+function buildWallpaperHtml(locationName, wmoCode, sunriseIso, sunsetIso, temperature, tempUnit) {
+	if (wallpaperTemplateCache === null) {
+		wallpaperTemplateCache = fs.readFileSync(WALLPAPER_TEMPLATE_PATH, "utf8");
+	}
+	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
+	return wallpaperTemplateCache
+		.split("__LOCATION_NAME__")
+		.join(locationName)
+		.split("__WMO_BUCKET__")
+		.join(String(mapWmoToWallpaperBucket(wmoCode)))
+		.split("__TIME_VALUE__")
+		.join(String(wallpaperTimeOfDayValue(sunriseIso, sunsetIso)))
+		.split("__TEMP_TEXT__")
+		.join(tempText);
+}
+
 // MeteoAlarm country feed names (ISO 3166-1 alpha-2 → feed slug)
 const METEOALARM_COUNTRIES = {
 	at: "austria",
@@ -3145,6 +3225,40 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				type: "string",
 				role: "weather.state",
 			});
+
+			// WMO-Wettersimulation als HTML-"Wallpaper" pro Ort - alle Live-Werte werden
+			// hier fertig eingebacken (kein Nachladen im Browser noetig). Als Datenpunkt
+			// (role "html") fuer ein VIS-html-Widget: das zeigt eine neue Version beim
+			// naechsten Update automatisch an, ohne die Seite neu zu laden (kein Flackern).
+			// Zusaetzlich als Datei fuer den Fall, dass ein Tablet/Browser direkt per URL
+			// draufschauen soll (dort dann ohne automatisches Nachladen).
+			try {
+				const sunriseToday = d && Array.isArray(d.sunrise) ? d.sunrise[0] : null;
+				const sunsetToday = d && Array.isArray(d.sunset) ? d.sunset[0] : null;
+				const wallpaperHtml = buildWallpaperHtml(
+					loc.name,
+					curCode,
+					sunriseToday,
+					sunsetToday,
+					Math.round(cur.temperature_2m * 10) / 10,
+					tempUnit,
+				);
+				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
+					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
+					type: "string",
+					role: "html",
+				});
+				const wallpaperPath = `wallpapers/${locId}.html`;
+				await this.writeFileAsync(this.namespace, wallpaperPath, wallpaperHtml);
+				await this.setDP(`${locId}.current.wallpaper_url`, `/files/${this.namespace}/${wallpaperPath}`, {
+					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL)",
+					type: "string",
+					role: "url",
+				});
+			} catch (e) {
+				this.log.warn(`Wallpaper fuer ${locId} konnte nicht geschrieben werden: ${e.message}`);
+			}
+
 			if (enableAgriculture) {
 				await this.setObjectNotExistsAsync(`${locId}.current.agriculture`, {
 					type: "channel",

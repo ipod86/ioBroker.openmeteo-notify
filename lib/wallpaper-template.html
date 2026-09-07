@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMO Wettersimulation – __LOCATION_NAME__</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 100%; height: 100%; overflow: hidden; font-family: system-ui, sans-serif; background-color: #050508; }
+
+    .bg-container {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      transition: filter 0.4s ease;
+    }
+
+    #weatherCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      touch-action: none;
+    }
+
+    /* Bedienelemente sind hier nur noch interner Zustand fuer das Skript unten -
+       das Wallpaper wird automatisch aus den echten Wetterdaten gesteuert. */
+    .ui-panel { display: none; }
+
+    .ui-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    select, input[type="range"] {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      border-radius: 6px;
+      outline: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    select option { background: #1e293b; color: white; }
+    input[type="range"] { width: 110px; padding: 0; }
+
+    .info-overlay {
+      position: absolute;
+      left: 20px; bottom: 20px;
+      z-index: 10;
+      color: white;
+      font-size: 17px;
+      font-weight: 500;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+      background: rgba(15, 23, 42, 0.55);
+      padding: 8px 16px;
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    #infoTemp:not(:empty)::before { content: " · "; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-container" id="bg"></div>
+  <canvas id="weatherCanvas"></canvas>
+
+  <div class="info-overlay">
+    <span id="infoLocation">__LOCATION_NAME__</span><span id="infoTemp"></span>
+  </div>
+
+  <div class="ui-panel">
+    <div class="ui-group">
+      <label for="wmoSelect"><strong>WMO Wetterlage:</strong></label>
+      <select id="wmoSelect">
+        <option value="0">00: Klarer Himmel (Sonnenblenden & Sterne)</option>
+        <option value="2">01-03: Bewölkt (Dynamische Wolkenfelder)</option>
+        <option value="45">45/48: Nebel (Spürbare Strömung)</option>
+        <option value="51">51-55: Leichtes Nieseln</option>
+        <option value="63">61-65: Regenschauer / Starkregen</option>
+        <option value="73">71-75: Schneefall</option>
+        <option value="95">95: Gewitter mit Regen</option>
+        <option value="99">99: Schweres Gewitter / Sturm</option>
+      </select>
+    </div>
+
+    <div class="ui-group">
+      <label for="timeSlider"><strong>Tageszeit:</strong></label>
+      <input type="range" id="timeSlider" min="0" max="100" value="50">
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('weatherCanvas');
+    const ctx = canvas.getContext('2d');
+    const bg = document.getElementById('bg');
+    const wmoSelect = document.getElementById('wmoSelect');
+    const timeSlider = document.getElementById('timeSlider');
+
+    let width, height;
+    let particles = [];
+    let fogParticles = [];
+    let stars = [];
+    let currentWMO = 0;
+
+    let animTime = 0;
+    let flashOpacity = 0;
+    let flashTimer = 0;
+    let lightningPath = [];
+
+    const pointer = { x: -1000, y: -1000, active: false };
+
+    function updatePointer(e) {
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      pointer.x = clientX;
+      pointer.y = clientY;
+      pointer.active = true;
+    }
+
+    function handleLightningTap(e) {
+      if (e.target.closest && e.target.closest('.ui-panel')) return;
+
+      if ([95, 99].includes(currentWMO)) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        flashOpacity = Math.random() * 0.22 + 0.12;
+        lightningPath = generateLightning(clientX);
+      }
+    }
+
+    window.addEventListener('mousemove', updatePointer);
+    window.addEventListener('touchstart', (e) => { updatePointer(e); handleLightningTap(e); }, { passive: true });
+    window.addEventListener('mousedown', handleLightningTap);
+    window.addEventListener('touchmove', updatePointer, { passive: true });
+    window.addEventListener('touchend', () => pointer.active = false);
+    window.addEventListener('mouseup', () => pointer.active = false);
+    window.addEventListener('mouseleave', () => pointer.active = false);
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initStars();
+      initWeather();
+    }
+    window.addEventListener('resize', resize);
+
+    function resetFlashTimer() {
+      flashTimer = Math.floor(Math.random() * 360) + 180;
+    }
+
+    function initStars() {
+      stars = [];
+      const starCount = 140;
+      for (let i = 0; i < starCount; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * (height * 0.25), // Nur in den oberen 25 % des Himmels
+          size: Math.random() * 1.4 + 0.4,
+          baseAlpha: Math.random() * 0.6 + 0.3,
+          twinkleSpeed: Math.random() * 2 + 1,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function updateLightingFilter() {
+      const timeVal = parseInt(timeSlider.value) / 100;
+      let brightness = 0.15 + timeVal * 0.95;
+      let sepia = (1 - timeVal) * 35;
+
+      if (currentWMO === 0) brightness *= 1.15;
+      else if (currentWMO === 2) brightness *= 0.9;
+      else if (currentWMO === 45) brightness *= 0.85;
+      else if (currentWMO === 51) brightness *= 0.8;
+      else if (currentWMO === 63) brightness *= 0.7;
+      else if (currentWMO === 73) brightness *= 0.9;
+      else if ([95, 99].includes(currentWMO)) brightness *= 0.6;
+
+      bg.style.filter = `brightness(${brightness.toFixed(2)}) contrast(1.05) sepia(${sepia.toFixed(0)}%)`;
+    }
+
+    function initWeather() {
+      particles = [];
+      fogParticles = [];
+      currentWMO = parseInt(wmoSelect.value);
+      resetFlashTimer();
+      updateLightingFilter();
+
+      let count = 0;
+      if (currentWMO === 51) count = 150;
+      else if (currentWMO === 63) count = 400;
+      else if (currentWMO === 73) count = 250;
+      else if (currentWMO === 95) count = 550;
+      else if (currentWMO === 99) count = 850;
+
+      for (let i = 0; i < count; i++) {
+        particles.push(createParticle(currentWMO));
+      }
+
+      if (currentWMO === 2) {
+        for (let i = 0; i < 18; i++) {
+          fogParticles.push({
+            x: Math.random() * (width + 600) - 300,
+            y: Math.random() * (height * 0.4),
+            r: Math.random() * 180 + 120,
+            vx: Math.random() * 0.8 + 0.4,
+            phase: Math.random() * Math.PI * 2,
+            alpha: Math.random() * 0.2 + 0.08
+          });
+        }
+      }
+
+      if (currentWMO === 45) {
+        for (let i = 0; i < 22; i++) {
+          fogParticles.push({
+            x: Math.random() * (width + 600) - 300,
+            y: Math.random() * height,
+            r: Math.random() * 280 + 180,
+            vx: Math.random() * 1.2 + 0.6,
+            phase: Math.random() * Math.PI * 2,
+            alpha: Math.random() * 0.12 + 0.05
+          });
+        }
+      }
+    }
+
+    function createParticle(wmo) {
+      const isSnow = wmo === 73;
+      const isStorm = wmo === 99 || wmo === 95;
+      const windAngle = isStorm ? -14 : (isSnow ? -2 : -4);
+
+      return {
+        x: Math.random() * (width + 600) - 300,
+        y: Math.random() * height,
+        length: isSnow ? Math.random() * 3 + 2 : Math.random() * 22 + 10,
+        speed: isSnow ? Math.random() * 1.5 + 0.8 : (isStorm ? Math.random() * 26 + 18 : Math.random() * 14 + 8),
+        wind: windAngle + (Math.random() - 0.5),
+        opacity: Math.random() * 0.5 + 0.2,
+        size: isSnow ? Math.random() * 3 + 1 : Math.random() * 1.5 + 0.5,
+        sway: Math.random() * 0.04
+      };
+    }
+
+    function generateLightning(targetX) {
+      let path = [];
+      let currentX = targetX !== undefined ? targetX : (Math.random() * (width - 200) + 100);
+      let currentY = 0;
+      path.push({x: currentX, y: currentY});
+
+      while (currentY < height * 0.65) {
+        currentY += Math.random() * 30 + 10;
+        currentX += (Math.random() - 0.5) * 40;
+        path.push({x: currentX, y: currentY});
+      }
+      return path;
+    }
+
+    function drawStars() {
+      const timeVal = parseInt(timeSlider.value) / 100;
+      if (timeVal > 0.4 || ![0, 2, 73].includes(currentWMO)) return;
+
+      const nightFactor = (0.4 - timeVal) / 0.4;
+
+      stars.forEach(s => {
+        const twinkle = Math.sin(animTime * s.twinkleSpeed + s.phase) * 0.35 + 0.65;
+        const alpha = s.baseAlpha * twinkle * nightFactor;
+
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, alpha)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function drawSunGlare() {
+      const timeVal = parseInt(timeSlider.value) / 100;
+      if (timeVal < 0.2) return;
+
+      const sunOpacity = Math.min(1, (timeVal - 0.2) / 0.5);
+
+      const sunX = width * 0.78 + Math.sin(animTime * 0.5) * 20;
+      const sunY = height * 0.22 + Math.cos(animTime * 0.7) * 12;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      let screenGlare = ctx.createRadialGradient(sunX, sunY, 50, sunX, sunY, width * 0.85);
+      screenGlare.addColorStop(0, `rgba(255, 245, 210, ${0.35 * sunOpacity})`);
+      screenGlare.addColorStop(0.3, `rgba(255, 220, 160, ${0.15 * sunOpacity})`);
+      screenGlare.addColorStop(0.7, `rgba(255, 180, 120, ${0.05 * sunOpacity})`);
+      screenGlare.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = screenGlare;
+      ctx.fillRect(0, 0, width, height);
+
+      const corePulse = Math.sin(animTime * 2) * 15;
+      let coreGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, 200 + corePulse);
+      coreGrad.addColorStop(0, `rgba(255, 255, 255, ${0.98 * sunOpacity})`);
+      coreGrad.addColorStop(0.15, `rgba(255, 245, 190, ${0.85 * sunOpacity})`);
+      coreGrad.addColorStop(0.4, `rgba(255, 200, 120, ${0.35 * sunOpacity})`);
+      coreGrad.addColorStop(1, 'rgba(255, 150, 50, 0)');
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, 220 + corePulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      const dx = centerX - sunX;
+      const dy = centerY - sunY;
+
+      const drawFlareDisc = (dist, radius, r, g, b, alpha) => {
+        const fx = sunX + dx * dist;
+        const fy = sunY + dy * dist;
+        const currentAlpha = alpha * sunOpacity;
+        let fGrad = ctx.createRadialGradient(fx, fy, 0, fx, fy, radius);
+        fGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${currentAlpha})`);
+        fGrad.addColorStop(0.8, `rgba(${r}, ${g}, ${b}, ${currentAlpha * 0.2})`);
+        fGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = fGrad;
+        ctx.beginPath();
+        ctx.arc(fx, fy, radius, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      drawFlareDisc(0.3, 70, 255, 220, 150, 0.25);
+      drawFlareDisc(0.65, 120, 180, 220, 255, 0.18);
+      drawFlareDisc(1.05, 45, 255, 180, 220, 0.22);
+      drawFlareDisc(1.35, 160, 255, 230, 170, 0.12);
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, width, height);
+      animTime += 0.015;
+
+      drawStars();
+
+      if (currentWMO === 0) {
+        drawSunGlare();
+      }
+
+      if (fogParticles.length > 0) {
+        fogParticles.forEach(p => {
+          p.x += p.vx;
+          p.y += Math.sin(animTime * 1.5 + p.phase) * 0.4;
+
+          if (pointer.active) {
+            const dx = p.x - pointer.x;
+            const dy = p.y - pointer.y;
+            const dist = Math.hypot(dx, dy);
+            const radius = 220;
+            if (dist < radius && dist > 0) {
+              const force = (radius - dist) / radius;
+              p.x += (dx / dist) * force * 12;
+              p.y += (dy / dist) * force * 12;
+            }
+          }
+
+          const dynamicAlpha = p.alpha + Math.sin(animTime * 2 + p.phase) * 0.02;
+
+          if (p.x - p.r > width) {
+            p.x = -p.r * 1.2;
+            p.y = Math.random() * (currentWMO === 2 ? height * 0.4 : height);
+          }
+
+          let grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          grad.addColorStop(0, `rgba(230, 235, 245, ${Math.max(0, dynamicAlpha)})`);
+          grad.addColorStop(0.6, `rgba(220, 225, 235, ${Math.max(0, dynamicAlpha * 0.4)})`);
+          grad.addColorStop(1, 'rgba(230, 235, 245, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      ctx.lineWidth = 1.2;
+      particles.forEach(p => {
+        p.y += p.speed;
+        p.x += p.wind;
+
+        if (currentWMO === 73) {
+          p.x += Math.sin(p.y * p.sway) * 0.6;
+        }
+
+        if (pointer.active && ![95, 99].includes(currentWMO)) {
+          const dx = p.x - pointer.x;
+          const dy = p.y - pointer.y;
+          const dist = Math.hypot(dx, dy);
+          const radius = 120;
+          if (dist < radius && dist > 0) {
+            const force = (radius - dist) / radius;
+            p.x += (dx / dist) * force * 9;
+            p.y += (dy / dist) * force * 9;
+          }
+        }
+
+        if (p.y > height || p.x < -400 || p.x > width + 400) {
+          p.y = -20;
+          p.x = Math.random() * (width + 600) - 300;
+        }
+
+        if (currentWMO === 73) {
+          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.strokeStyle = `rgba(200, 225, 255, ${p.opacity})`;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + p.wind * 1.2, p.y + p.length);
+          ctx.stroke();
+        }
+      });
+
+      if ([95, 99].includes(currentWMO)) {
+        flashTimer--;
+
+        if (flashTimer <= 0) {
+          flashOpacity = Math.random() * 0.18 + 0.08;
+          lightningPath = generateLightning();
+          resetFlashTimer();
+        }
+
+        if (flashOpacity > 0) {
+          ctx.fillStyle = `rgba(210, 225, 255, ${flashOpacity})`;
+          ctx.fillRect(0, 0, width, height);
+
+          if (lightningPath.length > 0) {
+            ctx.strokeStyle = `rgba(255, 255, 255, ${flashOpacity * 2.5})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(lightningPath[0].x, lightningPath[0].y);
+            for (let i = 1; i < lightningPath.length; i++) {
+              ctx.lineTo(lightningPath[i].x, lightningPath[i].y);
+            }
+            ctx.stroke();
+          }
+
+          flashOpacity -= 0.015;
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    wmoSelect.addEventListener('change', initWeather);
+    timeSlider.addEventListener('input', updateLightingFilter);
+
+    // ---- Ab hier automatisch generiert: Werte kommen direkt vom ioBroker-Adapter,
+    // schon fertig berechnet (WMO-Bucket, Tageszeit-Wert, Temperaturtext) - kein
+    // Nachladen im Browser noetig. Der Adapter schreibt dieses komplette HTML bei
+    // jedem Wetter-Update neu in den Datenpunkt; ein daran gebundenes VIS-Widget
+    // zeigt die neue Version automatisch, ohne dass die Seite neu laedt.
+    wmoSelect.value = "__WMO_BUCKET__";
+    timeSlider.value = "__TIME_VALUE__";
+    const infoTempEl = document.getElementById('infoTemp');
+    if (infoTempEl) {
+      infoTempEl.textContent = "__TEMP_TEXT__";
+    }
+
+    resize();
+    update();
+
+    // Nur relevant, wenn diese Datei direkt per URL in einem Tablet-/Kiosk-Browser
+    // offen ist (nicht in einem iframe/Widget eingebettet): dort gibt es sonst keinen
+    // Mechanismus, der neue Werte reinbekommt, also alle 15 Minuten neu laden. Wird
+    // das Wallpaper stattdessen ueber den wallpaper_html-Datenpunkt in ein VIS-Widget
+    // eingebunden, aktualisiert sich das ohnehin automatisch, ohne dass die Seite neu
+    // laedt - deshalb hier kein Reload, wenn wir in einem iframe/Widget stecken.
+    const WALLPAPER_RELOAD_MINUTES = 15;
+    if (window.self === window.top) {
+      setInterval(() => location.reload(), WALLPAPER_RELOAD_MINUTES * 60 * 1000);
+    }
+  </script>
+</body>
+</html>
