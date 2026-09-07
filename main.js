@@ -1379,7 +1379,7 @@ class Openmeteo extends utils.Adapter {
 		// kurzen Intervallen, daher einfacher setInterval statt der Ausrichtung oben.
 		const liveUpdateMinutes = Math.min(Math.max(0, this.config.liveUpdateMinutes || 0), 1440);
 		if (liveUpdateMinutes > 0) {
-			this.liveUpdateInterval = setInterval(
+			this.liveUpdateInterval = this.setInterval(
 				() => {
 					this.runLiveUpdate().catch(e => this.log.warn(`Live-Update fehlgeschlagen: ${e.message}`));
 				},
@@ -5509,7 +5509,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				this.clearTimeout(this.warnTimeout);
 			}
 			if (this.liveUpdateInterval) {
-				clearInterval(this.liveUpdateInterval);
+				this.clearInterval(this.liveUpdateInterval);
 			}
 			callback();
 		} catch (error) {
