@@ -103,35 +103,54 @@ function wallpaperTimeOfDayValue(sunriseIso, sunsetIso) {
 }
 
 /**
- * Baut das self-contained Wallpaper-HTML fuer einen Ort aus dem Template
- * (lib/wallpaper-template.html) - Platzhalter statt Template-Strings, damit das
- * im Template enthaltene JavaScript (das selbst massenhaft ${...} verwendet)
- * nicht versehentlich hier ausgewertet wird. Alle Live-Werte werden fertig
- * berechnet eingesetzt - der Adapter hat sie beim Wetter-Update schon vorliegen,
- * daher braucht das HTML selbst keinen Nachlade-Mechanismus (kein fetch/Intervall).
+ * Berechnet die drei Anzeigewerte des Wallpapers aus den Rohdaten - einmal hier,
+ * damit sowohl das gebackene HTML als auch die kleine Begleit-JSON-Datei (die das
+ * HTML selbst per fetch() nachlaedt) exakt dieselben Werte verwenden.
  *
- * @param {string} locationName - Anzeigename des Ortes
  * @param {number} wmoCode - aktueller WMO-Wettercode
  * @param {string} sunriseIso - Sonnenaufgang heute (ISO-Zeitstempel)
  * @param {string} sunsetIso - Sonnenuntergang heute (ISO-Zeitstempel)
  * @param {number|null} temperature - aktuelle Temperatur
  * @param {string} tempUnit - Einheit, z.B. "°C"
+ * @returns {{bucket: number, timeValue: number, tempText: string}}
+ */
+function computeWallpaperValues(wmoCode, sunriseIso, sunsetIso, temperature, tempUnit) {
+	return {
+		bucket: mapWmoToWallpaperBucket(wmoCode),
+		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso),
+		tempText: temperature != null ? `${temperature}${tempUnit}` : "",
+	};
+}
+
+/**
+ * Baut das self-contained Wallpaper-HTML fuer einen Ort aus dem Template
+ * (lib/wallpaper-template.html) - Platzhalter statt Template-Strings, damit das
+ * im Template enthaltene JavaScript (das selbst massenhaft ${...} verwendet)
+ * nicht versehentlich hier ausgewertet wird. Die Werte sind sowohl als
+ * Startwerte eingebacken (sofort korrekt beim ersten Rendern) als auch ueber
+ * die Begleit-JSON-Datei per fetch() nachladbar (siehe dataFilename) - kein
+ * externer REST-Aufruf noetig, kein voller Seiten-Reload noetig.
+ *
+ * @param {string} locationName - Anzeigename des Ortes
+ * @param {string} dataFilename - Dateiname der Begleit-JSON (liegt im selben Ordner)
+ * @param {{bucket: number, timeValue: number, tempText: string}} values - siehe computeWallpaperValues()
  * @returns {string} fertiges HTML-Dokument
  */
-function buildWallpaperHtml(locationName, wmoCode, sunriseIso, sunsetIso, temperature, tempUnit) {
+function buildWallpaperHtml(locationName, dataFilename, values) {
 	if (wallpaperTemplateCache === null) {
 		wallpaperTemplateCache = fs.readFileSync(WALLPAPER_TEMPLATE_PATH, "utf8");
 	}
-	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
 	return wallpaperTemplateCache
 		.split("__LOCATION_NAME__")
 		.join(locationName)
+		.split("__DATA_FILENAME__")
+		.join(dataFilename)
 		.split("__WMO_BUCKET__")
-		.join(String(mapWmoToWallpaperBucket(wmoCode)))
+		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
-		.join(String(wallpaperTimeOfDayValue(sunriseIso, sunsetIso)))
+		.join(String(values.timeValue))
 		.split("__TEMP_TEXT__")
-		.join(tempText);
+		.join(values.tempText);
 }
 
 // MeteoAlarm country feed names (ISO 3166-1 alpha-2 → feed slug)
@@ -3226,23 +3245,27 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				role: "weather.state",
 			});
 
-			// WMO-Wettersimulation als HTML-"Wallpaper" pro Ort - alle Live-Werte werden
-			// hier fertig eingebacken (kein Nachladen im Browser noetig). Als Datenpunkt
-			// (role "html") fuer ein VIS-html-Widget: das zeigt eine neue Version beim
-			// naechsten Update automatisch an, ohne die Seite neu zu laden (kein Flackern).
-			// Zusaetzlich als Datei fuer den Fall, dass ein Tablet/Browser direkt per URL
-			// draufschauen soll (dort dann ohne automatisches Nachladen).
+			// WMO-Wettersimulation als HTML-"Wallpaper" pro Ort. Werte werden beim
+			// Rendern eingebacken (sofort korrekt) UND als winzige Begleit-JSON-Datei
+			// danebengeschrieben, die das HTML selbst per fetch() im selben Ordner
+			// nachlaedt (kein REST-API-Adapter, kein voller Seiten-Reload noetig).
+			// Als Datenpunkt (role "html") fuer ein VIS-html-Widget: das zeigt eine
+			// neue Version beim naechsten Update automatisch an, ohne Reload.
+			// Zusaetzlich als Datei fuer den Fall, dass ein Tablet/Browser direkt per
+			// URL draufschauen soll.
 			try {
 				const sunriseToday = d && Array.isArray(d.sunrise) ? d.sunrise[0] : null;
 				const sunsetToday = d && Array.isArray(d.sunset) ? d.sunset[0] : null;
-				const wallpaperHtml = buildWallpaperHtml(
-					loc.name,
+				const wallpaperValues = computeWallpaperValues(
 					curCode,
 					sunriseToday,
 					sunsetToday,
 					Math.round(cur.temperature_2m * 10) / 10,
 					tempUnit,
 				);
+				const dataFilename = `${locId}-data.json`;
+				const wallpaperHtml = buildWallpaperHtml(loc.name, dataFilename, wallpaperValues);
+
 				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
 					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
 					type: "string",
@@ -3250,6 +3273,11 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				});
 				const wallpaperPath = `wallpapers/${locId}.html`;
 				await this.writeFileAsync(this.namespace, wallpaperPath, wallpaperHtml);
+				await this.writeFileAsync(
+					this.namespace,
+					`wallpapers/${dataFilename}`,
+					JSON.stringify(wallpaperValues),
+				);
 				await this.setDP(`${locId}.current.wallpaper_url`, `/files/${this.namespace}/${wallpaperPath}`, {
 					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL)",
 					type: "string",

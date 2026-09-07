@@ -446,31 +446,39 @@
     wmoSelect.addEventListener('change', initWeather);
     timeSlider.addEventListener('input', updateLightingFilter);
 
-    // ---- Ab hier automatisch generiert: Werte kommen direkt vom ioBroker-Adapter,
-    // schon fertig berechnet (WMO-Bucket, Tageszeit-Wert, Temperaturtext) - kein
-    // Nachladen im Browser noetig. Der Adapter schreibt dieses komplette HTML bei
-    // jedem Wetter-Update neu in den Datenpunkt; ein daran gebundenes VIS-Widget
-    // zeigt die neue Version automatisch, ohne dass die Seite neu laedt.
-    wmoSelect.value = "__WMO_BUCKET__";
-    timeSlider.value = "__TIME_VALUE__";
+    // ---- Ab hier automatisch generiert ----
+    // Startwerte kommen direkt vom ioBroker-Adapter, schon fertig berechnet
+    // (WMO-Bucket, Tageszeit-Wert, Temperaturtext) - beim ersten Anzeigen sofort
+    // korrekt, kein Warten auf einen ersten fetch().
     const infoTempEl = document.getElementById('infoTemp');
-    if (infoTempEl) {
-      infoTempEl.textContent = "__TEMP_TEXT__";
+    function applyWallpaperValues(bucket, timeValue, tempText) {
+      wmoSelect.value = String(bucket);
+      timeSlider.value = String(timeValue);
+      if (infoTempEl) {
+        infoTempEl.textContent = tempText || '';
+      }
+      initWeather();
     }
+    applyWallpaperValues(__WMO_BUCKET__, __TIME_VALUE__, "__TEMP_TEXT__");
 
     resize();
     update();
 
-    // Nur relevant, wenn diese Datei direkt per URL in einem Tablet-/Kiosk-Browser
-    // offen ist (nicht in einem iframe/Widget eingebettet): dort gibt es sonst keinen
-    // Mechanismus, der neue Werte reinbekommt, also alle 15 Minuten neu laden. Wird
-    // das Wallpaper stattdessen ueber den wallpaper_html-Datenpunkt in ein VIS-Widget
-    // eingebunden, aktualisiert sich das ohnehin automatisch, ohne dass die Seite neu
-    // laedt - deshalb hier kein Reload, wenn wir in einem iframe/Widget stecken.
-    const WALLPAPER_RELOAD_MINUTES = 15;
-    if (window.self === window.top) {
-      setInterval(() => location.reload(), WALLPAPER_RELOAD_MINUTES * 60 * 1000);
+    // Aktuelle Werte liegen als winzige JSON-Datei im selben Ordner (schreibt der
+    // Adapter bei jedem Wetter-Update neu) - per fetch() im selben Ordner geholt,
+    // kein REST-API-Adapter noetig, kein voller Seiten-Reload noetig. Funktioniert
+    // sowohl direkt per URL im Browser/Tablet als auch eingebettet in ein Widget.
+    const WALLPAPER_REFRESH_MINUTES = 5;
+    async function refreshWallpaperData() {
+      try {
+        const res = await fetch("__DATA_FILENAME__", { cache: 'no-store' });
+        const data = await res.json();
+        applyWallpaperValues(data.bucket, data.timeValue, data.tempText);
+      } catch (e) {
+        console.error('Wallpaper-Daten konnten nicht aktualisiert werden:', e);
+      }
     }
+    setInterval(refreshWallpaperData, WALLPAPER_REFRESH_MINUTES * 60 * 1000);
   </script>
 </body>
 </html>
