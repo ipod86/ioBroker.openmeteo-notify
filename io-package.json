@@ -178,6 +178,7 @@
     "precipitationUnit": "mm",
     "iconSet": "basmilius",
     "updateInterval": 60,
+    "liveUpdateMinutes": 0,
     "enableAirQuality": true,
     "enableAirQualityHourly": false,
     "enableAstronomy": true,
@@ -211,7 +212,11 @@
       "textColor": "#ffffff",
       "bgColor": "#0f172a",
       "bgOpacity": 55,
-      "edgeMargin": 12
+      "edgeMargin": 12,
+      "warnEnabled": true,
+      "warnTextColor": "#ff5252",
+      "warnFontSize": 20,
+      "carouselEnabled": false
     }
   },
   "notifications": [

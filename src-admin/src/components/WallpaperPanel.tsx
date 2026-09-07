@@ -19,6 +19,10 @@ export const DEFAULT_WALLPAPER: WallpaperConfig = {
 	bgColor: "#0f172a",
 	bgOpacity: 55,
 	edgeMargin: 12,
+	warnEnabled: true,
+	warnTextColor: "#ff5252",
+	warnFontSize: 20,
+	carouselEnabled: false,
 };
 
 const ColorSwatch: React.FC<{ value: string; onChange: (v: string) => void }> = ({ value, onChange }) => (
@@ -287,6 +291,82 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 						onChange={(_, v) => update({ bgOpacity: v as number })}
 					/>
 				</Box>
+			</Box>
+
+			{/* Amtliche Warnungen als Text-Banner */}
+			<Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+				<Typography
+					variant="subtitle2"
+					sx={{ display: "block" }}
+				>
+					{I18n.t("wallpaperWarnSection")}
+				</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							size="small"
+							checked={w.warnEnabled}
+							onChange={e => update({ warnEnabled: e.target.checked })}
+						/>
+					}
+					label={<Typography variant="caption">{I18n.t("wallpaperWarnEnabled")}</Typography>}
+				/>
+				{w.warnEnabled && (
+					<>
+						<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								sx={{ width: 110, flexShrink: 0 }}
+							>
+								{I18n.t("wallpaperWarnTextColor")}
+							</Typography>
+							<ColorSwatch
+								value={w.warnTextColor}
+								onChange={v => update({ warnTextColor: v })}
+							/>
+						</Box>
+						<Box sx={{ maxWidth: 320 }}>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								sx={{ display: "block", mb: 0.5 }}
+							>
+								{I18n.t("wallpaperWarnFontSize")} ({w.warnFontSize}px)
+							</Typography>
+							<Slider
+								value={w.warnFontSize}
+								min={10}
+								max={100}
+								step={1}
+								size="small"
+								marks
+								sx={{ width: 160 }}
+								onChange={(_, v) => update({ warnFontSize: v as number })}
+							/>
+						</Box>
+					</>
+				)}
+			</Box>
+
+			{/* Karussell zwischen mehreren Orten */}
+			<Box>
+				<Typography
+					variant="subtitle2"
+					sx={{ display: "block", mb: 0.5 }}
+				>
+					{I18n.t("wallpaperCarouselSection")}
+				</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							size="small"
+							checked={w.carouselEnabled}
+							onChange={e => update({ carouselEnabled: e.target.checked })}
+						/>
+					}
+					label={<Typography variant="caption">{I18n.t("wallpaperCarouselEnabled")}</Typography>}
+				/>
 			</Box>
 		</Box>
 	);

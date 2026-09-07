@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Фон",
 	"wallpaperBgOpacity": "Непрозорість фону",
 	"wallpaperBgPhotoHint": "Фонове фото знаходиться в Admin → Файли → <екземпляр>/wallpapers/<місце>.jpg - фото за замовчуванням створюється автоматично, замініть його, завантаживши свій файл з такою ж назвою.",
-	"wallpaperEdgeMargin": "Відступ від краю"
+	"wallpaperEdgeMargin": "Відступ від краю",
+	"wallpaperWarnSection": "Офіційні метеопопередження",
+	"wallpaperWarnEnabled": "Показувати активні попередження як текстовий банер",
+	"wallpaperWarnTextColor": "Колір тексту попередження",
+	"wallpaperWarnFontSize": "Розмір шрифту попередження",
+	"wallpaperCarouselSection": "Карусель (кілька місць)",
+	"wallpaperCarouselEnabled": "Показувати стрілки ліворуч/праворуч для перемикання місць",
+	"liveUpdateMinutes": "Інтервал живого оновлення (хвилини, лише поточні умови)",
+	"liveUpdateMinutesHelp": "0 = вимкнено. Оновлює лише current.* та шпалери частіше, ніж повне оновлення прогнозу, без повторного завантаження всього денного/погодинного прогнозу."
 }

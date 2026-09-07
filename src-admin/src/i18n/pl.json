@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Tło",
 	"wallpaperBgOpacity": "Krycie tła",
 	"wallpaperBgPhotoHint": "Zdjęcie tła znajduje się w Admin → Pliki → <instancja>/wallpapers/<lokalizacja>.jpg - domyślne zdjęcie jest tworzone automatycznie, zastąp je, przesyłając własny plik o tej samej nazwie.",
-	"wallpaperEdgeMargin": "Odstęp od krawędzi"
+	"wallpaperEdgeMargin": "Odstęp od krawędzi",
+	"wallpaperWarnSection": "Oficjalne ostrzeżenia pogodowe",
+	"wallpaperWarnEnabled": "Pokaż aktywne ostrzeżenia jako baner tekstowy",
+	"wallpaperWarnTextColor": "Kolor tekstu ostrzeżenia",
+	"wallpaperWarnFontSize": "Rozmiar czcionki ostrzeżenia",
+	"wallpaperCarouselSection": "Karuzela (wiele lokalizacji)",
+	"wallpaperCarouselEnabled": "Pokaż strzałki lewo/prawo do przełączania lokalizacji",
+	"liveUpdateMinutes": "Interwał aktualizacji na żywo (minuty, tylko bieżące warunki)",
+	"liveUpdateMinutesHelp": "0 = wyłączone. Odświeża tylko current.* i tapetę częściej niż pełna aktualizacja prognozy, bez ponownego pobierania całej prognozy dziennej/godzinowej."
 }

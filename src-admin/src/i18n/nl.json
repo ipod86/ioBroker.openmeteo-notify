@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Achtergrond",
 	"wallpaperBgOpacity": "Achtergrondtransparantie",
 	"wallpaperBgPhotoHint": "De achtergrondfoto staat onder Admin → Bestanden → <instantie>/wallpapers/<locatie>.jpg - er wordt automatisch een standaardfoto aangemaakt, vervang deze door je eigen bestand met dezelfde naam te uploaden.",
-	"wallpaperEdgeMargin": "Afstand tot de rand"
+	"wallpaperEdgeMargin": "Afstand tot de rand",
+	"wallpaperWarnSection": "Officiële weerwaarschuwingen",
+	"wallpaperWarnEnabled": "Actieve waarschuwingen als tekstbanner tonen",
+	"wallpaperWarnTextColor": "Tekstkleur waarschuwing",
+	"wallpaperWarnFontSize": "Lettergrootte waarschuwing",
+	"wallpaperCarouselSection": "Carrousel (meerdere locaties)",
+	"wallpaperCarouselEnabled": "Pijlen links/rechts tonen om tussen locaties te bladeren",
+	"liveUpdateMinutes": "Live-updateinterval (minuten, alleen actuele condities)",
+	"liveUpdateMinutesHelp": "0 = uitgeschakeld. Ververst alleen current.* en de wallpaper vaker dan de volledige voorspellingsupdate, zonder de hele dag-/uurvoorspelling opnieuw op te halen."
 }

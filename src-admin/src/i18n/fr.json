@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Arrière-plan",
 	"wallpaperBgOpacity": "Opacité de l'arrière-plan",
 	"wallpaperBgPhotoHint": "La photo de fond se trouve dans Admin → Fichiers → <instance>/wallpapers/<lieu>.jpg - une photo par défaut est créée automatiquement, remplacez-la en téléversant votre propre fichier portant le même nom.",
-	"wallpaperEdgeMargin": "Distance au bord"
+	"wallpaperEdgeMargin": "Distance au bord",
+	"wallpaperWarnSection": "Alertes météo officielles",
+	"wallpaperWarnEnabled": "Afficher les alertes actives sous forme de bandeau texte",
+	"wallpaperWarnTextColor": "Couleur du texte d'alerte",
+	"wallpaperWarnFontSize": "Taille de police de l'alerte",
+	"wallpaperCarouselSection": "Carrousel (plusieurs lieux)",
+	"wallpaperCarouselEnabled": "Afficher des flèches gauche/droite pour parcourir les lieux",
+	"liveUpdateMinutes": "Intervalle de mise à jour en direct (minutes, conditions actuelles uniquement)",
+	"liveUpdateMinutesHelp": "0 = désactivé. Met à jour uniquement current.* et le fond d'écran plus souvent que la mise à jour complète des prévisions, sans retélécharger toutes les prévisions journalières/horaires."
 }

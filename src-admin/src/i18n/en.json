@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Background",
 	"wallpaperBgOpacity": "Background opacity",
 	"wallpaperBgPhotoHint": "The background photo lives at Admin → Files → <instance>/wallpapers/<location>.jpg - a default photo is created automatically, replace it by uploading your own file with the same name.",
-	"wallpaperEdgeMargin": "Distance from edge"
+	"wallpaperEdgeMargin": "Distance from edge",
+	"wallpaperWarnSection": "Official weather warnings",
+	"wallpaperWarnEnabled": "Show active warnings as text banner",
+	"wallpaperWarnTextColor": "Warning text color",
+	"wallpaperWarnFontSize": "Warning font size",
+	"wallpaperCarouselSection": "Carousel (multiple locations)",
+	"wallpaperCarouselEnabled": "Show left/right arrows to browse between locations",
+	"liveUpdateMinutes": "Live update interval (minutes, current conditions only)",
+	"liveUpdateMinutesHelp": "0 = disabled. Refreshes only current.* and the Wallpaper more often than the full forecast update, without re-fetching the whole daily/hourly forecast."
 }

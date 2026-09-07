@@ -61,14 +61,63 @@
       backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.12);
     }
+
+    .warning-banner {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 11;
+      text-align: center;
+      font-weight: 700;
+      padding: 8px 16px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(4px);
+    }
+
+    #moonIcon {
+      position: absolute;
+      width: 42px; height: 42px;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 1s ease;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 12;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(15, 23, 42, 0.35);
+      color: rgba(255,255,255,0.75);
+      font-size: 22px;
+      line-height: 44px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .carousel-arrow:hover { background: rgba(15, 23, 42, 0.6); color: #fff; }
+    .carousel-arrow.prev { left: 16px; }
+    .carousel-arrow.next { right: 16px; }
   </style>
 </head>
 <body>
 
   <div class="bg-container" id="bg"></div>
   <canvas id="weatherCanvas"></canvas>
+  <img id="moonIcon" src="__MOON_ICON_URL__" alt="">
 
+  <div id="warningContainer">__WARNING_HTML__</div>
   <div id="overlayContainer">__OVERLAY_HTML__</div>
+
+  <!-- Nur sichtbar/aktiv, wenn im Admin-Tab "Wallpaper" das Karussell aktiviert ist
+       und mehr als ein Ort konfiguriert ist (siehe Skript unten). -->
+  <button class="carousel-arrow prev" id="carouselPrev" style="display:none;">‹</button>
+  <button class="carousel-arrow next" id="carouselNext" style="display:none;">›</button>
 
   <div class="ui-panel">
     <div class="ui-group">
@@ -103,6 +152,14 @@
     let fogParticles = [];
     let stars = [];
     let currentWMO = 0;
+    // Reale Werte statt fest programmierter Annahmen - siehe computeWallpaperValues()
+    // in main.js: windDrift (Ost/West-Drift aus echter Windrichtung/-staerke),
+    // precipScale (Partikelzahl aus echter Niederschlagsmenge), sun/moon (echte
+    // Position aus SunCalc statt einer kuenstlichen Animation).
+    let windDrift = 0;
+    let precipScale = 1;
+    let sunPos = { x: 0.78, y: 0.22, visible: true };
+    let moonPos = { x: 0.2, y: 0.18, visible: false };
 
     let animTime = 0;
     let flashOpacity = 0;
@@ -193,6 +250,9 @@
       else if (currentWMO === 73) count = 250;
       else if (currentWMO === 95) count = 550;
       else if (currentWMO === 99) count = 850;
+      // Echte Niederschlagsmenge skaliert die Partikelzahl (precipScale, siehe oben) -
+      // gedeckelt, damit es auf schwaecheren Geraeten nicht zu viele werden.
+      count = Math.min(1200, Math.round(count * precipScale));
 
       for (let i = 0; i < count; i++) {
         particles.push(createParticle(currentWMO));
@@ -204,7 +264,7 @@
             x: Math.random() * (width + 600) - 300,
             y: Math.random() * (height * 0.4),
             r: Math.random() * 180 + 120,
-            vx: Math.random() * 0.8 + 0.4,
+            vx: Math.random() * 0.8 + 0.4 + windDrift * 0.15,
             phase: Math.random() * Math.PI * 2,
             alpha: Math.random() * 0.2 + 0.08
           });
@@ -217,7 +277,7 @@
             x: Math.random() * (width + 600) - 300,
             y: Math.random() * height,
             r: Math.random() * 280 + 180,
-            vx: Math.random() * 1.2 + 0.6,
+            vx: Math.random() * 1.2 + 0.6 + windDrift * 0.15,
             phase: Math.random() * Math.PI * 2,
             alpha: Math.random() * 0.12 + 0.05
           });
@@ -228,7 +288,10 @@
     function createParticle(wmo) {
       const isSnow = wmo === 73;
       const isStorm = wmo === 99 || wmo === 95;
-      const windAngle = isStorm ? -14 : (isSnow ? -2 : -4);
+      // Basiswert wie im Original + echte Windrichtung/-staerke (windDrift, siehe oben) -
+      // bei Regen/Schnee weniger stark durchschlagend als bei Sturm, damit sich der
+      // Charakter der Wetterlage nicht komplett aendert, nur realistisch mitschwingt.
+      const windAngle = (isStorm ? -14 : (isSnow ? -2 : -4)) + windDrift * (isStorm ? 1 : 0.5);
 
       return {
         x: Math.random() * (width + 600) - 300,
@@ -274,13 +337,19 @@
     }
 
     function drawSunGlare() {
+      // Nur zeigen, wenn die Sonne laut echter Position (sunPos, siehe oben) auch
+      // wirklich ueber dem Horizont steht - statt nur nach der kuenstlichen Tageszeit
+      // zu gehen, die bei "klarer Himmel" auch fuer klare Naechte gilt.
+      if (!sunPos.visible) return;
       const timeVal = parseInt(timeSlider.value) / 100;
       if (timeVal < 0.2) return;
 
       const sunOpacity = Math.min(1, (timeVal - 0.2) / 0.5);
 
-      const sunX = width * 0.78 + Math.sin(animTime * 0.5) * 20;
-      const sunY = height * 0.22 + Math.cos(animTime * 0.7) * 12;
+      // Echte Position (sunPos.x/y, 0-1) statt kuenstlicher Drift - leichtes Zittern
+      // (animTime-Anteil) bleibt fuer etwas Lebendigkeit, aber viel dezenter als vorher.
+      const sunX = width * sunPos.x + Math.sin(animTime * 0.5) * 6;
+      const sunY = height * sunPos.y + Math.cos(animTime * 0.7) * 4;
       const centerX = width / 2;
       const centerY = height / 2;
 
@@ -462,19 +531,55 @@
 
     // ---- Ab hier automatisch generiert ----
     // Startwerte kommen direkt vom ioBroker-Adapter, schon fertig berechnet
-    // (WMO-Bucket, Tageszeit-Wert, Info-Anzeige als fertiges HTML gemaess der
-    // Einstellungen im Admin-Tab "Wallpaper") - beim ersten Anzeigen sofort
-    // korrekt, kein Warten auf einen ersten fetch().
+    // (WMO-Bucket, Tageszeit-Wert, Info-/Warnungs-Anzeige als fertiges HTML gemaess
+    // der Einstellungen im Admin-Tab "Wallpaper", echte Wind-/Sonnen-/Mondwerte) -
+    // beim ersten Anzeigen sofort korrekt, kein Warten auf einen ersten fetch().
     const overlayContainer = document.getElementById('overlayContainer');
-    function applyWallpaperValues(bucket, timeValue, overlayHtml) {
-      wmoSelect.value = String(bucket);
-      timeSlider.value = String(timeValue);
+    const warningContainer = document.getElementById('warningContainer');
+    const moonIcon = document.getElementById('moonIcon');
+
+    function applyWallpaperValues(v) {
+      wmoSelect.value = String(v.bucket);
+      timeSlider.value = String(v.timeValue);
       if (overlayContainer) {
-        overlayContainer.innerHTML = overlayHtml || '';
+        overlayContainer.innerHTML = v.overlayHtml || '';
+      }
+      if (warningContainer) {
+        warningContainer.innerHTML = v.warningHtml || '';
+      }
+      windDrift = v.windDrift || 0;
+      precipScale = v.precipScale || 1;
+      sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };
+      moonPos = { x: v.moonX, y: v.moonY, visible: v.moonVisible };
+      if (moonIcon) {
+        if (v.moonIconUrl) {
+          moonIcon.src = v.moonIconUrl;
+        }
+        moonIcon.style.left = (moonPos.x * 100) + '%';
+        moonIcon.style.top = (moonPos.y * 100) + '%';
+        // Nur zeigen, wenn der Mond wirklich ueber dem Horizont steht UND es dunkel
+        // genug ist (gleiche Schwelle wie die Sterne) - sonst geht er im hellen
+        // Himmel unter.
+        moonIcon.style.opacity = (moonPos.visible && v.timeValue <= 40) ? '1' : '0';
       }
       initWeather();
     }
-    applyWallpaperValues(__WMO_BUCKET__, __TIME_VALUE__, "__OVERLAY_HTML_JS__");
+
+    applyWallpaperValues({
+      bucket: __WMO_BUCKET__,
+      timeValue: __TIME_VALUE__,
+      overlayHtml: "__OVERLAY_HTML_JS__",
+      warningHtml: "__WARNING_HTML_JS__",
+      windDrift: __WIND_DRIFT__,
+      precipScale: __PRECIP_SCALE__,
+      sunX: __SUN_X__,
+      sunY: __SUN_Y__,
+      sunVisible: __SUN_VISIBLE__,
+      moonIconUrl: "__MOON_ICON_URL__",
+      moonX: __MOON_X__,
+      moonY: __MOON_Y__,
+      moonVisible: __MOON_VISIBLE__,
+    });
 
     resize();
     // requestAnimationFrame statt direktem Aufruf, damit update() gleich beim ersten
@@ -485,17 +590,75 @@
     // Adapter bei jedem Wetter-Update neu) - per fetch() im selben Ordner geholt,
     // kein REST-API-Adapter noetig, kein voller Seiten-Reload noetig. Funktioniert
     // sowohl direkt per URL im Browser/Tablet als auch eingebettet in ein Widget.
+    // currentDataFilename/currentBgFilename statt der festen Platzhalter direkt, damit
+    // das Karussell (siehe unten) nach dem Wechsel zu einem anderen Ort auch weiterhin
+    // dessen Daten aktualisiert statt immer wieder auf den Startort zurueckzuspringen.
+    let currentDataFilename = "__DATA_FILENAME__";
     const WALLPAPER_REFRESH_MINUTES = 5;
     async function refreshWallpaperData() {
       try {
-        const res = await fetch("__DATA_FILENAME__", { cache: 'no-store' });
+        const res = await fetch(currentDataFilename, { cache: 'no-store' });
         const data = await res.json();
-        applyWallpaperValues(data.bucket, data.timeValue, data.overlayHtml);
+        applyWallpaperValues(data);
       } catch (e) {
         console.error('Wallpaper-Daten konnten nicht aktualisiert werden:', e);
       }
     }
     setInterval(refreshWallpaperData, WALLPAPER_REFRESH_MINUTES * 60 * 1000);
+
+    // ---- Karussell zwischen mehreren Orten (optional, Admin-Tab "Wallpaper") ----
+    // Manifest liegt im selben Ordner (_locations.json, von main.js bei jedem vollen
+    // Update-Zyklus neu geschrieben) - listet alle konfigurierten Orte mit id+Namen.
+    const CAROUSEL_ENABLED = __CAROUSEL_ENABLED__;
+    const CURRENT_LOCATION_ID = "__LOCATION_ID__";
+    const carouselPrevBtn = document.getElementById('carouselPrev');
+    const carouselNextBtn = document.getElementById('carouselNext');
+    let carouselLocations = [];
+    let carouselIndex = 0;
+
+    async function navigateCarousel(dir) {
+      if (carouselLocations.length === 0) return;
+      carouselIndex = (carouselIndex + dir + carouselLocations.length) % carouselLocations.length;
+      const target = carouselLocations[carouselIndex];
+      currentDataFilename = `${target.id}-data.json`;
+      bg.style.background = `url('${target.id}.jpg') center/cover no-repeat`;
+      document.title = 'WMO Wettersimulation – ' + target.name;
+      await refreshWallpaperData();
+    }
+
+    async function initCarousel() {
+      if (!CAROUSEL_ENABLED) return;
+      try {
+        const res = await fetch('_locations.json', { cache: 'no-store' });
+        carouselLocations = await res.json();
+      } catch (e) {
+        console.error('Karussell-Manifest konnte nicht geladen werden:', e);
+        return;
+      }
+      // Bei nur einem Ort gibt es nichts zum Durchblaettern.
+      if (!Array.isArray(carouselLocations) || carouselLocations.length <= 1) return;
+      const selfIndex = carouselLocations.findIndex(l => l.id === CURRENT_LOCATION_ID);
+      carouselIndex = selfIndex >= 0 ? selfIndex : 0;
+      carouselPrevBtn.style.display = 'block';
+      carouselNextBtn.style.display = 'block';
+      carouselPrevBtn.addEventListener('click', () => navigateCarousel(-1));
+      carouselNextBtn.addEventListener('click', () => navigateCarousel(1));
+    }
+    initCarousel();
+
+    // ---- Versteckter Testmodus (kein UI-Schalter, nicht dokumentiert): an die URL
+    // "?wmotest=1" anhaengen, um alle 5s zyklisch durch alle WMO-Buckets zu schalten -
+    // zum schnellen Durchschauen aller Wetterlagen ohne auf echte Aenderungen zu warten. ----
+    const testParams = new URLSearchParams(location.search);
+    if (testParams.get('wmotest') === '1') {
+      const testBuckets = [0, 2, 45, 51, 63, 73, 95, 99];
+      let testIndex = 0;
+      setInterval(() => {
+        wmoSelect.value = String(testBuckets[testIndex % testBuckets.length]);
+        testIndex++;
+        initWeather();
+      }, 5000);
+    }
   </script>
 </body>
 </html>

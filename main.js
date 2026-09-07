@@ -115,6 +115,10 @@ const DEFAULT_WALLPAPER_CONFIG = {
 	bgColor: "#0f172a",
 	bgOpacity: 55,
 	edgeMargin: 12,
+	warnEnabled: true,
+	warnTextColor: "#ff5252",
+	warnFontSize: 20,
+	carouselEnabled: false,
 };
 
 // Abstand vom Bildschirmrand ist jetzt konfigurierbar (edgeMargin) statt fest 12px.
@@ -182,6 +186,82 @@ function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirTex
 }
 
 /**
+ * Baut den Warnungs-Banner (oben, volle Breite) fuer aktive amtliche Wetterwarnungen
+ * (dieselbe Quelle wie die Warn-Badges der Widgets, this.getActiveWarnings()). Bewusst
+ * als Text statt als roter Rahmen/Puls - Farbe/Groesse ueber den Admin-Tab "Wallpaper"
+ * einstellbar. Gibt "" zurueck, wenn deaktiviert oder keine Warnung aktiv ist.
+ *
+ * @param {object} rawConfig - native.wallpaper (kann unvollstaendig/undefined sein)
+ * @param {Array<{headline: string, level: number}>} warnings - siehe getActiveWarnings()
+ * @returns {string} fertiger HTML-Block oder ""
+ */
+function buildWallpaperWarningHtml(rawConfig, warnings) {
+	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
+	if (!config.warnEnabled || !warnings || warnings.length === 0) {
+		return "";
+	}
+	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.warnTextColor || "") ? config.warnTextColor : "#ff5252";
+	const fontSize = Math.max(10, Math.min(100, Number(config.warnFontSize) || 20));
+	const text = warnings.map(w => escapeHtmlText(w.headline)).join(" · ");
+	return `<div class="warning-banner" style="color:${textColor};font-size:${fontSize}px;">⚠ ${text}</div>`;
+}
+
+// Meteorologische Windrichtung (Grad, "kommt aus") in eine horizontale Drift fuer die
+// 2D-Seitenansicht der Regen-/Nebel-Partikel umgerechnet - Nord/Sued-Anteil laesst sich
+// in einer reinen Seitenansicht nicht sinnvoll darstellen, daher nur der Ost/West-Anteil
+// (Sinus der Blaswinkel-Richtung) skaliert mit der Windstaerke.
+function wallpaperWindDrift(windDirDeg, windSpeedRaw) {
+	if (windDirDeg == null || windSpeedRaw == null) {
+		return 0;
+	}
+	const blowsToRad = ((windDirDeg + 180) % 360) * (Math.PI / 180);
+	const eastWestFactor = Math.sin(blowsToRad);
+	return Math.max(-20, Math.min(20, eastWestFactor * (windSpeedRaw / 5)));
+}
+
+// Skaliert die Partikelzahl/-intensitaet an der echten Niederschlagsmenge (mm), statt
+// immer dieselbe feste Zahl je WMO-Bucket zu nehmen - 1.0 = wie im Original, mehr/weniger
+// je nachdem wie viel es laut Messwert tatsaechlich regnet/schneit.
+function wallpaperPrecipScale(precipAmount) {
+	if (precipAmount == null || precipAmount <= 0) {
+		return 1;
+	}
+	return Math.max(0.5, Math.min(2.5, 0.6 + precipAmount * 0.3));
+}
+
+// Diese suncalc-Version (2.0.1) gibt azimuth/altitude in GRAD zurueck (0=Nord, im
+// Uhrzeigersinn), nicht in Radiant wie die allgemeine SunCalc-Doku nahelegt - direkt
+// am Quellcode geprueft (azimuth() / altitude() Helper teilen intern durch "rad").
+// sin(azimuth) ergibt den Ost/West-Anteil fuer die grobe Bildschirm-X-Position;
+// altitude > 0 heisst das Objekt steht ueberhaupt ueber dem Horizont.
+function wallpaperSkyPosition(pos) {
+	const azRad = (pos.azimuth * Math.PI) / 180;
+	const altRad = (pos.altitude * Math.PI) / 180;
+	return {
+		x: Math.max(0.05, Math.min(0.95, 0.5 + Math.sin(azRad) * 0.45)),
+		y: Math.max(0.08, Math.min(0.75, 0.75 - Math.max(0, Math.sin(altRad)) * 0.65)),
+		visible: pos.altitude > 0,
+	};
+}
+
+function wallpaperSunPosition(lat, lon) {
+	if (lat == null || lon == null) {
+		return { x: 0.78, y: 0.22, visible: true };
+	}
+	return wallpaperSkyPosition(SunCalc.getPosition(new Date(), lat, lon));
+}
+
+// Eigene, von der Sonne unabhaengige Sichtbarkeit (der Mond steht oft auch tagsueber
+// ueber dem Horizont, nur meist nicht auffaellig - hier rein nach echter Position
+// entschieden, das Ausblenden bei zu hellem Himmel uebernimmt das Template selbst).
+function wallpaperMoonPosition(lat, lon) {
+	if (lat == null || lon == null) {
+		return { x: 0.2, y: 0.18, visible: false };
+	}
+	return wallpaperSkyPosition(SunCalc.getMoonPosition(new Date(), lat, lon));
+}
+
+/**
  * Berechnet die Anzeigewerte des Wallpapers aus den Rohdaten - einmal hier, damit
  * sowohl das gebackene HTML als auch die kleine Begleit-JSON-Datei (die das HTML
  * selbst per fetch() nachlaedt) exakt dieselben Werte verwenden.
@@ -197,7 +277,12 @@ function buildWallpaperOverlayHtml(rawConfig, locationName, tempText, windDirTex
  * @param {number|null} p.windDirDeg - Windrichtung in Grad
  * @param {number|null} p.windSpeedRaw - Windgeschwindigkeit (schon in windUnit)
  * @param {string} p.windUnit - Einheit, z.B. "km/h"
- * @returns {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}}
+ * @param {number|null} p.precipAmount - aktuelle Niederschlagsmenge in mm
+ * @param {number|null} p.lat - Breitengrad des Ortes (fuer Sonnenposition)
+ * @param {number|null} p.lon - Laengengrad des Ortes (fuer Sonnenposition)
+ * @param {string} p.lang - Sprachcode (fuer Mondphasen-Text, nicht im Wallpaper selbst genutzt)
+ * @param {Array<{headline: string, level: number}>} p.warnings - siehe getActiveWarnings()
+ * @returns {object} siehe Rueckgabe-Objekt
  */
 function computeWallpaperValues({
 	wmoCode,
@@ -210,15 +295,35 @@ function computeWallpaperValues({
 	windDirDeg,
 	windSpeedRaw,
 	windUnit,
+	precipAmount,
+	lat,
+	lon,
+	lang,
+	warnings,
 }) {
 	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
 	const windDirText = windDirDeg != null ? degreesToCompass(windDirDeg) : "";
 	const windSpeedText = windSpeedRaw != null ? `${Math.round(windSpeedRaw)} ${windUnit}` : "";
+	const moonIllum = SunCalc.getMoonIllumination(new Date());
+	const moon = moonPhaseInfo(moonIllum.phase, lang || "en");
+	const sun = wallpaperSunPosition(lat, lon);
+	const moonPos = wallpaperMoonPosition(lat, lon);
 	return {
 		bucket: mapWmoToWallpaperBucket(wmoCode),
 		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso),
 		tempText,
 		overlayHtml: buildWallpaperOverlayHtml(wallpaperConfig, locationName, tempText, windDirText, windSpeedText),
+		warningHtml: buildWallpaperWarningHtml(wallpaperConfig, warnings),
+		windDrift: wallpaperWindDrift(windDirDeg, windSpeedRaw),
+		precipScale: wallpaperPrecipScale(precipAmount),
+		sunX: sun.x,
+		sunY: sun.y,
+		sunVisible: sun.visible,
+		moonIconUrl: `/adapter/openmeteo-notify/icons/moon/${moon.idx}.png`,
+		moonX: moonPos.x,
+		moonY: moonPos.y,
+		moonVisible: moonPos.visible,
+		carouselEnabled: !!(wallpaperConfig || {}).carouselEnabled,
 	};
 }
 
@@ -232,30 +337,57 @@ function computeWallpaperValues({
  * externer REST-Aufruf noetig, kein voller Seiten-Reload noetig.
  *
  * @param {string} locationName - Anzeigename des Ortes
+ * @param {string} locId - normalisierte Orts-ID (fuers Karussell-Manifest)
  * @param {string} dataFilename - Dateiname der Begleit-JSON (liegt im selben Ordner)
  * @param {string} bgFilename - Dateiname des Hintergrundfotos (liegt im selben Ordner, siehe ensureWallpaperBackgroundPhoto())
- * @param {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}} values - siehe computeWallpaperValues()
+ * @param {object} values - siehe computeWallpaperValues()
  * @returns {string} fertiges HTML-Dokument
  */
-function buildWallpaperHtml(locationName, dataFilename, bgFilename, values) {
+function buildWallpaperHtml(locationName, locId, dataFilename, bgFilename, values) {
 	if (wallpaperTemplateCache === null) {
 		wallpaperTemplateCache = fs.readFileSync(WALLPAPER_TEMPLATE_PATH, "utf8");
 	}
 	return wallpaperTemplateCache
 		.split("__LOCATION_NAME__")
 		.join(locationName)
+		.split("__LOCATION_ID__")
+		.join(locId)
 		.split("__DATA_FILENAME__")
 		.join(dataFilename)
 		.split("__BG_FILENAME__")
 		.join(bgFilename)
+		.split("__CAROUSEL_ENABLED__")
+		.join(String(values.carouselEnabled))
 		.split("__WMO_BUCKET__")
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
 		.join(String(values.timeValue))
+		.split("__WIND_DRIFT__")
+		.join(String(values.windDrift))
+		.split("__PRECIP_SCALE__")
+		.join(String(values.precipScale))
+		.split("__SUN_X__")
+		.join(String(values.sunX))
+		.split("__SUN_Y__")
+		.join(String(values.sunY))
+		.split("__SUN_VISIBLE__")
+		.join(String(values.sunVisible))
+		.split("__MOON_ICON_URL__")
+		.join(values.moonIconUrl)
+		.split("__MOON_X__")
+		.join(String(values.moonX))
+		.split("__MOON_Y__")
+		.join(String(values.moonY))
+		.split("__MOON_VISIBLE__")
+		.join(String(values.moonVisible))
 		.split("__OVERLAY_HTML_JS__")
 		.join(toJsStringLiteral(values.overlayHtml))
 		.split("__OVERLAY_HTML__")
-		.join(values.overlayHtml);
+		.join(values.overlayHtml)
+		.split("__WARNING_HTML_JS__")
+		.join(toJsStringLiteral(values.warningHtml))
+		.split("__WARNING_HTML__")
+		.join(values.warningHtml);
 }
 
 const WALLPAPER_DEFAULT_BG_PATH = path.join(__dirname, "lib", "wallpaper-default-bg.jpg");
@@ -292,6 +424,30 @@ async function ensureWallpaperBackgroundPhoto(adapterInstance, locId, bgFilename
 		);
 	} catch (e) {
 		adapterInstance.log.warn(`Standard-Hintergrundfoto fuer ${locId} konnte nicht angelegt werden: ${e.message}`);
+	}
+}
+
+/**
+ * Schreibt eine kleine Manifest-Datei mit allen konfigurierten Orten (id + Anzeigename)
+ * neben die Wallpaper-Dateien - das Karussell (siehe Admin-Tab "Wallpaper") liest sie
+ * per fetch(), um zu wissen, zwischen welchen Orten es wechseln kann. Einmal pro
+ * vollem Update-Zyklus geschrieben, unabhaengig vom Erfolg einzelner Orts-Abrufe.
+ *
+ * @param {object} adapterInstance - this des Adapters
+ * @param {Array<{name: string}>} locations - this.config.locations
+ */
+async function ensureWallpaperCarouselManifest(adapterInstance, locations) {
+	try {
+		const manifest = locations
+			.map(loc => ({ id: normalizeId(loc.name), name: loc.name }))
+			.filter(entry => entry.id);
+		await adapterInstance.writeFileAsync(
+			adapterInstance.namespace,
+			"wallpapers/_locations.json",
+			JSON.stringify(manifest),
+		);
+	} catch (e) {
+		adapterInstance.log.warn(`Wallpaper-Karussell-Manifest konnte nicht geschrieben werden: ${e.message}`);
 	}
 }
 
@@ -897,6 +1053,7 @@ class Openmeteo extends utils.Adapter {
 		this.updateInterval = null;
 		this.updateTimeout = null;
 		this.warnTimeout = null;
+		this.liveUpdateInterval = null;
 		this.consecutiveFailures = 0;
 		this.warnState = {};
 		this._recentNotifications = new Map();
@@ -1215,6 +1372,191 @@ class Openmeteo extends utils.Adapter {
 			this.log.debug(`First warning update: ${new Date(Date.now() + warnDelay).toLocaleTimeString()}`);
 			this.warnTimeout = this.setTimeout(scheduleNextWarn, warnDelay);
 		}
+
+		// Optionaler schneller Live-Takt (nur current.* + Wallpaper, kein voller
+		// Tage-/Stunden-Abruf) - deaktiviert per Default (0), da der grosse Abruf
+		// oben schon "sofort beim Start" laeuft. Kein Clock-Alignment noetig bei so
+		// kurzen Intervallen, daher einfacher setInterval statt der Ausrichtung oben.
+		const liveUpdateMinutes = Math.min(Math.max(0, this.config.liveUpdateMinutes || 0), 1440);
+		if (liveUpdateMinutes > 0) {
+			this.liveUpdateInterval = setInterval(
+				() => {
+					this.runLiveUpdate().catch(e => this.log.warn(`Live-Update fehlgeschlagen: ${e.message}`));
+				},
+				liveUpdateMinutes * 60 * 1000,
+			);
+		}
+	}
+
+	/**
+	 * Schneller, schlanker Update-Takt: nur current.* (Temperatur, Wettercode, Wind,
+	 * Luftfeuchte, Druck) neu abrufen und das Wallpaper daraus neu generieren - kein
+	 * voller Tage-/Stunden-/Luftqualitaets-/Pollen-Abruf wie bei runUpdate(). Fuer
+	 * Sonnenauf-/-untergang wird der zuletzt von runUpdate() geschriebene Wert
+	 * wiederverwendet (aendert sich innerhalb weniger Stunden kaum), kein eigener
+	 * Astronomie-Abruf noetig. Nur aktiv, wenn liveUpdateMinutes > 0 konfiguriert ist.
+	 */
+	async runLiveUpdate() {
+		const locations = this.config.locations;
+		if (!Array.isArray(locations) || locations.length === 0) {
+			return;
+		}
+		const temperatureUnit = this.config.temperatureUnit || "celsius";
+		const windspeedUnit = this.config.windspeedUnit || "kmh";
+		const precipitationUnit = this.config.precipitationUnit || "mm";
+		const iconSet = this.config.iconSet || "basmilius";
+		const tempUnit = temperatureUnit === "fahrenheit" ? "°F" : "°C";
+		const windUnit =
+			windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
+		const precipUnit = precipitationUnit === "inch" ? "inch" : "mm";
+
+		const sysConfig = await this.getForeignObjectAsync("system.config");
+		const rawLang = (sysConfig?.common?.language || "en").toLowerCase();
+		const SUPPORTED_LANGS = ["de", "en", "fr", "it", "es", "pt", "nl", "pl", "ru", "uk", "zh-cn"];
+		const lang = SUPPORTED_LANGS.includes(rawLang)
+			? rawLang
+			: SUPPORTED_LANGS.includes(rawLang.split("-")[0])
+				? rawLang.split("-")[0]
+				: "en";
+		const timezone = sysConfig?.common?.timezone || "auto";
+		const descriptions = I18N_DESCRIPTIONS[lang] || I18N_DESCRIPTIONS.en;
+
+		for (const loc of locations) {
+			const locId = normalizeId(loc.name);
+			if (!locId) {
+				continue;
+			}
+			try {
+				const data = await this.fetchCurrentWeather(
+					loc.lat,
+					loc.lon,
+					temperatureUnit,
+					windspeedUnit,
+					precipitationUnit,
+					timezone,
+				);
+				const cur = data.current;
+				if (!cur) {
+					continue;
+				}
+				const curCode = cur.weathercode;
+				const curDesc = descriptions[curCode] || descriptions[0] || "?";
+
+				await this.setDP(`${locId}.current.temperature`, Math.round(cur.temperature_2m * 10) / 10, {
+					name: "Temperature",
+					type: "number",
+					unit: tempUnit,
+					role: "value.temperature",
+				});
+				await this.setDP(`${locId}.current.feels_like`, Math.round(cur.apparent_temperature * 10) / 10, {
+					name: "Feels like",
+					type: "number",
+					unit: tempUnit,
+					role: "value.temperature.feelslike",
+				});
+				await this.setDP(`${locId}.current.weathercode`, curCode, {
+					name: "Weather code",
+					type: "number",
+					role: "value",
+				});
+				await this.setDP(`${locId}.current.icon`, ICONS[curCode] || "🌡️", {
+					name: "Icon",
+					type: "string",
+					role: "weather.icon.name",
+				});
+				await this.setDP(
+					`${locId}.current.icon_url`,
+					this._weatherIconUrl(curCode, iconSet, cur.is_day === 1),
+					{
+						name: "Icon URL",
+						type: "string",
+						role: "weather.icon",
+					},
+				);
+				await this.setDP(`${locId}.current.description`, curDesc, {
+					name: "Description",
+					type: "string",
+					role: "weather.state",
+				});
+				await this.setDP(`${locId}.current.windspeed`, cur.windspeed_10m, {
+					name: "Wind",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind",
+				});
+				await this.setDP(`${locId}.current.winddirection`, cur.winddirection_10m, {
+					name: "Wind direction",
+					type: "number",
+					unit: "°",
+					role: "value.direction.wind",
+				});
+				await this.setDP(`${locId}.current.winddirection_text`, degreesToCompass(cur.winddirection_10m), {
+					name: "Wind direction text",
+					type: "string",
+					role: "weather.direction.wind",
+				});
+				await this.setDP(`${locId}.current.humidity`, cur.relative_humidity_2m, {
+					name: "Humidity",
+					type: "number",
+					unit: "%",
+					role: "value.humidity",
+				});
+				await this.setDP(`${locId}.current.pressure`, Math.round(cur.pressure_msl * 10) / 10, {
+					name: "Pressure",
+					type: "number",
+					unit: "hPa",
+					role: "value.pressure",
+				});
+				await this.setDP(`${locId}.current.precipitation`, cur.precipitation, {
+					name: "Precipitation",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation.hour",
+				});
+				await this.setDP(`${locId}.current.is_day`, cur.is_day === 1, {
+					name: "Daytime",
+					type: "boolean",
+					role: "indicator",
+				});
+
+				const sunriseState = await this.getStateAsync(`${locId}.day0.astronomy.sunrise`);
+				const sunsetState = await this.getStateAsync(`${locId}.day0.astronomy.sunset`);
+				const activeWarnings = await this.getActiveWarnings(locId);
+				const wallpaperValues = computeWallpaperValues({
+					wmoCode: curCode,
+					sunriseIso: sunriseState?.val,
+					sunsetIso: sunsetState?.val,
+					temperature: Math.round(cur.temperature_2m * 10) / 10,
+					tempUnit,
+					wallpaperConfig: this.config.wallpaper,
+					locationName: loc.name,
+					windDirDeg: cur.winddirection_10m,
+					windSpeedRaw: cur.windspeed_10m,
+					windUnit,
+					precipAmount: cur.precipitation,
+					lat: loc.lat,
+					lon: loc.lon,
+					lang,
+					warnings: activeWarnings,
+				});
+				const dataFilename = `${locId}-data.json`;
+				const bgFilename = `${locId}.jpg`;
+				const wallpaperHtml = buildWallpaperHtml(loc.name, locId, dataFilename, bgFilename, wallpaperValues);
+				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
+					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
+					type: "string",
+					role: "html",
+				});
+				await this.writeFileAsync(this.namespace, `wallpapers/${locId}.html`, wallpaperHtml);
+				await this.writeFileAsync(
+					this.namespace,
+					`wallpapers/${dataFilename}`,
+					JSON.stringify(wallpaperValues),
+				);
+			} catch (e) {
+				this.log.debug(`Live-Update fuer ${locId} fehlgeschlagen: ${e.message}`);
+			}
+		}
 	}
 
 	/**
@@ -1279,6 +1621,7 @@ class Openmeteo extends utils.Adapter {
 		const units = { tempUnit, windUnit, precipUnit, windspeedUnit };
 
 		const validLocationIds = new Set(locations.map(loc => normalizeId(loc.name)).filter(id => id.length > 0));
+		await ensureWallpaperCarouselManifest(this, locations);
 
 		let anySuccess = false;
 
@@ -2601,6 +2944,62 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 	}
 
 	/**
+	 * Schlanker Abruf nur der "current"-Werte (kein daily/hourly) - fuer den
+	 * optionalen schnellen Live-Takt (liveUpdateMinutes), damit ein haeufiger
+	 * Refresh (z.B. alle 5 Minuten) nicht jedes Mal die komplette, teure
+	 * Tages-/Stundenvorhersage fuer alle Orte neu abrufen/berechnen muss.
+	 *
+	 * @param {number} lat - Breitengrad
+	 * @param {number} lon - Laengengrad
+	 * @param {string} temperatureUnit - "celsius" oder "fahrenheit"
+	 * @param {string} windspeedUnit - "kmh", "ms", "mph" oder "kn"
+	 * @param {string} precipitationUnit - "mm" oder "inch"
+	 * @param {string} timezone - Zeitzone, z.B. "Europe/Berlin" oder "auto"
+	 * @returns {Promise<object>} Geparste Open-Meteo-Antwort (nur data.current gefuellt)
+	 */
+	fetchCurrentWeather(lat, lon, temperatureUnit, windspeedUnit, precipitationUnit, timezone) {
+		return new Promise((resolve, reject) => {
+			const url =
+				`https://api.open-meteo.com/v1/forecast` +
+				`?latitude=${lat}&longitude=${lon}` +
+				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
+				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
+				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
+				`&timezone=${encodeURIComponent(timezone)}` +
+				`&temperature_unit=${temperatureUnit}` +
+				`&windspeed_unit=${windspeedUnit}` +
+				`&precipitation_unit=${precipitationUnit}`;
+
+			const req = https.get(url, { timeout: 15000 }, res => {
+				let raw = "";
+				res.on("data", c => (raw += c));
+				res.on("end", () => {
+					const { statusCode } = res;
+					if (statusCode && statusCode >= 400) {
+						let reason = raw;
+						try {
+							reason = JSON.parse(raw)?.reason || raw;
+						} catch {
+							/* ignore */
+						}
+						reject(new Error(`HTTP ${statusCode}: ${reason}`));
+						return;
+					}
+					try {
+						resolve(JSON.parse(raw));
+					} catch (e) {
+						reject(e);
+					}
+				});
+			});
+			req.on("timeout", () => {
+				req.destroy(new Error("Request timed out"));
+			});
+			req.on("error", reject);
+		});
+	}
+
+	/**
 	 * Fetches pollen and air quality data from Open-Meteo Air Quality API
 	 *
 	 * @param {number} lat - Latitude
@@ -3486,6 +3885,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			try {
 				const sunriseToday = d && Array.isArray(d.sunrise) ? d.sunrise[0] : null;
 				const sunsetToday = d && Array.isArray(d.sunset) ? d.sunset[0] : null;
+				const activeWarnings = await this.getActiveWarnings(locId);
 				const wallpaperValues = computeWallpaperValues({
 					wmoCode: curCode,
 					sunriseIso: sunriseToday,
@@ -3497,11 +3897,16 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					windDirDeg: cur.winddirection_10m,
 					windSpeedRaw: cur.windspeed_10m,
 					windUnit,
+					precipAmount: cur.precipitation,
+					lat: loc.lat,
+					lon: loc.lon,
+					lang,
+					warnings: activeWarnings,
 				});
 				const dataFilename = `${locId}-data.json`;
 				const bgFilename = `${locId}.jpg`;
 				await ensureWallpaperBackgroundPhoto(this, locId, bgFilename);
-				const wallpaperHtml = buildWallpaperHtml(loc.name, dataFilename, bgFilename, wallpaperValues);
+				const wallpaperHtml = buildWallpaperHtml(loc.name, locId, dataFilename, bgFilename, wallpaperValues);
 
 				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
 					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
@@ -5102,6 +5507,9 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			}
 			if (this.warnTimeout) {
 				this.clearTimeout(this.warnTimeout);
+			}
+			if (this.liveUpdateInterval) {
+				clearInterval(this.liveUpdateInterval);
 			}
 			callback();
 		} catch (error) {

@@ -33,6 +33,10 @@ export interface WallpaperConfig {
 	bgColor: string; // hex '#rrggbb'
 	bgOpacity: number; // %, 0-100
 	edgeMargin: number; // px, 0-100 - Abstand der Anzeige vom Bildschirmrand
+	warnEnabled: boolean; // amtliche Warnungen als Text-Banner anzeigen
+	warnTextColor: string; // hex '#rrggbb'
+	warnFontSize: number; // px, 10-100
+	carouselEnabled: boolean; // zwischen mehreren Orten durchblaettern (Pfeile links/rechts)
 }
 
 export interface OpenMeteoConfig {
@@ -44,6 +48,7 @@ export interface OpenMeteoConfig {
 	precipitationUnit: "mm" | "inch";
 	iconSet: "wmo" | "basmilius" | "basmilius_animated" | "amcharts_animated" | "amcharts_static" | "custom";
 	updateInterval: number;
+	liveUpdateMinutes: number; // 0 = deaktiviert; schneller Takt fuer nur current.* + Wallpaper
 	enableAirQuality: boolean;
 	enableAirQualityHourly: boolean;
 	enableAstronomy: boolean;

@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Hintergrund",
 	"wallpaperBgOpacity": "Hintergrund-Deckkraft",
 	"wallpaperBgPhotoHint": "Das Hintergrundfoto liegt unter Admin → Dateien → <Instanz>/wallpapers/<Ort>.jpg - ein Standardfoto wird automatisch angelegt, ersetzbar durch Hochladen einer eigenen Datei mit demselben Namen.",
-	"wallpaperEdgeMargin": "Randabstand"
+	"wallpaperEdgeMargin": "Randabstand",
+	"wallpaperWarnSection": "Amtliche Wetterwarnungen",
+	"wallpaperWarnEnabled": "Aktive Warnungen als Text-Banner anzeigen",
+	"wallpaperWarnTextColor": "Warnungs-Textfarbe",
+	"wallpaperWarnFontSize": "Warnungs-Schriftgröße",
+	"wallpaperCarouselSection": "Karussell (mehrere Orte)",
+	"wallpaperCarouselEnabled": "Pfeile links/rechts zum Durchblättern zwischen Orten",
+	"liveUpdateMinutes": "Live-Update-Intervall (Minuten, nur aktuelle Werte)",
+	"liveUpdateMinutesHelp": "0 = deaktiviert. Aktualisiert nur current.* und das Wallpaper öfter als der volle Vorhersage-Abruf, ohne die komplette Tages-/Stundenvorhersage neu zu holen."
 }

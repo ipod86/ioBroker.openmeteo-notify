@@ -128,5 +128,13 @@
 	"wallpaperBgColor": "Fondo",
 	"wallpaperBgOpacity": "Opacidad del fondo",
 	"wallpaperBgPhotoHint": "La foto de fondo se encuentra en Admin → Archivos → <instancia>/wallpapers/<ubicación>.jpg - se crea una foto predeterminada automáticamente; reemplázala subiendo tu propio archivo con el mismo nombre.",
-	"wallpaperEdgeMargin": "Distancia al borde"
+	"wallpaperEdgeMargin": "Distancia al borde",
+	"wallpaperWarnSection": "Avisos meteorológicos oficiales",
+	"wallpaperWarnEnabled": "Mostrar avisos activos como banner de texto",
+	"wallpaperWarnTextColor": "Color del texto de aviso",
+	"wallpaperWarnFontSize": "Tamaño de fuente del aviso",
+	"wallpaperCarouselSection": "Carrusel (varias ubicaciones)",
+	"wallpaperCarouselEnabled": "Mostrar flechas izquierda/derecha para cambiar de ubicación",
+	"liveUpdateMinutes": "Intervalo de actualización en vivo (minutos, solo condiciones actuales)",
+	"liveUpdateMinutesHelp": "0 = desactivado. Actualiza solo current.* y el fondo de pantalla con más frecuencia que la actualización completa del pronóstico, sin volver a descargar todo el pronóstico diario/horario."
 }

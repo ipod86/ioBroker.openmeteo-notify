@@ -183,6 +183,25 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType, namespace
 				</FormControl>
 			</Box>
 
+			{/* Live update interval - current.* + Wallpaper only, no full forecast fetch */}
+			<Box>
+				<Typography
+					variant="h6"
+					gutterBottom
+				>
+					{I18n.t("liveUpdateMinutes")}
+				</Typography>
+				<TextField
+					label={I18n.t("liveUpdateMinutes")}
+					type="number"
+					value={native.liveUpdateMinutes ?? 0}
+					inputProps={{ min: 0, max: 1440 }}
+					onChange={e => update("liveUpdateMinutes", parseInt(e.target.value, 10) || 0)}
+					helperText={I18n.t("liveUpdateMinutesHelp")}
+					sx={{ width: 260 }}
+				/>
+			</Box>
+
 			<Divider />
 
 			{/* Optional data */}
