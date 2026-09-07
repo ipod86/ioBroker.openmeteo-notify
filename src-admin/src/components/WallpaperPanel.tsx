@@ -83,6 +83,8 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 				{I18n.t("wallpaperHint")}
 			</Typography>
 
+			<Alert severity="info">{I18n.t("wallpaperBgPhotoHint")}</Alert>
+
 			{previewFields.length === 0 && <Alert severity="warning">{I18n.t("wallpaperNoFieldsWarning")}</Alert>}
 
 			{/* Live preview */}
@@ -210,10 +212,8 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 					max={48}
 					step={1}
 					size="small"
-					marks={[
-						{ value: 10, label: "10" },
-						{ value: 48, label: "48" },
-					]}
+					marks
+					sx={{ width: 160 }}
 					onChange={(_, v) => update({ fontSize: v as number })}
 				/>
 				<TextField

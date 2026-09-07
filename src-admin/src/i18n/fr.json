@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Taille de police",
 	"wallpaperTextColor": "Couleur du texte",
 	"wallpaperBgColor": "Arrière-plan",
-	"wallpaperBgOpacity": "Opacité de l'arrière-plan"
+	"wallpaperBgOpacity": "Opacité de l'arrière-plan",
+	"wallpaperBgPhotoHint": "La photo de fond se trouve dans Admin → Fichiers → <instance>/wallpapers/<lieu>.jpg - une photo par défaut est créée automatiquement, remplacez-la en téléversant votre propre fichier portant le même nom."
 }

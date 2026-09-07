@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Dimensione carattere",
 	"wallpaperTextColor": "Colore testo",
 	"wallpaperBgColor": "Sfondo",
-	"wallpaperBgOpacity": "Opacità sfondo"
+	"wallpaperBgOpacity": "Opacità sfondo",
+	"wallpaperBgPhotoHint": "La foto di sfondo si trova in Admin → File → <istanza>/wallpapers/<luogo>.jpg - una foto predefinita viene creata automaticamente, sostituiscila caricando un tuo file con lo stesso nome."
 }

@@ -232,10 +232,11 @@ function computeWallpaperValues({
  *
  * @param {string} locationName - Anzeigename des Ortes
  * @param {string} dataFilename - Dateiname der Begleit-JSON (liegt im selben Ordner)
+ * @param {string} bgFilename - Dateiname des Hintergrundfotos (liegt im selben Ordner, siehe ensureWallpaperBackgroundPhoto())
  * @param {{bucket: number, timeValue: number, tempText: string, overlayHtml: string}} values - siehe computeWallpaperValues()
  * @returns {string} fertiges HTML-Dokument
  */
-function buildWallpaperHtml(locationName, dataFilename, values) {
+function buildWallpaperHtml(locationName, dataFilename, bgFilename, values) {
 	if (wallpaperTemplateCache === null) {
 		wallpaperTemplateCache = fs.readFileSync(WALLPAPER_TEMPLATE_PATH, "utf8");
 	}
@@ -244,6 +245,8 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
 		.join(locationName)
 		.split("__DATA_FILENAME__")
 		.join(dataFilename)
+		.split("__BG_FILENAME__")
+		.join(bgFilename)
 		.split("__WMO_BUCKET__")
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
@@ -252,6 +255,43 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
 		.join(toJsStringLiteral(values.overlayHtml))
 		.split("__OVERLAY_HTML__")
 		.join(values.overlayHtml);
+}
+
+const WALLPAPER_DEFAULT_BG_PATH = path.join(__dirname, "lib", "wallpaper-default-bg.jpg");
+
+/**
+ * Legt einmalig ein Standard-Hintergrundfoto fuer einen Ort an, falls dort noch
+ * keins liegt (Admin -> Dateien -> openmeteo-notify.0/wallpapers/<ort>.jpg) - wird
+ * NIE ueberschrieben, falls schon vorhanden, damit ein eigenes Foto des Nutzers
+ * erhalten bleibt.
+ *
+ * @param {object} adapterInstance - this des Adapters (fuer fileExistsAsync/writeFileAsync/log/namespace)
+ * @param {string} locId - normalisierte Orts-ID
+ * @param {string} bgFilename - Dateiname des Hintergrundfotos
+ */
+async function ensureWallpaperBackgroundPhoto(adapterInstance, locId, bgFilename) {
+	const relPath = `wallpapers/${bgFilename}`;
+	let exists = false;
+	try {
+		exists = await adapterInstance.fileExistsAsync(adapterInstance.namespace, relPath);
+	} catch (e) {
+		adapterInstance.log.debug(
+			`Konnte nicht pruefen, ob Wallpaper-Hintergrundfoto fuer ${locId} existiert: ${e.message}`,
+		);
+		return;
+	}
+	if (exists) {
+		return;
+	}
+	try {
+		const defaultPhoto = fs.readFileSync(WALLPAPER_DEFAULT_BG_PATH);
+		await adapterInstance.writeFileAsync(adapterInstance.namespace, relPath, defaultPhoto);
+		adapterInstance.log.info(
+			`Standard-Hintergrundfoto fuer Wallpaper "${locId}" angelegt - kann in Admin -> Dateien -> ${adapterInstance.namespace}/${relPath} durch ein eigenes Foto ersetzt werden.`,
+		);
+	} catch (e) {
+		adapterInstance.log.warn(`Standard-Hintergrundfoto fuer ${locId} konnte nicht angelegt werden: ${e.message}`);
+	}
 }
 
 // MeteoAlarm country feed names (ISO 3166-1 alpha-2 → feed slug)
@@ -3458,7 +3498,9 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					windUnit,
 				});
 				const dataFilename = `${locId}-data.json`;
-				const wallpaperHtml = buildWallpaperHtml(loc.name, dataFilename, wallpaperValues);
+				const bgFilename = `${locId}.jpg`;
+				await ensureWallpaperBackgroundPhoto(this, locId, bgFilename);
+				const wallpaperHtml = buildWallpaperHtml(loc.name, dataFilename, bgFilename, wallpaperValues);
 
 				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
 					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",

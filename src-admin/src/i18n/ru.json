@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Размер шрифта",
 	"wallpaperTextColor": "Цвет текста",
 	"wallpaperBgColor": "Фон",
-	"wallpaperBgOpacity": "Непрозрачность фона"
+	"wallpaperBgOpacity": "Непрозрачность фона",
+	"wallpaperBgPhotoHint": "Фоновое фото находится в Админ → Файлы → <экземпляр>/wallpapers/<место>.jpg - фото по умолчанию создаётся автоматически, замените его, загрузив свой файл с тем же именем."
 }

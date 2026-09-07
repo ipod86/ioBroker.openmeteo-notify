@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Lettergrootte",
 	"wallpaperTextColor": "Tekstkleur",
 	"wallpaperBgColor": "Achtergrond",
-	"wallpaperBgOpacity": "Achtergrondtransparantie"
+	"wallpaperBgOpacity": "Achtergrondtransparantie",
+	"wallpaperBgPhotoHint": "De achtergrondfoto staat onder Admin → Bestanden → <instantie>/wallpapers/<locatie>.jpg - er wordt automatisch een standaardfoto aangemaakt, vervang deze door je eigen bestand met dezelfde naam te uploaden."
 }

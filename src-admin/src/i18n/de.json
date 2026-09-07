@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Schriftgröße",
 	"wallpaperTextColor": "Textfarbe",
 	"wallpaperBgColor": "Hintergrund",
-	"wallpaperBgOpacity": "Hintergrund-Deckkraft"
+	"wallpaperBgOpacity": "Hintergrund-Deckkraft",
+	"wallpaperBgPhotoHint": "Das Hintergrundfoto liegt unter Admin → Dateien → <Instanz>/wallpapers/<Ort>.jpg - ein Standardfoto wird automatisch angelegt, ersetzbar durch Hochladen einer eigenen Datei mit demselben Namen."
 }

@@ -126,5 +126,6 @@
 	"wallpaperFontSize": "Rozmiar czcionki",
 	"wallpaperTextColor": "Kolor tekstu",
 	"wallpaperBgColor": "Tło",
-	"wallpaperBgOpacity": "Krycie tła"
+	"wallpaperBgOpacity": "Krycie tła",
+	"wallpaperBgPhotoHint": "Zdjęcie tła znajduje się w Admin → Pliki → <instancja>/wallpapers/<lokalizacja>.jpg - domyślne zdjęcie jest tworzone automatycznie, zastąp je, przesyłając własny plik o tej samej nazwie."
 }
