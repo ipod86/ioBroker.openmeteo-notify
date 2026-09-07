@@ -55,7 +55,9 @@ const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
+const WALLPAPER_TEMPLATE_RESTAPI_PATH = path.join(__dirname, "lib", "wallpaper-template-restapi.html");
 let wallpaperTemplateCache = null;
+let wallpaperTemplateRestApiCache = null;
 
 // WMO-Rohcode (0-99) auf die 8 Wetterlagen-Buckets der Wallpaper-Animation abbilden.
 function mapWmoToWallpaperBucket(code) {
@@ -145,6 +147,36 @@ function buildWallpaperHtml(locationName, dataFilename, values) {
 		.join(locationName)
 		.split("__DATA_FILENAME__")
 		.join(dataFilename)
+		.split("__WMO_BUCKET__")
+		.join(String(values.bucket))
+		.split("__TIME_VALUE__")
+		.join(String(values.timeValue))
+		.split("__TEMP_TEXT__")
+		.join(values.tempText);
+}
+
+/**
+ * TEST-VARIANTE von buildWallpaperHtml(): holt die Live-Werte per simple-api/REST
+ * statt per eigener Begleit-JSON-Datei. restBase kommt aus this._webApiInstances
+ * (discoverWebApiInstances()) - keine manuelle IP/Port-Konfiguration noetig.
+ *
+ * @param {string} locationName - Anzeigename des Ortes
+ * @param {string} statePrefix - z.B. "openmeteo-notify.0.hilchenbach"
+ * @param {string} restBase - z.B. "http://192.168.99.33:8087"
+ * @param {{bucket: number, timeValue: number, tempText: string}} values - Startwerte, siehe computeWallpaperValues()
+ * @returns {string} fertiges HTML-Dokument
+ */
+function buildWallpaperHtmlRestApi(locationName, statePrefix, restBase, values) {
+	if (wallpaperTemplateRestApiCache === null) {
+		wallpaperTemplateRestApiCache = fs.readFileSync(WALLPAPER_TEMPLATE_RESTAPI_PATH, "utf8");
+	}
+	return wallpaperTemplateRestApiCache
+		.split("__LOCATION_NAME__")
+		.join(locationName)
+		.split("__STATE_PREFIX__")
+		.join(statePrefix)
+		.split("__REST_BASE__")
+		.join(restBase)
 		.split("__WMO_BUCKET__")
 		.join(String(values.bucket))
 		.split("__TIME_VALUE__")
@@ -762,12 +794,95 @@ class Openmeteo extends utils.Adapter {
 		this.customNightIcons = new Set();
 		this._locationInfo = {};
 		this._systemLang = "en";
+		this._webApiInstances = []; // siehe discoverWebApiInstances()
 		// Jitter values computed once at adapter start to spread cloud requests
 		this._jitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for sub-daily intervals
 		this._dailyJitterMs = Math.floor(Math.random() * 300_000); // up to 5 min for daily interval
 		this._warnJitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for warn interval
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+	}
+
+	/**
+	 * Findet alle aktivierten Instanzen von simple-api/rest-api/web im System und
+	 * loest ihre wirkliche LAN-IP ueber das system.host.<hostname>-Objekt auf (statt
+	 * ueber os.networkInterfaces() hier lokal - das waere falsch, sobald Adapter und
+	 * simple-api/web auf unterschiedlichen ioBroker-Hosts laufen). Ergebnis wird auf
+	 * this._webApiInstances gecacht und als Diagnose-Datenpunkt geschrieben, damit
+	 * man in ioBroker direkt sieht, was gefunden wurde - keine manuelle IP/Port-
+	 * Konfiguration noetig.
+	 *
+	 * @returns {Promise<Array<object>>} gefundene Instanzen
+	 */
+	async discoverWebApiInstances() {
+		const candidateTypes = ["simple-api", "rest-api", "web"];
+		const results = [];
+		const hostIpCache = new Map();
+
+		const resolveHostIp = async hostName => {
+			if (hostIpCache.has(hostName)) {
+				return hostIpCache.get(hostName);
+			}
+			let ip = null;
+			try {
+				const hostObj = await this.getForeignObjectAsync(`system.host.${hostName}`);
+				const ifaces = hostObj?.native?.hardware?.networkInterfaces || {};
+				for (const entries of Object.values(ifaces)) {
+					const found = (entries || []).find(e => e.family === "IPv4" && !e.internal);
+					if (found) {
+						ip = found.address;
+						break;
+					}
+				}
+			} catch (e) {
+				this.log.debug(`Konnte IP fuer Host ${hostName} nicht ermitteln: ${e.message}`);
+			}
+			hostIpCache.set(hostName, ip);
+			return ip;
+		};
+
+		for (const adapterType of candidateTypes) {
+			let objs;
+			try {
+				objs = await this.getForeignObjectsAsync(`system.adapter.${adapterType}.*`, "instance");
+			} catch (e) {
+				this.log.debug(`Konnte Instanzen von ${adapterType} nicht abfragen: ${e.message}`);
+				continue;
+			}
+			for (const [id, obj] of Object.entries(objs || {})) {
+				if (!obj || !obj.common || obj.common.enabled !== true) {
+					continue;
+				}
+				const native = obj.native || {};
+				const port = native.port;
+				if (!port) {
+					continue;
+				}
+				const secure = native.secure === true || native.https === true;
+				const hostName = obj.common.host;
+				const ip = await resolveHostIp(hostName);
+				results.push({
+					id,
+					adapterType,
+					host: hostName,
+					ip,
+					port,
+					secure,
+					baseUrl: ip ? `http${secure ? "s" : ""}://${ip}:${port}` : null,
+				});
+			}
+		}
+
+		this._webApiInstances = results;
+		await this.setDP("info.webApiInstances", JSON.stringify(results), {
+			name: "Gefundene simple-api/rest-api/web-Instanzen (fuer Wallpaper-REST-Variante)",
+			type: "string",
+			role: "json",
+		});
+		this.log.info(
+			`Web-API-Instanzen gefunden: ${results.map(r => `${r.id} -> ${r.baseUrl || "IP unbekannt"}`).join(", ") || "keine"}`,
+		);
+		return results;
 	}
 
 	async ensureCustomIconsReadme() {
@@ -905,6 +1020,11 @@ class Openmeteo extends utils.Adapter {
 		await this.setState("info.connection", false, true);
 		await this.ensureCustomIconsReadme();
 		await this._loadCustomNightIcons();
+		try {
+			await this.discoverWebApiInstances();
+		} catch (e) {
+			this.log.warn(`Web-API-Erkennung fehlgeschlagen: ${e.message}`);
+		}
 
 		// Fetch system language once for use in Nominatim requests
 		const sysConfig = await this.getForeignObjectAsync("system.config");
@@ -3278,11 +3398,59 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					`wallpapers/${dataFilename}`,
 					JSON.stringify(wallpaperValues),
 				);
-				await this.setDP(`${locId}.current.wallpaper_url`, `/files/${this.namespace}/${wallpaperPath}`, {
+
+				// Fuer die REST-Test-Variante (und generell fuer eine vollstaendige
+				// URL statt eines relativen Pfads) auch die drei Anzeigewerte als
+				// eigene kleine Datenpunkte fuehren - so muss die REST-Variante keine
+				// eigene WMO-Bucket-Logik im Browser duplizieren.
+				await this.setDP(`${locId}.current.wallpaperBucket`, wallpaperValues.bucket, {
+					name: "Wallpaper WMO-Bucket (fuer REST-Abruf)",
+					type: "number",
+					role: "value",
+				});
+				await this.setDP(`${locId}.current.wallpaperTimeValue`, wallpaperValues.timeValue, {
+					name: "Wallpaper Tageszeit-Wert 0-100 (fuer REST-Abruf)",
+					type: "number",
+					role: "value",
+				});
+				await this.setDP(`${locId}.current.wallpaperTempText`, wallpaperValues.tempText, {
+					name: "Wallpaper Temperaturtext (fuer REST-Abruf)",
+					type: "string",
+					role: "text",
+				});
+
+				// Web-Instanz (fuer eine vollstaendige, direkt aufrufbare URL) und
+				// simple-api-Instanz (fuer die REST-Test-Variante) automatisch aus der
+				// Erkennung in discoverWebApiInstances() nehmen - keine manuelle IP/
+				// Port-Konfiguration noetig.
+				const webInstance = this._webApiInstances.find(i => i.adapterType === "web" && i.baseUrl);
+				const wallpaperUrl = webInstance
+					? `${webInstance.baseUrl}/files/${this.namespace}/${wallpaperPath}`
+					: `/files/${this.namespace}/${wallpaperPath}`;
+				await this.setDP(`${locId}.current.wallpaper_url`, wallpaperUrl, {
 					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL)",
 					type: "string",
 					role: "url",
 				});
+
+				const simpleApiInstance = this._webApiInstances.find(i => i.adapterType === "simple-api" && i.baseUrl);
+				if (simpleApiInstance) {
+					const wallpaperHtmlRestApi = buildWallpaperHtmlRestApi(
+						loc.name,
+						`${this.namespace}.${locId}`,
+						simpleApiInstance.baseUrl,
+						wallpaperValues,
+					);
+					await this.setDP(`${locId}.current.wallpaper_html_restapi`, wallpaperHtmlRestApi, {
+						name: "Wallpaper HTML - TEST-Variante per simple-api (statt Begleit-Datei)",
+						type: "string",
+						role: "html",
+					});
+				} else {
+					this.log.debug(
+						`Keine aktivierte simple-api-Instanz gefunden - REST-Wallpaper-Variante fuer ${locId} uebersprungen.`,
+					);
+				}
 			} catch (e) {
 				this.log.warn(`Wallpaper fuer ${locId} konnte nicht geschrieben werden: ${e.message}`);
 			}
