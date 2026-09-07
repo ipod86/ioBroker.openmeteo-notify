@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Live-updateinterval (minuten, alleen actuele condities)",
 	"liveUpdateMinutesHelp": "0 = uitgeschakeld. Ververst alleen current.* en de wallpaper vaker dan de volledige voorspellingsupdate, zonder de hele dag-/uurvoorspelling opnieuw op te halen.",
 	"liveUpdateDisabled": "Uit",
-	"wallpaperPreviewWarning": "Stormwaarschuwing",
+	"wallpaperPreviewWarning": "Officiële waarschuwing voor zware stormstoten (windkracht 9)",
 	"wallpaperShowTime": "Tijd",
 	"wallpaperPreviewResolution": "Schermresolutie simuleren",
 	"wallpaperResFullHD": "Full HD",

@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Intervalle de mise à jour en direct (minutes, conditions actuelles uniquement)",
 	"liveUpdateMinutesHelp": "0 = désactivé. Met à jour uniquement current.* et le fond d'écran plus souvent que la mise à jour complète des prévisions, sans retélécharger toutes les prévisions journalières/horaires.",
 	"liveUpdateDisabled": "Désactivé",
-	"wallpaperPreviewWarning": "Alerte de tempête",
+	"wallpaperPreviewWarning": "Alerte officielle de fortes rafales de tempête (force 9)",
 	"wallpaperShowTime": "Heure",
 	"wallpaperPreviewResolution": "Simuler la résolution d'écran",
 	"wallpaperResFullHD": "Full HD",

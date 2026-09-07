@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Intervalo de atualização ao vivo (minutos, apenas condições atuais)",
 	"liveUpdateMinutesHelp": "0 = desativado. Atualiza apenas current.* e o papel de parede com mais frequência do que a atualização completa da previsão, sem buscar novamente toda a previsão diária/horária.",
 	"liveUpdateDisabled": "Desativado",
-	"wallpaperPreviewWarning": "Aviso de tempestade",
+	"wallpaperPreviewWarning": "Aviso oficial de rajadas de tempestade severas (força 9)",
 	"wallpaperShowTime": "Hora",
 	"wallpaperPreviewResolution": "Simular resolução de tela",
 	"wallpaperResFullHD": "Full HD",

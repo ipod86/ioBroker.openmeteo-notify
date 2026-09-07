@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Intervallo di aggiornamento live (minuti, solo condizioni attuali)",
 	"liveUpdateMinutesHelp": "0 = disattivato. Aggiorna solo current.* e lo sfondo più spesso rispetto all'aggiornamento completo delle previsioni, senza riscaricare l'intera previsione giornaliera/oraria.",
 	"liveUpdateDisabled": "Disattivato",
-	"wallpaperPreviewWarning": "Allerta temporale",
+	"wallpaperPreviewWarning": "Allerta ufficiale per forti raffiche di tempesta (forza 9)",
 	"wallpaperShowTime": "Ora",
 	"wallpaperPreviewResolution": "Simula risoluzione dello schermo",
 	"wallpaperResFullHD": "Full HD",

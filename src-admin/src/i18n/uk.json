@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Інтервал живого оновлення (хвилини, лише поточні умови)",
 	"liveUpdateMinutesHelp": "0 = вимкнено. Оновлює лише current.* та шпалери частіше, ніж повне оновлення прогнозу, без повторного завантаження всього денного/погодинного прогнозу.",
 	"liveUpdateDisabled": "Вимкнено",
-	"wallpaperPreviewWarning": "Штормове попередження",
+	"wallpaperPreviewWarning": "Офіційне попередження про сильні штормові пориви (9 балів)",
 	"wallpaperShowTime": "Час",
 	"wallpaperPreviewResolution": "Симулювати роздільність екрана",
 	"wallpaperResFullHD": "Full HD",

@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Interwał aktualizacji na żywo (minuty, tylko bieżące warunki)",
 	"liveUpdateMinutesHelp": "0 = wyłączone. Odświeża tylko current.* i tapetę częściej niż pełna aktualizacja prognozy, bez ponownego pobierania całej prognozy dziennej/godzinowej.",
 	"liveUpdateDisabled": "Wyłączone",
-	"wallpaperPreviewWarning": "Ostrzeżenie o burzy",
+	"wallpaperPreviewWarning": "Oficjalne ostrzeżenie przed silnymi porywami sztormowymi (9 st. Beauforta)",
 	"wallpaperShowTime": "Godzina",
 	"wallpaperPreviewResolution": "Symuluj rozdzielczość ekranu",
 	"wallpaperResFullHD": "Full HD",

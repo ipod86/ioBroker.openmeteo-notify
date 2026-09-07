@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Live-Update-Intervall (Minuten, nur aktuelle Werte)",
 	"liveUpdateMinutesHelp": "0 = deaktiviert. Aktualisiert nur current.* und das Wallpaper öfter als der volle Vorhersage-Abruf, ohne die komplette Tages-/Stundenvorhersage neu zu holen.",
 	"liveUpdateDisabled": "Aus",
-	"wallpaperPreviewWarning": "Sturmwarnung",
+	"wallpaperPreviewWarning": "Amtliche Warnung vor schweren Sturmböen (Windstärke 9)",
 	"wallpaperShowTime": "Uhrzeit",
 	"wallpaperPreviewResolution": "Bildschirmauflösung simulieren",
 	"wallpaperResFullHD": "Full HD",

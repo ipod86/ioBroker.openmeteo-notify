@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Live update interval (minutes, current conditions only)",
 	"liveUpdateMinutesHelp": "0 = disabled. Refreshes only current.* and the Wallpaper more often than the full forecast update, without re-fetching the whole daily/hourly forecast.",
 	"liveUpdateDisabled": "Off",
-	"wallpaperPreviewWarning": "Storm warning",
+	"wallpaperPreviewWarning": "Official warning of severe storm gusts (Beaufort 9)",
 	"wallpaperShowTime": "Time",
 	"wallpaperPreviewResolution": "Simulate screen resolution",
 	"wallpaperResFullHD": "Full HD",

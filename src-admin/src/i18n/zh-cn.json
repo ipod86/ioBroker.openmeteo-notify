@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "实时更新间隔（分钟，仅当前状况）",
 	"liveUpdateMinutesHelp": "0 = 禁用。比完整预报更新更频繁地仅刷新 current.* 和壁纸，无需重新获取整个每日/每小时预报。",
 	"liveUpdateDisabled": "关闭",
-	"wallpaperPreviewWarning": "暴风警告",
+	"wallpaperPreviewWarning": "官方警告：强烈风暴阵风（蒲福风级9级）",
 	"wallpaperShowTime": "时间",
 	"wallpaperPreviewResolution": "模拟屏幕分辨率",
 	"wallpaperResFullHD": "全高清",

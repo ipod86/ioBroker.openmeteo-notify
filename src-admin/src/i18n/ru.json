@@ -138,7 +138,7 @@
 	"liveUpdateMinutes": "Интервал живого обновления (минуты, только текущие условия)",
 	"liveUpdateMinutesHelp": "0 = отключено. Обновляет только current.* и обои чаще, чем полное обновление прогноза, без повторной загрузки всего дневного/почасового прогноза.",
 	"liveUpdateDisabled": "Выкл.",
-	"wallpaperPreviewWarning": "Штормовое предупреждение",
+	"wallpaperPreviewWarning": "Официальное предупреждение о сильных штормовых порывах (9 баллов)",
 	"wallpaperShowTime": "Время",
 	"wallpaperPreviewResolution": "Симулировать разрешение экрана",
 	"wallpaperResFullHD": "Full HD",
