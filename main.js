@@ -3419,18 +3419,24 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					role: "text",
 				});
 
-				// Web-Instanz (fuer eine vollstaendige, direkt aufrufbare URL) und
-				// simple-api-Instanz (fuer die REST-Test-Variante) automatisch aus der
-				// Erkennung in discoverWebApiInstances() nehmen - keine manuelle IP/
-				// Port-Konfiguration noetig.
-				const webInstance = this._webApiInstances.find(i => i.adapterType === "web" && i.baseUrl);
-				const wallpaperUrl = webInstance
-					? `${webInstance.baseUrl}/files/${this.namespace}/${wallpaperPath}`
-					: `/files/${this.namespace}/${wallpaperPath}`;
-				await this.setDP(`${locId}.current.wallpaper_url`, wallpaperUrl, {
-					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL)",
+				// Alle gefundenen web-Instanzen als Kandidaten anbieten statt blind die
+				// erste zu nehmen - nicht jede web-Instanz bedient zwangslaeufig
+				// /files/... (z.B. wenn sie fuer ein bestimmtes VIS-Projekt eingerichtet
+				// ist), daher muss man ggf. selbst durchprobieren, welche funktioniert.
+				const webInstances = this._webApiInstances.filter(i => i.adapterType === "web" && i.baseUrl);
+				const wallpaperUrls = webInstances.map(i => `${i.baseUrl}/files/${this.namespace}/${wallpaperPath}`);
+				if (wallpaperUrls.length === 0) {
+					wallpaperUrls.push(`/files/${this.namespace}/${wallpaperPath}`);
+				}
+				await this.setDP(`${locId}.current.wallpaper_url`, wallpaperUrls[0], {
+					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL - erster Kandidat)",
 					type: "string",
 					role: "url",
+				});
+				await this.setDP(`${locId}.current.wallpaper_url_candidates`, JSON.stringify(wallpaperUrls), {
+					name: "Wallpaper HTML - alle gefundenen web-Instanzen (durchprobieren, falls der erste 404 gibt)",
+					type: "string",
+					role: "json",
 				});
 
 				const simpleApiInstance = this._webApiInstances.find(i => i.adapterType === "simple-api" && i.baseUrl);
