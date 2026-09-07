@@ -203,7 +203,11 @@ function buildWallpaperWarningHtml(rawConfig, warnings) {
 	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.warnTextColor || "") ? config.warnTextColor : "#ff5252";
 	const fontSize = Math.max(10, Math.min(100, Number(config.warnFontSize) || 20));
 	const text = warnings.map(w => escapeHtmlText(w.headline)).join(" · ");
-	return `<div class="warning-banner" style="color:${textColor};font-size:${fontSize}px;">⚠ ${text}</div>`;
+	// Automatisch gegenueber der Info-Anzeige platzieren, damit sich beide nie
+	// ueberlappen: steht die Info-Anzeige oben (top-left/top-right), geht die
+	// Warnung nach unten, und umgekehrt - keine eigene Einstellung dafuer noetig.
+	const verticalCss = (config.position || "bottom-left").startsWith("top") ? "bottom:0;" : "top:0;";
+	return `<div class="warning-banner" style="${verticalCss}color:${textColor};font-size:${fontSize}px;">⚠ ${text}</div>`;
 }
 
 // Meteorologische Windrichtung (Grad, "kommt aus") in eine horizontale Drift fuer die

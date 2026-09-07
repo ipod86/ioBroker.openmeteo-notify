@@ -120,6 +120,25 @@ const WallpaperPanel: React.FC<Props> = ({ wallpaper, onChange }) => {
 						{previewFields.join(" · ")}
 					</Box>
 				)}
+				{w.warnEnabled && (
+					<Box
+						sx={{
+							position: "absolute",
+							left: 0,
+							right: 0,
+							...(w.position.startsWith("top") ? { bottom: 0 } : { top: 0 }),
+							px: 1.5,
+							py: 0.5,
+							textAlign: "center",
+							fontWeight: 700,
+							fontSize: Math.max(10, Math.min(20, w.warnFontSize)),
+							color: w.warnTextColor,
+							background: "rgba(0,0,0,0.35)",
+						}}
+					>
+						⚠ {I18n.t("wallpaperPreviewWarning")}
+					</Box>
+				)}
 			</Box>
 
 			{/* Position */}

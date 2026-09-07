@@ -137,5 +137,6 @@
 	"wallpaperCarouselEnabled": "Afficher des flèches gauche/droite pour parcourir les lieux",
 	"liveUpdateMinutes": "Intervalle de mise à jour en direct (minutes, conditions actuelles uniquement)",
 	"liveUpdateMinutesHelp": "0 = désactivé. Met à jour uniquement current.* et le fond d'écran plus souvent que la mise à jour complète des prévisions, sans retélécharger toutes les prévisions journalières/horaires.",
-	"liveUpdateDisabled": "Désactivé"
+	"liveUpdateDisabled": "Désactivé",
+	"wallpaperPreviewWarning": "Alerte de tempête"
 }

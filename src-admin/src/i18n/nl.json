@@ -137,5 +137,6 @@
 	"wallpaperCarouselEnabled": "Pijlen links/rechts tonen om tussen locaties te bladeren",
 	"liveUpdateMinutes": "Live-updateinterval (minuten, alleen actuele condities)",
 	"liveUpdateMinutesHelp": "0 = uitgeschakeld. Ververst alleen current.* en de wallpaper vaker dan de volledige voorspellingsupdate, zonder de hele dag-/uurvoorspelling opnieuw op te halen.",
-	"liveUpdateDisabled": "Uit"
+	"liveUpdateDisabled": "Uit",
+	"wallpaperPreviewWarning": "Stormwaarschuwing"
 }

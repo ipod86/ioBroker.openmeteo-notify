@@ -62,9 +62,12 @@
       border: 1px solid rgba(255,255,255,0.12);
     }
 
+    /* top/bottom kommt als Inline-Style von main.js (buildWallpaperWarningHtml) -
+       automatisch gegenueber der Info-Anzeige platziert, damit sich beide nie
+       ueberlappen. */
     .warning-banner {
       position: absolute;
-      top: 0; left: 0; right: 0;
+      left: 0; right: 0;
       z-index: 11;
       text-align: center;
       font-weight: 700;

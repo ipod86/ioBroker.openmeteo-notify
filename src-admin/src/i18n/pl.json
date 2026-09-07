@@ -137,5 +137,6 @@
 	"wallpaperCarouselEnabled": "Pokaż strzałki lewo/prawo do przełączania lokalizacji",
 	"liveUpdateMinutes": "Interwał aktualizacji na żywo (minuty, tylko bieżące warunki)",
 	"liveUpdateMinutesHelp": "0 = wyłączone. Odświeża tylko current.* i tapetę częściej niż pełna aktualizacja prognozy, bez ponownego pobierania całej prognozy dziennej/godzinowej.",
-	"liveUpdateDisabled": "Wyłączone"
+	"liveUpdateDisabled": "Wyłączone",
+	"wallpaperPreviewWarning": "Ostrzeżenie o burzy"
 }
