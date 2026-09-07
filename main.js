@@ -3430,20 +3430,26 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				// nicht - live gegen die echte Instanz geprueft: "/files/<namespace>/..."
 				// gibt 404, "/<namespace>/..." direkt gibt 200.
 				const webInstances = this._webApiInstances.filter(i => i.adapterType === "web" && i.baseUrl);
-				const wallpaperUrls = webInstances.map(i => `${i.baseUrl}/${this.namespace}/${wallpaperPath}`);
-				if (wallpaperUrls.length === 0) {
-					wallpaperUrls.push(`/${this.namespace}/${wallpaperPath}`);
+				const wallpaperUrlsByInstance = webInstances.map(i => ({
+					instance: i.id.replace(/^system\.adapter\./, "").replace(/\./g, "_"), // "web.0" -> "web_0"
+					url: `${i.baseUrl}/${this.namespace}/${wallpaperPath}`,
+				}));
+				const primaryWallpaperUrl = wallpaperUrlsByInstance[0]?.url ?? `/${this.namespace}/${wallpaperPath}`;
+				await this.setDP(`${locId}.current.wallpaper_url`, primaryWallpaperUrl, {
+					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL - erste gefundene web-Instanz)",
+					type: "string",
+					role: "text.url",
+				});
+				// Eigener DP je gefundener web-Instanz statt einer gemeinsamen Liste -
+				// falls die erste (wallpaper_url) 404 gibt, kann man die anderen einzeln
+				// durchprobieren, ohne erst eine JSON-Liste parsen zu muessen.
+				for (const { instance, url } of wallpaperUrlsByInstance) {
+					await this.setDP(`${locId}.current.wallpaper_url_${instance}`, url, {
+						name: `Wallpaper HTML - URL ueber ${instance}`,
+						type: "string",
+						role: "text.url",
+					});
 				}
-				await this.setDP(`${locId}.current.wallpaper_url`, wallpaperUrls[0], {
-					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL - erster Kandidat)",
-					type: "string",
-					role: "url",
-				});
-				await this.setDP(`${locId}.current.wallpaper_url_candidates`, JSON.stringify(wallpaperUrls), {
-					name: "Wallpaper HTML - alle gefundenen web-Instanzen (durchprobieren, falls der erste 404 gibt)",
-					type: "string",
-					role: "json",
-				});
 
 				const simpleApiInstance = this._webApiInstances.find(i => i.adapterType === "simple-api" && i.baseUrl);
 				if (simpleApiInstance) {
