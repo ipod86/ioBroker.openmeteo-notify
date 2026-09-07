@@ -326,9 +326,24 @@
       drawFlareDisc(1.35, 160, 255, 230, 170, 0.12);
     }
 
-    function update() {
+    // Alle Bewegungen sind urspruenglich "pro Frame" statt "pro Sekunde" gerechnet -
+    // dadurch sah die Animation je nach tatsaechlicher Framerate des Geraets/Browsers
+    // (60Hz/90Hz/120Hz, Drosselung im Hintergrund etc.) unterschiedlich schnell aus.
+    // dtScale normalisiert das auf "wie viele 1/60s-Schritte seit dem letzten Frame
+    // vergangen sind" (1.0 = genau 60fps, wie im Original angenommen) - alle bisher
+    // pro Frame addierten Werte werden jetzt mit dtScale multipliziert, damit sie in
+    // echten Sekunden ueberall gleich schnell laufen. Nach einer Pause (Tab im
+    // Hintergrund) wird dtScale gekappt, damit Partikel nicht durchs Bild springen.
+    let lastFrameTime = null;
+    function update(timestamp) {
+      if (lastFrameTime === null) {
+        lastFrameTime = timestamp;
+      }
+      const dtScale = Math.min(5, Math.max(0, (timestamp - lastFrameTime) / (1000 / 60)));
+      lastFrameTime = timestamp;
+
       ctx.clearRect(0, 0, width, height);
-      animTime += 0.015;
+      animTime += 0.015 * dtScale;
 
       drawStars();
 
@@ -338,8 +353,8 @@
 
       if (fogParticles.length > 0) {
         fogParticles.forEach(p => {
-          p.x += p.vx;
-          p.y += Math.sin(animTime * 1.5 + p.phase) * 0.4;
+          p.x += p.vx * dtScale;
+          p.y += Math.sin(animTime * 1.5 + p.phase) * 0.4 * dtScale;
 
           if (pointer.active) {
             const dx = p.x - pointer.x;
@@ -348,8 +363,8 @@
             const radius = 220;
             if (dist < radius && dist > 0) {
               const force = (radius - dist) / radius;
-              p.x += (dx / dist) * force * 12;
-              p.y += (dy / dist) * force * 12;
+              p.x += (dx / dist) * force * 12 * dtScale;
+              p.y += (dy / dist) * force * 12 * dtScale;
             }
           }
 
@@ -373,11 +388,11 @@
 
       ctx.lineWidth = 1.2;
       particles.forEach(p => {
-        p.y += p.speed;
-        p.x += p.wind;
+        p.y += p.speed * dtScale;
+        p.x += p.wind * dtScale;
 
         if (currentWMO === 73) {
-          p.x += Math.sin(p.y * p.sway) * 0.6;
+          p.x += Math.sin(p.y * p.sway) * 0.6 * dtScale;
         }
 
         if (pointer.active && ![95, 99].includes(currentWMO)) {
@@ -387,8 +402,8 @@
           const radius = 120;
           if (dist < radius && dist > 0) {
             const force = (radius - dist) / radius;
-            p.x += (dx / dist) * force * 9;
-            p.y += (dy / dist) * force * 9;
+            p.x += (dx / dist) * force * 9 * dtScale;
+            p.y += (dy / dist) * force * 9 * dtScale;
           }
         }
 
@@ -412,7 +427,7 @@
       });
 
       if ([95, 99].includes(currentWMO)) {
-        flashTimer--;
+        flashTimer -= dtScale;
 
         if (flashTimer <= 0) {
           flashOpacity = Math.random() * 0.18 + 0.08;
@@ -435,7 +450,7 @@
             ctx.stroke();
           }
 
-          flashOpacity -= 0.015;
+          flashOpacity -= 0.015 * dtScale;
         }
       }
 
@@ -462,7 +477,9 @@
     applyWallpaperValues(__WMO_BUCKET__, __TIME_VALUE__, "__OVERLAY_HTML_JS__");
 
     resize();
-    update();
+    // requestAnimationFrame statt direktem Aufruf, damit update() gleich beim ersten
+    // Mal einen echten Zeitstempel bekommt (fuer dtScale, siehe oben) statt undefined.
+    requestAnimationFrame(update);
 
     // Aktuelle Werte liegen als winzige JSON-Datei im selben Ordner (schreibt der
     // Adapter bei jedem Wetter-Update neu) - per fetch() im selben Ordner geholt,
