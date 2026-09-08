@@ -155,6 +155,29 @@
     let moonPos = { x: 0.2, y: 0.15, visible: false };
     let moonPhase = 0.5;
 
+    // Nur im Testmodus (?wmotest=1) aktiv: laesst Sonne und Mond kontinuierlich
+    // und langsam entlang derselben Bogenkurve wandern (siehe wallpaperArcPosition()
+    // in main.js), damit man die Bewegung beim Testen sehen kann, statt nur eine
+    // statische Position. Im Normalbetrieb bleibt es bei der echten, nur alle paar
+    // Minuten per Server-Refresh aktualisierten Position.
+    let testMode = false;
+    let testSunProgress = 0;
+    let testMoonProgress = 0.5;
+    function arcFromProgress(progress) {
+      return {
+        x: 1.08 - progress * 1.16,
+        y: 0.22 - Math.sin(progress * Math.PI) * 0.12,
+      };
+    }
+    function updateTestArc(dtScale) {
+      if (!testMode) return;
+      const speed = 0.0006 * dtScale;
+      testSunProgress = (testSunProgress + speed) % 1;
+      testMoonProgress = (testMoonProgress + speed) % 1;
+      sunPos = { ...arcFromProgress(testSunProgress), visible: true };
+      moonPos = { ...arcFromProgress(testMoonProgress), visible: true };
+    }
+
     let animTime = 0;
     let flashOpacity = 0;
     let flashTimer = 0;
@@ -514,6 +537,7 @@
 
       ctx.clearRect(0, 0, width, height);
       animTime += 0.015 * dtScale;
+      updateTestArc(dtScale);
 
       drawStars();
       drawMoon();
@@ -678,8 +702,17 @@
     setInterval(updateClock, 1000);
 
     function applyWallpaperValues(v) {
-      wmoSelect.value = String(v.bucket);
-      timeSlider.value = String(v.timeValue);
+      // Der periodische Echt-Refresh (siehe refreshWallpaperData() unten) ruft das
+      // hier alle paar Minuten erneut auf - im Testmodus (?wmotest=1) wuerde das
+      // sonst die per updateTestArc() laufende Sonnen-/Mond-Animation und das
+      // Bucket-Durchschalten mit echten Werten ueberschreiben und unterbrechen.
+      if (!testMode) {
+        wmoSelect.value = String(v.bucket);
+        timeSlider.value = String(v.timeValue);
+        sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };
+        moonPos = { x: v.moonX, y: v.moonY, visible: v.moonVisible };
+        moonPhase = v.moonPhase != null ? v.moonPhase : moonPhase;
+      }
       if (overlayContainer) {
         overlayContainer.innerHTML = v.overlayHtml || '';
       }
@@ -693,9 +726,6 @@
       adjustForWarningOverlap();
       windDrift = v.windDrift || 0;
       precipScale = v.precipScale || 1;
-      sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };
-      moonPos = { x: v.moonX, y: v.moonY, visible: v.moonVisible };
-      moonPhase = v.moonPhase != null ? v.moonPhase : moonPhase;
       initWeather();
     }
 
@@ -784,18 +814,22 @@
     // ---- Versteckter Testmodus (kein UI-Schalter, nicht dokumentiert): an die URL
     // "?wmotest=1" anhaengen, um alle 5s zyklisch durch alle WMO-Buckets zu schalten -
     // zum schnellen Durchschauen aller Wetterlagen ohne auf echte Aenderungen zu warten.
-    // Uhrzeit/Mond werden dabei fest auf "Nacht mit sichtbarem Mond" gesetzt - sonst
-    // sieht man beim Testen tagsueber (oder wenn der echte Mond gerade unter dem
-    // Horizont steht) nie etwas vom Mond/Sternen-Effekt, egal welche Wetterlage
-    // gerade durchgeschaltet wird. Die Mondphase rotiert dabei mit durch, damit auch
-    // die beleuchtete Sichel in allen Phasen sichtbar wird. ----
+    // Uhrzeit wird dabei fest auf einen Wert gesetzt, bei dem sowohl Sonne (>= 0.2)
+    // als auch Mond/Sterne (<= 0.4) gleichzeitig sichtbar sind - sonst sieht man beim
+    // Testen tagsueber (oder wenn Sonne/Mond gerade unter dem Horizont stehen) nie
+    // etwas von den Effekten, egal welche Wetterlage gerade durchgeschaltet wird.
+    // Sonne und Mond wandern dabei kontinuierlich per updateTestArc() (siehe oben)
+    // langsam ueber den Bildschirm, statt nur eine feste Position zu zeigen - so laesst
+    // sich die Bogenkurve/das Rein-und-Rausfliegen direkt beobachten. Die Mondphase
+    // rotiert dabei mit durch, damit auch die beleuchtete Sichel in allen Phasen
+    // sichtbar wird. ----
     const testParams = new URLSearchParams(location.search);
     if (testParams.get('wmotest') === '1') {
       const testBuckets = [0, 2, 45, 51, 63, 73, 95, 99];
       let testIndex = 0;
       let testMoonPhase = 0;
-      timeSlider.value = '15';
-      moonPos = { x: 0.7, y: 0.14, visible: true };
+      timeSlider.value = '30';
+      testMode = true;
       setInterval(() => {
         wmoSelect.value = String(testBuckets[testIndex % testBuckets.length]);
         testIndex++;

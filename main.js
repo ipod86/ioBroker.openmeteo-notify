@@ -265,14 +265,25 @@ function wallpaperPrecipScale(precipAmount) {
 // Diese suncalc-Version (2.0.1) gibt azimuth/altitude in GRAD zurueck (0=Nord, im
 // Uhrzeigersinn), nicht in Radiant wie die allgemeine SunCalc-Doku nahelegt - direkt
 // am Quellcode geprueft (azimuth() / altitude() Helper teilen intern durch "rad").
-// sin(azimuth) ergibt den Ost/West-Anteil fuer die grobe Bildschirm-X-Position;
-// altitude > 0 heisst das Objekt steht ueberhaupt ueber dem Horizont.
-function wallpaperSkyPosition(pos) {
-	const azRad = (pos.azimuth * Math.PI) / 180;
-	const altRad = (pos.altitude * Math.PI) / 180;
+//
+// Die echte Altitude/Azimut 1:1 auf den ganzen Bildschirm gemappt sah in der Praxis
+// schlecht aus: das Objekt kann dabei mitten im Bild oder ploetzlich am unteren Rand
+// auftauchen. Stattdessen eine dekorative, aber an der echten Position orientierte
+// Wanderung, die IMMER im oberen Bildschirmbereich bleibt und ueber die
+// Sichtbarkeitsdauer von rechts (Aufgang) nach links (Untergang) zieht - dafuer wird
+// nur der Azimut benutzt: Aufgang liegt ungefaehr bei Azimut 90 (Ost), Kulmination
+// bei 180 (Sued), Untergang bei 270 (West); daraus ergibt sich ein Fortschritt 0..1
+// fuer eine flache Bogenkurve nahe der Oberkante. x geht bewusst ueber 0..1 hinaus
+// (bis leicht negativ/ueber 1), damit Sonne/Mond wirklich rechts ins Bild hinein- und
+// links wieder herausfliegen, statt bei 8%/92% Bildbreite abrupt stehenzubleiben.
+// Sonne und Mond nutzen bewusst dieselbe Kurve fuer eine einheitliche Optik. Ob das
+// Objekt ueberhaupt sichtbar ist, bleibt echte Altitude.
+function wallpaperArcPosition(pos) {
+	const azDeg = ((pos.azimuth % 360) + 360) % 360;
+	const progress = Math.max(0, Math.min(1, (azDeg - 90) / 180));
 	return {
-		x: Math.max(0.05, Math.min(0.95, 0.5 + Math.sin(azRad) * 0.45)),
-		y: Math.max(0.08, Math.min(0.75, 0.75 - Math.max(0, Math.sin(altRad)) * 0.65)),
+		x: 1.08 - progress * 1.16,
+		y: 0.22 - Math.sin(progress * Math.PI) * 0.12,
 		visible: pos.altitude > 0,
 	};
 }
@@ -281,33 +292,14 @@ function wallpaperSunPosition(lat, lon) {
 	if (lat == null || lon == null) {
 		return { x: 0.78, y: 0.22, visible: true };
 	}
-	return wallpaperSkyPosition(SunCalc.getPosition(new Date(), lat, lon));
+	return wallpaperArcPosition(SunCalc.getPosition(new Date(), lat, lon));
 }
 
-// Die echte Mond-Altitude/Azimut 1:1 auf den ganzen Bildschirm gemappt (wie bei der
-// Sonne) sah in der Praxis schlecht aus: der Mond kann dabei mitten im Bild oder
-// ploetzlich am unteren Rand auftauchen. Stattdessen eine dekorative, aber an der
-// echten Position orientierte Wanderung, die IMMER im oberen Bildschirmbereich
-// bleibt und ueber die Sichtbarkeitsdauer von rechts (Aufgang) nach links (Untergang)
-// zieht - dafuer wird nur der Azimut (0=Nord, im Uhrzeigersinn, in Grad) benutzt:
-// Aufgang liegt ungefaehr bei Azimut 90 (Ost), Kulmination bei 180 (Sued), Untergang
-// bei 270 (West); daraus ergibt sich ein Fortschritt 0..1 fuer eine flache Bogenkurve
-// nahe der Oberkante. x geht bewusst ueber 0..1 hinaus (bis leicht negativ/ueber 1),
-// damit der Mond wirklich rechts ins Bild hinein- und links wieder herausfliegt,
-// statt bei 8%/92% Bildbreite abrupt stehenzubleiben. Ob der Mond ueberhaupt
-// sichtbar ist, bleibt echte Altitude.
 function wallpaperMoonPosition(lat, lon) {
 	if (lat == null || lon == null) {
 		return { x: 0.2, y: 0.15, visible: false };
 	}
-	const pos = SunCalc.getMoonPosition(new Date(), lat, lon);
-	const azDeg = ((pos.azimuth % 360) + 360) % 360;
-	const progress = Math.max(0, Math.min(1, (azDeg - 90) / 180));
-	return {
-		x: 1.08 - progress * 1.16,
-		y: 0.22 - Math.sin(progress * Math.PI) * 0.12,
-		visible: pos.altitude > 0,
-	};
+	return wallpaperArcPosition(SunCalc.getMoonPosition(new Date(), lat, lon));
 }
 
 /**
