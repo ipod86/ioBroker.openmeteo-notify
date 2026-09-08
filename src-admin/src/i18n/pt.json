@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Avisos Open-Meteo",
 	"widgetOptionsGreyed": "Opções a cinzento indicam que um valor nas configurações gerais precisa ser aumentado.",
 	"tabWallpaper": "Papel de parede",
-	"wallpaperHint": "Configure o papel de parede meteorológico animado (WMO) gerado por local - veja current.wallpaper_url.",
+	"wallpaperHint": "Configure o papel de parede meteorológico animado (WMO) gerado por local - veja current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "Nenhum campo ativado - a sobreposição ficará vazia.",
 	"wallpaperPreviewLocation": "Cidade exemplo",
 	"wallpaperPosition": "Posição",

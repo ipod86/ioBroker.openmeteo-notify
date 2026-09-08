@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Avvisi Open-Meteo",
 	"widgetOptionsGreyed": "Le opzioni disabilitate indicano che un valore nelle impostazioni generali deve essere aumentato.",
 	"tabWallpaper": "Sfondo animato",
-	"wallpaperHint": "Configura lo sfondo meteo animato (WMO) generato per ogni luogo - vedi current.wallpaper_url.",
+	"wallpaperHint": "Configura lo sfondo meteo animato (WMO) generato per ogni luogo - vedi current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "Nessun campo attivo - la sovrapposizione rimarrà vuota.",
 	"wallpaperPreviewLocation": "Città esempio",
 	"wallpaperPosition": "Posizione",

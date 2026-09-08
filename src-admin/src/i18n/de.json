@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Open-Meteo-Warnungen",
 	"widgetOptionsGreyed": "Ausgegraute Optionen bedeuten, dass ein Wert in den Allgemeinen Einstellungen erhöht werden muss.",
 	"tabWallpaper": "Wallpaper",
-	"wallpaperHint": "Animiertes WMO-Wetter-Wallpaper pro Ort konfigurieren - siehe current.wallpaper_url.",
+	"wallpaperHint": "Animiertes WMO-Wetter-Wallpaper pro Ort konfigurieren - siehe current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "Kein Feld aktiviert - die Anzeige bleibt leer.",
 	"wallpaperPreviewLocation": "Musterstadt",
 	"wallpaperPosition": "Position",

@@ -3970,15 +3970,9 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					instance: i.id.replace(/^system\.adapter\./, "").replace(/\./g, "_"), // "web.0" -> "web_0"
 					url: `${i.baseUrl}/${this.namespace}/${wallpaperPath}`,
 				}));
-				const primaryWallpaperUrl = wallpaperUrlsByInstance[0]?.url ?? `/${this.namespace}/${wallpaperPath}`;
-				await this.setDP(`${locId}.current.wallpaper_url`, primaryWallpaperUrl, {
-					name: "Wallpaper HTML (WMO-Wettersimulation, aufrufbare URL - erste gefundene web-Instanz)",
-					type: "string",
-					role: "text.url",
-				});
-				// Eigener DP je gefundener web-Instanz statt einer gemeinsamen Liste -
-				// falls die erste (wallpaper_url) 404 gibt, kann man die anderen einzeln
-				// durchprobieren, ohne erst eine JSON-Liste parsen zu muessen.
+				// Eigener DP je gefundener web-Instanz statt eines zusaetzlichen
+				// "primaeren" DP (redundant zur ersten Instanz hier) - faellt die erste
+				// URL mit 404 aus, probiert man einfach die naechste einzeln durch.
 				for (const { instance, url } of wallpaperUrlsByInstance) {
 					await this.setDP(`${locId}.current.wallpaper_url_${instance}`, url, {
 						name: `Wallpaper HTML - URL ueber ${instance}`,

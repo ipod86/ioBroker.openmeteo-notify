@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Open-Meteo-waarschuwingen",
 	"widgetOptionsGreyed": "Grijze opties geven aan dat een waarde in de algemene instellingen verhoogd moet worden.",
 	"tabWallpaper": "Wallpaper",
-	"wallpaperHint": "Configureer de geanimeerde WMO-weer-wallpaper per locatie - zie current.wallpaper_url.",
+	"wallpaperHint": "Configureer de geanimeerde WMO-weer-wallpaper per locatie - zie current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "Geen veld ingeschakeld - de overlay blijft leeg.",
 	"wallpaperPreviewLocation": "Voorbeeldstad",
 	"wallpaperPosition": "Positie",

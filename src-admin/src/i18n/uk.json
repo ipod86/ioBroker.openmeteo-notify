@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Попередження Open-Meteo",
 	"widgetOptionsGreyed": "Неактивні параметри означають, що значення в загальних налаштуваннях потрібно збільшити.",
 	"tabWallpaper": "Шпалери",
-	"wallpaperHint": "Налаштуйте анімовані погодні шпалери (WMO), що створюються для кожного місця - див. current.wallpaper_url.",
+	"wallpaperHint": "Налаштуйте анімовані погодні шпалери (WMO), що створюються для кожного місця - див. current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "Жодне поле не увімкнено - накладка буде порожньою.",
 	"wallpaperPreviewLocation": "Місто-приклад",
 	"wallpaperPosition": "Позиція",

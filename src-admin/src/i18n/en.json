@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Open-Meteo Warnings",
 	"widgetOptionsGreyed": "Greyed-out options indicate that a value in General settings needs to be increased.",
 	"tabWallpaper": "Wallpaper",
-	"wallpaperHint": "Configure the animated WMO weather wallpaper generated per location - see current.wallpaper_url.",
+	"wallpaperHint": "Configure the animated WMO weather wallpaper generated per location - see current.wallpaper_url_<instance>.",
 	"wallpaperNoFieldsWarning": "No fields are enabled - the overlay will be empty.",
 	"wallpaperPreviewLocation": "Sample Town",
 	"wallpaperPosition": "Position",
