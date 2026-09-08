@@ -22,6 +22,17 @@ Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterla
 ### Konfigurierbares HTML-Widget
 Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar.
 
+### Animiertes Wetter-Wallpaper / Screensaver
+Der Adapter erzeugt pro Standort ein eigenständiges, animiertes Wetter-Wallpaper — eine Vollbild-Canvas-Animation (Regen, Schnee, Nebel, Blitze, Sonnenglanz, Sterne), gesteuert vom echten aktuellen Wetter statt manueller Regler, ideal als Screensaver für ein wandmontiertes Tablet oder als VIS-/Dashboard-Hintergrund.
+- **Echte wetterabhängige Effekte** — Windrichtung/-geschwindigkeit steuern Regen- und Nebeldrift, die Niederschlagsmenge skaliert die Partikelintensität, Sonnen- und Mondposition (sowie Mondphase) folgen echten astronomischen Daten (SunCalc) für den konfigurierten Standort
+- **Amtliches Warnungs-Banner** — aktive DWD-/MeteoAlarm-Warnungen werden als konfigurierbares Text-Banner angezeigt, kollidierende Overlay-Elemente weichen automatisch aus
+- **Eigenes Hintergrundfoto pro Ort** — mit Standardfoto vorbelegt, jederzeit über Admin → Dateien durch ein eigenes Foto ersetzbar
+- **Aktualisiert sich selbst ohne REST-API** — lädt eine kleine Begleit-JSON-Datei aus demselben Ordner nach, kein voller Seiten-Reload nötig
+- **Optionales Orte-Karussell** — zwischen mehreren konfigurierten Standorten per Pfeil links/rechts durchblättern
+- **Unabhängiges Live-Update-Intervall** — nur aktuelle Werte und das Wallpaper aktualisieren (0/5/10/15/30 Min), getrennt vom normalen Vorhersage-Aktualisierungsintervall
+- Konfigurierbar über einen eigenen **Admin-Tab „Wallpaper"** (Position, Farben, Schriftgrößen, Uhr, Warnungen) mit Live-Vorschau, die gängige Bildschirmauflösungen simuliert
+- Direkt als URL je Web-Instanz erreichbar (`current.wallpaper_url_<instance>`) — keine VIS-Einbindung nötig
+
 ### Volltextsuche für Adressen
 Standorte müssen nicht als reine Koordinaten eingegeben werden. Die Einstellungs-UI bietet eine **freie Adresssuche** — einfach Stadt, Adresse oder Region eingeben, die Koordinaten werden automatisch aufgelöst. Für jeden Standort wird eine OpenStreetMap-Vorschau angezeigt. Mehrere Standorte können parallel konfiguriert werden.
 

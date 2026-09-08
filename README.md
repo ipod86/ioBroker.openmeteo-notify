@@ -22,6 +22,17 @@ The adapter sends individual notifications for configurable weather events — s
 ### Configurable HTML widget
 The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
 
+### Animated weather wallpaper / screensaver
+The adapter generates a self-contained, animated weather wallpaper per location — a full-screen canvas animation (rain, snow, fog, lightning, sun glare, stars) driven by the real current weather instead of manual controls, ideal as a wall-mounted tablet screensaver or a VIS/dashboard background.
+- **Real weather-driven effects** — wind direction/speed drive rain and fog drift, precipitation amount scales particle intensity, sun and moon position (and moon phase) follow real astronomical data (SunCalc) for the configured location
+- **Official warnings banner** — active DWD/MeteoAlarm warnings are shown as a configurable text banner, colliding overlay elements automatically move out of the way
+- **Own background photo per location** — seeded with a default photo, replaceable at any time via Admin → Files, named after the location
+- **Self-updating without a REST API** — fetches a small companion JSON file from the same folder, no full page reload needed
+- **Optional location carousel** — browse between multiple configured locations with left/right arrows
+- **Independent live-update interval** — refresh just the current conditions and the wallpaper (0/5/10/15/30 min), separate from the main forecast update interval
+- Configurable via a dedicated **admin "Wallpaper" tab** (position, colors, font sizes, clock, warnings) with a live preview that simulates common screen resolutions
+- Reachable directly as a URL per web instance (`current.wallpaper_url_<instance>`) — no VIS binding required
+
 ### Full-text address search
 Locations do not have to be entered as raw coordinates. The settings UI offers a **free-text address search** — just type a city, address or region and the coordinates are resolved automatically. An OpenStreetMap preview is shown for each location. Multiple locations can be configured in parallel.
 
