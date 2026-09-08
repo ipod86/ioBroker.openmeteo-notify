@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Avisos de Open-Meteo",
 	"widgetOptionsGreyed": "Las opciones en gris indican que un valor en los ajustes generales debe aumentarse.",
 	"tabWallpaper": "Fondo animado",
-	"wallpaperHint": "Configura el fondo animado del tiempo (WMO) generado por ubicación - ver current.wallpaper_html / wallpaper_url.",
+	"wallpaperHint": "Configura el fondo animado del tiempo (WMO) generado por ubicación - ver current.wallpaper_url.",
 	"wallpaperNoFieldsWarning": "Ningún campo está activado - la superposición quedará vacía.",
 	"wallpaperPreviewLocation": "Ciudad ejemplo",
 	"wallpaperPosition": "Posición",

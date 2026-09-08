@@ -1588,11 +1588,6 @@ class Openmeteo extends utils.Adapter {
 				const dataFilename = `${locId}-data.json`;
 				const bgFilename = `${locId}.jpg`;
 				const wallpaperHtml = buildWallpaperHtml(loc.name, locId, dataFilename, bgFilename, wallpaperValues);
-				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
-					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
-					type: "string",
-					role: "html",
-				});
 				await this.writeFileAsync(this.namespace, `wallpapers/${locId}.html`, wallpaperHtml);
 				await this.writeFileAsync(
 					this.namespace,
@@ -3952,12 +3947,6 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				const bgFilename = `${locId}.jpg`;
 				await ensureWallpaperBackgroundPhoto(this, locId, bgFilename);
 				const wallpaperHtml = buildWallpaperHtml(loc.name, locId, dataFilename, bgFilename, wallpaperValues);
-
-				await this.setDP(`${locId}.current.wallpaper_html`, wallpaperHtml, {
-					name: "Wallpaper HTML (WMO-Wettersimulation, fertig gerendert)",
-					type: "string",
-					role: "html",
-				});
 				const wallpaperPath = `wallpapers/${locId}.html`;
 				await this.writeFileAsync(this.namespace, wallpaperPath, wallpaperHtml);
 				await this.writeFileAsync(

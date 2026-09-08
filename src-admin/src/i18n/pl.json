@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Ostrzeżenia Open-Meteo",
 	"widgetOptionsGreyed": "Wyszarzone opcje oznaczają, że wartość w ustawieniach ogólnych musi zostać zwiększona.",
 	"tabWallpaper": "Tapeta",
-	"wallpaperHint": "Skonfiguruj animowaną tapetę pogodową WMO generowaną dla lokalizacji - zobacz current.wallpaper_html / wallpaper_url.",
+	"wallpaperHint": "Skonfiguruj animowaną tapetę pogodową WMO generowaną dla lokalizacji - zobacz current.wallpaper_url.",
 	"wallpaperNoFieldsWarning": "Żadne pole nie jest włączone - nakładka pozostanie pusta.",
 	"wallpaperPreviewLocation": "Przykładowe miasto",
 	"wallpaperPosition": "Pozycja",

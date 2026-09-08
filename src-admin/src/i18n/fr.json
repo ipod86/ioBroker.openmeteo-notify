@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Alertes Open-Meteo",
 	"widgetOptionsGreyed": "Les options grisées indiquent qu un paramètre des réglages généraux doit être augmenté.",
 	"tabWallpaper": "Fond d'écran",
-	"wallpaperHint": "Configurez le fond d'écran météo animé (WMO) généré par lieu - voir current.wallpaper_html / wallpaper_url.",
+	"wallpaperHint": "Configurez le fond d'écran météo animé (WMO) généré par lieu - voir current.wallpaper_url.",
 	"wallpaperNoFieldsWarning": "Aucun champ activé - l'incrustation restera vide.",
 	"wallpaperPreviewLocation": "Ville exemple",
 	"wallpaperPosition": "Position",

@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Open-Meteo 警报",
 	"widgetOptionsGreyed": "灰色选项表示需要增加常规设置中的某个值。",
 	"tabWallpaper": "壁纸",
-	"wallpaperHint": "配置按地点生成的动态WMO天气壁纸 - 参见 current.wallpaper_html / wallpaper_url。",
+	"wallpaperHint": "配置按地点生成的动态WMO天气壁纸 - 参见 current.wallpaper_url。",
 	"wallpaperNoFieldsWarning": "未启用任何字段 - 叠加层将为空。",
 	"wallpaperPreviewLocation": "示例城市",
 	"wallpaperPosition": "位置",

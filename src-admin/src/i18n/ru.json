@@ -111,7 +111,7 @@
 	"warningsOpenMeteo": "Предупреждения Open-Meteo",
 	"widgetOptionsGreyed": "Неактивные параметры означают, что значение в общих настройках необходимо увеличить.",
 	"tabWallpaper": "Обои",
-	"wallpaperHint": "Настройте анимированные обои погоды (WMO), создаваемые для каждого места - см. current.wallpaper_html / wallpaper_url.",
+	"wallpaperHint": "Настройте анимированные обои погоды (WMO), создаваемые для каждого места - см. current.wallpaper_url.",
 	"wallpaperNoFieldsWarning": "Ни одно поле не включено - оверлей будет пустым.",
 	"wallpaperPreviewLocation": "Город-пример",
 	"wallpaperPosition": "Позиция",
