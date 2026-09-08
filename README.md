@@ -260,7 +260,7 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.2.0 (2026-09-08)
 * (ipod86) feat: add animated, per-location WMO weather wallpaper (canvas rain/snow/fog/lightning/sun/moon animation), self-updating via a companion JSON file (no REST API needed), with a dedicated admin config tab, an optional location carousel, an independent live-update interval and an official warning banner
 * (ipod86) feat: wallpaper sun/moon position and moon phase follow real astronomical data (SunCalc); rain/fog intensity and wind drift follow real weather data
 * (ipod86) feat: add day/night split for precipitation/thunderstorm probability, wind, rain and snowfall amount
@@ -283,9 +283,6 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) fix: remove orphaned i18n keys (iconPreviewAnimated, iconPreviewBasmilius, iconPreviewWmo, openmeteo adapter settings) from all 11 language files
 * (ipod86) fix: warnIntervalMinutes default in admin WarningsPanel corrected to 15
 * (ipod86) chore: bump @mui/material and @mui/icons-material to 9.x, TypeScript to 7.x, Vite to 8.1, suncalc to 2.0
-
-### 0.1.12 (2026-07-01)
-* (ipod86) fix: translate 84 missing admin i18n keys into all 10 languages (W5606)
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

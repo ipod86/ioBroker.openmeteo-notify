@@ -100,6 +100,9 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.12 (2026-07-01)
+* (ipod86) fix: translate 84 missing admin i18n keys into all 10 languages (W5606)
+
 ## 0.1.11 (2026-06-24)
 - (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
 * (ipod86) fix: skip hourly slots without icon data in detailed widget (missing icons at 00h/02h/04h)
