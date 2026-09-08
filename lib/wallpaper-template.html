@@ -783,14 +783,24 @@
 
     // ---- Versteckter Testmodus (kein UI-Schalter, nicht dokumentiert): an die URL
     // "?wmotest=1" anhaengen, um alle 5s zyklisch durch alle WMO-Buckets zu schalten -
-    // zum schnellen Durchschauen aller Wetterlagen ohne auf echte Aenderungen zu warten. ----
+    // zum schnellen Durchschauen aller Wetterlagen ohne auf echte Aenderungen zu warten.
+    // Uhrzeit/Mond werden dabei fest auf "Nacht mit sichtbarem Mond" gesetzt - sonst
+    // sieht man beim Testen tagsueber (oder wenn der echte Mond gerade unter dem
+    // Horizont steht) nie etwas vom Mond/Sternen-Effekt, egal welche Wetterlage
+    // gerade durchgeschaltet wird. Die Mondphase rotiert dabei mit durch, damit auch
+    // die beleuchtete Sichel in allen Phasen sichtbar wird. ----
     const testParams = new URLSearchParams(location.search);
     if (testParams.get('wmotest') === '1') {
       const testBuckets = [0, 2, 45, 51, 63, 73, 95, 99];
       let testIndex = 0;
+      let testMoonPhase = 0;
+      timeSlider.value = '15';
+      moonPos = { x: 0.7, y: 0.14, visible: true };
       setInterval(() => {
         wmoSelect.value = String(testBuckets[testIndex % testBuckets.length]);
         testIndex++;
+        testMoonPhase = (testMoonPhase + 0.13) % 1;
+        moonPhase = testMoonPhase;
         initWeather();
       }, 5000);
     }
