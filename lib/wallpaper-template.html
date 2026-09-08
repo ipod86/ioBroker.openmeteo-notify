@@ -161,8 +161,12 @@
     // statische Position. Im Normalbetrieb bleibt es bei der echten, nur alle paar
     // Minuten per Server-Refresh aktualisierten Position.
     let testMode = false;
-    let testSunProgress = 0;
-    let testMoonProgress = 0.5;
+    // Beide starten schon mittig im sichtbaren Bereich (statt einer bei 0 = komplett
+    // ausserhalb des Bildschirms) - sonst sieht es im Testmodus so aus, als wuerde
+    // die Sonne erst starten, nachdem der Mond schon eine ganze Runde gelaufen ist,
+    // obwohl beide die ganze Zeit gleich schnell und gleichzeitig wandern.
+    let testSunProgress = 0.3;
+    let testMoonProgress = 0.7;
     function arcFromProgress(progress) {
       return {
         x: 1.08 - progress * 1.16,
