@@ -77,16 +77,6 @@
       backdrop-filter: blur(4px);
     }
 
-    #moonIcon {
-      position: absolute;
-      width: 42px; height: 42px;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      opacity: 0;
-      transition: opacity 1s ease, left 8s linear, top 8s linear;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
-    }
-
     .carousel-arrow {
       position: absolute;
       top: 50%;
@@ -112,7 +102,6 @@
 
   <div class="bg-container" id="bg"></div>
   <canvas id="weatherCanvas"></canvas>
-  <img id="moonIcon" src="__MOON_ICON_URL__" alt="">
 
   <div id="warningContainer">__WARNING_HTML__</div>
   <div id="overlayContainer">__OVERLAY_HTML__</div>
@@ -163,7 +152,8 @@
     let windDrift = 0;
     let precipScale = 1;
     let sunPos = { x: 0.78, y: 0.22, visible: true };
-    let moonPos = { x: 0.2, y: 0.18, visible: false };
+    let moonPos = { x: 0.2, y: 0.15, visible: false };
+    let moonPhase = 0.5;
 
     let animTime = 0;
     let flashOpacity = 0;
@@ -399,15 +389,111 @@
       drawFlareDisc(1.35, 160, 255, 230, 170, 0.12);
     }
 
-    // moonPos.x/y (Basisposition, per Server-Refresh im oberen Bildbereich von rechts
-    // nach links wandernd) bekommt hier noch ein kleines, staendiges Wobbeln dazu -
-    // gleiches Prinzip wie das dezente Sonnen-Zittern oben, damit der Mond nicht wie
-    // ein starr plaziertes Icon wirkt, sondern sich sichtbar "am Himmel" bewegt.
-    function updateMoonIcon() {
-      if (!moonIcon) return;
-      const wobbleX = Math.sin(animTime * 0.3) * 8;
-      const wobbleY = Math.cos(animTime * 0.4) * 5;
-      moonIcon.style.transform = `translate(calc(-50% + ${wobbleX}px), calc(-50% + ${wobbleY}px))`;
+    // Wie stark der Mond durch das aktuelle Wetter "verdeckt" wirkt - er wird
+    // absichtlich NICHT ausgeblendet bei Nebel/Regen/Schnee/Sturm (der Nutzer will
+    // ihn dabei sehen), sondern nur passend zum Wetter abgedunkelt und (siehe
+    // Aufrufreihenfolge in update()) HINTER den Niederschlags-Partikeln gezeichnet.
+    const MOON_WEATHER_ALPHA = { 0: 1, 2: 0.6, 45: 0.3, 51: 0.55, 63: 0.4, 73: 0.75, 95: 0.3, 99: 0.2 };
+
+    // Echter Mond mit phasengetreuer beleuchteter Sichel (aus moonPhase, 0-1 von
+    // SunCalc) statt PNG-Icon. Position kommt aus moonPos (siehe applyWallpaperValues:
+    // echter Azimut/Altitude auf eine flache Bogenkurve nahe der Oberkante gemappt,
+    // wandert ueber die Sichtbarkeitsdauer von rechts nach links) plus einem
+    // dezenten Zittern fuer Lebendigkeit, analog zur Sonne oben.
+    function drawMoon() {
+      const timeVal = parseInt(timeSlider.value) / 100;
+      if (timeVal > 0.4 || !moonPos.visible) return;
+
+      const weatherAlpha = MOON_WEATHER_ALPHA[currentWMO] ?? 1;
+      const nightFactor = (0.4 - timeVal) / 0.4;
+      const alpha = nightFactor * weatherAlpha;
+      if (alpha <= 0) return;
+
+      const cx = width * moonPos.x + Math.sin(animTime * 0.3) * 6;
+      const cy = height * moonPos.y + Math.cos(animTime * 0.4) * 4;
+      const R = Math.max(28, Math.min(width, height) * 0.04);
+
+      const phase = moonPhase;
+      const illuminatedFraction = 0.5 * (1 - Math.cos(2 * Math.PI * phase));
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+
+      const glowRadius = R * (3.5 + illuminatedFraction * 2.0);
+      let glowGrad = ctx.createRadialGradient(cx, cy, R * 0.8, cx, cy, glowRadius);
+      glowGrad.addColorStop(0, `rgba(215, 230, 255, ${0.45 * illuminatedFraction})`);
+      glowGrad.addColorStop(0.35, `rgba(175, 200, 240, ${0.15 * illuminatedFraction})`);
+      glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, glowRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#0f141d';
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.save();
+      ctx.beginPath();
+      if (phase <= 0.5) {
+        ctx.arc(cx, cy, R, -Math.PI / 2, Math.PI / 2, false);
+        const rx = R * Math.cos(2 * Math.PI * phase);
+        const absRx = Math.max(0.1, Math.abs(rx));
+        ctx.ellipse(cx, cy, absRx, R, 0, Math.PI / 2, -Math.PI / 2, rx < 0);
+      } else {
+        ctx.arc(cx, cy, R, -Math.PI / 2, Math.PI / 2, true);
+        const rx = R * Math.cos(2 * Math.PI * phase);
+        const absRx = Math.max(0.1, Math.abs(rx));
+        ctx.ellipse(cx, cy, absRx, R, 0, Math.PI / 2, -Math.PI / 2, rx > 0);
+      }
+      ctx.closePath();
+      ctx.clip();
+
+      let moonGrad = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.35, R * 0.1, cx, cy, R);
+      moonGrad.addColorStop(0, '#f8fafc');
+      moonGrad.addColorStop(0.65, '#cbd5e1');
+      moonGrad.addColorStop(1, '#94a3b8');
+      ctx.fillStyle = moonGrad;
+      ctx.fill();
+
+      const maria = [
+        { x: -0.25, y: -0.20, r: 0.35, opacity: 0.24 },
+        { x:  0.15, y: -0.25, r: 0.25, opacity: 0.28 },
+        { x:  0.30, y:  0.05, r: 0.22, opacity: 0.30 },
+        { x:  0.10, y:  0.28, r: 0.28, opacity: 0.22 },
+        { x: -0.15, y:  0.25, r: 0.20, opacity: 0.20 }
+      ];
+      maria.forEach(m => {
+        const mx = cx + m.x * R;
+        const my = cy + m.y * R;
+        const mr = m.r * R;
+        let mGrad = ctx.createRadialGradient(mx, my, 0, mx, my, mr);
+        mGrad.addColorStop(0, `rgba(51, 65, 85, ${m.opacity})`);
+        mGrad.addColorStop(0.7, `rgba(71, 85, 105, ${m.opacity * 0.5})`);
+        mGrad.addColorStop(1, 'rgba(100, 116, 139, 0)');
+        ctx.fillStyle = mGrad;
+        ctx.beginPath();
+        ctx.arc(mx, my, mr, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      const tychoX = cx - 0.05 * R;
+      const tychoY = cy + 0.55 * R;
+      let tychoGrad = ctx.createRadialGradient(tychoX, tychoY, 0, tychoX, tychoY, R * 0.55);
+      tychoGrad.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+      tychoGrad.addColorStop(0.2, 'rgba(241, 245, 249, 0.3)');
+      tychoGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = tychoGrad;
+      ctx.beginPath();
+      ctx.arc(tychoX, tychoY, R * 0.55, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+      ctx.restore();
     }
 
     // Alle Bewegungen sind urspruenglich "pro Frame" statt "pro Sekunde" gerechnet -
@@ -430,12 +516,11 @@
       animTime += 0.015 * dtScale;
 
       drawStars();
+      drawMoon();
 
       if (currentWMO === 0) {
         drawSunGlare();
       }
-
-      updateMoonIcon();
 
       if (fogParticles.length > 0) {
         fogParticles.forEach(p => {
@@ -554,7 +639,6 @@
     const overlayContainer = document.getElementById('overlayContainer');
     const warningContainer = document.getElementById('warningContainer');
     const clockContainer = document.getElementById('clockContainer');
-    const moonIcon = document.getElementById('moonIcon');
 
     // Info-Anzeige, Uhr und Warnungs-Banner sind unabhaengig voneinander positionierbar
     // (Admin-Tab "Wallpaper") - landen zwei davon zufaellig auf derselben Bildschirmkante,
@@ -611,17 +695,7 @@
       precipScale = v.precipScale || 1;
       sunPos = { x: v.sunX, y: v.sunY, visible: v.sunVisible };
       moonPos = { x: v.moonX, y: v.moonY, visible: v.moonVisible };
-      if (moonIcon) {
-        if (v.moonIconUrl) {
-          moonIcon.src = v.moonIconUrl;
-        }
-        moonIcon.style.left = (moonPos.x * 100) + '%';
-        moonIcon.style.top = (moonPos.y * 100) + '%';
-        // Nur zeigen, wenn der Mond wirklich ueber dem Horizont steht UND es dunkel
-        // genug ist (gleiche Schwelle wie die Sterne) - sonst geht er im hellen
-        // Himmel unter.
-        moonIcon.style.opacity = (moonPos.visible && v.timeValue <= 40) ? '1' : '0';
-      }
+      moonPhase = v.moonPhase != null ? v.moonPhase : moonPhase;
       initWeather();
     }
 
@@ -636,7 +710,7 @@
       sunX: __SUN_X__,
       sunY: __SUN_Y__,
       sunVisible: __SUN_VISIBLE__,
-      moonIconUrl: "__MOON_ICON_URL__",
+      moonPhase: __MOON_PHASE__,
       moonX: __MOON_X__,
       moonY: __MOON_Y__,
       moonVisible: __MOON_VISIBLE__,

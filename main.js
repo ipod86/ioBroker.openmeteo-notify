@@ -292,7 +292,10 @@ function wallpaperSunPosition(lat, lon) {
 // zieht - dafuer wird nur der Azimut (0=Nord, im Uhrzeigersinn, in Grad) benutzt:
 // Aufgang liegt ungefaehr bei Azimut 90 (Ost), Kulmination bei 180 (Sued), Untergang
 // bei 270 (West); daraus ergibt sich ein Fortschritt 0..1 fuer eine flache Bogenkurve
-// nahe der Oberkante. Ob der Mond ueberhaupt sichtbar ist, bleibt echte Altitude.
+// nahe der Oberkante. x geht bewusst ueber 0..1 hinaus (bis leicht negativ/ueber 1),
+// damit der Mond wirklich rechts ins Bild hinein- und links wieder herausfliegt,
+// statt bei 8%/92% Bildbreite abrupt stehenzubleiben. Ob der Mond ueberhaupt
+// sichtbar ist, bleibt echte Altitude.
 function wallpaperMoonPosition(lat, lon) {
 	if (lat == null || lon == null) {
 		return { x: 0.2, y: 0.15, visible: false };
@@ -301,7 +304,7 @@ function wallpaperMoonPosition(lat, lon) {
 	const azDeg = ((pos.azimuth % 360) + 360) % 360;
 	const progress = Math.max(0, Math.min(1, (azDeg - 90) / 180));
 	return {
-		x: 0.92 - progress * 0.84,
+		x: 1.08 - progress * 1.16,
 		y: 0.22 - Math.sin(progress * Math.PI) * 0.12,
 		visible: pos.altitude > 0,
 	};
@@ -326,7 +329,6 @@ function wallpaperMoonPosition(lat, lon) {
  * @param {number|null} p.precipAmount - aktuelle Niederschlagsmenge in mm
  * @param {number|null} p.lat - Breitengrad des Ortes (fuer Sonnenposition)
  * @param {number|null} p.lon - Laengengrad des Ortes (fuer Sonnenposition)
- * @param {string} p.lang - Sprachcode (fuer Mondphasen-Text, nicht im Wallpaper selbst genutzt)
  * @param {Array<{headline: string, level: number}>} p.warnings - siehe getActiveWarnings()
  * @returns {object} siehe Rueckgabe-Objekt
  */
@@ -344,14 +346,16 @@ function computeWallpaperValues({
 	precipAmount,
 	lat,
 	lon,
-	lang,
 	warnings,
 }) {
 	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
 	const windDirText = windDirDeg != null ? degreesToCompass(windDirDeg) : "";
 	const windSpeedText = windSpeedRaw != null ? `${Math.round(windSpeedRaw)} ${windUnit}` : "";
+	// SunCalc-Mondphase (0=Neumond, 0.25=zunehmender Halbmond, 0.5=Vollmond,
+	// 0.75=abnehmender Halbmond, 1=wieder Neumond) wird 1:1 als "phase" ans Template
+	// gereicht - dort wird daraus wie bei einem echten Mond die beleuchtete Sichel
+	// per Canvas gezeichnet (kein PNG-Icon mehr fuer das Wallpaper selbst).
 	const moonIllum = SunCalc.getMoonIllumination(new Date());
-	const moon = moonPhaseInfo(moonIllum.phase, lang || "en");
 	const sun = wallpaperSunPosition(lat, lon);
 	const moonPos = wallpaperMoonPosition(lat, lon);
 	return {
@@ -366,7 +370,7 @@ function computeWallpaperValues({
 		sunX: sun.x,
 		sunY: sun.y,
 		sunVisible: sun.visible,
-		moonIconUrl: `/adapter/openmeteo-notify/icons/moon/${moon.idx}.png`,
+		moonPhase: moonIllum.phase,
 		moonX: moonPos.x,
 		moonY: moonPos.y,
 		moonVisible: moonPos.visible,
@@ -419,8 +423,8 @@ function buildWallpaperHtml(locationName, locId, dataFilename, bgFilename, value
 		.join(String(values.sunY))
 		.split("__SUN_VISIBLE__")
 		.join(String(values.sunVisible))
-		.split("__MOON_ICON_URL__")
-		.join(values.moonIconUrl)
+		.split("__MOON_PHASE__")
+		.join(String(values.moonPhase))
 		.split("__MOON_X__")
 		.join(String(values.moonX))
 		.split("__MOON_Y__")
@@ -1587,7 +1591,6 @@ class Openmeteo extends utils.Adapter {
 					precipAmount: cur.precipitation,
 					lat: loc.lat,
 					lon: loc.lon,
-					lang,
 					warnings: activeWarnings,
 				});
 				const dataFilename = `${locId}-data.json`;
@@ -3951,7 +3954,6 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					precipAmount: cur.precipitation,
 					lat: loc.lat,
 					lon: loc.lon,
-					lang,
 					warnings: activeWarnings,
 				});
 				const dataFilename = `${locId}-data.json`;
