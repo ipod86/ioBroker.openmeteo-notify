@@ -83,7 +83,7 @@
       transform: translate(-50%, -50%);
       z-index: 2;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1s ease, left 8s linear, top 8s linear;
       filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
     }
 
@@ -399,6 +399,17 @@
       drawFlareDisc(1.35, 160, 255, 230, 170, 0.12);
     }
 
+    // moonPos.x/y (Basisposition, per Server-Refresh im oberen Bildbereich von rechts
+    // nach links wandernd) bekommt hier noch ein kleines, staendiges Wobbeln dazu -
+    // gleiches Prinzip wie das dezente Sonnen-Zittern oben, damit der Mond nicht wie
+    // ein starr plaziertes Icon wirkt, sondern sich sichtbar "am Himmel" bewegt.
+    function updateMoonIcon() {
+      if (!moonIcon) return;
+      const wobbleX = Math.sin(animTime * 0.3) * 8;
+      const wobbleY = Math.cos(animTime * 0.4) * 5;
+      moonIcon.style.transform = `translate(calc(-50% + ${wobbleX}px), calc(-50% + ${wobbleY}px))`;
+    }
+
     // Alle Bewegungen sind urspruenglich "pro Frame" statt "pro Sekunde" gerechnet -
     // dadurch sah die Animation je nach tatsaechlicher Framerate des Geraets/Browsers
     // (60Hz/90Hz/120Hz, Drosselung im Hintergrund etc.) unterschiedlich schnell aus.
@@ -423,6 +434,8 @@
       if (currentWMO === 0) {
         drawSunGlare();
       }
+
+      updateMoonIcon();
 
       if (fogParticles.length > 0) {
         fogParticles.forEach(p => {

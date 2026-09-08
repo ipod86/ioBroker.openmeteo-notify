@@ -284,14 +284,27 @@ function wallpaperSunPosition(lat, lon) {
 	return wallpaperSkyPosition(SunCalc.getPosition(new Date(), lat, lon));
 }
 
-// Eigene, von der Sonne unabhaengige Sichtbarkeit (der Mond steht oft auch tagsueber
-// ueber dem Horizont, nur meist nicht auffaellig - hier rein nach echter Position
-// entschieden, das Ausblenden bei zu hellem Himmel uebernimmt das Template selbst).
+// Die echte Mond-Altitude/Azimut 1:1 auf den ganzen Bildschirm gemappt (wie bei der
+// Sonne) sah in der Praxis schlecht aus: der Mond kann dabei mitten im Bild oder
+// ploetzlich am unteren Rand auftauchen. Stattdessen eine dekorative, aber an der
+// echten Position orientierte Wanderung, die IMMER im oberen Bildschirmbereich
+// bleibt und ueber die Sichtbarkeitsdauer von rechts (Aufgang) nach links (Untergang)
+// zieht - dafuer wird nur der Azimut (0=Nord, im Uhrzeigersinn, in Grad) benutzt:
+// Aufgang liegt ungefaehr bei Azimut 90 (Ost), Kulmination bei 180 (Sued), Untergang
+// bei 270 (West); daraus ergibt sich ein Fortschritt 0..1 fuer eine flache Bogenkurve
+// nahe der Oberkante. Ob der Mond ueberhaupt sichtbar ist, bleibt echte Altitude.
 function wallpaperMoonPosition(lat, lon) {
 	if (lat == null || lon == null) {
-		return { x: 0.2, y: 0.18, visible: false };
+		return { x: 0.2, y: 0.15, visible: false };
 	}
-	return wallpaperSkyPosition(SunCalc.getMoonPosition(new Date(), lat, lon));
+	const pos = SunCalc.getMoonPosition(new Date(), lat, lon);
+	const azDeg = ((pos.azimuth % 360) + 360) % 360;
+	const progress = Math.max(0, Math.min(1, (azDeg - 90) / 180));
+	return {
+		x: 0.92 - progress * 0.84,
+		y: 0.22 - Math.sin(progress * Math.PI) * 0.12,
+		visible: pos.altitude > 0,
+	};
 }
 
 /**
