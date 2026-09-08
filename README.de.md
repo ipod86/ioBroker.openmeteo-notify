@@ -280,7 +280,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.2.0 (2026-09-08)
 * (ipod86) feat: animiertes WMO-Wetter-Wallpaper pro Ort hinzugefügt (Canvas-Animation für Regen/Schnee/Nebel/Blitze/Sonne/Mond), aktualisiert sich selbst über eine Begleit-JSON-Datei (keine REST-API nötig), mit eigenem Admin-Konfigurationstab, optionalem Orte-Karussell, unabhängigem Live-Update-Intervall und amtlichem Warnungs-Banner
 * (ipod86) feat: Sonnen-/Mondposition und Mondphase im Wallpaper folgen echten astronomischen Daten (SunCalc); Regen-/Nebelintensität und Windversatz folgen den echten Wetterdaten
 * (ipod86) feat: Tag/Nacht-Aufteilung für Niederschlags-/Gewitterwahrscheinlichkeit, Wind, Regen- und Schneemenge hinzugefügt
@@ -303,83 +303,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 * (ipod86) fix: verwaiste i18n-Schlüssel aus allen 11 Sprachdateien entfernt
 * (ipod86) fix: warnIntervalMinutes-Standard in Admin-WarningsPanel auf 15 korrigiert
 * (ipod86) chore: @mui/material und @mui/icons-material auf 9.x, TypeScript auf 7.x, Vite auf 8.1, suncalc auf 2.0 aktualisiert
-
-### 0.1.12 (2026-07-01)
-* (ipod86) fix: 84 fehlende Admin-i18n-Schlüssel in alle 10 Sprachen übersetzt (W5606)
-
-### 0.1.11 (2026-06-24)
-- (ioBroker-Bot) Adapter setzt jetzt admin >= 7.8.23 voraus.
-* (ipod86) fix: Stunden-Slots ohne Icon-Daten im detaillierten Widget überspringen (fehlende Icons um 00h/02h/04h)
-* (ipod86) feat: Hourly-Range-Optionen werden ausgegraut, wenn sie die konfigurierten Stundentage überschreiten; erläuternder Hinweis ergänzt
-* (ipod86) fix: Mondphasen-Badge im einfachen und erweiterten Widget neu positioniert
-* (ipod86) feat: Mondphasen-Overlay im einfachen Widget hinzugefügt (showMoon-Option)
-* (ipod86) fix: i18n-Übersetzungen in allen 11 Sprachen vervollständigt und korrigiert (50+ fehlende Schlüssel)
-* (ipod86) ci: Kaputten build-admin GitHub Actions Workflow entfernt
-
-### 0.1.10 (2026-06-23)
-* (ipod86) fix: Fehlermeldung bei Pollen/Luftqualität verbessert – Timeout und nicht unterstützte Region werden jetzt klar unterschieden
-
-### 0.1.9 (2026-06-22)
-* (ipod86) fix: HTTP-Request-Timeout von 10s auf 30s erhöht
-* (ipod86) fix: überflüssiges enableWarnOfficialFetch aus native-Defaults entfernt
-* (ipod86) chore: @iobroker/adapter-core von 3.3.2 auf 3.4.1 aktualisiert
-* (ipod86) chore: @iobroker/adapter-react-v5, react, @vitejs/plugin-react, vite in src-admin aktualisiert
-* (ipod86) chore: ioBroker/testing-action-check von 1 auf 2 aktualisiert
-
-### 0.1.8 (2026-06-09)
-* (ipod86) fix: 10s-Timeout für alle HTTP-Requests ergänzt (fetchWeather, fetchAirQuality, fetchLocationInfo, fetchMeteoAlarmWarnings, fetchDwdWarnings)
-* (ipod86) fix: alle verbleibenden deutschen common.name-Werte in processData, processDwdWarnings, processMeteoAlarmWarnings übersetzt
-* (ipod86) fix: Warnungs-Zeitformat nicht mehr auf de-DE-Locale festgelegt; verwendet System-Locale
-* (ipod86) fix: Intervall-Validierung (1–35791 min) für updateInterval und warnIntervalMinutes ergänzt
-* (ipod86) fix: fehlende native-Defaults (warnOfficialFetch, enableWarnOfficialFetch, widgets) in io-package.json ergänzt
-* (ipod86) fix: _locationInfo-Initialisierung in Konstruktor verschoben
-
-### 0.1.7 (2026-06-09)
-* (ipod86) fix: alle deutschen common.name-Werte auf Englisch übersetzt (Letztes Update, Amtliche Warnungen, Aktuelles Wetter, Heute/Morgen/Tag N, Agrar/Solar, Komfortindizes, Astronomie, Luftqualität, Pollen)
-* (ipod86) fix: deutsche Widget-Texte im Warn-Overlay auf Englisch übersetzt
-
-### 0.1.6 (2026-06-06)
-* (ipod86) fix: weather.direction.wind statt weather.direction.wind.forecast.1 ab Tag 1 (Rolle nicht im ioBroker-Katalog)
-* (ipod86) chore: react-dom und @types/react-dom von 18 auf 19 aktualisiert
-
-### 0.1.5 (2026-06-06)
-* (ipod86) fix: Ungültige Objekt-Rollen durch gültige ioBroker-Rollen ersetzt (E1008)
-* (ipod86) fix: @alcalzone/release-script auf >=5.2.1 aktualisiert (E0036)
-
-### 0.1.4 (2026-05-31)
-* (ipod86) fix: Sturm-/Gewitter-/Frost-Benachrichtigungen werden jetzt in der ioBroker-Systemsprache gesendet
-* (ipod86) fix: i18n-Schlüssel in allen Sprachen synchronisiert (admin/i18n und src-admin/src/i18n)
-* (ipod86) fix: this.delay() statt setTimeout im Retry-Mechanismus
-* (ipod86) fix: engines.node >= 22, @tsconfig/node22, Deploy node 24, @types/node ^22
-* (ipod86) fix: Dependabot ignoriert @types/node Major-Updates
-* (ipod86) fix: Node 20 aus Testmatrix entfernt
-* (ipod86) fix: tsconfig.json für korrekte Typ-Prüfung hinzugefügt
-* (ipod86) fix: i18n-Dateien ins Kurzformat migriert
-
-### 0.1.3 (2026-04-25)
-* (ipod86) Eigenes SVG-Icon-Set mit Nacht-Icons und Base64-Einbettung im Widget-HTML
-* (ipod86) WMO OGC SVG-Icons mit themenabhängiger Farbinvertierung
-* (ipod86) Widget: responsives Layout via CSS Container Queries; konfigurierbare Breite (200–900 px); eigenes Farbschema mit Hintergrund- und Textfarb-Picker; MDI-SVG-Icons
-* (ipod86) Komfort-Indizes: Hitzeindex, Windchill, Humidex, UV-Index (optional, auch stündlich)
-* (ipod86) Einstellungen: Inline-Validierung, Speichern bei ungültiger Konfiguration gesperrt
-
-### 0.1.2 (2026-04-19)
-* (ipod86) Fix: detaillierter API-Fehlergrund bei HTTP-4xx-Antworten ins Log geschrieben
-
-### 0.1.1 (2026-04-19)
-* (ipod86) Adapter umbenannt zu ioBroker.openmeteo-notify
-
-### 0.1.0 (2026-04-16)
-* (ipod86) Amtliche Warnungen: DE über DWD, EU über MeteoAlarm – automatische Erkennung per Koordinaten
-* (ipod86) Einheitlicher `standort.warnings.*`-Ordner für alle amtlichen Warnungen mit `source`-Datenpunkt
-* (ipod86) Einzelner `warnOfficial`-Schalter ersetzt die separaten Einstellungen `enableDwd` / `warnDwd`
-* (ipod86) Neue tägliche Datenpunkte: `temp_mean`, `feels_like_mean`, `precipitation_hours`, `showers`, `uv_index_clear_sky`, `snowfall_height_min`
-* (ipod86) Neue stündliche Datenpunkte: `snowfall_height`, `freezing_level_height`, `uv_index`
-* (ipod86) Astronomie: `solar_noon` und `solar_elevation_max` ergänzt (via SunCalc berechnet)
-* (ipod86) Fix: Tageskanal-Namen nicht mehr eingefroren auf Erstellungsdatum
-
-### 0.0.46 (2026-04-08)
-* (ipod86) CHANGELOG_OLD.md hinzugefügt; release-script eingerichtet
 
 Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
