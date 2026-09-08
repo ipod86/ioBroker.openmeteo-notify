@@ -269,6 +269,12 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+* (ipod86) feat: animiertes WMO-Wetter-Wallpaper pro Ort hinzugefügt (Canvas-Animation für Regen/Schnee/Nebel/Blitze/Sonne/Mond), aktualisiert sich selbst über eine Begleit-JSON-Datei (keine REST-API nötig), mit eigenem Admin-Konfigurationstab, optionalem Orte-Karussell, unabhängigem Live-Update-Intervall und amtlichem Warnungs-Banner
+* (ipod86) feat: Sonnen-/Mondposition und Mondphase im Wallpaper folgen echten astronomischen Daten (SunCalc); Regen-/Nebelintensität und Windversatz folgen den echten Wetterdaten
+* (ipod86) feat: Tag/Nacht-Aufteilung für Niederschlags-/Gewitterwahrscheinlichkeit, Wind, Regen- und Schneemenge hinzugefügt
+* (ipod86) fix: überlappende Zeitverschiebungen bei DWD-Warnungen als Aktualisierung statt Aufheben+Neu behandeln
+
 ### 0.1.16 (2026-08-17)
 * (ipod86) fix: Variablenüberschattung in fetchDwdWarnings führte dazu, dass jede offizielle DWD-Warnungsanfrage mit „Zugriff auf 'raw' vor der Initialisierung nicht möglich" fehlschlug und die betroffenen Warnzustände stillschweigend einfroren
 * (ipod86) fix: offiziellen Warnungs-Abruf gegen eine einzelne hängende Anfrage absichern, die den wiederkehrenden Zeitplan sonst dauerhaft blockieren könnte
