@@ -99,6 +99,18 @@ function mapWmoToWallpaperBucket(code) {
 // als UTC parsen ("Z" anhaengen), dann um den echten UTC-Offset des Ortes (aus
 // derselben Open-Meteo-Antwort) zurueckrechnen - danach mit Date.now() (immer
 // echte UTC-Epoch, unabhaengig von der Host-Systemzeitzone) sicher vergleichbar.
+// Fruehere Version bildete den Fortschritt zwischen Sonnenauf- und -untergang per
+// sin(progress*PI) ab - das steigt/faellt ueber den GANZEN Tag hinweg und erreicht
+// 100 nur exakt zum Sonnenhoechststand (Mittag). In der Praxis war es dadurch noch
+// ~1-2 Stunden nach echtem Sonnenaufgang "sehr dunkel" im Wallpaper, obwohl es
+// draussen laengst richtig hell ist - echte Tageshelligkeit steigt viel schneller
+// (innerhalb weniger Dutzend Minuten Daemmerung) auf ihr Maximum und bleibt dann bis
+// kurz vor Sonnenuntergang etwa gleich hell, statt einer Parabel ueber den ganzen Tag
+// zu folgen. Stattdessen jetzt ein Trapez: linear von 0 auf 100 waehrend der
+// Daemmerung nach Sonnenaufgang, Plateau bei 100 tagsueber, linear zurueck auf 0
+// waehrend der Daemmerung vor Sonnenuntergang.
+const WALLPAPER_TWILIGHT_MINUTES = 45;
+
 function wallpaperTimeOfDayValue(sunriseIso, sunsetIso, utcOffsetSeconds) {
 	if (!sunriseIso || !sunsetIso) {
 		return 50;
@@ -110,8 +122,14 @@ function wallpaperTimeOfDayValue(sunriseIso, sunsetIso, utcOffsetSeconds) {
 	if (Number.isNaN(sr) || Number.isNaN(ss) || now < sr || now > ss) {
 		return 5;
 	}
-	const progress = (now - sr) / (ss - sr);
-	return Math.round(Math.sin(progress * Math.PI) * 100);
+	const minutesSinceSunrise = (now - sr) / 60000;
+	const minutesUntilSunset = (ss - now) / 60000;
+	const brightness = Math.min(
+		1,
+		minutesSinceSunrise / WALLPAPER_TWILIGHT_MINUTES,
+		minutesUntilSunset / WALLPAPER_TWILIGHT_MINUTES,
+	);
+	return Math.round(Math.max(0, brightness) * 100);
 }
 
 // Muss zu WallpaperConfig in src-admin/src/types.ts passen (Defaults dort und in
