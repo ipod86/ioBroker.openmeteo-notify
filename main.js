@@ -88,13 +88,25 @@ function mapWmoToWallpaperBucket(code) {
 
 // 0 = Nacht, 100 = Sonnenhoechststand - aus den echten Sonnenauf-/-untergangszeiten
 // des Ortes berechnet, nicht aus einer fest programmierten Uhrzeit.
-function wallpaperTimeOfDayValue(sunriseIso, sunsetIso) {
+//
+// Open-Meteo liefert sunrise/sunset als "naive" lokale Zeit OHNE Zeitzonen-Kennung
+// (z.B. "2026-09-09T06:53" fuer Europe/Berlin, siehe utc_offset_seconds in derselben
+// Antwort). new Date(sunriseIso) wuerde das als lokale Zeit DES HOST-SYSTEMS
+// interpretieren, nicht als die des Ortes - laeuft der ioBroker-Host in einer
+// anderen Zeitzone als der konfigurierte Ort (z.B. Host auf UTC, Ort Europe/Berlin),
+// verschiebt sich "ist gerade Tag oder Nacht?" dadurch um die Zeitzonendifferenz.
+// Live beobachtet: real taghell, Wallpaper zeigte trotzdem Nacht. Fix: String erst
+// als UTC parsen ("Z" anhaengen), dann um den echten UTC-Offset des Ortes (aus
+// derselben Open-Meteo-Antwort) zurueckrechnen - danach mit Date.now() (immer
+// echte UTC-Epoch, unabhaengig von der Host-Systemzeitzone) sicher vergleichbar.
+function wallpaperTimeOfDayValue(sunriseIso, sunsetIso, utcOffsetSeconds) {
 	if (!sunriseIso || !sunsetIso) {
 		return 50;
 	}
+	const offsetMs = (utcOffsetSeconds || 0) * 1000;
 	const now = Date.now();
-	const sr = new Date(sunriseIso).getTime();
-	const ss = new Date(sunsetIso).getTime();
+	const sr = new Date(`${sunriseIso}Z`).getTime() - offsetMs;
+	const ss = new Date(`${sunsetIso}Z`).getTime() - offsetMs;
 	if (Number.isNaN(sr) || Number.isNaN(ss) || now < sr || now > ss) {
 		return 5;
 	}
@@ -322,6 +334,7 @@ function wallpaperMoonPosition(lat, lon) {
  * @param {number|null} p.lat - Breitengrad des Ortes (fuer Sonnenposition)
  * @param {number|null} p.lon - Laengengrad des Ortes (fuer Sonnenposition)
  * @param {Array<{headline: string, level: number}>} p.warnings - siehe getActiveWarnings()
+ * @param {number|null} p.utcOffsetSeconds - utc_offset_seconds aus derselben Open-Meteo-Antwort (fuer korrekte Tag/Nacht-Berechnung unabhaengig von der Host-Zeitzone)
  * @returns {object} siehe Rueckgabe-Objekt
  */
 function computeWallpaperValues({
@@ -339,6 +352,7 @@ function computeWallpaperValues({
 	lat,
 	lon,
 	warnings,
+	utcOffsetSeconds,
 }) {
 	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
 	const windDirText = windDirDeg != null ? degreesToCompass(windDirDeg) : "";
@@ -352,7 +366,7 @@ function computeWallpaperValues({
 	const moonPos = wallpaperMoonPosition(lat, lon);
 	return {
 		bucket: mapWmoToWallpaperBucket(wmoCode),
-		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso),
+		timeValue: wallpaperTimeOfDayValue(sunriseIso, sunsetIso, utcOffsetSeconds),
 		tempText,
 		overlayHtml: buildWallpaperOverlayHtml(wallpaperConfig, locationName, tempText, windDirText, windSpeedText),
 		clockHtml: buildWallpaperClockHtml(wallpaperConfig),
@@ -1584,6 +1598,7 @@ class Openmeteo extends utils.Adapter {
 					lat: loc.lat,
 					lon: loc.lon,
 					warnings: activeWarnings,
+					utcOffsetSeconds: data.utc_offset_seconds,
 				});
 				const dataFilename = `${locId}-data.json`;
 				const bgFilename = `${locId}.jpg`;
@@ -3942,6 +3957,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					lat: loc.lat,
 					lon: loc.lon,
 					warnings: activeWarnings,
+					utcOffsetSeconds: data.utc_offset_seconds,
 				});
 				const dataFilename = `${locId}-data.json`;
 				const bgFilename = `${locId}.jpg`;
