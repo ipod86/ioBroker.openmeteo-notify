@@ -4,7 +4,7 @@
   "description": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
   "author": {
     "name": "ipod86",
-    "email": ""
+    "email": "david@graef.email"
   },
   "contributors": [],
   "homepage": "https://github.com/ipod86/ioBroker.openmeteo-notify",

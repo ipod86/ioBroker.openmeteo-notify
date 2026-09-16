@@ -122,7 +122,7 @@
       "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警"
     },
     "authors": [
-      "ipod86"
+      "ipod86 <david@graef.email>"
     ],
     "keywords": [
       "weather",
