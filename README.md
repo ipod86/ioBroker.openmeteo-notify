@@ -271,6 +271,11 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (ipod86) fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ
+* (ipod86) fix: wallpaper brightness ramped up/down like a full-day curve instead of a short dawn/dusk transition, staying artificially dark for 1-2 hours after real sunrise
+* (ipod86) fix: resolve broken `npm install` in the admin UI (react/mui had drifted to versions incompatible with `@iobroker/adapter-react-v5`)
+
 ### 0.2.0 (2026-09-08)
 * (ipod86) feat: add animated, per-location WMO weather wallpaper (canvas rain/snow/fog/lightning/sun/moon animation), self-updating via a companion JSON file (no REST API needed), with a dedicated admin config tab, an optional location carousel, an independent live-update interval and an official warning banner
 * (ipod86) feat: wallpaper sun/moon position and moon phase follow real astronomical data (SunCalc); rain/fog intensity and wind drift follow real weather data

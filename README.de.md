@@ -280,6 +280,11 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+* (ipod86) fix: Tag/Nacht-Helligkeit im Wallpaper wurde in der Zeitzone des Host-Systems statt der des Ortes berechnet - zeigte noch Stunden nach echtem Sonnenaufgang volle Nacht, wenn beide Zeitzonen voneinander abweichen
+* (ipod86) fix: Wallpaper-Helligkeit verlief wie eine Kurve über den ganzen Tag statt eines kurzen Übergangs bei Dämmerung - blieb dadurch künstlich 1-2 Stunden nach echtem Sonnenaufgang dunkel
+* (ipod86) fix: kaputte `npm install` in der Admin-Oberfläche behoben (react/mui waren auf Versionen abgedriftet, die nicht mit `@iobroker/adapter-react-v5` kompatibel sind)
+
 ### 0.2.0 (2026-09-08)
 * (ipod86) feat: animiertes WMO-Wetter-Wallpaper pro Ort hinzugefügt (Canvas-Animation für Regen/Schnee/Nebel/Blitze/Sonne/Mond), aktualisiert sich selbst über eine Begleit-JSON-Datei (keine REST-API nötig), mit eigenem Admin-Konfigurationstab, optionalem Orte-Karussell, unabhängigem Live-Update-Intervall und amtlichem Warnungs-Banner
 * (ipod86) feat: Sonnen-/Mondposition und Mondphase im Wallpaper folgen echten astronomischen Daten (SunCalc); Regen-/Nebelintensität und Windversatz folgen den echten Wetterdaten
