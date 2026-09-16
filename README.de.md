@@ -280,7 +280,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.2.1 (2026-09-16)
 * (ipod86) fix: Tag/Nacht-Helligkeit im Wallpaper wurde in der Zeitzone des Host-Systems statt der des Ortes berechnet - zeigte noch Stunden nach echtem Sonnenaufgang volle Nacht, wenn beide Zeitzonen voneinander abweichen
 * (ipod86) fix: Wallpaper-Helligkeit verlief wie eine Kurve über den ganzen Tag statt eines kurzen Übergangs bei Dämmerung - blieb dadurch künstlich 1-2 Stunden nach echtem Sonnenaufgang dunkel
 * (ipod86) fix: kaputte `npm install` in der Admin-Oberfläche behoben (react/mui waren auf Versionen abgedriftet, die nicht mit `@iobroker/adapter-react-v5` kompatibel sind)
@@ -301,13 +301,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### 0.1.14 (2026-07-16)
 * (ipod86) fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden
 * (ipod86) fix: DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren (gleicher Event auf Minute gerundet)
-
-### 0.1.13 (2026-07-15)
-* (ipod86) fix: zufälliger Jitter für tägliche und intervallbasierte Update-Zeitplanung zur Verteilung der Cloud-Last
-* (ipod86) fix: warnIntervalMinutes validieren — wird auf 15 zurückgesetzt wenn < 1
-* (ipod86) fix: verwaiste i18n-Schlüssel aus allen 11 Sprachdateien entfernt
-* (ipod86) fix: warnIntervalMinutes-Standard in Admin-WarningsPanel auf 15 korrigiert
-* (ipod86) chore: @mui/material und @mui/icons-material auf 9.x, TypeScript auf 7.x, Vite auf 8.1, suncalc auf 2.0 aktualisiert
 
 Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

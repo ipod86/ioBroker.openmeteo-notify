@@ -100,6 +100,13 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.13 (2026-07-15)
+* (ipod86) fix: add random jitter to daily and interval update scheduling to spread cloud load
+* (ipod86) fix: validate warnIntervalMinutes — reset to 15 if < 1
+* (ipod86) fix: remove orphaned i18n keys (iconPreviewAnimated, iconPreviewBasmilius, iconPreviewWmo, openmeteo adapter settings) from all 11 language files
+* (ipod86) fix: warnIntervalMinutes default in admin WarningsPanel corrected to 15
+* (ipod86) chore: bump @mui/material and @mui/icons-material to 9.x, TypeScript to 7.x, Vite to 8.1, suncalc to 2.0
+
 ## 0.1.12 (2026-07-01)
 * (ipod86) fix: translate 84 missing admin i18n keys into all 10 languages (W5606)
 
