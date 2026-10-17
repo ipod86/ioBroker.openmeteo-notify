@@ -80,19 +80,6 @@
         "pl": "poprawka: losowe opóźnienie harmonogramu aktualizacji w celu rozłożenia obciążenia chmury; walidacja warnIntervalMinutes (reset do 15 gdy < 1); usunięcie osieroconych kluczy i18n; poprawiono domyślną wartość warnIntervalMinutes w UI administratora; aktualizacja MUI 9, TypeScript 7, Vite 8.1, suncalc 2",
         "uk": "виправлення: випадковий джитер для розкладу оновлень, щоб розподілити навантаження на хмару; перевірка warnIntervalMinutes (скидання на 15, якщо < 1); видалення зайвих i18n ключів; виправлено значення за замовчуванням warnIntervalMinutes в адмін-UI; оновлено MUI 9, TypeScript 7, Vite 8.1, suncalc 2",
         "zh-cn": "修复：为更新调度添加随机抖动；验证warnIntervalMinutes；删除孤立i18n键；更新MUI 9、TypeScript 7、Vite 8.1、suncalc 2"
-      },
-      "0.1.12": {
-        "en": "fix: translate 84 missing admin i18n keys into all 10 languages (W5606)",
-        "de": "Behebung: Übersetzung von 84 fehlenden i18n-Schlüsseln für Administratoren in alle 10 Sprachen (W5606)",
-        "ru": "Исправление: перевести 84 отсутствующих ключа интернационализации администратора на все 10 языков (W5606)",
-        "pt": "Correção: traduzir 84 chaves i18n de administrador ausentes para todos os 10 idiomas (W5606)",
-        "nl": "Oplossing: vertaal 84 ontbrekende admin i18n-sleutels naar alle 10 talen (W5606)",
-        "fr": "Correction : traduction de 84 clés i18n d'administration manquantes dans les 10 langues (W5606)",
-        "it": "Correzione: traduzione di 84 chiavi i18n di amministrazione mancanti in tutte le 10 lingue (W5606)",
-        "es": "Corrección: traducir 84 claves i18n de administrador faltantes a los 10 idiomas (W5606)",
-        "pl": "naprawiono: przetłumaczono 84 brakujące klucze administracyjne i18n na wszystkie 10 języków (W5606)",
-        "uk": "виправлення: переклад 84 відсутніх ключів адміністратора i18n усіма 10 мовами (W5606)",
-        "zh-cn": "修复：将 84 个缺失的管理员 i18n 密钥翻译成所有 10 种语言 (W5606)"
       }
     },
     "titleLang": {
