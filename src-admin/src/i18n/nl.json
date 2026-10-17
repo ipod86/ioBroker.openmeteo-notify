@@ -27,6 +27,7 @@
 	"widgetVariant": "Type",
 	"widgetVariantSimple": "Eenvoudig",
 	"widgetVariantDetailed": "Gedetailleerd",
+	"widgetVariantChart": "Grafiek",
 	"widgetDetailedNoHourly": "Uurdata uitgeschakeld – schakel uurlijkse dagen in via de algemene instellingen",
 	"widgetDetailedNoAstronomy": "Astronomie uitgeschakeld – maanfase-icoon wordt niet getoond",
 	"widgetHourlyRange": "Uren vanaf nu",

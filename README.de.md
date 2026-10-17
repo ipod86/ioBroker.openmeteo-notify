@@ -22,6 +22,13 @@ Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterla
 ### Konfigurierbares HTML-Widget
 Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar.
 
+**Variante „Diagramm“:** Neben *einfach* und *detailliert* gibt es ein *Diagramm*-Widget nach dem Vorbild der Home-Assistant-weather-forecast-card:
+- aktuelles Wetter mit Details (gefühlte Temperatur, Luftfeuchte, Wind, Luftdruck, Sichtweite, UV, Sonnenauf-/-untergang)
+- Tages- und Stundenvorhersage als Diagramm – Tippen auf die Vorhersage wechselt zwischen täglich und stündlich
+- über das Zahnrad werden die Diagrammwerte gewählt: Temperatur & Niederschlag, gefühlte Temperatur, Luftfeuchtigkeit, Luftdruck, UV-Index
+- Windstärke (Beaufort) mit Richtungsanzeige je Spalte
+- reines HTML/CSS ohne JavaScript; angezeigt werden nur Werte, die der Adapter tatsächlich abruft (deaktivierte Datengruppen verschwinden aus Details und Menü)
+
 ### Animiertes Wetter-Wallpaper / Screensaver
 Der Adapter erzeugt pro Standort ein eigenständiges, animiertes Wetter-Wallpaper — eine Vollbild-Canvas-Animation (Regen, Schnee, Nebel, Blitze, Sonnenglanz, Sterne), gesteuert vom echten aktuellen Wetter statt manueller Regler, ideal als Screensaver für ein wandmontiertes Tablet oder als VIS-/Dashboard-Hintergrund.
 - **Echte wetterabhängige Effekte** — Windrichtung/-geschwindigkeit steuern Regen- und Nebeldrift, die Niederschlagsmenge skaliert die Partikelintensität, Sonnen- und Mondposition (sowie Mondphase) folgen echten astronomischen Daten (SunCalc) für den konfigurierten Standort
@@ -279,6 +286,9 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (ipod86) feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)
 
 ### 0.2.1 (2026-09-16)
 * (ipod86) fix: Tag/Nacht-Helligkeit im Wallpaper wurde in der Zeitzone des Host-Systems statt der des Ortes berechnet - zeigte noch Stunden nach echtem Sonnenaufgang volle Nacht, wenn beide Zeitzonen voneinander abweichen

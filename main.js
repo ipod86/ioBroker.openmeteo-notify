@@ -17,7 +17,9 @@ const {
 	I18N_POLLEN_LEVELS,
 	I18N_SUMMARY,
 	I18N_WARNINGS,
+	I18N_CHART,
 } = require("./lib/i18n");
+const { buildChartWidget } = require("./lib/chart-widget");
 
 const ICONS = {
 	0: "☀️",
@@ -1875,7 +1877,9 @@ class Openmeteo extends utils.Adapter {
 					const html =
 						widget.variant === "detailed"
 							? await this.buildDetailedWidgetHtml(widget, locId)
-							: await this.buildWidgetHtml(widget, locId);
+							: widget.variant === "chart"
+								? await this.buildChartWidgetHtml(widget, locId)
+								: await this.buildWidgetHtml(widget, locId);
 					await this.setObjectNotExistsAsync(`${locId}.widget`, {
 						type: "channel",
 						common: { name: "Widget" },
@@ -1981,7 +1985,9 @@ class Openmeteo extends utils.Adapter {
 					const html =
 						widget.variant === "detailed"
 							? await this.buildDetailedWidgetHtml(widget, locId)
-							: await this.buildWidgetHtml(widget, locId);
+							: widget.variant === "chart"
+								? await this.buildChartWidgetHtml(widget, locId)
+								: await this.buildWidgetHtml(widget, locId);
 					await this.setDP(`${locId}.widget.${safeWId}`, html, {
 						name: `Widget ${widget.id}`,
 						type: "string",
@@ -2394,6 +2400,93 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		return html;
 	}
 
+	/**
+	 * Returns a resolver that turns adapter/custom icon URLs into embeddable data URLs
+	 * (VIS, Jarvis etc. cannot load /adapter/ or /files/ paths themselves).
+	 *
+	 * @returns {(url: string) => Promise<string>} resolver
+	 */
+	_makeIconResolver() {
+		const iconCache = new Map();
+		return async url => {
+			if (!url) {
+				return url;
+			}
+			if (url.startsWith("/adapter/openmeteo-notify/")) {
+				const cacheKey = url;
+				if (iconCache.has(cacheKey)) {
+					return iconCache.get(cacheKey);
+				}
+				try {
+					const relPath = url.replace("/adapter/openmeteo-notify/", "admin/");
+					const absPath = path.join(__dirname, relPath);
+					const buf = require("node:fs").readFileSync(absPath);
+					const ext = absPath.split(".").pop()?.toLowerCase();
+					const mime = ext === "png" ? "image/png" : ext === "gif" ? "image/gif" : "image/svg+xml";
+					const dataUrl = `data:${mime};base64,${buf.toString("base64")}`;
+					iconCache.set(cacheKey, dataUrl);
+					return dataUrl;
+				} catch {
+					return url;
+				}
+			}
+			if (!url.startsWith("/files/")) {
+				return url;
+			}
+			const filePath = url.split("?")[0].replace(`/files/${this.namespace}/`, "");
+			if (iconCache.has(filePath)) {
+				return iconCache.get(filePath);
+			}
+			try {
+				const raw = await this.readFileAsync(this.namespace, filePath);
+				const buf = Buffer.isBuffer(raw)
+					? raw
+					: raw?.file instanceof Buffer
+						? raw.file
+						: typeof raw?.file === "string"
+							? Buffer.from(raw.file)
+							: raw?.data instanceof Buffer
+								? raw.data
+								: null;
+				if (!buf) {
+					return url;
+				}
+				const ext = filePath.split(".").pop()?.toLowerCase();
+				const mime = ext === "png" ? "image/png" : ext === "gif" ? "image/gif" : "image/svg+xml";
+				const dataUrl = `data:${mime};base64,${buf.toString("base64")}`;
+				iconCache.set(filePath, dataUrl);
+				return dataUrl;
+			} catch {
+				return url;
+			}
+		};
+	}
+
+	/**
+	 * Chart widget (style of the HA weather-forecast-card), see lib/chart-widget.js
+	 *
+	 * @param {object} widget - widget config
+	 * @param {string} locId - location channel id
+	 * @returns {Promise<string>} HTML
+	 */
+	async buildChartWidgetHtml(widget, locId) {
+		const rawLang = (this._systemLang || "en").toLowerCase();
+		const lang = I18N_CHART[rawLang] ? rawLang : I18N_CHART[rawLang.split("-")[0]] ? rawLang.split("-")[0] : "en";
+		const activeWarnings = await this.getActiveWarnings(locId);
+		return buildChartWidget({
+			widget,
+			locId,
+			getVal: async id => {
+				const st = await this.getStateAsync(id);
+				return st ? st.val : null;
+			},
+			resolveIcon: this._makeIconResolver(),
+			config: this.config,
+			lang,
+			warningHtml: widget.showWarnBadge !== false ? this.buildWarningOverlay(activeWarnings, widget.id) : "",
+		});
+	}
+
 	async buildDetailedWidgetHtml(widget, locId) {
 		const p = locId;
 		const c = x => `${(x / 6).toFixed(2)}cqw`; // reference width 600 px
@@ -2462,59 +2555,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 		const gs = async id => (await this.getStateAsync(id))?.val ?? "";
 
-		const iconCache = new Map();
-		const resolveIcon = async url => {
-			if (!url) {
-				return url;
-			}
-			if (url.startsWith("/adapter/openmeteo-notify/")) {
-				const cacheKey = url;
-				if (iconCache.has(cacheKey)) {
-					return iconCache.get(cacheKey);
-				}
-				try {
-					const relPath = url.replace("/adapter/openmeteo-notify/", "admin/");
-					const absPath = path.join(__dirname, relPath);
-					const buf = require("node:fs").readFileSync(absPath);
-					const ext = absPath.split(".").pop()?.toLowerCase();
-					const mime = ext === "png" ? "image/png" : ext === "gif" ? "image/gif" : "image/svg+xml";
-					const dataUrl = `data:${mime};base64,${buf.toString("base64")}`;
-					iconCache.set(cacheKey, dataUrl);
-					return dataUrl;
-				} catch {
-					return url;
-				}
-			}
-			if (!url.startsWith("/files/")) {
-				return url;
-			}
-			const filePath = url.split("?")[0].replace(`/files/${this.namespace}/`, "");
-			if (iconCache.has(filePath)) {
-				return iconCache.get(filePath);
-			}
-			try {
-				const raw = await this.readFileAsync(this.namespace, filePath);
-				const buf = Buffer.isBuffer(raw)
-					? raw
-					: raw?.file instanceof Buffer
-						? raw.file
-						: typeof raw?.file === "string"
-							? Buffer.from(raw.file)
-							: raw?.data instanceof Buffer
-								? raw.data
-								: null;
-				if (!buf) {
-					return url;
-				}
-				const ext = filePath.split(".").pop()?.toLowerCase();
-				const mime = ext === "png" ? "image/png" : ext === "gif" ? "image/gif" : "image/svg+xml";
-				const dataUrl = `data:${mime};base64,${buf.toString("base64")}`;
-				iconCache.set(filePath, dataUrl);
-				return dataUrl;
-			} catch {
-				return url;
-			}
-		};
+		const resolveIcon = this._makeIconResolver();
 
 		// ── Fetch current conditions ─────────────────────────────────────────────
 		const [curTemp, curDesc, curIconRaw, curHum, curPress, curSummary, sunH, sunriseRaw, sunsetRaw] =

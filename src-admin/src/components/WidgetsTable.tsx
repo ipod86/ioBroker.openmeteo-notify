@@ -183,6 +183,7 @@ const WidgetsTable: React.FC<Props> = ({
 								>
 									<ToggleButton value="simple">{I18n.t("widgetVariantSimple")}</ToggleButton>
 									<ToggleButton value="detailed">{I18n.t("widgetVariantDetailed")}</ToggleButton>
+									<ToggleButton value="chart">{I18n.t("widgetVariantChart")}</ToggleButton>
 								</ToggleButtonGroup>
 								{(w.variant ?? "simple") === "detailed" && hourlyDays === 0 && (
 									<Alert
@@ -203,7 +204,7 @@ const WidgetsTable: React.FC<Props> = ({
 							</Box>
 
 							{/* Hourly range + step — detailed only */}
-							{(w.variant ?? "simple") === "detailed" && hourlyDays > 0 && (
+							{["detailed", "chart"].includes(w.variant ?? "simple") && hourlyDays > 0 && (
 								<>
 									<Box>
 										<Typography

@@ -35,6 +35,7 @@
 	"widgetVariant": "Variante",
 	"widgetVariantSimple": "Einfach",
 	"widgetVariantDetailed": "Detailliert",
+	"widgetVariantChart": "Diagramm",
 	"widgetDetailedNoAstronomy": "Astronomiedaten sind deaktiviert – Mondphasen werden im detaillierten Widget nicht angezeigt. Astronomie in den Allgemeinen Einstellungen aktivieren.",
 	"widgetDetailedNoHourly": "Stündliche Daten sind deaktiviert – das detaillierte Widget zeigt keinen Stunden-Bereich. Stundentage in den Allgemeinen Einstellungen aktivieren.",
 	"widgetDetailedPartialHourly": "Stündliche Daten sind nur für %s Tag(e) verfügbar – restliche Tage zeigen nur Tagesdaten. Stundentage in den Allgemeinen Einstellungen erhöhen um mehr Tage abzudecken.",

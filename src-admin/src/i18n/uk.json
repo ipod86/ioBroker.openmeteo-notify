@@ -27,6 +27,7 @@
 	"widgetVariant": "Тип",
 	"widgetVariantSimple": "Простий",
 	"widgetVariantDetailed": "Детальний",
+	"widgetVariantChart": "Графік",
 	"widgetDetailedNoHourly": "Погодинні дані вимкнено – увімкніть погодинні дні в загальних налаштуваннях",
 	"widgetDetailedNoAstronomy": "Астрономію вимкнено – значок фази місяця не відображатиметься",
 	"widgetHourlyRange": "Годин від зараз",

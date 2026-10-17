@@ -22,6 +22,13 @@ The adapter sends individual notifications for configurable weather events — s
 ### Configurable HTML widget
 The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
 
+**Chart variant:** besides *simple* and *detailed* there is a *chart* widget modelled on the Home Assistant weather-forecast-card:
+- current weather with details (feels like, humidity, wind, pressure, visibility, UV, sunrise/sunset)
+- daily and hourly forecast as a chart – tap the forecast to switch between daily and hourly
+- the gear button selects the charted values: temperature & precipitation, feels like, humidity, pressure, UV index
+- wind force (Beaufort) with direction indicator for every column
+- pure HTML/CSS without JavaScript; only values the adapter actually fetches are shown (disabled data groups disappear from details and menu)
+
 ### Animated weather wallpaper / screensaver
 The adapter generates a self-contained, animated weather wallpaper per location — a full-screen canvas animation (rain, snow, fog, lightning, sun glare, stars) driven by the real current weather instead of manual controls, ideal as a wall-mounted tablet screensaver or a VIS/dashboard background.
 - **Real weather-driven effects** — wind direction/speed drive rain and fog drift, precipitation amount scales particle intensity, sun and moon position (and moon phase) follow real astronomical data (SunCalc) for the configured location
@@ -271,6 +278,9 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
+
 ### 0.2.1 (2026-09-16)
 * (ipod86) fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ
 * (ipod86) fix: wallpaper brightness ramped up/down like a full-day curve instead of a short dawn/dusk transition, staying artificially dark for 1-2 hours after real sunrise

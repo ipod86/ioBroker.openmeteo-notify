@@ -27,6 +27,7 @@
 	"widgetVariant": "Tipo",
 	"widgetVariantSimple": "Simples",
 	"widgetVariantDetailed": "Detalhado",
+	"widgetVariantChart": "Gráfico",
 	"widgetDetailedNoHourly": "Dados por hora desativados – ativar dias por hora nas configurações gerais",
 	"widgetDetailedNoAstronomy": "Astronomia desativada – o ícone de fase lunar não será exibido",
 	"widgetHourlyRange": "Horas a partir de agora",

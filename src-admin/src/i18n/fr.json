@@ -27,6 +27,7 @@
 	"widgetVariant": "Type",
 	"widgetVariantSimple": "Simple",
 	"widgetVariantDetailed": "Détaillé",
+	"widgetVariantChart": "Graphique",
 	"widgetDetailedNoHourly": "Données horaires désactivées – activer les jours horaires dans les paramètres",
 	"widgetDetailedNoAstronomy": "Astronomie désactivée – l'icône de phase lunaire ne sera pas affichée",
 	"widgetHourlyRange": "Heures à partir de maintenant",

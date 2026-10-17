@@ -27,6 +27,7 @@
 	"widgetVariant": "类型",
 	"widgetVariantSimple": "简单",
 	"widgetVariantDetailed": "详细",
+	"widgetVariantChart": "图表",
 	"widgetDetailedNoHourly": "每小时数据已禁用 – 在常规设置中启用每小时天数",
 	"widgetDetailedNoAstronomy": "天文学已禁用 – 不会显示月相图标",
 	"widgetHourlyRange": "从现在起的小时数",

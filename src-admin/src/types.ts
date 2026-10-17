@@ -8,7 +8,7 @@ export interface Widget {
 	id: string;
 	locationName: string;
 	days: 5 | 7 | 14;
-	variant: "simple" | "detailed";
+	variant: "simple" | "detailed" | "chart";
 	theme: "light" | "dark" | "custom";
 	width: number;
 	bgColor: string; // hex '#rrggbb' or 'transparent'

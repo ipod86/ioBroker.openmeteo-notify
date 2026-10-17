@@ -27,6 +27,7 @@
 	"widgetVariant": "Тип",
 	"widgetVariantSimple": "Простой",
 	"widgetVariantDetailed": "Подробный",
+	"widgetVariantChart": "График",
 	"widgetDetailedNoHourly": "Почасовые данные отключены – включите почасовые дни в общих настройках",
 	"widgetDetailedNoAstronomy": "Астрономия отключена – иконка фазы луны не будет показана",
 	"widgetHourlyRange": "Часов с текущего момента",
