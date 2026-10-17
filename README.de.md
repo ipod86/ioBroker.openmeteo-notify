@@ -27,6 +27,7 @@ Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS
 - Tages- und Stundenvorhersage als Diagramm – Tippen auf die Vorhersage wechselt zwischen täglich und stündlich
 - über das Zahnrad werden die Diagrammwerte gewählt: Temperatur & Niederschlag, gefühlte Temperatur, Luftfeuchtigkeit, Luftdruck, UV-Index
 - Windstärke (Beaufort) mit Richtungsanzeige je Spalte
+- einstellbar: Startansicht (täglich/stündlich/nur täglich), welche Werte im Menü erscheinen, Details, Windzeile und Mondphase ein/aus
 - reines HTML/CSS ohne JavaScript; angezeigt werden nur Werte, die der Adapter tatsächlich abruft (deaktivierte Datengruppen verschwinden aus Details und Menü)
 
 ### Animiertes Wetter-Wallpaper / Screensaver

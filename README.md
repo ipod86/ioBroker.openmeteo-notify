@@ -27,6 +27,7 @@ The adapter generates a ready-to-use HTML data point (`widget`) that can be embe
 - daily and hourly forecast as a chart – tap the forecast to switch between daily and hourly
 - the gear button selects the charted values: temperature & precipitation, feels like, humidity, pressure, UV index
 - wind force (Beaufort) with direction indicator for every column
+- configurable: start view (daily/hourly/daily only), which values appear in the menu, details block, wind row and moon phase on/off
 - pure HTML/CSS without JavaScript; only values the adapter actually fetches are shown (disabled data groups disappear from details and menu)
 
 ### Animated weather wallpaper / screensaver

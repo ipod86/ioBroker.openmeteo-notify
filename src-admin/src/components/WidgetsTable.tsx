@@ -19,7 +19,9 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { I18n } from "@iobroker/adapter-react-v5";
-import { Location, Widget } from "../types";
+import { ChartAttr, Location, Widget } from "../types";
+
+const CHART_ATTRS: ChartAttr[] = ["temp", "feels", "hum", "press", "uv"];
 
 interface Props {
 	widgets: Widget[];
@@ -204,59 +206,61 @@ const WidgetsTable: React.FC<Props> = ({
 							</Box>
 
 							{/* Hourly range + step — detailed only */}
-							{["detailed", "chart"].includes(w.variant ?? "simple") && hourlyDays > 0 && (
-								<>
-									<Box>
-										<Typography
-											variant="caption"
-											color="text.secondary"
-											sx={{ display: "block", mb: 0.5 }}
-										>
-											{I18n.t("widgetHourlyRange")}
-										</Typography>
-										<ToggleButtonGroup
-											value={w.hourlyRange ?? 20}
-											exclusive
-											size="small"
-											onChange={(_, v) => v && update(i, { hourlyRange: v })}
-										>
-											{([12, 16, 20, 24] as const).map(h => (
-												<ToggleButton
-													key={h}
-													value={h}
-													disabled={h >= hourlyDays * 24}
-												>
-													{h}h
-												</ToggleButton>
-											))}
-										</ToggleButtonGroup>
-									</Box>
-									<Box>
-										<Typography
-											variant="caption"
-											color="text.secondary"
-											sx={{ display: "block", mb: 0.5 }}
-										>
-											{I18n.t("widgetHourlyStep")}
-										</Typography>
-										<ToggleButtonGroup
-											value={w.hourlyStep ?? 2}
-											exclusive
-											size="small"
-											onChange={(_, v) => v && update(i, { hourlyStep: v })}
-										>
-											{([1, 2, 3] as const).map(s => (
-												<ToggleButton
-													key={s}
-													value={s}
-												>
-													{s}h
-												</ToggleButton>
-											))}
-										</ToggleButtonGroup>
-									</Box>
-								</>
-							)}
+							{((w.variant ?? "simple") === "detailed" ||
+								((w.variant ?? "simple") === "chart" && w.chartView !== "dailyOnly")) &&
+								hourlyDays > 0 && (
+									<>
+										<Box>
+											<Typography
+												variant="caption"
+												color="text.secondary"
+												sx={{ display: "block", mb: 0.5 }}
+											>
+												{I18n.t("widgetHourlyRange")}
+											</Typography>
+											<ToggleButtonGroup
+												value={w.hourlyRange ?? 20}
+												exclusive
+												size="small"
+												onChange={(_, v) => v && update(i, { hourlyRange: v })}
+											>
+												{([12, 16, 20, 24] as const).map(h => (
+													<ToggleButton
+														key={h}
+														value={h}
+														disabled={h >= hourlyDays * 24}
+													>
+														{h}h
+													</ToggleButton>
+												))}
+											</ToggleButtonGroup>
+										</Box>
+										<Box>
+											<Typography
+												variant="caption"
+												color="text.secondary"
+												sx={{ display: "block", mb: 0.5 }}
+											>
+												{I18n.t("widgetHourlyStep")}
+											</Typography>
+											<ToggleButtonGroup
+												value={w.hourlyStep ?? 2}
+												exclusive
+												size="small"
+												onChange={(_, v) => v && update(i, { hourlyStep: v })}
+											>
+												{([1, 2, 3] as const).map(s => (
+													<ToggleButton
+														key={s}
+														value={s}
+													>
+														{s}h
+													</ToggleButton>
+												))}
+											</ToggleButtonGroup>
+										</Box>
+									</>
+								)}
 
 							{/* Days */}
 							<Box>
@@ -355,6 +359,92 @@ const WidgetsTable: React.FC<Props> = ({
 									</Alert>
 								)}
 							</Box>
+
+							{/* Chart-only options */}
+							{(w.variant ?? "simple") === "chart" && (
+								<>
+									<Box>
+										<Typography
+											variant="caption"
+											color="text.secondary"
+											sx={{ display: "block", mb: 0.5 }}
+										>
+											{I18n.t("widgetChartView")}
+										</Typography>
+										<ToggleButtonGroup
+											value={w.chartView ?? "daily"}
+											exclusive
+											size="small"
+											onChange={(_, v) => v && update(i, { chartView: v })}
+										>
+											<ToggleButton value="daily">{I18n.t("widgetChartViewDaily")}</ToggleButton>
+											<ToggleButton
+												value="hourly"
+												disabled={hourlyDays === 0}
+											>
+												{I18n.t("widgetChartViewHourly")}
+											</ToggleButton>
+											<ToggleButton value="dailyOnly">
+												{I18n.t("widgetChartViewDailyOnly")}
+											</ToggleButton>
+										</ToggleButtonGroup>
+									</Box>
+									<Box>
+										<Typography
+											variant="caption"
+											color="text.secondary"
+											sx={{ display: "block", mb: 0.5 }}
+										>
+											{I18n.t("widgetChartAttrs")}
+										</Typography>
+										<ToggleButtonGroup
+											value={w.chartAttrs ?? CHART_ATTRS}
+											size="small"
+											onChange={(_, v: ChartAttr[]) =>
+												v.length > 0 &&
+												update(i, { chartAttrs: CHART_ATTRS.filter(a => v.includes(a)) })
+											}
+										>
+											{CHART_ATTRS.map(a => (
+												<ToggleButton
+													key={a}
+													value={a}
+												>
+													{I18n.t(`widgetChartAttr_${a}`)}
+												</ToggleButton>
+											))}
+										</ToggleButtonGroup>
+									</Box>
+									<Box sx={{ display: "flex", flexDirection: "column" }}>
+										<FormControlLabel
+											control={
+												<Switch
+													size="small"
+													checked={w.chartShowDetails !== false}
+													onChange={e => update(i, { chartShowDetails: e.target.checked })}
+												/>
+											}
+											label={
+												<Typography variant="caption">
+													{I18n.t("widgetChartDetails")}
+												</Typography>
+											}
+										/>
+										<FormControlLabel
+											control={
+												<Switch
+													size="small"
+													checked={w.chartShowWind !== false}
+													onChange={e => update(i, { chartShowWind: e.target.checked })}
+												/>
+											}
+											label={
+												<Typography variant="caption">{I18n.t("widgetChartWind")}</Typography>
+											}
+										/>
+									</Box>
+								</>
+							)}
 
 							{/* Custom color pickers — only when theme === 'custom' */}
 							{w.theme === "custom" && (

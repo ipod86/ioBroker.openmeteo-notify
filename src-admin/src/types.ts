@@ -4,6 +4,8 @@ export interface Location {
 	lon: number;
 }
 
+export type ChartAttr = "temp" | "feels" | "hum" | "press" | "uv";
+
 export interface Widget {
 	id: string;
 	locationName: string;
@@ -20,6 +22,10 @@ export interface Widget {
 	scaleForecast?: number; // forecast section font scale -5..+5 (default 0)
 	showWarnBadge?: boolean; // show blinking badge for active official warnings (default true)
 	showMoon?: boolean; // show moon phase overlay on forecast icons (default true)
+	chartShowDetails?: boolean; // chart: show details block below the header (default true)
+	chartShowWind?: boolean; // chart: show Beaufort wind row (default true)
+	chartView?: "daily" | "hourly" | "dailyOnly"; // chart: start view, or daily only (default daily)
+	chartAttrs?: ChartAttr[]; // chart: values offered in the menu, first = start value (default all)
 }
 
 export interface WallpaperConfig {
