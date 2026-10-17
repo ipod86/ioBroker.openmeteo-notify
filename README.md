@@ -280,7 +280,7 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 0.3.0 (2026-10-17)
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
 * (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)
 
@@ -301,10 +301,6 @@ This adapter is an independent community project and is not affiliated with or e
 
 ### 0.1.15 (2026-07-19)
 * (ipod86) fix: sanitize widget.id through normalizeId before use as ioBroker object ID path
-
-### 0.1.14 (2026-07-16)
-* (ipod86) fix: persist warning dedup state across adapter restarts to prevent duplicate notifications on restart
-* (ipod86) fix: deduplicate DWD warnings from combined warnings+vorabInformation API arrays (same event rounded to minute)
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "feat: new widget variant \"chart\" (daily/hourly forecast chart with selectable values)\nfix: widget data points are only written when the HTML actually changed (no re-render every warning check)",
+        "de": "feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)\nfix: Widget-Datenpunkte werden nur noch geschrieben, wenn sich das HTML wirklich geändert hat (kein Neuzeichnen bei jedem Warnungs-Check)",
+        "ru": "feat: новый вариант виджета «диаграмма» (диаграмма прогноза на день/час с выбираемыми значениями)\nисправлено: точки данных виджета записываются только тогда, когда HTML-код действительно изменился (без повторного рендеринга каждой проверки предупреждений)",
+        "pt": "feat: novo widget “chart” (previsão diária/horária com valores selecionáveis)\ncorreção: os pontos de dados do widget só são gravados quando o HTML muda (sem renderizar cada aviso)",
+        "nl": "prestatie: nieuwe widgetvariant „chart” (voorspellingstabel voor dag/uur met selecteerbare waarden)\nopgelost: datapunten van de widget worden alleen geschreven als de HTML daadwerkelijk wordt gewijzigd (u hoeft niet elke waarschuwingscontrole opnieuw te renderen)",
+        "fr": "exploit : nouvelle variante de widget « chart » (prévisions journalières/horaires avec valeurs sélectionnables)\ncorrectif : les points de données des widgets ne sont écrits que lorsque le code HTML change (pas de rendu à chaque alerte)",
+        "it": "feat: nuova variante del widget «chart» (previsione oraria/oraria con valori selezionabili)\nfix: i dati del widget vengono scritti solo quando l'HTML è cambiato (nessun nuovo avviso)",
+        "es": "hazaña: nueva variante del widget «gráfico» (gráfico de previsión diario/hora con valores seleccionables)\nsolución: los puntos de datos del widget solo se escriben cuando el HTML cambia (no se vuelven a renderizar cada vez)",
+        "pl": "feat: nowy wariant widżetu „wykres” (wykres prognozy dziennej/godzinowej z wartościami do wyboru)\npoprawka: punkty danych widżetu są zapisywane tylko wtedy, gdy HTML faktycznie się zmienił (bez ponownego renderowania każdego sprawdzania ostrzeżenia)",
+        "uk": "feat: новий варіант віджету «діаграма» (щоденний/погодинний графік прогнозу з вибраними значеннями)\nвиправлено: точки даних віджетів записуються лише тоді, коли HTML фактично змінився (не повторно рендерируйте кожну перевірку попередження)",
+        "zh-cn": "壮举：新的控件变体 “图表”（带有可选值的每日/每小时预测图表）\n修复：只有在 HTML 实际更改时才写入控件数据点（不会在每次警告检查时重新渲染）"
+      },
       "0.2.1": {
         "en": "fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ\nfix: wallpaper brightness ramped up/down like a full-day curve instead of a short dawn/dusk transition, staying artificially dark for 1-2 hours after real sunrise\nfix: resolve broken `npm install` in the admin UI (react/mui had drifted to versions incompatible with `@iobroker/adapter-react-v5`)",
         "de": "Fix: Die Tag-/Nachthelligkeit des Wallpapers wurde in der Zeitzone des Hostsystems und nicht am Standort berechnet.\nFix: Das Hintergrundbild hat den ganzen Tag über an- und abgehellt, sodass es nach Sonnenaufgang 1-2 Stunden künstlich dunkel bleibt\nFix: Löse defekte `npm install` in der Admin-UI (React/MUI ist auf Versionen umgestiegen, die nicht mit @iobroker /adapter-react-v5 `kompatibel sind)",

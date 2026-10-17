@@ -100,6 +100,10 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.14 (2026-07-16)
+* (ipod86) fix: persist warning dedup state across adapter restarts to prevent duplicate notifications on restart
+* (ipod86) fix: deduplicate DWD warnings from combined warnings+vorabInformation API arrays (same event rounded to minute)
+
 ## 0.1.13 (2026-07-15)
 * (ipod86) fix: add random jitter to daily and interval update scheduling to spread cloud load
 * (ipod86) fix: validate warnIntervalMinutes — reset to 15 if < 1

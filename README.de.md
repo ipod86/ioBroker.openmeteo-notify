@@ -289,7 +289,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.3.0 (2026-10-17)
 * (ipod86) feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)
 * (ipod86) fix: Widget-Datenpunkte werden nur noch geschrieben, wenn sich das HTML wirklich geändert hat (kein Neuzeichnen bei jedem Warnungs-Check)
 
@@ -310,10 +310,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ### 0.1.15 (2026-07-19)
 * (ipod86) fix: widget.id vor Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigen
-
-### 0.1.14 (2026-07-16)
-* (ipod86) fix: Warnungs-Dedup-Status über Adapter-Neustarts hinweg speichern, um doppelte Benachrichtigungen zu vermeiden
-* (ipod86) fix: DWD-Warnungen aus kombinierten warnings+vorabInformation-Arrays deduplizieren (gleicher Event auf Minute gerundet)
 
 Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
