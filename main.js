@@ -1885,7 +1885,7 @@ class Openmeteo extends utils.Adapter {
 						common: { name: "Widget" },
 						native: {},
 					});
-					await this.setDP(dpKey, html, {
+					await this.setDPChanged(dpKey, html, {
 						name: `Widget ${widget.id}`,
 						type: "string",
 						role: "html",
@@ -1988,7 +1988,7 @@ class Openmeteo extends utils.Adapter {
 							: widget.variant === "chart"
 								? await this.buildChartWidgetHtml(widget, locId)
 								: await this.buildWidgetHtml(widget, locId);
-					await this.setDP(`${locId}.widget.${safeWId}`, html, {
+					await this.setDPChanged(`${locId}.widget.${safeWId}`, html, {
 						name: `Widget ${widget.id}`,
 						type: "string",
 						role: "html",
@@ -3752,6 +3752,24 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				delete this.warnState[key];
 			}
 		}
+	}
+
+	/**
+	 * Like setDP, but only writes when the value actually changed. Used for widget HTML:
+	 * every write makes VIS re-render the widget and resets its CSS-only UI state
+	 * (selected view/value in the chart widget).
+	 *
+	 * @param {string} id - state id
+	 * @param {any} value - new value
+	 * @param {object} common - common part for object creation
+	 */
+	async setDPChanged(id, value, common) {
+		await this.setObjectNotExistsAsync(id, {
+			type: "state",
+			common: { ...common, read: true, write: false },
+			native: {},
+		});
+		await this.setStateChangedAsync(id, value, true);
 	}
 
 	/**

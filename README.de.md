@@ -290,6 +290,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ### **WORK IN PROGRESS**
 * (ipod86) feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)
+* (ipod86) fix: Widget-Datenpunkte werden nur noch geschrieben, wenn sich das HTML wirklich geändert hat (kein Neuzeichnen bei jedem Warnungs-Check)
 
 ### 0.2.1 (2026-09-16)
 * (ipod86) fix: Tag/Nacht-Helligkeit im Wallpaper wurde in der Zeitzone des Host-Systems statt der des Ortes berechnet - zeigte noch Stunden nach echtem Sonnenaufgang volle Nacht, wenn beide Zeitzonen voneinander abweichen

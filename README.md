@@ -281,6 +281,7 @@ This adapter is an independent community project and is not affiliated with or e
 ## Changelog
 ### **WORK IN PROGRESS**
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
+* (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)
 
 ### 0.2.1 (2026-09-16)
 * (ipod86) fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ
