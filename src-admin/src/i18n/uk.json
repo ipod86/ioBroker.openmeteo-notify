@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "Значення графіка (перше = початкове)",
 	"widgetChartAttr_temp": "Температура",
 	"widgetChartAttr_feels": "Відчувається",
+	"widgetChartAttr_prob": "Опади %",
+	"widgetChartAttr_wind": "Вітер",
 	"widgetChartAttr_hum": "Вологість",
 	"widgetChartAttr_press": "Тиск",
 	"widgetChartAttr_uv": "УФ",

@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "图表数值（第一个为初始值）",
 	"widgetChartAttr_temp": "温度",
 	"widgetChartAttr_feels": "体感",
+	"widgetChartAttr_prob": "降水 %",
+	"widgetChartAttr_wind": "风",
 	"widgetChartAttr_hum": "湿度",
 	"widgetChartAttr_press": "气压",
 	"widgetChartAttr_uv": "紫外线",

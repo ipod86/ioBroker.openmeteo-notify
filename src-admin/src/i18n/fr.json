@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "Valeurs du graphique (la première = valeur de départ)",
 	"widgetChartAttr_temp": "Température",
 	"widgetChartAttr_feels": "Ressenti",
+	"widgetChartAttr_prob": "Pluie %",
+	"widgetChartAttr_wind": "Vent",
 	"widgetChartAttr_hum": "Humidité",
 	"widgetChartAttr_press": "Pression",
 	"widgetChartAttr_uv": "UV",

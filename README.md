@@ -25,9 +25,10 @@ The adapter generates a ready-to-use HTML data point (`widget`) that can be embe
 **Chart variant:** besides *simple* and *detailed* there is a *chart* widget modelled on the Home Assistant weather-forecast-card:
 - current weather with details (feels like, humidity, wind, pressure, visibility, UV, sunrise/sunset)
 - daily and hourly forecast as a chart – tap the forecast to switch between daily and hourly
-- the gear button selects the charted values: temperature & precipitation, feels like, humidity, pressure, UV index
+- the gear button selects the charted values: temperature & precipitation, feels like, precipitation probability, wind speed & gusts, humidity, pressure, UV index
 - wind force (Beaufort) with direction indicator for every column
 - configurable: start view (daily/hourly/daily only), which values appear in the menu, details block, wind row and moon phase on/off
+- interaction needs a browser with CSS `:has()` (Chrome/WebView 105+, Safari 15.4+, Firefox 121+); older browsers show the configured start view without switching
 - pure HTML/CSS without JavaScript; only values the adapter actually fetches are shown (disabled data groups disappear from details and menu)
 
 ### Animated weather wallpaper / screensaver

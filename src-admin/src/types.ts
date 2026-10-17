@@ -4,7 +4,7 @@ export interface Location {
 	lon: number;
 }
 
-export type ChartAttr = "temp" | "feels" | "hum" | "press" | "uv";
+export type ChartAttr = "temp" | "feels" | "prob" | "wind" | "hum" | "press" | "uv";
 
 export interface Widget {
 	id: string;

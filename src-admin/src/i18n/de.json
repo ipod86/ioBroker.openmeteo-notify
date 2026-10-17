@@ -43,6 +43,8 @@
 	"widgetChartAttrs": "Werte im Diagramm (erster = Startwert)",
 	"widgetChartAttr_temp": "Temperatur",
 	"widgetChartAttr_feels": "Gefühlt",
+	"widgetChartAttr_prob": "Regen %",
+	"widgetChartAttr_wind": "Wind",
 	"widgetChartAttr_hum": "Luftfeuchte",
 	"widgetChartAttr_press": "Luftdruck",
 	"widgetChartAttr_uv": "UV",

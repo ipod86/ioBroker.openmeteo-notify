@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "Grafiekwaarden (eerste = startwaarde)",
 	"widgetChartAttr_temp": "Temperatuur",
 	"widgetChartAttr_feels": "Gevoel",
+	"widgetChartAttr_prob": "Regen %",
+	"widgetChartAttr_wind": "Wind",
 	"widgetChartAttr_hum": "Luchtvochtigheid",
 	"widgetChartAttr_press": "Luchtdruk",
 	"widgetChartAttr_uv": "UV",

@@ -38,6 +38,8 @@
 	"widgetChartAttrs": "Chart values (first = start value)",
 	"widgetChartAttr_temp": "Temperature",
 	"widgetChartAttr_feels": "Feels like",
+	"widgetChartAttr_prob": "Rain %",
+	"widgetChartAttr_wind": "Wind",
 	"widgetChartAttr_hum": "Humidity",
 	"widgetChartAttr_press": "Pressure",
 	"widgetChartAttr_uv": "UV",

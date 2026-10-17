@@ -25,9 +25,10 @@ Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS
 **Variante „Diagramm“:** Neben *einfach* und *detailliert* gibt es ein *Diagramm*-Widget nach dem Vorbild der Home-Assistant-weather-forecast-card:
 - aktuelles Wetter mit Details (gefühlte Temperatur, Luftfeuchte, Wind, Luftdruck, Sichtweite, UV, Sonnenauf-/-untergang)
 - Tages- und Stundenvorhersage als Diagramm – Tippen auf die Vorhersage wechselt zwischen täglich und stündlich
-- über das Zahnrad werden die Diagrammwerte gewählt: Temperatur & Niederschlag, gefühlte Temperatur, Luftfeuchtigkeit, Luftdruck, UV-Index
+- über das Zahnrad werden die Diagrammwerte gewählt: Temperatur & Niederschlag, gefühlte Temperatur, Regenwahrscheinlichkeit, Wind & Böen, Luftfeuchtigkeit, Luftdruck, UV-Index
 - Windstärke (Beaufort) mit Richtungsanzeige je Spalte
 - einstellbar: Startansicht (täglich/stündlich/nur täglich), welche Werte im Menü erscheinen, Details, Windzeile und Mondphase ein/aus
+- die Bedienung braucht einen Browser mit CSS `:has()` (Chrome/WebView 105+, Safari 15.4+, Firefox 121+); ältere Browser zeigen die eingestellte Startansicht ohne Umschalten
 - reines HTML/CSS ohne JavaScript; angezeigt werden nur Werte, die der Adapter tatsächlich abruft (deaktivierte Datengruppen verschwinden aus Details und Menü)
 
 ### Animiertes Wetter-Wallpaper / Screensaver

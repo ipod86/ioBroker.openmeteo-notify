@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "Значения графика (первое = начальное)",
 	"widgetChartAttr_temp": "Температура",
 	"widgetChartAttr_feels": "Ощущается",
+	"widgetChartAttr_prob": "Осадки %",
+	"widgetChartAttr_wind": "Ветер",
 	"widgetChartAttr_hum": "Влажность",
 	"widgetChartAttr_press": "Давление",
 	"widgetChartAttr_uv": "УФ",

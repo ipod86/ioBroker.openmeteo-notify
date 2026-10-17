@@ -21,7 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { ChartAttr, Location, Widget } from "../types";
 
-const CHART_ATTRS: ChartAttr[] = ["temp", "feels", "hum", "press", "uv"];
+const CHART_ATTRS: ChartAttr[] = ["temp", "feels", "prob", "wind", "hum", "press", "uv"];
 
 interface Props {
 	widgets: Widget[];

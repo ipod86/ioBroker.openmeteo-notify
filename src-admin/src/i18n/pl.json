@@ -35,6 +35,8 @@
 	"widgetChartAttrs": "Wartości wykresu (pierwsza = wartość startowa)",
 	"widgetChartAttr_temp": "Temperatura",
 	"widgetChartAttr_feels": "Odczuwalna",
+	"widgetChartAttr_prob": "Opady %",
+	"widgetChartAttr_wind": "Wiatr",
 	"widgetChartAttr_hum": "Wilgotność",
 	"widgetChartAttr_press": "Ciśnienie",
 	"widgetChartAttr_uv": "UV",
