@@ -59,34 +59,38 @@ const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
 // Screensaver warning banner: at most this many (grouped) warnings, the rest as "+N more"
 const WALLPAPER_WARN_MAX = 3;
-const WARN_MORE = {
-	en: n => `+${n} more`,
-	de: n => `+${n} weitere`,
-	ru: n => `+${n} ещё`,
-	pt: n => `+${n} mais`,
-	nl: n => `+${n} meer`,
-	fr: n => `+${n} de plus`,
-	it: n => `+${n} altri`,
-	es: n => `+${n} más`,
-	pl: n => `+${n} więcej`,
-	uk: n => `+${n} ще`,
-	"zh-cn": n => `另有 ${n} 条`,
-};
+const WARN_MORE = new Map(
+	Object.entries({
+		en: "+{n} more",
+		de: "+{n} weitere",
+		ru: "+{n} ещё",
+		pt: "+{n} mais",
+		nl: "+{n} meer",
+		fr: "+{n} de plus",
+		it: "+{n} altri",
+		es: "+{n} más",
+		pl: "+{n} więcej",
+		uk: "+{n} ще",
+		"zh-cn": "另有 {n} 条",
+	}),
+);
 
 // Heading of the warning modal in the widgets, per system language
-const WARN_TITLE = {
-	en: "Official warnings",
-	de: "Amtliche Warnungen",
-	ru: "Официальные предупреждения",
-	pt: "Avisos oficiais",
-	nl: "Officiële waarschuwingen",
-	fr: "Alertes officielles",
-	it: "Avvisi ufficiali",
-	es: "Avisos oficiales",
-	pl: "Oficjalne ostrzeżenia",
-	uk: "Офіційні попередження",
-	"zh-cn": "官方预警",
-};
+const WARN_TITLE = new Map(
+	Object.entries({
+		en: "Official warnings",
+		de: "Amtliche Warnungen",
+		ru: "Официальные предупреждения",
+		pt: "Avisos oficiais",
+		nl: "Officiële waarschuwingen",
+		fr: "Alertes officielles",
+		it: "Avvisi ufficiali",
+		es: "Avisos oficiales",
+		pl: "Oficjalne ostrzeżenia",
+		uk: "Офіційні попередження",
+		"zh-cn": "官方预警",
+	}),
+);
 let wallpaperTemplateCache = null;
 
 // WMO-Rohcode (0-99) auf die 8 Wetterlagen-Buckets der Wallpaper-Animation abbilden.
@@ -299,23 +303,29 @@ function buildWallpaperWarningHtml(rawConfig, warnings, lang = "en") {
 	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.warnTextColor || "") ? config.warnTextColor : "#ff5252";
 	const fontSize = Math.max(10, Math.min(100, Number(config.warnFontSize) || 20));
 	// gleiche Ueberschriften zusammenfassen, hoechste Stufe zuerst (stabil: sonst Reihenfolge des DWD)
-	const groups = [];
+	const byHeadline = new Map();
 	for (const w of warnings) {
 		const headline = String(w.headline || "");
-		const g = groups.find(x => x.headline === headline);
+		const g = byHeadline.get(headline);
 		if (g) {
 			g.count++;
 			g.level = Math.max(g.level, w.level || 0);
 		} else {
-			groups.push({ headline, count: 1, level: w.level || 0 });
+			byHeadline.set(headline, { headline, count: 1, level: w.level || 0 });
 		}
 	}
-	groups.sort((a, b) => b.level - a.level);
+	const groups = [...byHeadline.values()].sort((a, b) => b.level - a.level);
 	const shown = groups.slice(0, WALLPAPER_WARN_MAX);
 	const text = shown.map(g => `${escapeHtmlText(g.headline)}${g.count > 1 ? ` (${g.count})` : ""}`).join(" · ");
 	const rest = groups.length - shown.length;
 	const l = String(lang || "en").toLowerCase();
-	const more = rest > 0 ? (WARN_MORE[l] || WARN_MORE[l.split("-")[0]] || WARN_MORE.en)(rest) : "";
+	const more =
+		rest > 0
+			? String(WARN_MORE.get(l) || WARN_MORE.get(l.split("-")[0]) || WARN_MORE.get("en")).replace(
+					"{n}",
+					String(rest),
+				)
+			: "";
 	// Automatisch gegenueber der Info-Anzeige platzieren, damit sich beide nie
 	// ueberlappen: steht die Info-Anzeige oben (top-left/top-right), geht die
 	// Warnung nach unten, und umgekehrt - keine eigene Einstellung dafuer noetig.
@@ -2984,7 +2994,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			return "";
 		}
 		const lang = String(this._systemLang || "en").toLowerCase();
-		const title = WARN_TITLE[lang] || WARN_TITLE[lang.split("-")[0]] || WARN_TITLE.en;
+		const title = WARN_TITLE.get(lang) || WARN_TITLE.get(lang.split("-")[0]) || WARN_TITLE.get("en");
 		const maxLevel = Math.max(...warnings.map(w => w.level || 0));
 		const badgeColor = maxLevel >= 4 ? "#b71c1c" : maxLevel >= 3 ? "#e65100" : "#f9a825";
 		const fmtT = iso => {
