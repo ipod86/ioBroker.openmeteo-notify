@@ -288,6 +288,8 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
 
 ### 0.3.1 (2026-10-21)
 * (ipod86) fix: deutlich kleinere Widget-Datenpunkte – mitgelieferte Icons werden über ihren Pfad geladen statt als Base64 eingebettet, eigene Icons nur noch einmal eingebettet, kleinere basmilius-/Mond-PNGs (detailliertes Widget z. B. 841 KB → 83 KB)
