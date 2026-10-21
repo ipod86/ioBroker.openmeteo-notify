@@ -57,6 +57,20 @@ const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
+// Heading of the warning modal in the widgets, per system language
+const WARN_TITLE = {
+	en: "Official warnings",
+	de: "Amtliche Warnungen",
+	ru: "Официальные предупреждения",
+	pt: "Avisos oficiais",
+	nl: "Officiële waarschuwingen",
+	fr: "Alertes officielles",
+	it: "Avvisi ufficiali",
+	es: "Avisos oficiales",
+	pl: "Oficjalne ostrzeżenia",
+	uk: "Офіційні попередження",
+	"zh-cn": "官方预警",
+};
 let wallpaperTemplateCache = null;
 
 // WMO-Rohcode (0-99) auf die 8 Wetterlagen-Buckets der Wallpaper-Animation abbilden.
@@ -2924,6 +2938,8 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		if (!warnings.length) {
 			return "";
 		}
+		const lang = String(this._systemLang || "en").toLowerCase();
+		const title = WARN_TITLE[lang] || WARN_TITLE[lang.split("-")[0]] || WARN_TITLE.en;
 		const maxLevel = Math.max(...warnings.map(w => w.level || 0));
 		const badgeColor = maxLevel >= 4 ? "#b71c1c" : maxLevel >= 3 ? "#e65100" : "#f9a825";
 		const fmtT = iso => {
@@ -2933,7 +2949,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			try {
 				const d = new Date(iso);
 				return d
-					.toLocaleString(undefined, {
+					.toLocaleString(lang, {
 						day: "2-digit",
 						month: "2-digit",
 						hour: "2-digit",
@@ -2965,10 +2981,10 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			`<style>@keyframes wb${wid}{0%,100%{opacity:1}50%{opacity:0.25}}</style>` +
 			`<div onclick="this.getRootNode().getElementById('wm${wid}').style.display='flex'" style="position:absolute;top:6px;right:6px;background:${badgeColor};color:#fff;border-radius:10px;min-width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:wb${wid} 1.2s ease-in-out infinite;z-index:10;padding:0 5px;box-sizing:border-box;gap:3px;">` +
 			`<span>⚠</span><span>${warnings.length}</span></div>` +
-			`<div id="wm${wid}" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.72);z-index:20;align-items:flex-start;justify-content:center;padding:10px;box-sizing:border-box;overflow-y:auto;">` +
+			`<div id="wm${wid}" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.72);z-index:20;align-items:flex-start;justify-content:center;padding:10px;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;">` +
 			`<div style="background:#1c2033;color:#fff;border-radius:8px;padding:14px;width:100%;box-sizing:border-box;">` +
 			`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">` +
-			`<span style="font-weight:700;font-size:13px;">⚠ Official Warnings (${warnings.length})</span>` +
+			`<span style="font-weight:700;font-size:13px;">⚠ ${title} (${warnings.length})</span>` +
 			`<span onclick="this.getRootNode().getElementById('wm${wid}').style.display='none'" style="cursor:pointer;font-size:18px;line-height:1;opacity:0.7;padding:2px 4px;">✕</span>` +
 			`</div>${items}</div></div>`
 		);
