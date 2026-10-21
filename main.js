@@ -1808,8 +1808,10 @@ class Openmeteo extends utils.Adapter {
 				native: {},
 			});
 			const count = Math.min(slots, m.time.length);
+			// one folder per quarter hour, named by the minutes from now: 0min, 15min, 30min …
+			const slotId = i => `${base}.${i * 15}min`;
 			for (let i = 0; i < count; i++) {
-				const p = `${base}.m${String(i).padStart(2, "0")}`;
+				const p = slotId(i);
 				await this.setObjectNotExistsAsync(p, {
 					type: "channel",
 					common: { name: `+${i * 15} min` },
@@ -1866,10 +1868,9 @@ class Openmeteo extends utils.Adapter {
 			}
 			// fewer slots configured than before: remove the surplus channels
 			for (let i = count; i < 16; i++) {
-				const p = `${base}.m${String(i).padStart(2, "0")}`;
 				try {
-					if (await this.getObjectAsync(p)) {
-						await this.delObjectAsync(p, { recursive: true });
+					if (await this.getObjectAsync(slotId(i))) {
+						await this.delObjectAsync(slotId(i), { recursive: true });
 					}
 				} catch {
 					/* ok */

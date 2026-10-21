@@ -241,7 +241,7 @@ Enabled under *Settings → 15-minute forecast* with its own fetch interval (15/
 
 | Data point | Description | Unit |
 |-----------|-------------|------|
-| `minutely.m00` … `m15` | One channel per 15 minutes from now: `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.0min` … `225min` | One folder per quarter hour, named by the minutes from now (`0min` = now, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
 | `minutely.rain_starts_in` | Minutes until precipitation (above the threshold) starts – 0 = now, empty = not within the range | min |
 | `minutely.rain_ends_at` | Time when the current precipitation ends – empty if it is not raining or it lasts beyond the range | |
 

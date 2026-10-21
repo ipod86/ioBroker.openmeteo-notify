@@ -244,7 +244,7 @@ Einschalten unter *Einstellungen → 15-Minuten-Vorhersage*, mit eigenem Abrufin
 
 | Datenpunkt | Beschreibung | Einheit |
 |-----------|-------------|------|
-| `minutely.m00` … `m15` | Ein Kanal pro 15 Minuten ab jetzt: `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.0min` … `225min` | Ein Ordner pro Viertelstunde, benannt nach den Minuten ab jetzt (`0min` = jetzt, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
 | `minutely.rain_starts_in` | Minuten bis Niederschlag (ab der Schwelle) einsetzt – 0 = jetzt, leer = nicht im Zeitraum | min |
 | `minutely.rain_ends_at` | Uhrzeit, zu der der aktuelle Niederschlag endet – leer, wenn es nicht regnet oder über den Zeitraum hinaus | |
 
