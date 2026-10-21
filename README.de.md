@@ -304,6 +304,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
 * (ipod86) feat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“
+* (ipod86) fix: Wallpaper-URL-Datenpunkte entfernter Web-Instanzen werden gelöscht
 * (ipod86) feat: Schauer (konvektiver Niederschlag) auch aktuell und stündlich; Sonnenminuten pro Stunde; Gewitterpotenzial in der 15-Minuten-Vorhersage
 
 ### 0.3.1 (2026-10-21)

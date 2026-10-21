@@ -4467,6 +4467,21 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						role: "text.url",
 					});
 				}
+				// web instance removed (or old "wallpaper_url" without instance): drop the data point
+				const validUrlIds = new Set(
+					wallpaperUrlsByInstance.map(
+						({ instance }) => `${this.namespace}.${locId}.current.wallpaper_url_${instance}`,
+					),
+				);
+				const urlObjs = await this.getObjectViewAsync("system", "state", {
+					startkey: `${this.namespace}.${locId}.current.wallpaper_url`,
+					endkey: `${this.namespace}.${locId}.current.wallpaper_url\u9999`,
+				});
+				for (const row of urlObjs.rows) {
+					if (!validUrlIds.has(row.id)) {
+						await this.delObjectAsync(row.id.slice(this.namespace.length + 1));
+					}
+				}
 			} catch (e) {
 				this.log.warn(`Wallpaper fuer ${locId} konnte nicht geschrieben werden: ${e.message}`);
 			}
