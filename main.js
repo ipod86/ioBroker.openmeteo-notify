@@ -57,6 +57,22 @@ const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
+// Screensaver warning banner: at most this many (grouped) warnings, the rest as "+N more"
+const WALLPAPER_WARN_MAX = 3;
+const WARN_MORE = {
+	en: n => `+${n} more`,
+	de: n => `+${n} weitere`,
+	ru: n => `+${n} ещё`,
+	pt: n => `+${n} mais`,
+	nl: n => `+${n} meer`,
+	fr: n => `+${n} de plus`,
+	it: n => `+${n} altri`,
+	es: n => `+${n} más`,
+	pl: n => `+${n} więcej`,
+	uk: n => `+${n} ще`,
+	"zh-cn": n => `另有 ${n} 条`,
+};
+
 // Heading of the warning modal in the widgets, per system language
 const WARN_TITLE = {
 	en: "Official warnings",
@@ -267,22 +283,48 @@ function buildWallpaperClockHtml(rawConfig) {
  * einstellbar. Gibt "" zurueck, wenn deaktiviert oder keine Warnung aktiv ist.
  *
  * @param {object} rawConfig - native.wallpaper (kann unvollstaendig/undefined sein)
+ * Gleiche Ueberschriften werden zusammengefasst ("… (2)"), die hoechste Warnstufe steht
+ * vorne, hoechstens WALLPAPER_WARN_MAX Eintraege plus "+N weitere"; der Text ist
+ * auf 2 Zeilen begrenzt, damit das Band nie einen grossen Teil des Bildes verdeckt.
+ * @param {object} rawConfig - native.wallpaper (kann unvollstaendig/undefined sein)
  * @param {Array<{headline: string, level: number}>} warnings - siehe getActiveWarnings()
+ * @param {string} [lang] - Systemsprache fuer "+N weitere"
  * @returns {string} fertiger HTML-Block oder ""
  */
-function buildWallpaperWarningHtml(rawConfig, warnings) {
+function buildWallpaperWarningHtml(rawConfig, warnings, lang = "en") {
 	const config = { ...DEFAULT_WALLPAPER_CONFIG, ...(rawConfig || {}) };
 	if (!config.warnEnabled || !warnings || warnings.length === 0) {
 		return "";
 	}
 	const textColor = /^#[0-9a-fA-F]{6}$/.test(config.warnTextColor || "") ? config.warnTextColor : "#ff5252";
 	const fontSize = Math.max(10, Math.min(100, Number(config.warnFontSize) || 20));
-	const text = warnings.map(w => escapeHtmlText(w.headline)).join(" · ");
+	// gleiche Ueberschriften zusammenfassen, hoechste Stufe zuerst (stabil: sonst Reihenfolge des DWD)
+	const groups = [];
+	for (const w of warnings) {
+		const headline = String(w.headline || "");
+		const g = groups.find(x => x.headline === headline);
+		if (g) {
+			g.count++;
+			g.level = Math.max(g.level, w.level || 0);
+		} else {
+			groups.push({ headline, count: 1, level: w.level || 0 });
+		}
+	}
+	groups.sort((a, b) => b.level - a.level);
+	const shown = groups.slice(0, WALLPAPER_WARN_MAX);
+	const text = shown.map(g => `${escapeHtmlText(g.headline)}${g.count > 1 ? ` (${g.count})` : ""}`).join(" · ");
+	const rest = groups.length - shown.length;
+	const l = String(lang || "en").toLowerCase();
+	const more = rest > 0 ? (WARN_MORE[l] || WARN_MORE[l.split("-")[0]] || WARN_MORE.en)(rest) : "";
 	// Automatisch gegenueber der Info-Anzeige platzieren, damit sich beide nie
 	// ueberlappen: steht die Info-Anzeige oben (top-left/top-right), geht die
 	// Warnung nach unten, und umgekehrt - keine eigene Einstellung dafuer noetig.
 	const verticalCss = (config.position || "bottom-left").startsWith("top") ? "bottom:0;" : "top:0;";
-	return `<div class="warning-banner" style="${verticalCss}color:${textColor};font-size:${fontSize}px;">⚠ ${text}</div>`;
+	return (
+		`<div class="warning-banner" style="${verticalCss}color:${textColor};font-size:${fontSize}px;display:flex;justify-content:center;align-items:center;gap:0.5em;">` +
+		`<span style="min-width:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;">⚠ ${text}</span>` +
+		`${more ? `<span style="flex:none;white-space:nowrap;opacity:0.85;">${more}</span>` : ""}</div>`
+	);
 }
 
 // Meteorologische Windrichtung (Grad, "kommt aus") in eine horizontale Drift fuer die
@@ -369,6 +411,7 @@ function wallpaperMoonPosition(lat, lon) {
  * @param {number|null} p.lon - Laengengrad des Ortes (fuer Sonnenposition)
  * @param {Array<{headline: string, level: number}>} p.warnings - siehe getActiveWarnings()
  * @param {number|null} p.utcOffsetSeconds - utc_offset_seconds aus derselben Open-Meteo-Antwort (fuer korrekte Tag/Nacht-Berechnung unabhaengig von der Host-Zeitzone)
+ * @param {string} [p.lang] - Systemsprache (Warnungs-Band)
  * @returns {object} siehe Rueckgabe-Objekt
  */
 function computeWallpaperValues({
@@ -387,6 +430,7 @@ function computeWallpaperValues({
 	lon,
 	warnings,
 	utcOffsetSeconds,
+	lang,
 }) {
 	const tempText = temperature != null ? `${temperature}${tempUnit}` : "";
 	const windDirText = windDirDeg != null ? degreesToCompass(windDirDeg) : "";
@@ -404,7 +448,7 @@ function computeWallpaperValues({
 		tempText,
 		overlayHtml: buildWallpaperOverlayHtml(wallpaperConfig, locationName, tempText, windDirText, windSpeedText),
 		clockHtml: buildWallpaperClockHtml(wallpaperConfig),
-		warningHtml: buildWallpaperWarningHtml(wallpaperConfig, warnings),
+		warningHtml: buildWallpaperWarningHtml(wallpaperConfig, warnings, lang),
 		windDrift: wallpaperWindDrift(windDirDeg, windSpeedRaw),
 		precipScale: wallpaperPrecipScale(precipAmount),
 		sunX: sun.x,
@@ -1632,6 +1676,7 @@ class Openmeteo extends utils.Adapter {
 					lat: loc.lat,
 					lon: loc.lon,
 					warnings: activeWarnings,
+					lang: this._systemLang,
 					utcOffsetSeconds: data.utc_offset_seconds,
 				});
 				const dataFilename = `${locId}-data.json`;
@@ -4076,6 +4121,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					lat: loc.lat,
 					lon: loc.lon,
 					warnings: activeWarnings,
+					lang: this._systemLang,
 					utcOffsetSeconds: data.utc_offset_seconds,
 				});
 				const dataFilename = `${locId}-data.json`;
