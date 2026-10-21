@@ -226,7 +226,7 @@ Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 
 ### Stundenwerte (`day1.hourly.h00` … `h23`)
 
-Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schauer, Schneefall, Schneehöhe, Schneefallgrenze, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, UV-Index, Gefriergrenze, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
+Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schauer, Sonnenscheindauer (Minuten), Schneefall, Schneehöhe, Schneefallgrenze, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, UV-Index, Gefriergrenze, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
 
 Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 
@@ -244,7 +244,7 @@ Einschalten unter *Einstellungen → 15-Minuten-Vorhersage*, mit eigenem Abrufin
 
 | Datenpunkt | Beschreibung | Einheit |
 |-----------|-------------|------|
-| `minutely.0min` … `225min` | Ein Ordner pro Viertelstunde, benannt nach den Minuten ab jetzt (`0min` = jetzt, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.0min` … `225min` | Ein Ordner pro Viertelstunde, benannt nach den Minuten ab jetzt (`0min` = jetzt, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (nur Deutschland / Mitteleuropa) | |
 | `minutely.rain_starts_in` | Minuten bis Niederschlag (ab der Schwelle) einsetzt – 0 = jetzt, leer = nicht im Zeitraum | min |
 | `minutely.rain_ends_at` | Uhrzeit, zu der der aktuelle Niederschlag endet – leer, wenn es nicht regnet oder über den Zeitraum hinaus | |
 
@@ -304,7 +304,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
 * (ipod86) feat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“
-* (ipod86) feat: Schauer (konvektiver Niederschlag) auch aktuell und stündlich
+* (ipod86) feat: Schauer (konvektiver Niederschlag) auch aktuell und stündlich; Sonnenminuten pro Stunde; Gewitterpotenzial in der 15-Minuten-Vorhersage
 
 ### 0.3.1 (2026-10-21)
 * (ipod86) fix: deutlich kleinere Widget-Datenpunkte – mitgelieferte Icons werden über ihren Pfad geladen statt als Base64 eingebettet, eigene Icons nur noch einmal eingebettet, kleinere basmilius-/Mond-PNGs (detailliertes Widget z. B. 841 KB → 83 KB)

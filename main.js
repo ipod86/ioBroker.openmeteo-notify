@@ -1865,6 +1865,15 @@ class Openmeteo extends utils.Adapter {
 					unit: windUnit,
 					role: "value.speed.wind.gust",
 				});
+				// only provided by ICON-D2 (Germany / Central Europe), elsewhere null
+				if (val("lightning_potential", i) !== null) {
+					await this.setDP(`${p}.lightning_potential`, val("lightning_potential", i), {
+						name: "Lightning potential",
+						type: "number",
+						unit: "J/kg",
+						role: "value",
+					});
+				}
 			}
 			// fewer slots configured than before: remove the surplus channels
 			for (let i = count; i < 16; i++) {
@@ -1949,7 +1958,7 @@ class Openmeteo extends utils.Adapter {
 		const url =
 			`https://api.open-meteo.com/v1/forecast` +
 			`?latitude=${lat}&longitude=${lon}` +
-			`&minutely_15=precipitation,rain,showers,snowfall,precipitation_probability,weathercode,temperature_2m,windgusts_10m` +
+			`&minutely_15=precipitation,rain,showers,snowfall,precipitation_probability,weathercode,temperature_2m,windgusts_10m,lightning_potential` +
 			`&forecast_minutely_15=${slots}` +
 			`&timezone=${encodeURIComponent(timezone)}` +
 			`&temperature_unit=${temperatureUnit}` +
@@ -3394,7 +3403,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				`,precipitation,weathercode,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
 				`,rain,snowfall,snow_depth,snowfall_height,freezing_level_height,uv_index` +
-				`,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance,showers` +
+				`,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance,showers,sunshine_duration` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
 				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
@@ -4609,6 +4618,11 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				is_day: h.is_day[i] === 1,
 				rain: h.rain[i],
 				showers: h.showers ? h.showers[i] : null,
+				// seconds of sunshine within the hour -> minutes
+				sunshine:
+					h.sunshine_duration && h.sunshine_duration[i] !== null
+						? Math.round(h.sunshine_duration[i] / 60)
+						: null,
 				snowfall: h.snowfall[i],
 				snow_depth: Math.round(h.snow_depth[i] * 100),
 				snowfall_height:
@@ -5369,6 +5383,14 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						unit: precipUnit,
 						role: "value.precipitation.hour",
 					});
+					if (hData.sunshine !== null && hData.sunshine !== undefined) {
+						await this.setDP(`${hPath}.sunshine`, hData.sunshine, {
+							name: "Sunshine duration in this hour",
+							type: "number",
+							unit: "min",
+							role: "value",
+						});
+					}
 					if (hData.showers !== null && hData.showers !== undefined) {
 						await this.setDP(`${hPath}.showers`, hData.showers, {
 							name: "Showers",

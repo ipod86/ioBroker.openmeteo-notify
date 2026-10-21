@@ -223,7 +223,7 @@ The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 
 ### Hourly values (`day1.hourly.h00` … `h23`)
 
-Temperature, feels-like, precipitation, rain, showers, snowfall, snow depth, snowfall height, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, UV index, freezing level height, weather code, icon/icon_url, description.
+Temperature, feels-like, precipitation, rain, showers, sunshine (minutes), snowfall, snow depth, snowfall height, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, UV index, freezing level height, weather code, icon/icon_url, description.
 
 Optional per hour (if enabled + "also hourly"):
 
@@ -241,7 +241,7 @@ Enabled under *Settings → 15-minute forecast* with its own fetch interval (15/
 
 | Data point | Description | Unit |
 |-----------|-------------|------|
-| `minutely.0min` … `225min` | One folder per quarter hour, named by the minutes from now (`0min` = now, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.0min` … `225min` | One folder per quarter hour, named by the minutes from now (`0min` = now, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (Germany / Central Europe only) | |
 | `minutely.rain_starts_in` | Minutes until precipitation (above the threshold) starts – 0 = now, empty = not within the range | min |
 | `minutely.rain_ends_at` | Time when the current precipitation ends – empty if it is not raining or it lasts beyond the range | |
 
@@ -300,7 +300,7 @@ This adapter is an independent community project and is not affiliated with or e
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
 * (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
-* (ipod86) feat: showers (convective precipitation) also current and hourly
+* (ipod86) feat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast
 
 ### 0.3.1 (2026-10-21)
 * (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
