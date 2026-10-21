@@ -280,6 +280,13 @@ This adapter uses data from the following third-party services:
 This adapter is an independent community project and is not affiliated with or endorsed by any of the above services.
 
 ## Changelog
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+* (ipod86) fix: widgets embed every icon only once (simple/detailed), smaller basmilius and moon icons – detailed widget e.g. 841 KB → 117 KB
+
 ### 0.3.0 (2026-10-17)
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
 * (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)

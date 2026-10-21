@@ -2319,17 +2319,21 @@ class Openmeteo extends utils.Adapter {
 		// Outer div is the cqw query container (container-type:inline-size).
 		// Inner div carries background/padding; its children use cqw for all sizes.
 		const activeWarnings = await this.getActiveWarnings(locId);
+		const icons = this._makeIconClasses(`omw-${String(Object(widget).id).replace(/[^A-Za-z0-9_-]/g, "")}`);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
 		html += `<div style="position:relative;background:${bgColor};color:${textColor};padding:${c(10)} ${c(5)} 0;font-family:sans-serif;">`;
 
 		// Header
 		let headerMoonOverlay = "";
 		if (hasMoon && moonIcons[0]) {
-			headerMoonOverlay = `<img src="${moonIcons[0]}" style="position:absolute;width:${ch(28)};height:${ch(28)};top:${ch(4)};right:${ch(4)};opacity:0.92;z-index:1;">`;
+			headerMoonOverlay = icons.img(
+				moonIcons[0],
+				`position:absolute;width:${ch(28)};height:${ch(28)};top:${ch(4)};right:${ch(4)};opacity:0.92;z-index:1;`,
+			);
 		}
 		html += `<table width="100%" style="border-collapse:collapse;margin-bottom:0;">
 <tr>
-<td style="width:${mainIconCqw}"><div style="position:relative;display:inline-block;width:${mainIconCqw};height:${mainIconCqw};"><img src="${curIcon}" style="width:${mainIconCqw};height:${mainIconCqw};display:block;${wmoSvgFilter}">${headerMoonOverlay}</div></td>
+<td style="width:${mainIconCqw}"><div style="position:relative;display:inline-block;width:${mainIconCqw};height:${mainIconCqw};">${icons.img(curIcon, `width:${mainIconCqw};height:${mainIconCqw};display:block;${wmoSvgFilter}`)}${headerMoonOverlay}</div></td>
 <td style="padding-left:${c(10)};vertical-align:middle;">
 <div style="font-size:${ch(13)};font-weight:600;color:${textColor};margin-bottom:${c(2)};">${widget.locationName}</div>
 <div style="font-size:${ch(15)};font-weight:400;color:${subColor};">${curDesc}</div>
@@ -2373,9 +2377,12 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				const border = i > start ? `border-left:${c(2)} solid ${divColor};` : "";
 				let moonOverlay = "";
 				if (hasMoon && moonIcons[i]) {
-					moonOverlay = `<img src="${moonIcons[i]}" style="position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;">`;
+					moonOverlay = icons.img(
+						moonIcons[i],
+						`position:absolute;width:${cf(22)};height:${cf(22)};top:${cf(-8)};right:${cf(-12)};opacity:0.92;z-index:1;`,
+					);
 				}
-				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;"><img src="${dayData[i][1]}" style="width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div></td>`;
+				html += `<td style="padding:0;${border}"><div style="position:relative;display:inline-block;width:${cf(42)};height:${cf(42)};margin:${c(-2)} 0;">${icons.img(dayData[i][1], `width:${cf(42)};height:${cf(42)};display:block;${imgScale}${wmoSvgFilter}`)}${moonOverlay}</div></td>`;
 			}
 			html += `</tr><tr>`;
 			for (let i = start; i < end; i++) {
@@ -2397,7 +2404,33 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 		html += widget.showWarnBadge !== false ? this.buildWarningOverlay(activeWarnings, widget.id) : "";
 		html += `</div></div>`;
-		return html;
+		return icons.style() + html;
+	}
+
+	/**
+	 * Embeds every distinct icon only once: elements get a CSS class, the image itself is in
+	 * one <style> rule. An icon shown 20 times (hourly row, moon phase) is stored once.
+	 *
+	 * @param {string} prefix - class prefix, unique per widget
+	 * @returns {{img: (url: any, style: string) => string, style: () => string}} helper
+	 */
+	_makeIconClasses(prefix) {
+		const classes = new Map();
+		return {
+			img: (url, style) => {
+				if (!url) {
+					return `<span style="${style}"></span>`;
+				}
+				if (!classes.has(url)) {
+					classes.set(url, `${prefix}-i${classes.size}`);
+				}
+				return `<span class="${classes.get(url)}" style="${style}background-size:contain;background-position:center;background-repeat:no-repeat;"></span>`;
+			},
+			style: () =>
+				classes.size
+					? `<style>${[...classes].map(([url, cls]) => `.${cls}{background-image:url("${url}");}`).join("")}</style>`
+					: "",
+		};
 	}
 
 	/**
@@ -2647,6 +2680,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		const mainIconSize = c((isAmcharts ? 90 : isBasmilius ? 78 : 70) * sh);
 
 		const activeWarnings = await this.getActiveWarnings(locId);
+		const icons = this._makeIconClasses(`omd-${String(widget.id).replace(/[^A-Za-z0-9_-]/g, "")}`);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
 		html += `<div style="position:relative;background:${bgColor};color:${textColor};font-family:sans-serif;${pad(10, 8, 4, 8)}">`;
 
@@ -2655,9 +2689,15 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		html += `<tr>`;
 		html += `<td style="width:${mainIconSize};vertical-align:middle;">`;
 		html += `<div style="position:relative;display:inline-block;width:${mainIconSize};height:${mainIconSize};">`;
-		html += `<img src="${curIcon}" style="width:${mainIconSize};height:${mainIconSize};display:block;${wmoSvgFilter}${imgScale}">`;
+		html += icons.img(
+			curIcon,
+			`width:${mainIconSize};height:${mainIconSize};display:block;${wmoSvgFilter}${imgScale}`,
+		);
 		if (hasMoon && moonIcons[0]) {
-			html += `<img src="${moonIcons[0]}" style="position:absolute;width:${c(32 * sh)};height:${c(32 * sh)};top:${c(-5 * sh)};right:${c(-6 * sh)};opacity:0.92;z-index:1;">`;
+			html += icons.img(
+				moonIcons[0],
+				`position:absolute;width:${c(32 * sh)};height:${c(32 * sh)};top:${c(-5 * sh)};right:${c(-6 * sh)};opacity:0.92;z-index:1;`,
+			);
 		}
 		html += `</div>`;
 		html += `</td>`;
@@ -2726,7 +2766,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			html += `<tr>${hourly24
 				.map((s, j) => {
 					const border = j > 0 ? `border-left:1px solid ${divColor};` : "";
-					return `<td style="text-align:center;padding:0;${border}"><img src="${s[0]}" style="width:${hIconSz};height:${hIconSz};display:inline-block;${imgScale}${wmoSvgFilter}"></td>`;
+					return `<td style="text-align:center;padding:0;${border}">${icons.img(s[0], `width:${hIconSz};height:${hIconSz};display:inline-block;${imgScale}${wmoSvgFilter}`)}</td>`;
 				})
 				.join("")}</tr>`;
 			html += `<tr>${hourly24
@@ -2790,10 +2830,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				dSlice.map((d, i) => {
 					const moonUrl = hasMoon ? mSlice[i] : null;
 					const moonOverlay = moonUrl
-						? `<img src="${moonUrl}" style="position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-18 * sfv)};opacity:0.92;z-index:1;">`
+						? icons.img(
+								moonUrl,
+								`position:absolute;width:${c(27 * sfv)};height:${c(27 * sfv)};top:${c(-10 * sfv)};right:${c(-18 * sfv)};opacity:0.92;z-index:1;`,
+							)
 						: "";
 					return [
-						`<div style="position:relative;display:inline-block;width:${iconSz};height:${iconSz};"><img src="${d[1]}" style="width:${iconSz};height:${iconSz};display:block;${imgScale}${wmoSvgFilter}">${moonOverlay}</div>`,
+						`<div style="position:relative;display:inline-block;width:${iconSz};height:${iconSz};">${icons.img(d[1], `width:${iconSz};height:${iconSz};display:block;${imgScale}${wmoSvgFilter}`)}${moonOverlay}</div>`,
 						i > 0 ? `border-left:1px solid ${divColor};` : "",
 					];
 				}),
@@ -2845,7 +2888,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 		html += widget.showWarnBadge !== false ? this.buildWarningOverlay(activeWarnings, widget.id) : "";
 		html += `</div></div>`;
-		return html;
+		return icons.style() + html;
 	}
 
 	/**
