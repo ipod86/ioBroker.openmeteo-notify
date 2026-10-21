@@ -289,7 +289,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.3.1 (2026-10-21)
 * (ipod86) fix: deutlich kleinere Widget-Datenpunkte – mitgelieferte Icons werden über ihren Pfad geladen statt als Base64 eingebettet, eigene Icons nur noch einmal eingebettet, kleinere basmilius-/Mond-PNGs (detailliertes Widget z. B. 841 KB → 83 KB)
 * (ipod86) fix: Warn-Badge ließ sich nicht öffnen, wenn eine Dashboard-Karte das Widget in einem Shadow DOM anzeigt
 * (ipod86) feat: Warnfenster: Überschrift und Zeiten in der Systemsprache, Scrollen bleibt am Handy im Fenster
@@ -313,9 +313,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### 0.1.16 (2026-08-17)
 * (ipod86) fix: Variablenüberschattung in fetchDwdWarnings führte dazu, dass jede offizielle DWD-Warnungsanfrage mit „Zugriff auf 'raw' vor der Initialisierung nicht möglich" fehlschlug und die betroffenen Warnzustände stillschweigend einfroren
 * (ipod86) fix: offiziellen Warnungs-Abruf gegen eine einzelne hängende Anfrage absichern, die den wiederkehrenden Zeitplan sonst dauerhaft blockieren könnte
-
-### 0.1.15 (2026-07-19)
-* (ipod86) fix: widget.id vor Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigen
 
 Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

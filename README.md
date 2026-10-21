@@ -284,7 +284,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.3.1 (2026-10-21)
 * (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
 * (ipod86) fix: warning badge could not be opened when a dashboard card displays the widget in a shadow DOM
 * (ipod86) feat: warning window: heading and dates in the system language, scrolling stays inside the window on mobile
@@ -308,9 +308,6 @@ This adapter is an independent community project and is not affiliated with or e
 ### 0.1.16 (2026-08-17)
 * (ipod86) fix: variable shadowing in fetchDwdWarnings caused every DWD official warning request to fail with "Cannot access 'raw' before initialization", silently freezing the affected warning states
 * (ipod86) fix: guard the official warning update against a single hung request permanently stalling the recurring schedule
-
-### 0.1.15 (2026-07-19)
-* (ipod86) fix: sanitize widget.id through normalizeId before use as ioBroker object ID path
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
