@@ -286,6 +286,7 @@ This adapter is an independent community project and is not affiliated with or e
 -->
 ### **WORK IN PROGRESS**
 * (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
+* (ipod86) fix: warning badge could not be opened when a dashboard card displays the widget in a shadow DOM
 
 ### 0.3.0 (2026-10-17)
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)

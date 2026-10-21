@@ -2963,13 +2963,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			.join("");
 		return (
 			`<style>@keyframes wb${wid}{0%,100%{opacity:1}50%{opacity:0.25}}</style>` +
-			`<div onclick="document.getElementById('wm${wid}').style.display='flex'" style="position:absolute;top:6px;right:6px;background:${badgeColor};color:#fff;border-radius:10px;min-width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:wb${wid} 1.2s ease-in-out infinite;z-index:10;padding:0 5px;box-sizing:border-box;gap:3px;">` +
+			`<div onclick="this.getRootNode().getElementById('wm${wid}').style.display='flex'" style="position:absolute;top:6px;right:6px;background:${badgeColor};color:#fff;border-radius:10px;min-width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:wb${wid} 1.2s ease-in-out infinite;z-index:10;padding:0 5px;box-sizing:border-box;gap:3px;">` +
 			`<span>⚠</span><span>${warnings.length}</span></div>` +
 			`<div id="wm${wid}" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.72);z-index:20;align-items:flex-start;justify-content:center;padding:10px;box-sizing:border-box;overflow-y:auto;">` +
 			`<div style="background:#1c2033;color:#fff;border-radius:8px;padding:14px;width:100%;box-sizing:border-box;">` +
 			`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">` +
 			`<span style="font-weight:700;font-size:13px;">⚠ Official Warnings (${warnings.length})</span>` +
-			`<span onclick="document.getElementById('wm${wid}').style.display='none'" style="cursor:pointer;font-size:18px;line-height:1;opacity:0.7;padding:2px 4px;">✕</span>` +
+			`<span onclick="this.getRootNode().getElementById('wm${wid}').style.display='none'" style="cursor:pointer;font-size:18px;line-height:1;opacity:0.7;padding:2px 4px;">✕</span>` +
 			`</div>${items}</div></div>`
 		);
 	}
