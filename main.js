@@ -57,6 +57,36 @@ const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 
 const SNOW_CODES = new Set([71, 73, 75, 77, 85, 86]);
 
 const WALLPAPER_TEMPLATE_PATH = path.join(__dirname, "lib", "wallpaper-template.html");
+/**
+ * Date as local time of a timezone in the format Open-Meteo uses for sunrise/sunset ("YYYY-MM-DDTHH:MM").
+ *
+ * @param {Date} date - point in time
+ * @param {string} [timeZone] - IANA timezone of the Open-Meteo response (handles DST per date)
+ * @param {number} [offsetSeconds] - fallback: utc_offset_seconds of the response
+ * @returns {string} local time
+ */
+function localIsoMinute(date, timeZone, offsetSeconds) {
+	try {
+		if (timeZone && timeZone !== "auto") {
+			// "sv-SE" formats as "YYYY-MM-DD HH:MM"
+			return new Intl.DateTimeFormat("sv-SE", {
+				timeZone,
+				year: "numeric",
+				month: "2-digit",
+				day: "2-digit",
+				hour: "2-digit",
+				minute: "2-digit",
+				hourCycle: "h23",
+			})
+				.format(date)
+				.replace(" ", "T");
+		}
+	} catch {
+		// unknown timezone: fall back to the fixed offset
+	}
+	return new Date(date.getTime() + (Number(offsetSeconds) || 0) * 1000).toISOString().slice(0, 16);
+}
+
 // Screensaver warning banner: at most this many (grouped) warnings, the rest as "+N more"
 const WALLPAPER_WARN_MAX = 3;
 const WARN_MORE = new Map(
@@ -5213,8 +5243,13 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 					moon_phase_val: Math.round(moonIllum.phase * 100) / 100,
 					moon_phase_text: moonText,
 					moon_phase_icon_url: `/adapter/openmeteo-notify/icons/moon/${moonIdx}.png`,
-					moonrise: moonTimes.rise ? moonTimes.rise.toISOString() : null,
-					moonset: moonTimes.set ? moonTimes.set.toISOString() : null,
+					// same format as sunrise/sunset from Open-Meteo: local time of the location "YYYY-MM-DDTHH:MM"
+					moonrise: moonTimes.rise
+						? localIsoMinute(moonTimes.rise, data.timezone, data.utc_offset_seconds)
+						: null,
+					moonset: moonTimes.set
+						? localIsoMinute(moonTimes.set, data.timezone, data.utc_offset_seconds)
+						: null,
 					solar_noon: solarNoonStr,
 					solar_elevation_max: solarElevationMax,
 				};

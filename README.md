@@ -300,6 +300,7 @@ This adapter is an independent community project and is not affiliated with or e
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
 * (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
+* (ipod86) fix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)
 * (ipod86) fix: wallpaper URL data points of removed web instances are deleted
 * (ipod86) feat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast
 
