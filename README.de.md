@@ -289,6 +289,12 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+* (ipod86) fix: deutlich kleinere Widget-Datenpunkte – mitgelieferte Icons werden über ihren Pfad geladen statt als Base64 eingebettet, eigene Icons nur noch einmal eingebettet, kleinere basmilius-/Mond-PNGs (detailliertes Widget z. B. 841 KB → 83 KB)
+* (ipod86) fix: Warn-Badge ließ sich nicht öffnen, wenn eine Dashboard-Karte das Widget in einem Shadow DOM anzeigt
+* (ipod86) feat: Warnfenster: Überschrift und Zeiten in der Systemsprache, Scrollen bleibt am Handy im Fenster
+* (ipod86) feat: Warnband im Bildschirmschoner: gleiche Warnungen zusammengefasst, höchste Stufe zuerst, höchstens 2 Zeilen mit „+N weitere“
+
 ### 0.3.0 (2026-10-17)
 * (ipod86) feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)
 * (ipod86) fix: Widget-Datenpunkte werden nur noch geschrieben, wenn sich das HTML wirklich geändert hat (kein Neuzeichnen bei jedem Warnungs-Check)
