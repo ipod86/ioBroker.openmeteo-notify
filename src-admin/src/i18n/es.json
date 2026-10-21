@@ -19,7 +19,7 @@
 	"widgetLight": "Claro",
 	"widgetTheme": "Tema",
 	"hourlyDaysHighWarning": "Cada día horario genera muchos puntos de datos según las opciones activadas",
-	"iconSetCustomHint": "Subir a: Admin → Archivos → openmeteo-notify.0/icons/custom/\nIconos diurnos requeridos (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nIconos nocturnos opcionales (sufijo n): wmo_00n.svg, wmo_01n.svg …",
+	"iconSetCustomHint": "Subir a: Admin → Archivos → openmeteo-notify.0/icons/custom/\nIconos diurnos requeridos (24):\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nIconos nocturnos opcionales (sufijo n): wmo_00n.svg, wmo_01n.svg …\n\nNota: los iconos propios se incrustan en Base64 en el punto de datos del widget (cada icono solo una vez) y lo agrandan.\nUse SVG vectoriales pequeños siempre que sea posible (pocos KB por icono). Los conjuntos de iconos incluidos no se incrustan.",
 	"iconSetCustomPreviewHint": "Vista previa iconos diurnos (faltantes ocultos)",
 	"warnExcludeKeywords": "Palabras clave excluidas",
 	"warnExcludeKeywordsPlaceholder": "Helada, Niebla, Nieve",

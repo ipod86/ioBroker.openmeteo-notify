@@ -19,7 +19,7 @@
 	"widgetLight": "Clair",
 	"widgetTheme": "Thème",
 	"hourlyDaysHighWarning": "Chaque jour horaire génère de nombreux points de données selon les options activées",
-	"iconSetCustomHint": "Télécharger dans : Admin → Fichiers → openmeteo-notify.0/icons/custom/\nIcones jour requises (24) :\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nIcones nuit optionnelles (suffixe n) : wmo_00n.svg, wmo_01n.svg …",
+	"iconSetCustomHint": "Télécharger dans : Admin → Fichiers → openmeteo-notify.0/icons/custom/\nIcones jour requises (24) :\nwmo_00  wmo_01  wmo_02  wmo_03  wmo_45  wmo_48\nwmo_51  wmo_53  wmo_55  wmo_61  wmo_63  wmo_65\nwmo_71  wmo_73  wmo_75  wmo_77  wmo_80  wmo_81\nwmo_82  wmo_85  wmo_86  wmo_95  wmo_96  wmo_99\nIcones nuit optionnelles (suffixe n) : wmo_00n.svg, wmo_01n.svg …\n\nRemarque : les icônes personnalisées sont intégrées en Base64 dans le point de données du widget (chaque icône une seule fois) et l'agrandissent.\nUtilisez si possible de petits SVG vectoriels (quelques Ko par icône). Les jeux d'icônes fournis ne sont pas intégrés.",
 	"iconSetCustomPreviewHint": "Aperçu icônes jour (icônes manquantes masquées)",
 	"warnExcludeKeywords": "Mots-clés exclus",
 	"warnExcludeKeywordsPlaceholder": "Gel, Brouillard, Neige",

@@ -20,7 +20,7 @@ Dieser Adapter ruft Wetterdaten von der kostenlosen [Open-Meteo API](https://ope
 Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Alle Benachrichtigungsziele (Telegram, E-Mail, Pushover, …) werden zentral über den **ioBroker Notification Manager** konfiguriert — keine adapterspezifische Einrichtung erforderlich.
 
 ### Konfigurierbares HTML-Widget
-Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar.
+Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar. Die mitgelieferten Icons werden über den relativen Pfad `/adapter/openmeteo-notify/…` geladen, den der Web-Adapter und der Lovelace-Server ausliefern; nur eigene (Custom-)Icons werden in den Datenpunkt eingebettet.
 
 **Variante „Diagramm“:** Neben *einfach* und *detailliert* gibt es ein *Diagramm*-Widget nach dem Vorbild der Home-Assistant-weather-forecast-card:
 - aktuelles Wetter mit Details (gefühlte Temperatur, Luftfeuchte, Wind, Luftdruck, Sichtweite, UV, Sonnenauf-/-untergang)

@@ -2434,8 +2434,10 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 	}
 
 	/**
-	 * Returns a resolver that turns adapter/custom icon URLs into embeddable data URLs
-	 * (VIS, Jarvis etc. cannot load /adapter/ or /files/ paths themselves).
+	 * Returns a resolver for icon URLs in widgets. Built-in icons keep their relative path
+	 * /adapter/openmeteo-notify/… – it is served by the web adapter (vis, vis-2, Jarvis, iQontrol …)
+	 * and by the Lovelace server, cached by the browser and keeps the widget small. Custom icons
+	 * (/files/openmeteo-notify.0/…) are not served by Lovelace and are embedded as data URLs.
 	 *
 	 * @returns {(url: string) => Promise<string>} resolver
 	 */
@@ -2444,24 +2446,6 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		return async url => {
 			if (!url) {
 				return url;
-			}
-			if (url.startsWith("/adapter/openmeteo-notify/")) {
-				const cacheKey = url;
-				if (iconCache.has(cacheKey)) {
-					return iconCache.get(cacheKey);
-				}
-				try {
-					const relPath = url.replace("/adapter/openmeteo-notify/", "admin/");
-					const absPath = path.join(__dirname, relPath);
-					const buf = require("node:fs").readFileSync(absPath);
-					const ext = absPath.split(".").pop()?.toLowerCase();
-					const mime = ext === "png" ? "image/png" : ext === "gif" ? "image/gif" : "image/svg+xml";
-					const dataUrl = `data:${mime};base64,${buf.toString("base64")}`;
-					iconCache.set(cacheKey, dataUrl);
-					return dataUrl;
-				} catch {
-					return url;
-				}
 			}
 			if (!url.startsWith("/files/")) {
 				return url;
