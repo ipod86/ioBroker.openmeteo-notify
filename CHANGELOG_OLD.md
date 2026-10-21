@@ -100,6 +100,10 @@
 
 ### 0.0.1
 * Initial release
+## 0.1.16 (2026-08-17)
+* (ipod86) fix: variable shadowing in fetchDwdWarnings caused every DWD official warning request to fail with "Cannot access 'raw' before initialization", silently freezing the affected warning states
+* (ipod86) fix: guard the official warning update against a single hung request permanently stalling the recurring schedule
+
 ## 0.1.15 (2026-07-19)
 * (ipod86) fix: sanitize widget.id through normalizeId before use as ioBroker object ID path
 

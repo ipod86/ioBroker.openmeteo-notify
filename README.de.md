@@ -301,7 +301,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.4.0 (2026-10-21)
 * (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
 * (ipod86) feat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“
 * (ipod86) fix: Mondauf-/-untergang in Ortszeit wie Sonnenauf-/-untergang (vorher UTC)
@@ -328,10 +328,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 * (ipod86) feat: Sonnen-/Mondposition und Mondphase im Wallpaper folgen echten astronomischen Daten (SunCalc); Regen-/Nebelintensität und Windversatz folgen den echten Wetterdaten
 * (ipod86) feat: Tag/Nacht-Aufteilung für Niederschlags-/Gewitterwahrscheinlichkeit, Wind, Regen- und Schneemenge hinzugefügt
 * (ipod86) fix: überlappende Zeitverschiebungen bei DWD-Warnungen als Aktualisierung statt Aufheben+Neu behandeln
-
-### 0.1.16 (2026-08-17)
-* (ipod86) fix: Variablenüberschattung in fetchDwdWarnings führte dazu, dass jede offizielle DWD-Warnungsanfrage mit „Zugriff auf 'raw' vor der Initialisierung nicht möglich" fehlschlug und die betroffenen Warnzustände stillschweigend einfroren
-* (ipod86) fix: offiziellen Warnungs-Abruf gegen eine einzelne hängende Anfrage absichern, die den wiederkehrenden Zeitplan sonst dauerhaft blockieren könnte
 
 Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

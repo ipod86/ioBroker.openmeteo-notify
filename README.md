@@ -297,7 +297,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.4.0 (2026-10-21)
 * (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
 * (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
 * (ipod86) fix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)
@@ -324,10 +324,6 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) feat: wallpaper sun/moon position and moon phase follow real astronomical data (SunCalc); rain/fog intensity and wind drift follow real weather data
 * (ipod86) feat: add day/night split for precipitation/thunderstorm probability, wind, rain and snowfall amount
 * (ipod86) fix: treat overlapping DWD warning time-shifts as an update instead of lift+new
-
-### 0.1.16 (2026-08-17)
-* (ipod86) fix: variable shadowing in fetchDwdWarnings caused every DWD official warning request to fail with "Cannot access 'raw' before initialization", silently freezing the affected warning states
-* (ipod86) fix: guard the official warning update against a single hung request permanently stalling the recurring schedule
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
