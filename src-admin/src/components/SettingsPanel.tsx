@@ -214,6 +214,114 @@ const SettingsPanel: React.FC<Props> = ({ native, onChange, themeType, namespace
 				</Typography>
 			</Box>
 
+			{/* 15-minute forecast (minutely_15) with its own interval and optional notification */}
+			<Box>
+				<Typography
+					variant="h6"
+					gutterBottom
+				>
+					{I18n.t("minutelyTitle")}
+				</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							checked={!!native.minutelyEnabled}
+							onChange={e => update("minutelyEnabled", e.target.checked)}
+						/>
+					}
+					label={I18n.t("minutelyEnabled")}
+				/>
+				<Typography
+					variant="caption"
+					color="text.secondary"
+					sx={{ display: "block", mb: 1, maxWidth: 500 }}
+				>
+					{I18n.t("minutelyHelp")}
+				</Typography>
+				{native.minutelyEnabled && (
+					<Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "center" }}>
+						<FormControl sx={{ width: 200 }}>
+							<InputLabel>{I18n.t("minutelyInterval")}</InputLabel>
+							<Select
+								value={native.minutelyInterval || 15}
+								label={I18n.t("minutelyInterval")}
+								onChange={e => update("minutelyInterval", Number(e.target.value))}
+							>
+								<MenuItem value={15}>15 {I18n.t("minutes")}</MenuItem>
+								<MenuItem value={30}>30 {I18n.t("minutes")}</MenuItem>
+								<MenuItem value={60}>60 {I18n.t("minutes")}</MenuItem>
+							</Select>
+						</FormControl>
+						<FormControl sx={{ width: 200 }}>
+							<InputLabel>{I18n.t("minutelyHours")}</InputLabel>
+							<Select
+								value={native.minutelyHours || 4}
+								label={I18n.t("minutelyHours")}
+								onChange={e => update("minutelyHours", Number(e.target.value))}
+							>
+								{[1, 2, 3, 4].map(h => (
+									<MenuItem
+										key={h}
+										value={h}
+									>
+										{h} {I18n.t("minutelyHoursUnit")}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					</Box>
+				)}
+				{native.minutelyEnabled && (
+					<Box sx={{ mt: 1 }}>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={!!native.minutelyNotify}
+									onChange={e => update("minutelyNotify", e.target.checked)}
+								/>
+							}
+							label={I18n.t("minutelyNotify")}
+						/>
+						{native.minutelyNotify && (
+							<Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, alignItems: "center", mt: 1 }}>
+								<FormControl sx={{ width: 200 }}>
+									<InputLabel>{I18n.t("minutelyNotifyLead")}</InputLabel>
+									<Select
+										value={native.minutelyNotifyLead || 30}
+										label={I18n.t("minutelyNotifyLead")}
+										onChange={e => update("minutelyNotifyLead", Number(e.target.value))}
+									>
+										{[15, 30, 45, 60, 90, 120].map(m => (
+											<MenuItem
+												key={m}
+												value={m}
+											>
+												{m} {I18n.t("minutes")}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<TextField
+									sx={{ width: 200 }}
+									type="number"
+									label={I18n.t("minutelyNotifyThreshold")}
+									value={native.minutelyNotifyThreshold ?? 0.1}
+									inputProps={{ min: 0.1, max: 10, step: 0.1 }}
+									onChange={e => update("minutelyNotifyThreshold", Number(e.target.value))}
+								/>
+							</Box>
+						)}
+						<Typography
+							variant="caption"
+							color="text.secondary"
+							sx={{ display: "block", mt: 0.5, maxWidth: 500 }}
+						>
+							{I18n.t("minutelyNotifyHelp")}
+						</Typography>
+					</Box>
+				)}
+			</Box>
+
 			<Divider />
 
 			{/* Optional data */}

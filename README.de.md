@@ -149,6 +149,7 @@ Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 | `icon_url` | Wetter-Icon-URL (Icon-Set in den Einstellungen wählbar) | |
 | `precipitation` | Gesamtniederschlag letzte Stunde | mm/inch |
 | `rain` | Regen letzte Stunde | mm/inch |
+| `showers` | Schauer (konvektiver Niederschlag) letzte Stunde | mm/inch |
 | `snowfall` | Schneefall letzte Stunde | cm |
 | `snow_depth` | Aktuelle Schneehöhe am Boden | cm |
 | `cloudcover` | Bewölkung | % |
@@ -225,7 +226,7 @@ Der Adapter legt Datenpunkte unter `openmeteo-notify.<instanz>.<standort>` an.
 
 ### Stundenwerte (`day1.hourly.h00` … `h23`)
 
-Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schneefall, Schneehöhe, Schneefallgrenze, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, UV-Index, Gefriergrenze, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
+Temperatur, gefühlte Temperatur, Niederschlag, Regen, Schauer, Schneefall, Schneehöhe, Schneefallgrenze, Regenwahrscheinlichkeit, Bewölkung, Luftfeuchtigkeit, Taupunkt, Luftdruck, Sichtweite, Tag/Nacht, Windgeschwindigkeit, Windrichtung (Text/Emoji/Icon), Beaufort, UV-Index, Gefriergrenze, Wettercode, Icon/Icon-URL, Beschreibung, `is_storm`/`is_thunderstorm`.
 
 Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 
@@ -236,6 +237,18 @@ Optional pro Stunde (wenn Gruppe aktiviert + „auch stündlich"):
 | `hXX.agriculture` | solar_radiation (W/m²), CAPE (J/kg), soil_temp (°C/°F), irradiance = Globalstrahlung auf geneigter Fläche (W/m²), lifted_index (K) |
 | `hXX.comfort` | heat_index, windchill, humidex, humidex_level, uv_index, uv_level |
 | `hXX.pollen` | Erle … Ambrosia + Textstufe (Keine/Niedrig/Mittel/Hoch) |
+
+### 15-Minuten-Vorhersage (`minutely`, optional)
+
+Einschalten unter *Einstellungen → 15-Minuten-Vorhersage*, mit eigenem Abrufintervall (15/30/60 Min.) und Zeitraum (1–4 Stunden).
+
+| Datenpunkt | Beschreibung | Einheit |
+|-----------|-------------|------|
+| `minutely.m00` … `m15` | Ein Kanal pro 15 Minuten ab jetzt: `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.rain_starts_in` | Minuten bis Niederschlag (ab der Schwelle) einsetzt – 0 = jetzt, leer = nicht im Zeitraum | min |
+| `minutely.rain_ends_at` | Uhrzeit, zu der der aktuelle Niederschlag endet – leer, wenn es nicht regnet oder über den Zeitraum hinaus | |
+
+Optionale Benachrichtigung „Niederschlag beginnt bald“ (Vorlaufzeit und Schwelle einstellbar), einmal pro Niederschlagsphase.
 
 ### Amtliche Warnungen (`warnings`)
 
@@ -290,6 +303,8 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 -->
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
+* (ipod86) feat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“
+* (ipod86) feat: Schauer (konvektiver Niederschlag) auch aktuell und stündlich
 
 ### 0.3.1 (2026-10-21)
 * (ipod86) fix: deutlich kleinere Widget-Datenpunkte – mitgelieferte Icons werden über ihren Pfad geladen statt als Base64 eingebettet, eigene Icons nur noch einmal eingebettet, kleinere basmilius-/Mond-PNGs (detailliertes Widget z. B. 841 KB → 83 KB)

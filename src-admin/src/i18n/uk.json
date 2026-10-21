@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Телефон вертикально",
 	"wallpaperInfoSection": "Інформаційна панель (місце/температура/вітер)",
 	"wallpaperTimeSection": "Час",
-	"wallpaperOverlapHint": "Той самий кут, що й інформаційна панель - вони накладатимуться."
+	"wallpaperOverlapHint": "Той самий кут, що й інформаційна панель - вони накладатимуться.",
+	"minutelyTitle": "Прогноз на 15 хвилин",
+	"minutelyEnabled": "Увімкнути прогноз на 15 хвилин",
+	"minutelyInterval": "Інтервал запиту",
+	"minutelyHours": "Період",
+	"minutelyHoursUnit": "год",
+	"minutelyNotify": "Сповіщення «незабаром опади»",
+	"minutelyNotifyLead": "Час попередження",
+	"minutelyNotifyThreshold": "Поріг (мм за 15 хв)",
+	"minutelyHelp": "Завантажує значення з кроком 15 хвилин на найближчі 1–4 години (опади, дощ, зливи, сніг, ймовірність, температура, пориви) в <location>.minutely, а також rain_starts_in і rain_ends_at. Окремий невеликий запит із власним інтервалом.",
+	"minutelyNotifyHelp": "Сповіщає один раз за період опадів, коли опади вище порогу почнуться в межах часу попередження. Якщо вже йде дощ, сповіщення немає."
 }

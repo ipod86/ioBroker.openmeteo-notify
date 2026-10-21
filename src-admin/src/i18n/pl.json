@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Telefon pionowo",
 	"wallpaperInfoSection": "Panel informacyjny (lokalizacja/temperatura/wiatr)",
 	"wallpaperTimeSection": "Godzina",
-	"wallpaperOverlapHint": "Ten sam róg co panel informacyjny - będą się nakładać."
+	"wallpaperOverlapHint": "Ten sam róg co panel informacyjny - będą się nakładać.",
+	"minutelyTitle": "Prognoza 15-minutowa",
+	"minutelyEnabled": "Włącz prognozę 15-minutową",
+	"minutelyInterval": "Interwał pobierania",
+	"minutelyHours": "Okres",
+	"minutelyHoursUnit": "godz.",
+	"minutelyNotify": "Powiadomienie „wkrótce opady”",
+	"minutelyNotifyLead": "Wyprzedzenie",
+	"minutelyNotifyThreshold": "Próg (mm na 15 min)",
+	"minutelyHelp": "Pobiera wartości w krokach 15-minutowych na najbliższe 1–4 godziny (opady, deszcz, przelotne opady, śnieg, prawdopodobieństwo, temperatura, porywy) w <location>.minutely oraz rain_starts_in i rain_ends_at. Osobne małe zapytanie z własnym interwałem.",
+	"minutelyNotifyHelp": "Powiadamia raz na okres opadów, gdy opady powyżej progu zaczną się w czasie wyprzedzenia. Brak powiadomienia, jeśli już pada."
 }

@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Smartphone hoch",
 	"wallpaperInfoSection": "Info-Anzeige (Ort/Temperatur/Wind)",
 	"wallpaperTimeSection": "Uhrzeit",
-	"wallpaperOverlapHint": "Gleiche Ecke wie die Info-Anzeige - die beiden überlappen sich."
+	"wallpaperOverlapHint": "Gleiche Ecke wie die Info-Anzeige - die beiden überlappen sich.",
+	"minutelyTitle": "15-Minuten-Vorhersage",
+	"minutelyEnabled": "15-Minuten-Vorhersage aktivieren",
+	"minutelyInterval": "Abrufintervall",
+	"minutelyHours": "Zeitraum",
+	"minutelyHoursUnit": "Stunden",
+	"minutelyNotify": "Benachrichtigung „Niederschlag beginnt bald“",
+	"minutelyNotifyLead": "Vorlaufzeit",
+	"minutelyNotifyThreshold": "Schwelle (mm pro 15 Min.)",
+	"minutelyHelp": "Holt für die nächsten 1–4 Stunden Werte in 15-Minuten-Schritten (Niederschlag, Regen, Schauer, Schnee, Wahrscheinlichkeit, Temperatur, Böen) unter <ort>.minutely sowie rain_starts_in und rain_ends_at. Eigener, kleiner Abruf mit eigenem Intervall.",
+	"minutelyNotifyHelp": "Meldet einmal pro Niederschlagsphase, wenn innerhalb der Vorlaufzeit Niederschlag ab der Schwelle beginnt. Regnet es bereits, gibt es keine Meldung."
 }

@@ -64,6 +64,12 @@ export interface OpenMeteoConfig {
 	iconSet: "wmo" | "basmilius" | "basmilius_animated" | "amcharts_animated" | "amcharts_static" | "custom";
 	updateInterval: number;
 	liveUpdateMinutes: number; // 0 = deaktiviert; schneller Takt fuer nur current.* + Wallpaper
+	minutelyEnabled: boolean; // 15-Minuten-Vorhersage (minutely_15)
+	minutelyInterval: number; // 15 | 30 | 60 Minuten
+	minutelyHours: number; // 1-4 Stunden
+	minutelyNotify: boolean;
+	minutelyNotifyLead: number; // Minuten
+	minutelyNotifyThreshold: number; // mm pro 15 Minuten
 	enableAirQuality: boolean;
 	enableAirQualityHourly: boolean;
 	enableAstronomy: boolean;

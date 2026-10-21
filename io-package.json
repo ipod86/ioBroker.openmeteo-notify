@@ -179,6 +179,12 @@
     "iconSet": "basmilius",
     "updateInterval": 60,
     "liveUpdateMinutes": 0,
+    "minutelyEnabled": false,
+    "minutelyInterval": 15,
+    "minutelyHours": 4,
+    "minutelyNotify": false,
+    "minutelyNotifyLead": 30,
+    "minutelyNotifyThreshold": 0.1,
     "enableAirQuality": true,
     "enableAirQualityHourly": false,
     "enableAstronomy": true,
@@ -348,6 +354,38 @@
             "pl": "Ostrzeżenie gdy temperatura spada poniżej skonfigurowanego progu mrozu",
             "uk": "Попередження коли температура опускається нижче налаштованого порогу",
             "zh-cn": "当温度预计降至配置的霜冻阈值以下时发出警告"
+          },
+          "regex": [],
+          "limit": 10
+        },
+        {
+          "category": "precipitation_soon",
+          "name": {
+            "en": "Precipitation soon",
+            "de": "Niederschlag in Kürze",
+            "ru": "Скоро осадки",
+            "pt": "Precipitação em breve",
+            "nl": "Binnenkort neerslag",
+            "fr": "Précipitations imminentes",
+            "it": "Precipitazioni a breve",
+            "es": "Precipitación pronto",
+            "pl": "Wkrótce opady",
+            "uk": "Незабаром опади",
+            "zh-cn": "即将降水"
+          },
+          "severity": "notify",
+          "description": {
+            "en": "Notification when precipitation is expected to start soon (15-minute forecast)",
+            "de": "Benachrichtigung, wenn in Kürze Niederschlag einsetzt (15-Minuten-Vorhersage)",
+            "ru": "Уведомление о скором начале осадков (15-минутный прогноз)",
+            "pt": "Notificação quando a precipitação deve começar em breve (previsão de 15 minutos)",
+            "nl": "Melding wanneer er binnenkort neerslag wordt verwacht (15-minutenverwachting)",
+            "fr": "Notification lorsque des précipitations sont attendues sous peu (prévision à 15 minutes)",
+            "it": "Notifica quando sono previste precipitazioni a breve (previsione a 15 minuti)",
+            "es": "Notificación cuando se espera que comience a llover pronto (previsión de 15 minutos)",
+            "pl": "Powiadomienie, gdy wkrótce spodziewane są opady (prognoza 15-minutowa)",
+            "uk": "Сповіщення, коли незабаром очікуються опади (15-хвилинний прогноз)",
+            "zh-cn": "即将开始降水时发出通知（15分钟预报）"
           },
           "regex": [],
           "limit": 10

@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Phone portrait",
 	"wallpaperInfoSection": "Info display (location/temperature/wind)",
 	"wallpaperTimeSection": "Time",
-	"wallpaperOverlapHint": "Same corner as the info display - they will overlap."
+	"wallpaperOverlapHint": "Same corner as the info display - they will overlap.",
+	"minutelyTitle": "15-minute forecast",
+	"minutelyEnabled": "Enable 15-minute forecast",
+	"minutelyInterval": "Fetch interval",
+	"minutelyHours": "Time range",
+	"minutelyHoursUnit": "hours",
+	"minutelyNotify": "Notification “precipitation starts soon”",
+	"minutelyNotifyLead": "Lead time",
+	"minutelyNotifyThreshold": "Threshold (mm per 15 min)",
+	"minutelyHelp": "Fetches values in 15-minute steps for the next 1–4 hours (precipitation, rain, showers, snow, probability, temperature, gusts) under <location>.minutely plus rain_starts_in and rain_ends_at. Separate small request with its own interval.",
+	"minutelyNotifyHelp": "Notifies once per precipitation spell when precipitation above the threshold starts within the lead time. No notification if it is already raining."
 }

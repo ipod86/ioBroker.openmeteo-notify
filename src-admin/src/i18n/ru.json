@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Телефон вертикально",
 	"wallpaperInfoSection": "Информационная панель (место/температура/ветер)",
 	"wallpaperTimeSection": "Время",
-	"wallpaperOverlapHint": "Тот же угол, что и информационная панель - они будут перекрываться."
+	"wallpaperOverlapHint": "Тот же угол, что и информационная панель - они будут перекрываться.",
+	"minutelyTitle": "Прогноз на 15 минут",
+	"minutelyEnabled": "Включить прогноз на 15 минут",
+	"minutelyInterval": "Интервал запроса",
+	"minutelyHours": "Период",
+	"minutelyHoursUnit": "часа",
+	"minutelyNotify": "Уведомление «скоро осадки»",
+	"minutelyNotifyLead": "Время упреждения",
+	"minutelyNotifyThreshold": "Порог (мм за 15 мин)",
+	"minutelyHelp": "Загружает значения с шагом 15 минут на ближайшие 1–4 часа (осадки, дождь, ливни, снег, вероятность, температура, порывы) в <location>.minutely, а также rain_starts_in и rain_ends_at. Отдельный небольшой запрос со своим интервалом.",
+	"minutelyNotifyHelp": "Уведомляет один раз за период осадков, если осадки выше порога начнутся в пределах времени упреждения. Если дождь уже идёт, уведомления нет."
 }

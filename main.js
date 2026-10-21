@@ -1206,6 +1206,9 @@ class Openmeteo extends utils.Adapter {
 		this.consecutiveFailures = 0;
 		this.warnState = {};
 		this._recentNotifications = new Map();
+		// 15-minute forecast: per location, whether "precipitation soon" was already announced
+		// for the current wet spell (reset once the window is dry again)
+		this._minutelyNotified = new Map();
 		this._notifyHistory = [];
 		this.customNightIcons = new Set();
 		this._locationInfo = {};
@@ -1535,6 +1538,28 @@ class Openmeteo extends utils.Adapter {
 				liveUpdateMinutes * 60 * 1000,
 			);
 		}
+
+		// Optional 15-minute forecast (minutely_15) with its own, aligned interval
+		if (this.config.minutelyEnabled) {
+			const minutelyMs = [15, 30, 60].includes(this.config.minutelyInterval)
+				? this.config.minutelyInterval * 60 * 1000
+				: 15 * 60 * 1000;
+			const msUntilNextMinutely = () => {
+				const now = new Date();
+				const localMs =
+					(now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()) * 1000 + now.getMilliseconds();
+				const remaining = minutelyMs - (localMs % minutelyMs);
+				return remaining < 10000 ? remaining + minutelyMs : remaining;
+			};
+			const scheduleNextMinutely = async () => {
+				await this.runMinutelyUpdate();
+				this.minutelyTimeout = this.setTimeout(scheduleNextMinutely, msUntilNextMinutely() + this._jitterMs);
+			};
+			await this.runMinutelyUpdate();
+			this.minutelyTimeout = this.setTimeout(scheduleNextMinutely, msUntilNextMinutely() + this._jitterMs);
+		} else {
+			await this.removeMinutelyStates();
+		}
 	}
 
 	/**
@@ -1702,6 +1727,258 @@ class Openmeteo extends utils.Adapter {
 				this.log.debug(`Live-Update fuer ${locId} fehlgeschlagen: ${e.message}`);
 			}
 		}
+	}
+
+	/**
+	 * Removes the minutely channels of all locations (15-minute forecast disabled).
+	 */
+	async removeMinutelyStates() {
+		for (const loc of this.config.locations || []) {
+			const locId = normalizeId(loc.name);
+			if (!locId) {
+				continue;
+			}
+			try {
+				if (await this.getObjectAsync(`${locId}.minutely`)) {
+					await this.delObjectAsync(`${locId}.minutely`, { recursive: true });
+				}
+			} catch {
+				/* ok */
+			}
+		}
+	}
+
+	/**
+	 * 15-minute forecast (Open-Meteo minutely_15) for the next 1-4 hours: one channel per slot,
+	 * plus when precipitation starts / ends and an optional "precipitation soon" notification.
+	 */
+	async runMinutelyUpdate() {
+		const locations = this.config.locations;
+		if (!Array.isArray(locations) || locations.length === 0) {
+			return;
+		}
+		const temperatureUnit = this.config.temperatureUnit || "celsius";
+		const windspeedUnit = this.config.windspeedUnit || "kmh";
+		const precipitationUnit = this.config.precipitationUnit || "mm";
+		const tempUnit = temperatureUnit === "fahrenheit" ? "°F" : "°C";
+		const windUnit =
+			windspeedUnit === "ms" ? "m/s" : windspeedUnit === "mph" ? "mph" : windspeedUnit === "kn" ? "kn" : "km/h";
+		const precipUnit = precipitationUnit === "inch" ? "inch" : "mm";
+		const slots = Math.min(Math.max(1, Number(this.config.minutelyHours) || 4), 4) * 4;
+		// threshold is configured in mm; convert for inch
+		const thresholdMm = Math.max(0.01, Number(this.config.minutelyNotifyThreshold) || 0.1);
+		const threshold = precipUnit === "inch" ? thresholdMm / 25.4 : thresholdMm;
+		const leadMin = Math.min(Math.max(15, Number(this.config.minutelyNotifyLead) || 30), 240);
+		const sysConfig = await this.getForeignObjectAsync("system.config");
+		const timezone = sysConfig?.common?.timezone || "auto";
+		const lang = String(this._systemLang || "en").toLowerCase();
+		const warnT = I18N_WARNINGS[lang] || I18N_WARNINGS[lang.split("-")[0]] || I18N_WARNINGS.en;
+
+		for (const loc of locations) {
+			const locId = normalizeId(loc.name);
+			if (!locId) {
+				continue;
+			}
+			let data;
+			try {
+				data = await this.fetchMinutely(
+					loc.lat,
+					loc.lon,
+					temperatureUnit,
+					windspeedUnit,
+					precipitationUnit,
+					timezone,
+					slots,
+				);
+			} catch (e) {
+				this.log.warn(`15-minute forecast for "${loc.name}" failed: ${e.message}`);
+				continue;
+			}
+			const m = data && data.minutely_15;
+			if (!m || !Array.isArray(m.time)) {
+				continue;
+			}
+			const offsetMs = (Number(data.utc_offset_seconds) || 0) * 1000;
+			const startMs = t => Date.parse(`${t}Z`) - offsetMs;
+			const val = (key, i) => (Array.isArray(m[key]) && m[key][i] !== undefined ? m[key][i] : null);
+			const base = `${locId}.minutely`;
+			await this.setObjectNotExistsAsync(base, {
+				type: "channel",
+				common: { name: "15-minute forecast" },
+				native: {},
+			});
+			const count = Math.min(slots, m.time.length);
+			for (let i = 0; i < count; i++) {
+				const p = `${base}.m${String(i).padStart(2, "0")}`;
+				await this.setObjectNotExistsAsync(p, {
+					type: "channel",
+					common: { name: `+${i * 15} min` },
+					native: {},
+				});
+				await this.setDP(`${p}.time`, m.time[i], { name: "Start time", type: "string", role: "date" });
+				await this.setDP(`${p}.precipitation`, val("precipitation", i), {
+					name: "Precipitation",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation",
+				});
+				await this.setDP(`${p}.rain`, val("rain", i), {
+					name: "Rain",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation",
+				});
+				await this.setDP(`${p}.showers`, val("showers", i), {
+					name: "Showers",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation",
+				});
+				await this.setDP(`${p}.snowfall`, val("snowfall", i), {
+					name: "Snowfall",
+					type: "number",
+					unit: "cm",
+					role: "value.snow",
+				});
+				await this.setDP(`${p}.precipitation_probability`, val("precipitation_probability", i), {
+					name: "Precipitation probability",
+					type: "number",
+					unit: "%",
+					role: "value.precipitation.chance",
+				});
+				await this.setDP(`${p}.weathercode`, val("weathercode", i), {
+					name: "Weather code",
+					type: "number",
+					role: "value",
+				});
+				await this.setDP(`${p}.temperature`, val("temperature_2m", i), {
+					name: "Temperature",
+					type: "number",
+					unit: tempUnit,
+					role: "value.temperature",
+				});
+				await this.setDP(`${p}.windgusts`, val("windgusts_10m", i), {
+					name: "Wind gusts",
+					type: "number",
+					unit: windUnit,
+					role: "value.speed.wind.gust",
+				});
+			}
+			// fewer slots configured than before: remove the surplus channels
+			for (let i = count; i < 16; i++) {
+				const p = `${base}.m${String(i).padStart(2, "0")}`;
+				try {
+					if (await this.getObjectAsync(p)) {
+						await this.delObjectAsync(p, { recursive: true });
+					}
+				} catch {
+					/* ok */
+				}
+			}
+
+			// precipitation start / end within the window
+			const wet = i => (Number(val("precipitation", i)) || 0) >= threshold;
+			const now = Date.now();
+			let first = -1;
+			for (let i = 0; i < count; i++) {
+				if (wet(i)) {
+					first = i;
+					break;
+				}
+			}
+			const startsIn = first < 0 ? null : Math.max(0, Math.round((startMs(m.time[first]) - now) / 60000));
+			let endsAt = "";
+			if (first === 0) {
+				for (let i = 1; i < count; i++) {
+					if (!wet(i)) {
+						endsAt = String(m.time[i]).slice(11, 16);
+						break;
+					}
+				}
+			}
+			await this.setDP(`${base}.rain_starts_in`, startsIn, {
+				name: "Precipitation starts in (0 = now, empty = not within the window)",
+				type: "number",
+				unit: "min",
+				role: "value",
+			});
+			await this.setDP(`${base}.rain_ends_at`, endsAt, {
+				name: "Precipitation ends at (empty = not raining or not within the window)",
+				type: "string",
+				role: "text",
+			});
+
+			// notification: once per wet spell, when it starts within the lead time (not if it already rains)
+			if (first < 0) {
+				this._minutelyNotified.delete(locId);
+			} else if (
+				this.config.minutelyNotify &&
+				startsIn !== null &&
+				startsIn > 0 &&
+				startsIn <= leadMin &&
+				!this._minutelyNotified.get(locId)
+			) {
+				let amount = 0;
+				for (let i = first; i < count && wet(i); i++) {
+					amount += Number(val("precipitation", i)) || 0;
+				}
+				const amountText = `${Math.round(amount * 10) / 10} ${precipUnit}`;
+				await this._sendNotification(
+					"precipitation_soon",
+					warnT.precipSoon(loc.name, startsIn, String(m.time[first]).slice(11, 16), amountText),
+				);
+				this._minutelyNotified.set(locId, true);
+			}
+		}
+	}
+
+	/**
+	 * Open-Meteo 15-minute forecast for the next slots (each slot = 15 minutes)
+	 *
+	 * @param {number} lat - latitude
+	 * @param {number} lon - longitude
+	 * @param {string} temperatureUnit - "celsius" or "fahrenheit"
+	 * @param {string} windspeedUnit - "kmh", "ms", "mph" or "kn"
+	 * @param {string} precipitationUnit - "mm" or "inch"
+	 * @param {string} timezone - e.g. "Europe/Berlin" or "auto"
+	 * @param {number} slots - number of 15-minute slots (max. 16)
+	 * @returns {Promise<any>} parsed response (minutely_15, utc_offset_seconds)
+	 */
+	fetchMinutely(lat, lon, temperatureUnit, windspeedUnit, precipitationUnit, timezone, slots) {
+		const url =
+			`https://api.open-meteo.com/v1/forecast` +
+			`?latitude=${lat}&longitude=${lon}` +
+			`&minutely_15=precipitation,rain,showers,snowfall,precipitation_probability,weathercode,temperature_2m,windgusts_10m` +
+			`&forecast_minutely_15=${slots}` +
+			`&timezone=${encodeURIComponent(timezone)}` +
+			`&temperature_unit=${temperatureUnit}` +
+			`&windspeed_unit=${windspeedUnit}` +
+			`&precipitation_unit=${precipitationUnit}`;
+		return new Promise((resolve, reject) => {
+			const req = https.get(url, { timeout: 15000 }, res => {
+				let raw = "";
+				res.on("data", c => (raw += c));
+				res.on("end", () => {
+					if (res.statusCode && res.statusCode >= 400) {
+						let reason = raw;
+						try {
+							reason = JSON.parse(raw)?.reason || raw;
+						} catch {
+							/* ignore */
+						}
+						reject(new Error(`HTTP ${res.statusCode}: ${reason}`));
+						return;
+					}
+					try {
+						resolve(JSON.parse(raw));
+					} catch (e) {
+						reject(e);
+					}
+				});
+			});
+			req.on("timeout", () => req.destroy(new Error("Request timed out")));
+			req.on("error", reject);
+		});
 	}
 
 	/**
@@ -3116,11 +3393,12 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				`,precipitation,weathercode,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
 				`,rain,snowfall,snow_depth,snowfall_height,freezing_level_height,uv_index` +
-				`,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance` +
+				`,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance,showers` +
 				`&current=temperature_2m,apparent_temperature,precipitation,weathercode` +
 				`,windspeed_10m,windgusts_10m,winddirection_10m,cloudcover` +
 				`,relative_humidity_2m,dew_point_2m,pressure_msl,visibility,is_day` +
 				`,rain,snowfall,snow_depth,shortwave_radiation,cape,lifted_index,soil_temperature_0cm,global_tilted_irradiance,uv_index` +
+				`,showers` +
 				`&timezone=${encodeURIComponent(timezone)}&forecast_days=${daysCount}` +
 				`&temperature_unit=${temperatureUnit}` +
 				`&windspeed_unit=${windspeedUnit}` +
@@ -4062,6 +4340,14 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				unit: precipUnit,
 				role: "value.precipitation.hour",
 			});
+			if (cur.showers !== undefined) {
+				await this.setDP(`${locId}.current.showers`, cur.showers, {
+					name: "Showers",
+					type: "number",
+					unit: precipUnit,
+					role: "value.precipitation.hour",
+				});
+			}
 			await this.setDP(`${locId}.current.snowfall`, cur.snowfall, {
 				name: "Snowfall",
 				type: "number",
@@ -4321,6 +4607,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 				visibility: h.visibility[i],
 				is_day: h.is_day[i] === 1,
 				rain: h.rain[i],
+				showers: h.showers ? h.showers[i] : null,
 				snowfall: h.snowfall[i],
 				snow_depth: Math.round(h.snow_depth[i] * 100),
 				snowfall_height:
@@ -5081,6 +5368,14 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 						unit: precipUnit,
 						role: "value.precipitation.hour",
 					});
+					if (hData.showers !== null && hData.showers !== undefined) {
+						await this.setDP(`${hPath}.showers`, hData.showers, {
+							name: "Showers",
+							type: "number",
+							unit: precipUnit,
+							role: "value.precipitation.hour",
+						});
+					}
 					await this.setDP(`${hPath}.snowfall`, hData.snowfall, {
 						name: "Snowfall",
 						type: "number",
@@ -5729,6 +6024,9 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			}
 			if (this.liveUpdateInterval) {
 				this.clearInterval(this.liveUpdateInterval);
+			}
+			if (this.minutelyTimeout) {
+				this.clearTimeout(this.minutelyTimeout);
 			}
 			callback();
 		} catch (error) {

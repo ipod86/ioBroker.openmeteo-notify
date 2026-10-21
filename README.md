@@ -149,6 +149,7 @@ The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 | `icon_url` | Weather icon URL (icon set selectable in settings) | |
 | `precipitation` | Total precipitation last hour | mm/inch |
 | `rain` | Rain amount last hour | mm/inch |
+| `showers` | Shower-type (convective) precipitation last hour | mm/inch |
 | `snowfall` | Snowfall last hour | cm |
 | `snow_depth` | Current snow depth on the ground | cm |
 | `cloudcover` | Cloud cover | % |
@@ -222,7 +223,7 @@ The adapter creates data points under `openmeteo-notify.<instance>.<location>`.
 
 ### Hourly values (`day1.hourly.h00` … `h23`)
 
-Temperature, feels-like, precipitation, rain, snowfall, snow depth, snowfall height, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, UV index, freezing level height, weather code, icon/icon_url, description.
+Temperature, feels-like, precipitation, rain, showers, snowfall, snow depth, snowfall height, rain probability, cloud cover, humidity, dew point, pressure, visibility, is_day, wind speed, wind direction (text/emoji/icon), Beaufort, UV index, freezing level height, weather code, icon/icon_url, description.
 
 Optional per hour (if enabled + "also hourly"):
 
@@ -233,6 +234,18 @@ Optional per hour (if enabled + "also hourly"):
 | `hXX.agriculture` | solar_radiation (W/m²), CAPE (J/kg), soil_temp (°C/°F), irradiance = global tilted irradiance on a flat surface (W/m²), lifted_index (K) |
 | `hXX.comfort` | heat_index, windchill, humidex, humidex_level, uv_index, uv_level |
 | `hXX.pollen` | alder … ragweed + level text (Keine/Niedrig/Mittel/Hoch) |
+
+### 15-minute forecast (`minutely`, optional)
+
+Enabled under *Settings → 15-minute forecast* with its own fetch interval (15/30/60 min) and range (1–4 hours).
+
+| Data point | Description | Unit |
+|-----------|-------------|------|
+| `minutely.m00` … `m15` | One channel per 15 minutes from now: `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts` | |
+| `minutely.rain_starts_in` | Minutes until precipitation (above the threshold) starts – 0 = now, empty = not within the range | min |
+| `minutely.rain_ends_at` | Time when the current precipitation ends – empty if it is not raining or it lasts beyond the range | |
+
+Optional notification "precipitation starts soon" (lead time and threshold configurable), once per precipitation spell.
 
 ### Official warnings (`warnings`)
 
@@ -286,6 +299,8 @@ This adapter is an independent community project and is not affiliated with or e
 -->
 ### **WORK IN PROGRESS**
 * (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
+* (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
+* (ipod86) feat: showers (convective precipitation) also current and hourly
 
 ### 0.3.1 (2026-10-21)
 * (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)

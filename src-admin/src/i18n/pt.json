@@ -163,5 +163,15 @@
 	"wallpaperResPhonePortrait": "Celular retrato",
 	"wallpaperInfoSection": "Painel de informações (local/temperatura/vento)",
 	"wallpaperTimeSection": "Hora",
-	"wallpaperOverlapHint": "Mesmo canto do painel de informações - eles vão se sobrepor."
+	"wallpaperOverlapHint": "Mesmo canto do painel de informações - eles vão se sobrepor.",
+	"minutelyTitle": "Previsão de 15 minutos",
+	"minutelyEnabled": "Ativar previsão de 15 minutos",
+	"minutelyInterval": "Intervalo de consulta",
+	"minutelyHours": "Período",
+	"minutelyHoursUnit": "horas",
+	"minutelyNotify": "Notificação “precipitação em breve”",
+	"minutelyNotifyLead": "Antecedência",
+	"minutelyNotifyThreshold": "Limite (mm por 15 min)",
+	"minutelyHelp": "Obtém valores em passos de 15 minutos para as próximas 1–4 horas (precipitação, chuva, aguaceiros, neve, probabilidade, temperatura, rajadas) em <location>.minutely, além de rain_starts_in e rain_ends_at. Consulta pequena separada com intervalo próprio.",
+	"minutelyNotifyHelp": "Notifica uma vez por episódio de precipitação quando a precipitação acima do limite começa dentro da antecedência. Sem notificação se já estiver a chover."
 }
