@@ -2435,9 +2435,8 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 	/**
 	 * Returns a resolver for icon URLs in widgets. Built-in icons keep their relative path
-	 * /adapter/openmeteo-notify/… – it is served by the web adapter (vis, vis-2, Jarvis, iQontrol …)
-	 * and by the Lovelace server, cached by the browser and keeps the widget small. Custom icons
-	 * (/files/openmeteo-notify.0/…) are not served by Lovelace and are embedded as data URLs.
+	 * /adapter/openmeteo-notify/…, which the ioBroker web servers deliver – the browser caches it
+	 * and the widget stays small. Custom icons (/files/…) are embedded as data URLs.
 	 *
 	 * @returns {(url: string) => Promise<string>} resolver
 	 */

@@ -20,7 +20,7 @@ This adapter retrieves weather forecast data from the free [Open-Meteo API](http
 The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). All notification targets (Telegram, email, Pushover, …) are configured centrally via the **ioBroker notification manager** — no per-adapter setup required.
 
 ### Configurable HTML widget
-The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings. Built-in icons are loaded via the relative path `/adapter/openmeteo-notify/…`, which the web adapter and the Lovelace server deliver; only custom icons are embedded in the data point.
+The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
 
 **Chart variant:** besides *simple* and *detailed* there is a *chart* widget modelled on the Home Assistant weather-forecast-card:
 - current weather with details (feels like, humidity, wind, pressure, visibility, UV, sunrise/sunset)
