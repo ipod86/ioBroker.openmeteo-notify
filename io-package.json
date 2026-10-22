@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmeteo-notify",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "news": {
+      "0.4.1": {
+        "en": "feat: short-range forecast in all widgets (text line, precipitation strip, \"15 min\" chart view) and as `minutely.text` – widget size unchanged",
+        "de": "feat: Kurzfristvorhersage in allen Widgets (Textzeile, Niederschlagsstreifen, Diagramm-Ansicht „15 Min.“) und als `minutely.text` – Widget-Größe unverändert",
+        "ru": "feat: краткосрочный прогноз во всех виджетах (текстовая строка, полоса осадков, просмотр графика «15 минут») и в виде `minutely.text` — размер виджета без изменений",
+        "pt": "feat: previsão de curto prazo em todos os widgets (linha de texto, faixa de precipitação, gráfico de “15 min”) e como `minuto.text` — tamanho do widget",
+        "nl": "prestatie: voorspelling op korte termijn in alle widgets (tekstregel, neerslagstrook, kaartweergave „15 min”) en als `minutely.text` — grootte van de widget is ongewijzigd",
+        "fr": "exploit : prévisions à court terme dans tous les widgets (ligne de texte, bande de précipitations, graphique « 15 min ») et sous forme de « minutely.text » — taille du widget inchangée",
+        "it": "feat: previsioni a breve termine in tutti i widget (riga di testo, griglia «15 min») e come `minutely.text` — dimensioni invariate",
+        "es": "hazaña: previsión a corto plazo en todos los widgets (línea de texto, franja de precipitaciones, gráfico de «15 minutos») y como texto minucioso: el tamaño del widget no cambia",
+        "pl": "feat: prognoza krótkiego zasięgu we wszystkich widżetach (linia tekstowa, pasek opadów, widok wykresu „15 min”) i jako `minutely.text` — rozmiar widżetu bez zmian",
+        "uk": "feat: прогноз короткого діапазону у всіх віджетах (текстовий рядок, смуга опадів, перегляд діаграми «15 хв») та як `minutely.text` - розмір віджета незмінний",
+        "zh-cn": "壮举：所有控件（文本行、降水条、“15 分钟” 图表视图）和 “minutely.text” 中的短期预报——控件大小保持不变"
+      },
       "0.4.0": {
         "en": "fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day\nfeat: optional 15-minute forecast for the next 1–4 hours with its own interval and \"precipitation starts soon\" notification\nfix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)\nfix: wallpaper URL data points of removed web instances are deleted\nfeat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast",
         "de": "fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet\nfeat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“\nfix: Mondauf-/-untergang in Ortszeit wie Sonnenauf-/-untergang (vorher UTC)\nfix: Wallpaper-URL-Datenpunkte entfernter Web-Instanzen werden gelöscht\nfeat: Schauer (konvektiver Niederschlag) auch aktuell und stündlich; Sonnenminuten pro Stunde; Gewitterpotenzial in der 15-Minuten-Vorhersage",
@@ -80,19 +93,6 @@
         "pl": "naprawiono: zmienne przysłaniające w fetchDwdWarnings powodowały, że każde oficjalne żądanie ostrzeżenia DWD kończyło się niepowodzeniem z komunikatem „Nie można uzyskać dostępu do „raw” przed inicjalizacją”, co powodowało ciche zamrożenie odpowiednich stanów ostrzegawczych\nnaprawiono: zabezpiecz oficjalną aktualizację ostrzegawczą przed pojedynczym zawieszonym żądaniem, które na stałe wstrzymuje powtarzający się harmonogram",
         "uk": "виправлення: змінне затінення у fetchDwdWarnings призводило до того, що кожен офіційний запит на попередження DWD завершувався невдачею з повідомленням \"Неможливо отримати доступ до 'raw' перед ініціалізацією\", що непомітно заморожувало відповідні стани попередження.\nвиправлення: захист офіційного попереджувального оновлення від зависання одного запиту, що назавжди зупиняє повторюваний розклад.",
         "zh-cn": "修复：fetchDwdWarnings 中的变量遮蔽导致所有 DWD 官方警告请求均失败，并显示“初始化前无法访问 'raw'”错误，从而静默地冻结了受影响的警告状态。\n修复：防止单个挂起的请求永久性地导致官方警告更新周期停止"
-      },
-      "0.1.15": {
-        "en": "fix: sanitize widget.id through normalizeId before use as ioBroker object ID path",
-        "de": "Behebung: Die widget.id wird vor der Verwendung als ioBroker-Objekt-ID-Pfad mittels normalizeId bereinigt.",
-        "ru": "Исправление: необходимо проверить widget.id с помощью normalizeId перед использованием в качестве пути к идентификатору объекта ioBroker.",
-        "pt": "Correção: sanitizar widget.id através de normalizeId antes de usar como caminho de ID do objeto ioBroker",
-        "nl": "Oplossing: valideer widget.id via normalizeId voordat het wordt gebruikt als pad naar het ioBroker-object-ID.",
-        "fr": "Correction : nettoyer widget.id via normalizeId avant de l’utiliser comme chemin d’identification de l’objet ioBroker",
-        "it": "Correzione: sanifica widget.id tramite normalizeId prima di utilizzarlo come percorso ID oggetto ioBroker",
-        "es": "Corrección: sanitizar widget.id mediante normalizeId antes de usarlo como ruta de ID de objeto de ioBroker",
-        "pl": "naprawiono: oczyszczanie widget.id przez normalizeId przed użyciem jako ścieżka ID obiektu ioBroker",
-        "uk": "виправлення: очищено widget.id через normalizeId перед використанням як шляху ідентифікатора об'єкта ioBroker",
-        "zh-cn": "修复：在使用 widget.id 作为 ioBroker 对象 ID 路径之前，通过 normalizeId 对其进行清理。"
       }
     },
     "titleLang": {

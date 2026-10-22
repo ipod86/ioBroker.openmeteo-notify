@@ -100,6 +100,12 @@
 
 ### 0.0.1
 * Initial release
+## 0.2.0 (2026-09-08)
+* (ipod86) feat: add animated, per-location WMO weather wallpaper (canvas rain/snow/fog/lightning/sun/moon animation), self-updating via a companion JSON file (no REST API needed), with a dedicated admin config tab, an optional location carousel, an independent live-update interval and an official warning banner
+* (ipod86) feat: wallpaper sun/moon position and moon phase follow real astronomical data (SunCalc); rain/fog intensity and wind drift follow real weather data
+* (ipod86) feat: add day/night split for precipitation/thunderstorm probability, wind, rain and snowfall amount
+* (ipod86) fix: treat overlapping DWD warning time-shifts as an update instead of lift+new
+
 ## 0.1.16 (2026-08-17)
 * (ipod86) fix: variable shadowing in fetchDwdWarnings caused every DWD official warning request to fail with "Cannot access 'raw' before initialization", silently freezing the affected warning states
 * (ipod86) fix: guard the official warning update against a single hung request permanently stalling the recurring schedule
