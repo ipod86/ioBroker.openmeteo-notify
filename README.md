@@ -244,7 +244,7 @@ Enabled under *Settings → 15-minute forecast* with its own fetch interval (15/
 | `minutely.0min` … `225min` | One folder per quarter hour, named by the minutes from now (`0min` = now, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (Germany / Central Europe only) | |
 | `minutely.rain_starts_in` | Minutes until precipitation (above the threshold) starts – 0 = now, empty = not within the range | min |
 | `minutely.rain_ends_at` | Time when the current precipitation ends – empty if it is not raining or it lasts beyond the range | |
-| `minutely.text` | Short-range forecast as text in the system language, e.g. "Rain from 08:30 (in 45 min)", "Thunderstorm until about 09:00", "Dry until 11:45" | |
+| `minutely.text` | Short-range forecast as text in the system language, e.g. "Rain from 08:30 (in 45 min)", "Thunderstorm until about 09:00"; when it stays dry within the window, the hourly forecast is used: "Dry until about 15:00" or "No precipitation in sight" | |
 
 Optional notification "precipitation starts soon" (lead time and threshold configurable), once per precipitation spell.
 

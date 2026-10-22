@@ -1958,6 +1958,7 @@ class Openmeteo extends utils.Adapter {
 				threshold,
 				lang,
 				startsIn,
+				first < 0 ? await this.laterPrecipStart(locId, String(m.time[count - 1]), threshold) : null,
 			);
 			await this.setDP(`${base}.text`, nc ? nc.text : "", {
 				name: "Short-range forecast as text (e.g. rain from 08:30 (in 45 min))",
@@ -2025,7 +2026,49 @@ class Openmeteo extends utils.Adapter {
 			st && typeof st.val === "number" ? Math.max(1, st.val - Math.round((Date.now() - st.ts) / 60000)) : null;
 		const thresholdMm = Math.max(0.01, Number(this.config.minutelyNotifyThreshold) || 0.1);
 		const threshold = this.config.precipitationUnit === "inch" ? thresholdMm / 25.4 : thresholdMm;
-		return buildNowcast(slots, threshold, this._systemLang, startsIn);
+		const wetSlot = slots.some(x => x.prec >= threshold);
+		const laterStart =
+			!wetSlot && slots.length
+				? await this.laterPrecipStart(
+						locId,
+						`${slots[slots.length - 1].date}T${slots[slots.length - 1].time}`,
+						threshold,
+					)
+				: null;
+		return buildNowcast(slots, threshold, this._systemLang, startsIn, laterStart);
+	}
+
+	/**
+	 * First hour with precipitation after the 15-minute window, from the hourly forecast
+	 *
+	 * @param {string} locId - location id
+	 * @param {string} lastSlot - start of the last 15-minute slot "YYYY-MM-DDTHH:MM"
+	 * @param {number} threshold - precipitation per 15 min from which it counts (applied per hour)
+	 * @returns {Promise<string|null>} "HH:MM" or null if no precipitation within the hourly forecast
+	 */
+	async laterPrecipStart(locId, lastSlot, threshold) {
+		const gs = async id => (await this.getStateAsync(id))?.val ?? null;
+		const endDate = lastSlot.slice(0, 10);
+		const endHour = parseInt(lastSlot.slice(11, 13), 10);
+		for (let d = 0; d < 16; d++) {
+			const date = await gs(`${locId}.day${d}.date`);
+			if (!date) {
+				break;
+			}
+			if (date < endDate) {
+				continue;
+			}
+			for (let h = date === endDate ? endHour + 1 : 0; h < 24; h++) {
+				const prec = await gs(`${locId}.day${d}.hourly.h${String(h).padStart(2, "0")}.precipitation`);
+				if (prec === null) {
+					return null; // end of the hourly forecast
+				}
+				if (Number(prec) >= threshold) {
+					return `${String(h).padStart(2, "0")}:00`;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
