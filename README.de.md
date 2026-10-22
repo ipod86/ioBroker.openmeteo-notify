@@ -247,7 +247,7 @@ Einschalten unter *Einstellungen → 15-Minuten-Vorhersage*, mit eigenem Abrufin
 | `minutely.0min` … `225min` | Ein Ordner pro Viertelstunde, benannt nach den Minuten ab jetzt (`0min` = jetzt, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (nur Deutschland / Mitteleuropa) | |
 | `minutely.rain_starts_in` | Minuten bis Niederschlag (ab der Schwelle) einsetzt – 0 = jetzt, leer = nicht im Zeitraum | min |
 | `minutely.rain_ends_at` | Uhrzeit, zu der der aktuelle Niederschlag endet – leer, wenn es nicht regnet oder über den Zeitraum hinaus | |
-| `minutely.text` | Kurzfristvorhersage als Text in der Systemsprache, z. B. „Regen ab 08:30 (in 45 Min.)“, „Gewitter bis ca. 09:00“; bleibt es im Fenster trocken, wird die Stundenvorhersage genutzt: „Trocken bis ca. 15:00“ oder „Kein Niederschlag in Sicht“ | |
+| `minutely.text` | Kurzfristvorhersage als Text in der Systemsprache, z. B. „Regen ab 08:30 (in 45 Min.)“, „Gewitter bis ca. 09:00“; bleibt es im Fenster trocken, wird die Stundenvorhersage genutzt: „Regen ab ca. 15:00“ (bzw. Schnee / Gewitter) oder „Kein Niederschlag in Sicht“ | |
 
 Optionale Benachrichtigung „Niederschlag beginnt bald“ (Vorlaufzeit und Schwelle einstellbar), einmal pro Niederschlagsphase.
 

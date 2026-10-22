@@ -2027,7 +2027,7 @@ class Openmeteo extends utils.Adapter {
 		const thresholdMm = Math.max(0.01, Number(this.config.minutelyNotifyThreshold) || 0.1);
 		const threshold = this.config.precipitationUnit === "inch" ? thresholdMm / 25.4 : thresholdMm;
 		const wetSlot = slots.some(x => x.prec >= threshold);
-		const laterStart =
+		const later =
 			!wetSlot && slots.length
 				? await this.laterPrecipStart(
 						locId,
@@ -2035,7 +2035,7 @@ class Openmeteo extends utils.Adapter {
 						threshold,
 					)
 				: null;
-		return buildNowcast(slots, threshold, this._systemLang, startsIn, laterStart);
+		return buildNowcast(slots, threshold, this._systemLang, startsIn, later);
 	}
 
 	/**
@@ -2044,7 +2044,7 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} locId - location id
 	 * @param {string} lastSlot - start of the last 15-minute slot "YYYY-MM-DDTHH:MM"
 	 * @param {number} threshold - precipitation per 15 min from which it counts (applied per hour)
-	 * @returns {Promise<string|null>} "HH:MM" or null if no precipitation within the hourly forecast
+	 * @returns {Promise<{time: string, kind: string}|null>} start "HH:MM" and kind (rain/snow/thunder), null if none within the hourly forecast
 	 */
 	async laterPrecipStart(locId, lastSlot, threshold) {
 		const gs = async id => (await this.getStateAsync(id))?.val ?? null;
@@ -2059,12 +2059,20 @@ class Openmeteo extends utils.Adapter {
 				continue;
 			}
 			for (let h = date === endDate ? endHour + 1 : 0; h < 24; h++) {
-				const prec = await gs(`${locId}.day${d}.hourly.h${String(h).padStart(2, "0")}.precipitation`);
+				const hp = `${locId}.day${d}.hourly.h${String(h).padStart(2, "0")}.`;
+				const prec = await gs(`${hp}precipitation`);
 				if (prec === null) {
 					return null; // end of the hourly forecast
 				}
 				if (Number(prec) >= threshold) {
-					return `${String(h).padStart(2, "0")}:00`;
+					const snow = Number(await gs(`${hp}snowfall`)) || 0;
+					const kind =
+						(await gs(`${hp}is_thunderstorm`)) === true
+							? "thunder"
+							: snow > 0 && snow * 7 >= Number(prec)
+								? "snow"
+								: "rain";
+					return { time: `${String(h).padStart(2, "0")}:00`, kind };
 				}
 			}
 		}
