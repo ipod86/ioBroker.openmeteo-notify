@@ -244,8 +244,11 @@ Enabled under *Settings → 15-minute forecast* with its own fetch interval (15/
 | `minutely.0min` … `225min` | One folder per quarter hour, named by the minutes from now (`0min` = now, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (Germany / Central Europe only) | |
 | `minutely.rain_starts_in` | Minutes until precipitation (above the threshold) starts – 0 = now, empty = not within the range | min |
 | `minutely.rain_ends_at` | Time when the current precipitation ends – empty if it is not raining or it lasts beyond the range | |
+| `minutely.text` | Short-range forecast as text in the system language, e.g. "Rain from 08:30 (in 45 min)", "Thunderstorm until about 09:00", "Dry until 11:45" | |
 
 Optional notification "precipitation starts soon" (lead time and threshold configurable), once per precipitation spell.
+
+The widgets show the short-range forecast without changing their size (option per widget, on by default): *simple* and *detailed* replace the summary line with the text while precipitation is expected, *detailed* additionally turns the divider above the hourly row into a precipitation strip on the same time axis, *chart* shows the text in the settings row and gets a third view "15 min" (tap on the chart: days → hours → 15 min).
 
 ### Official warnings (`warnings`)
 
@@ -297,6 +300,9 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) feat: short-range forecast in all widgets (text line, precipitation strip, "15 min" chart view) and as `minutely.text` – widget size unchanged
+
 ### 0.4.0 (2026-10-21)
 * (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
 * (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification

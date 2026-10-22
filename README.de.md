@@ -247,8 +247,11 @@ Einschalten unter *Einstellungen → 15-Minuten-Vorhersage*, mit eigenem Abrufin
 | `minutely.0min` … `225min` | Ein Ordner pro Viertelstunde, benannt nach den Minuten ab jetzt (`0min` = jetzt, `15min`, `30min` …): `time`, `precipitation`, `rain`, `showers`, `snowfall`, `precipitation_probability`, `weathercode`, `temperature`, `windgusts`, `lightning_potential` (nur Deutschland / Mitteleuropa) | |
 | `minutely.rain_starts_in` | Minuten bis Niederschlag (ab der Schwelle) einsetzt – 0 = jetzt, leer = nicht im Zeitraum | min |
 | `minutely.rain_ends_at` | Uhrzeit, zu der der aktuelle Niederschlag endet – leer, wenn es nicht regnet oder über den Zeitraum hinaus | |
+| `minutely.text` | Kurzfristvorhersage als Text in der Systemsprache, z. B. „Regen ab 08:30 (in 45 Min.)“, „Gewitter bis ca. 09:00“, „Trocken bis 11:45“ | |
 
 Optionale Benachrichtigung „Niederschlag beginnt bald“ (Vorlaufzeit und Schwelle einstellbar), einmal pro Niederschlagsphase.
+
+Die Widgets zeigen die Kurzfristvorhersage, ohne ihre Größe zu ändern (Option je Widget, standardmäßig an): *einfach* und *detailliert* ersetzen bei erwartetem Niederschlag die Zusammenfassungszeile durch den Text, *detailliert* macht zusätzlich die Trennlinie über der Stundenleiste zu einem Niederschlagsstreifen auf derselben Zeitachse, *Diagramm* zeigt den Text in der Einstellungszeile und bekommt eine dritte Ansicht „15 Min.“ (Tipp aufs Diagramm: Tage → Stunden → 15 Min.).
 
 ### Amtliche Warnungen (`warnings`)
 
@@ -301,6 +304,9 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) feat: Kurzfristvorhersage in allen Widgets (Textzeile, Niederschlagsstreifen, Diagramm-Ansicht „15 Min.“) und als `minutely.text` – Widget-Größe unverändert
+
 ### 0.4.0 (2026-10-21)
 * (ipod86) fix: suncalc 2.1.1 – korrigierte Mondphase, Mondauf-/-untergang jetzt dem lokalen Kalendertag zugeordnet
 * (ipod86) feat: optionale 15-Minuten-Vorhersage für die nächsten 1–4 Stunden mit eigenem Intervall und Benachrichtigung „Niederschlag beginnt bald“

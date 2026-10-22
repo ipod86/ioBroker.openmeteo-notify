@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Anticipo",
 	"minutelyNotifyThreshold": "Soglia (mm per 15 min)",
 	"minutelyHelp": "Recupera valori a passi di 15 minuti per le prossime 1–4 ore (precipitazioni, pioggia, rovesci, neve, probabilità, temperatura, raffiche) in <location>.minutely, oltre a rain_starts_in e rain_ends_at. Richiesta piccola separata con intervallo proprio.",
-	"minutelyNotifyHelp": "Notifica una volta per episodio di precipitazioni quando precipitazioni sopra la soglia iniziano entro l'anticipo. Nessuna notifica se sta già piovendo."
+	"minutelyNotifyHelp": "Notifica una volta per episodio di precipitazioni quando precipitazioni sopra la soglia iniziano entro l'anticipo. Nessuna notifica se sta già piovendo.",
+	"widgetNowcast": "Previsione a breve termine (15 min)",
+	"widgetNowcastNoMinutely": "Visualizzata solo se la previsione a 15 minuti è attivata nelle impostazioni."
 }

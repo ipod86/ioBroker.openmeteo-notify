@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Délai d'anticipation",
 	"minutelyNotifyThreshold": "Seuil (mm par 15 min)",
 	"minutelyHelp": "Récupère des valeurs par pas de 15 minutes pour les 1 à 4 prochaines heures (précipitations, pluie, averses, neige, probabilité, température, rafales) sous <location>.minutely, ainsi que rain_starts_in et rain_ends_at. Petite requête séparée avec son propre intervalle.",
-	"minutelyNotifyHelp": "Notifie une fois par épisode de précipitations lorsque des précipitations au-dessus du seuil commencent dans le délai d'anticipation. Aucune notification s'il pleut déjà."
+	"minutelyNotifyHelp": "Notifie une fois par épisode de précipitations lorsque des précipitations au-dessus du seuil commencent dans le délai d'anticipation. Aucune notification s'il pleut déjà.",
+	"widgetNowcast": "Prévision à court terme (15 min)",
+	"widgetNowcastNoMinutely": "Affichée uniquement si la prévision à 15 minutes est activée dans les paramètres."
 }

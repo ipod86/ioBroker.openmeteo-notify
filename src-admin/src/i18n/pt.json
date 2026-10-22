@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Antecedência",
 	"minutelyNotifyThreshold": "Limite (mm por 15 min)",
 	"minutelyHelp": "Obtém valores em passos de 15 minutos para as próximas 1–4 horas (precipitação, chuva, aguaceiros, neve, probabilidade, temperatura, rajadas) em <location>.minutely, além de rain_starts_in e rain_ends_at. Consulta pequena separada com intervalo próprio.",
-	"minutelyNotifyHelp": "Notifica uma vez por episódio de precipitação quando a precipitação acima do limite começa dentro da antecedência. Sem notificação se já estiver a chover."
+	"minutelyNotifyHelp": "Notifica uma vez por episódio de precipitação quando a precipitação acima do limite começa dentro da antecedência. Sem notificação se já estiver a chover.",
+	"widgetNowcast": "Previsão de curto prazo (15 min)",
+	"widgetNowcastNoMinutely": "Só é exibida se a previsão de 15 minutos estiver ativada nas configurações."
 }

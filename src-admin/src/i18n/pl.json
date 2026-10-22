@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Wyprzedzenie",
 	"minutelyNotifyThreshold": "Próg (mm na 15 min)",
 	"minutelyHelp": "Pobiera wartości w krokach 15-minutowych na najbliższe 1–4 godziny (opady, deszcz, przelotne opady, śnieg, prawdopodobieństwo, temperatura, porywy) w <location>.minutely oraz rain_starts_in i rain_ends_at. Osobne małe zapytanie z własnym interwałem.",
-	"minutelyNotifyHelp": "Powiadamia raz na okres opadów, gdy opady powyżej progu zaczną się w czasie wyprzedzenia. Brak powiadomienia, jeśli już pada."
+	"minutelyNotifyHelp": "Powiadamia raz na okres opadów, gdy opady powyżej progu zaczną się w czasie wyprzedzenia. Brak powiadomienia, jeśli już pada.",
+	"widgetNowcast": "Prognoza krótkoterminowa (15 min)",
+	"widgetNowcastNoMinutely": "Wyświetlana tylko wtedy, gdy prognoza 15-minutowa jest włączona w ustawieniach."
 }

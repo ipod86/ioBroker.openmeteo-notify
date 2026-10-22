@@ -20,6 +20,7 @@ const {
 	I18N_CHART,
 } = require("./lib/i18n");
 const { buildChartWidget } = require("./lib/chart-widget");
+const { buildNowcast, isSnow, THUNDER_LP } = require("./lib/nowcast");
 
 const ICONS = {
 	0: "☀️",
@@ -1947,6 +1948,22 @@ class Openmeteo extends utils.Adapter {
 				type: "string",
 				role: "text",
 			});
+			const nc = buildNowcast(
+				m.time.slice(0, count).map((t, i) => ({
+					time: String(t).slice(11, 16),
+					prec: Number(val("precipitation", i)) || 0,
+					snow: Number(val("snowfall", i)) || 0,
+					lp: Number(val("lightning_potential", i)) || 0,
+				})),
+				threshold,
+				lang,
+				startsIn,
+			);
+			await this.setDP(`${base}.text`, nc ? nc.text : "", {
+				name: "Short-range forecast as text (e.g. rain from 08:30 (in 45 min))",
+				type: "string",
+				role: "text",
+			});
 
 			// notification: once per wet spell, when it starts within the lead time (not if it already rains)
 			if (first < 0) {
@@ -1968,6 +1985,110 @@ class Openmeteo extends utils.Adapter {
 					warnT.precipSoon(loc.name, startsIn, String(m.time[first]).slice(11, 16), amountText),
 				);
 				this._minutelyNotified.set(locId, true);
+			}
+
+			// widgets show the short-range forecast: rebuild them with the new 15-minute data
+			await this.rebuildWidgets(locId, "15-minute update");
+		}
+	}
+
+	/**
+	 * Short-range forecast for a widget from the minutely states (null if disabled or not available)
+	 *
+	 * @param {any} widget - widget config
+	 * @param {string} locId - location id
+	 * @returns {Promise<any>} nowcast
+	 */
+	async widgetNowcast(widget, locId) {
+		if (!this.config.minutelyEnabled || widget.nowcast === false) {
+			return null;
+		}
+		const gs = async id => (await this.getStateAsync(id))?.val ?? null;
+		const slots = [];
+		for (let i = 0; i < 16; i++) {
+			const b = `${locId}.minutely.${i * 15}min.`;
+			const time = await gs(`${b}time`);
+			if (!time) {
+				break;
+			}
+			slots.push({
+				time: String(time).slice(11, 16),
+				date: String(time).slice(0, 10),
+				prec: Number(await gs(`${b}precipitation`)) || 0,
+				snow: Number(await gs(`${b}snowfall`)) || 0,
+				lp: Number(await gs(`${b}lightning_potential`)) || 0,
+			});
+		}
+		// minutes until the start, corrected by the age of the value
+		const st = await this.getStateAsync(`${locId}.minutely.rain_starts_in`);
+		const startsIn =
+			st && typeof st.val === "number" ? Math.max(1, st.val - Math.round((Date.now() - st.ts) / 60000)) : null;
+		const thresholdMm = Math.max(0.01, Number(this.config.minutelyNotifyThreshold) || 0.1);
+		const threshold = this.config.precipitationUnit === "inch" ? thresholdMm / 25.4 : thresholdMm;
+		return buildNowcast(slots, threshold, this._systemLang, startsIn);
+	}
+
+	/**
+	 * Thin precipitation strip of the short-range forecast on the time axis of the hourly row
+	 * (replaces a divider line of the same height, so the widget keeps its size)
+	 *
+	 * @param {any} nc - nowcast
+	 * @param {string} height - CSS height
+	 * @param {string} divColor - divider colour
+	 * @param {number} startMin - start of the hourly row (minutes after midnight)
+	 * @param {number} totalMin - duration of the hourly row in minutes
+	 * @returns {string} HTML
+	 */
+	nowcastStrip(nc, height, divColor, startMin, totalMin) {
+		const max = Math.max(0.5, ...nc.slots.map(x => x.prec));
+		const toMin = hm => parseInt(hm.slice(0, 2), 10) * 60 + parseInt(hm.slice(3, 5), 10);
+		const segs = nc.slots
+			.map(x => {
+				if (!x.wet) {
+					return "";
+				}
+				let off = toMin(x.time) - startMin;
+				if (off < 0) {
+					off += 1440;
+				}
+				if (off >= totalMin) {
+					return "";
+				}
+				const col = isSnow(x) ? "230,240,255" : x.lp >= THUNDER_LP ? "255,193,7" : "66,165,245";
+				const alpha = (0.45 + 0.55 * Math.min(1, x.prec / max)).toFixed(2);
+				return `<span style="position:absolute;top:0;bottom:0;left:${((off / totalMin) * 100).toFixed(2)}%;width:${((15 / totalMin) * 100).toFixed(2)}%;background:rgba(${col},${alpha});"></span>`;
+			})
+			.join("");
+		return `<div title="${nc.text}" style="position:relative;height:${height};box-sizing:border-box;border-top:1px solid ${divColor};overflow:hidden;">${segs}</div>`;
+	}
+
+	/**
+	 * Rebuilds all widgets of a location (e.g. after new warnings or 15-minute data)
+	 *
+	 * @param {string} locId - location id
+	 * @param {string} reason - for the log
+	 */
+	async rebuildWidgets(locId, reason) {
+		const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
+		for (const widget of widgets) {
+			const safeWId = normalizeId(widget.id || "");
+			if (!safeWId || normalizeId(widget.locationName) !== locId) {
+				continue;
+			}
+			try {
+				const html =
+					widget.variant === "detailed"
+						? await this.buildDetailedWidgetHtml(widget, locId)
+						: widget.variant === "chart"
+							? await this.buildChartWidgetHtml(widget, locId)
+							: await this.buildWidgetHtml(widget, locId);
+				await this.setDPChanged(`${locId}.widget.${safeWId}`, html, {
+					name: `Widget ${widget.id}`,
+					type: "string",
+					role: "html",
+				});
+			} catch (err) {
+				this.log.error(`Widget rebuild (${reason}): ${err.message}`);
 			}
 		}
 	}
@@ -2361,28 +2482,7 @@ class Openmeteo extends utils.Adapter {
 			await this._saveWarnState();
 
 			// Rebuild widgets for this location so the badge reflects current warnings
-			const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
-			for (const widget of widgets) {
-				const safeWId = normalizeId(widget.id || "");
-				if (!safeWId || normalizeId(widget.locationName) !== locId) {
-					continue;
-				}
-				try {
-					const html =
-						widget.variant === "detailed"
-							? await this.buildDetailedWidgetHtml(widget, locId)
-							: widget.variant === "chart"
-								? await this.buildChartWidgetHtml(widget, locId)
-								: await this.buildWidgetHtml(widget, locId);
-					await this.setDPChanged(`${locId}.widget.${safeWId}`, html, {
-						name: `Widget ${widget.id}`,
-						type: "string",
-						role: "html",
-					});
-				} catch (err) {
-					this.log.error(`Widget rebuild after warn update: ${err.message}`);
-				}
-			}
+			await this.rebuildWidgets(locId, "warn update");
 		}
 	}
 
@@ -2704,6 +2804,7 @@ class Openmeteo extends utils.Adapter {
 
 		// Outer div is the cqw query container (container-type:inline-size).
 		// Inner div carries background/padding; its children use cqw for all sizes.
+		const nc = await this.widgetNowcast(widget, locId);
 		const activeWarnings = await this.getActiveWarnings(locId);
 		const icons = this._makeIconClasses(`omw-${String(Object(widget).id).replace(/[^A-Za-z0-9_-]/g, "")}`);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
@@ -2723,7 +2824,16 @@ class Openmeteo extends utils.Adapter {
 <td style="padding-left:${c(10)};vertical-align:middle;">
 <div style="font-size:${ch(13)};font-weight:600;color:${textColor};margin-bottom:${c(2)};">${widget.locationName}</div>
 <div style="font-size:${ch(15)};font-weight:400;color:${subColor};">${curDesc}</div>
-${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${c(2)};">${curSummary}</div>` : ""}
+${(() => {
+	// short-range forecast replaces the summary while precipitation is expected; the line always has
+	// the same height, so the widget never changes its size
+	const wet = nc && nc.kind !== "dry";
+	if (!nc && !curSummary) {
+		return "";
+	}
+	const col = wet ? (isCustom ? textColor : isLight ? "#90caf9" : "#1565c0") : fadeColor;
+	return `<div style="font-size:${ch(10)};line-height:1.25;height:1.25em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:${col};${wet ? "font-weight:600;" : ""}margin-top:${c(2)};">${wet ? nc.text : curSummary || "&nbsp;"}</div>`;
+})()}
 </td>
 <td style="text-align:right;vertical-align:middle;padding-right:${c(5)};">
 <div style="font-size:${ch(42)};font-weight:300;letter-spacing:${c(-1)};color:${textColor};">${curTemp}<span style="font-size:${ch(18)};vertical-align:top;font-weight:300;margin-left:${c(2)};position:relative;top:${c(6)};">°C</span></div>
@@ -2885,6 +2995,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 			resolveIcon: this._makeIconResolver(),
 			config: this.config,
 			lang,
+			nowcast: await this.widgetNowcast(widget, locId),
 			warningHtml: widget.showWarnBadge !== false ? this.buildWarningOverlay(activeWarnings, widget.id) : "",
 		});
 	}
@@ -3048,6 +3159,7 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 		const mainIconSize = c((isAmcharts ? 90 : isBasmilius ? 78 : 70) * sh);
 
+		const nc = await this.widgetNowcast(widget, locId);
 		const activeWarnings = await this.getActiveWarnings(locId);
 		const icons = this._makeIconClasses(`omd-${String(widget.id).replace(/[^A-Za-z0-9_-]/g, "")}`);
 		let html = `<div style="container-type:inline-size;width:100%;">`;
@@ -3073,8 +3185,14 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 		html += `<td style="padding-left:${c(10)};vertical-align:middle;">`;
 		html += div(`${fsh(14)}font-weight:600;color:${textColor};margin-bottom:${c(2)};`, widget.locationName);
 		html += div(`${fsh(16)}color:${subColor};`, curDesc);
-		if (curSummary) {
-			html += div(`${fsh(12)}color:${fadeColor};margin-top:${c(2)};`, curSummary);
+		if (nc || curSummary) {
+			// short-range forecast replaces the summary while precipitation is expected (fixed line height)
+			const wet = nc && nc.kind !== "dry";
+			const col = wet ? (isCustom ? textColor : isLight ? "#90caf9" : "#1565c0") : fadeColor;
+			html += div(
+				`${fsh(12)}line-height:1.25;height:1.25em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:${col};${wet ? "font-weight:600;" : ""}margin-top:${c(2)};`,
+				wet ? nc.text : curSummary || "&nbsp;",
+			);
 		}
 		html += `</td>`;
 		html += `<td style="text-align:right;vertical-align:middle;padding-right:${c(4)};">`;
@@ -3123,7 +3241,16 @@ ${curSummary ? `<div style="font-size:${ch(10)};color:${fadeColor};margin-top:${
 
 		// ── Section 2: Next 24 h (2 h steps) ────────────────────────────────────
 		if (showHourly && hourly24.length > 0) {
-			html += `<div style="border-top:1px solid ${divColor};margin-bottom:${c(2)};"></div>`;
+			// with the short-range forecast the divider becomes a precipitation strip of the same height
+			html += nc
+				? this.nowcastStrip(
+						nc,
+						`calc(1px + ${c(2)})`,
+						divColor,
+						hourly24[0][5] * 60,
+						hourly24.length * hourlyStep * 60,
+					)
+				: `<div style="border-top:1px solid ${divColor};margin-bottom:${c(2)};"></div>`;
 			const hIconSz = c((isAmcharts ? 26 : isBasmilius ? 20 : 17) * sfv);
 			html += `<table width="100%" style="border-collapse:collapse;table-layout:fixed;">`;
 			html += `<tr>${hourly24

@@ -22,6 +22,7 @@ export interface Widget {
 	scaleForecast?: number; // forecast section font scale -5..+5 (default 0)
 	showWarnBadge?: boolean; // show blinking badge for active official warnings (default true)
 	showMoon?: boolean; // show moon phase overlay on forecast icons (default true)
+	nowcast?: boolean; // short-range forecast from the 15-minute data (default true)
 	chartShowDetails?: boolean; // chart: show details block below the header (default true)
 	chartShowWind?: boolean; // chart: show Beaufort wind row (default true)
 	chartView?: "daily" | "hourly" | "dailyOnly"; // chart: start view, or daily only (default daily)

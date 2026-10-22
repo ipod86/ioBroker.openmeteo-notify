@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Lead time",
 	"minutelyNotifyThreshold": "Threshold (mm per 15 min)",
 	"minutelyHelp": "Fetches values in 15-minute steps for the next 1–4 hours (precipitation, rain, showers, snow, probability, temperature, gusts) under <location>.minutely plus rain_starts_in and rain_ends_at. Separate small request with its own interval.",
-	"minutelyNotifyHelp": "Notifies once per precipitation spell when precipitation above the threshold starts within the lead time. No notification if it is already raining."
+	"minutelyNotifyHelp": "Notifies once per precipitation spell when precipitation above the threshold starts within the lead time. No notification if it is already raining.",
+	"widgetNowcast": "Short-range forecast (15 min)",
+	"widgetNowcastNoMinutely": "Only shown when the 15-minute forecast is enabled in the settings."
 }

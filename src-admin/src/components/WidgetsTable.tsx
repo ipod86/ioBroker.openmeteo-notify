@@ -29,6 +29,7 @@ interface Props {
 	daysCount: number;
 	hourlyDays: number;
 	enableAstronomy: boolean;
+	minutelyEnabled: boolean;
 	warnDataActive: boolean;
 	onChange: (widgets: Widget[]) => void;
 }
@@ -74,6 +75,7 @@ const WidgetsTable: React.FC<Props> = ({
 	daysCount,
 	hourlyDays,
 	enableAstronomy,
+	minutelyEnabled,
 	warnDataActive,
 	onChange,
 }) => {
@@ -336,6 +338,28 @@ const WidgetsTable: React.FC<Props> = ({
 									}
 									label={<Typography variant="caption">{I18n.t("widgetShowMoon")}</Typography>}
 								/>
+							</Box>
+
+							{/* Short-range forecast (15-minute data) — default on */}
+							<Box>
+								<FormControlLabel
+									control={
+										<Switch
+											size="small"
+											checked={w.nowcast !== false}
+											onChange={e => update(i, { nowcast: e.target.checked })}
+										/>
+									}
+									label={<Typography variant="caption">{I18n.t("widgetNowcast")}</Typography>}
+								/>
+								{w.nowcast !== false && !minutelyEnabled && (
+									<Alert
+										severity="info"
+										sx={{ mt: 1, maxWidth: 340 }}
+									>
+										{I18n.t("widgetNowcastNoMinutely")}
+									</Alert>
+								)}
 							</Box>
 
 							{/* Warning badge toggle — always visible, default off */}

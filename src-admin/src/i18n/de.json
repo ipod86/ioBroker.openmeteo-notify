@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Vorlaufzeit",
 	"minutelyNotifyThreshold": "Schwelle (mm pro 15 Min.)",
 	"minutelyHelp": "Holt für die nächsten 1–4 Stunden Werte in 15-Minuten-Schritten (Niederschlag, Regen, Schauer, Schnee, Wahrscheinlichkeit, Temperatur, Böen) unter <ort>.minutely sowie rain_starts_in und rain_ends_at. Eigener, kleiner Abruf mit eigenem Intervall.",
-	"minutelyNotifyHelp": "Meldet einmal pro Niederschlagsphase, wenn innerhalb der Vorlaufzeit Niederschlag ab der Schwelle beginnt. Regnet es bereits, gibt es keine Meldung."
+	"minutelyNotifyHelp": "Meldet einmal pro Niederschlagsphase, wenn innerhalb der Vorlaufzeit Niederschlag ab der Schwelle beginnt. Regnet es bereits, gibt es keine Meldung.",
+	"widgetNowcast": "Kurzfristvorhersage (15 Min.)",
+	"widgetNowcastNoMinutely": "Wird nur angezeigt, wenn die 15-Minuten-Vorhersage in den Einstellungen aktiviert ist."
 }

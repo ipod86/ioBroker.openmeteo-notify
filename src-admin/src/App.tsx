@@ -176,6 +176,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 									daysCount={native.daysCount ?? 7}
 									hourlyDays={native.hourlyDays ?? 3}
 									enableAstronomy={native.enableAstronomy !== false}
+									minutelyEnabled={!!native.minutelyEnabled}
 									warnDataActive={!!native.warnOfficialFetch || !!native.warnOfficial}
 									onChange={wgts => handleChange({ ...native, widgets: wgts })}
 								/>

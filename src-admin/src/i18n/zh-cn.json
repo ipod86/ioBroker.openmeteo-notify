@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "提前时间",
 	"minutelyNotifyThreshold": "阈值（每15分钟毫米）",
 	"minutelyHelp": "获取未来1–4小时每15分钟的数值（降水、雨、阵雨、雪、概率、温度、阵风），存于 <location>.minutely，并提供 rain_starts_in 和 rain_ends_at。独立的小型请求，使用单独的间隔。",
-	"minutelyNotifyHelp": "每个降水时段只通知一次：当超过阈值的降水将在提前时间内开始时通知。如果已经在下雨则不通知。"
+	"minutelyNotifyHelp": "每个降水时段只通知一次：当超过阈值的降水将在提前时间内开始时通知。如果已经在下雨则不通知。",
+	"widgetNowcast": "短时预报（15分钟）",
+	"widgetNowcastNoMinutely": "仅在设置中启用15分钟预报时显示。"
 }

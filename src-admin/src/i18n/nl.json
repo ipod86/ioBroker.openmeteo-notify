@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Voorlooptijd",
 	"minutelyNotifyThreshold": "Drempel (mm per 15 min)",
 	"minutelyHelp": "Haalt waarden in stappen van 15 minuten op voor de komende 1–4 uur (neerslag, regen, buien, sneeuw, kans, temperatuur, windstoten) onder <location>.minutely plus rain_starts_in en rain_ends_at. Aparte kleine aanvraag met eigen interval.",
-	"minutelyNotifyHelp": "Meldt één keer per neerslagperiode wanneer neerslag boven de drempel binnen de voorlooptijd begint. Geen melding als het al regent."
+	"minutelyNotifyHelp": "Meldt één keer per neerslagperiode wanneer neerslag boven de drempel binnen de voorlooptijd begint. Geen melding als het al regent.",
+	"widgetNowcast": "Kortetermijnverwachting (15 min)",
+	"widgetNowcastNoMinutely": "Wordt alleen getoond als de 15-minutenverwachting in de instellingen is ingeschakeld."
 }

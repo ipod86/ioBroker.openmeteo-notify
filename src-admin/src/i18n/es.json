@@ -173,5 +173,7 @@
 	"minutelyNotifyLead": "Antelación",
 	"minutelyNotifyThreshold": "Umbral (mm por 15 min)",
 	"minutelyHelp": "Obtiene valores en pasos de 15 minutos para las próximas 1–4 horas (precipitación, lluvia, chubascos, nieve, probabilidad, temperatura, rachas) en <location>.minutely, además de rain_starts_in y rain_ends_at. Consulta pequeña separada con intervalo propio.",
-	"minutelyNotifyHelp": "Notifica una vez por episodio de precipitación cuando la precipitación por encima del umbral comienza dentro de la antelación. No hay notificación si ya está lloviendo."
+	"minutelyNotifyHelp": "Notifica una vez por episodio de precipitación cuando la precipitación por encima del umbral comienza dentro de la antelación. No hay notificación si ya está lloviendo.",
+	"widgetNowcast": "Previsión a corto plazo (15 min)",
+	"widgetNowcastNoMinutely": "Solo se muestra si la previsión de 15 minutos está activada en la configuración."
 }
