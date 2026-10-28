@@ -11,10 +11,18 @@
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "template",
-    "automation",
-    "IoT",
-    "integration"
+    "weather",
+    "wetter",
+    "forecast",
+    "open-meteo",
+    "openmeteo",
+    "dwd",
+    "meteoalarm",
+    "unwetter",
+    "warning",
+    "alert",
+    "notification",
+    "widget"
   ],
   "repository": {
     "type": "git",

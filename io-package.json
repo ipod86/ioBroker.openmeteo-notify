@@ -96,17 +96,17 @@
       }
     },
     "titleLang": {
-      "en": "OpenMeteo Notify",
-      "de": "OpenMeteo Notify",
-      "ru": "OpenMeteo Notify",
-      "pt": "OpenMeteo Notify",
-      "nl": "OpenMeteo Notify",
-      "fr": "OpenMeteo Notify",
-      "it": "OpenMeteo Notify",
-      "es": "OpenMeteo Notify",
-      "pl": "OpenMeteo Notify",
-      "uk": "OpenMeteo Notify",
-      "zh-cn": "OpenMeteo Notify"
+      "en": "Open-Meteo Weather & Severe Weather Alerts",
+      "de": "Open-Meteo Wetter & Unwetterwarnungen",
+      "ru": "Open-Meteo: погода и предупреждения о непогоде",
+      "pt": "Open-Meteo: tempo e alertas de tempo severo",
+      "nl": "Open-Meteo weer & noodweerwaarschuwingen",
+      "fr": "Open-Meteo : météo et alertes de temps violent",
+      "it": "Open-Meteo meteo e allerte maltempo",
+      "es": "Open-Meteo: tiempo y avisos de fenómenos adversos",
+      "pl": "Open-Meteo pogoda i ostrzeżenia przed niebezpiecznymi zjawiskami",
+      "uk": "Open-Meteo: погода та попередження про негоду",
+      "zh-cn": "Open-Meteo 天气与恶劣天气预警"
     },
     "desc": {
       "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
@@ -236,17 +236,17 @@
     {
       "scope": "openmeteo-notify",
       "name": {
-        "en": "OpenMeteo Notify",
-        "de": "OpenMeteo Notify",
-        "ru": "OpenMeteo Notify",
-        "pt": "OpenMeteo Notify",
-        "nl": "OpenMeteo Notify",
-        "fr": "OpenMeteo Notify",
-        "it": "OpenMeteo Notify",
-        "es": "OpenMeteo Notify",
-        "pl": "OpenMeteo Notify",
-        "uk": "OpenMeteo Notify",
-        "zh-cn": "OpenMeteo Notify"
+        "en": "Open-Meteo Weather & Severe Weather Alerts",
+        "de": "Open-Meteo Wetter & Unwetterwarnungen",
+        "ru": "Open-Meteo: погода и предупреждения о непогоде",
+        "pt": "Open-Meteo: tempo e alertas de tempo severo",
+        "nl": "Open-Meteo weer & noodweerwaarschuwingen",
+        "fr": "Open-Meteo : météo et alertes de temps violent",
+        "it": "Open-Meteo meteo e allerte maltempo",
+        "es": "Open-Meteo: tiempo y avisos de fenómenos adversos",
+        "pl": "Open-Meteo pogoda i ostrzeżenia przed niebezpiecznymi zjawiskami",
+        "uk": "Open-Meteo: погода та попередження про негоду",
+        "zh-cn": "Open-Meteo 天气与恶劣天气预警"
       },
       "description": {
         "en": "Storm and thunderstorm warnings from ioBroker.openmeteo-notify",
