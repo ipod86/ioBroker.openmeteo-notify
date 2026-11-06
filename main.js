@@ -4169,7 +4169,10 @@ ${(() => {
 					this.log.warn(msg);
 					await this._sendNotification("official_warning", msg);
 				}
-			} else if (this.warnState[key].sent) {
+			} else if (
+				this.warnState[key].sent &&
+				!excludeKeywords.some(k => `${w.headline || ""} ${w.event || ""}`.toLowerCase().includes(k))
+			) {
 				const prev = this.warnState[key];
 				const levelUp = (w.level || 0) > (prev.level || 0);
 				const extended = w.end && prev.end && w.end > prev.end;
@@ -4194,7 +4197,11 @@ ${(() => {
 		const liftedHeadlines = new Set();
 		for (const key of Object.keys(this.warnState)) {
 			if (key.startsWith(`${locId}_dwd_`) && !activeKeys.has(key)) {
-				if (warnNotifyLift && this.warnState[key].sent) {
+				// Keywords may have been added after the warning was announced - an
+				// excluded warning must not come back as a "lifted" message either.
+				const liftText = `${this.warnState[key].headline || ""} ${key}`.toLowerCase();
+				const liftExcluded = excludeKeywords.some(k => liftText.includes(k));
+				if (warnNotifyLift && this.warnState[key].sent && !liftExcluded) {
 					const headline = this.warnState[key].headline;
 					if (!liftedHeadlines.has(headline)) {
 						liftedHeadlines.add(headline);
@@ -4325,7 +4332,10 @@ ${(() => {
 					this.log.warn(msg);
 					await this._sendNotification("official_warning", msg);
 				}
-			} else if (this.warnState[key].sent) {
+			} else if (
+				this.warnState[key].sent &&
+				!excludeKeywords.some(k => `${w.headline || ""} ${w.event || ""}`.toLowerCase().includes(k))
+			) {
 				const prev = this.warnState[key];
 				const levelUp = (METEOALARM_SEVERITY[w.severity] || 0) > (METEOALARM_SEVERITY[prev.severity] || 0);
 				const extended = w.expires && prev.expires && new Date(w.expires) > new Date(prev.expires);
@@ -4349,7 +4359,11 @@ ${(() => {
 		const liftedHeadlines = new Set();
 		for (const key of Object.keys(this.warnState)) {
 			if (key.startsWith(`${locId}_meteoalarm_`) && !activeKeys.has(key)) {
-				if (warnNotifyLift && this.warnState[key].sent) {
+				// Keywords may have been added after the warning was announced - an
+				// excluded warning must not come back as a "lifted" message either.
+				const liftText = `${this.warnState[key].headline || ""} ${key}`.toLowerCase();
+				const liftExcluded = excludeKeywords.some(k => liftText.includes(k));
+				if (warnNotifyLift && this.warnState[key].sent && !liftExcluded) {
 					const headline = this.warnState[key].headline;
 					if (!liftedHeadlines.has(headline)) {
 						liftedHeadlines.add(headline);

@@ -311,6 +311,7 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) docs: widget overview and animated icon set images in the README
 * (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
 * (ipod86) fix: negative frost threshold can be typed in the settings
+* (ipod86) fix: excluded official warnings no longer send "lifted" or update messages
 
 ### 0.4.1 (2026-10-22)
 * (ipod86) feat: short-range forecast in all widgets (text line, precipitation strip, "15 min" chart view) and as `minutely.text` – widget size unchanged
