@@ -3448,6 +3448,12 @@ ${(() => {
 		if (!this.config.warnOfficial) {
 			return [];
 		}
+		const excludeKeywords = this.config.warnExcludeDisplay
+			? (this.config.warnExcludeKeywords || "")
+					.split(",")
+					.map(k => k.trim().toLowerCase())
+					.filter(k => k.length > 0)
+			: [];
 		const ws = [];
 		for (let i = 1; i <= 5; i++) {
 			try {
@@ -3455,13 +3461,23 @@ ${(() => {
 				if (!act?.val) {
 					break;
 				}
-				const [hl, desc, st, en, lv] = await Promise.all([
+				const [hl, desc, st, en, lv, ev] = await Promise.all([
 					this.getStateAsync(`${locId}.warnings.warning_${i}.headline`),
 					this.getStateAsync(`${locId}.warnings.warning_${i}.description`),
 					this.getStateAsync(`${locId}.warnings.warning_${i}.start`),
 					this.getStateAsync(`${locId}.warnings.warning_${i}.end`),
 					this.getStateAsync(`${locId}.warnings.warning_${i}.level`),
+					this.getStateAsync(`${locId}.warnings.warning_${i}.event`),
 				]);
+				// Ausschluss-Stichwoerter gelten sonst nur fuer Benachrichtigungen; mit
+				// warnExcludeDisplay auch fuer Warn-Badge und Bildschirmschoner (die Datenpunkte
+				// bleiben vollstaendig). Gleicher Text wie beim Benachrichtigungsfilter.
+				if (excludeKeywords.length) {
+					const text = `${hl?.val || ""} ${ev?.val || ""}`.toLowerCase();
+					if (excludeKeywords.some(k => text.includes(k))) {
+						continue;
+					}
+				}
 				ws.push({
 					headline: hl?.val || "",
 					description: desc?.val || "",

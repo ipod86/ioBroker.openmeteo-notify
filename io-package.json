@@ -204,6 +204,7 @@
     "warnStormBft": 8,
     "warnOfficialMinLevel": 2,
     "warnExcludeKeywords": "",
+    "warnExcludeDisplay": false,
     "warnIntervalMinutes": 15,
     "warnNotifyLift": false,
     "warnOfficialFetch": false,

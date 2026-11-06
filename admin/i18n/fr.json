@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "Mots-clés exclus",
     "warnExcludeKeywordsPlaceholder": "Gel, Brouillard, Neige",
     "warnExcludeKeywordsHelp": "Mots séparés par des virgules – les alertes contenant l'un d'eux ne déclencheront pas de notification",
+    "warnExcludeDisplay": "Masquer aussi les alertes exclues dans les widgets et l'économiseur d'écran",
+    "warnExcludeDisplayHelp": "Les alertes contenant un mot exclu n'apparaissent plus dans le badge des widgets ni dans l'économiseur d'écran. Elles restent dans les points de données.",
     "warnIntervalMinutes": "Intervalle de vérification pour les alertes officielles",
     "warnIntervalMinutesHelp": "Fréquence d'interrogation de DWD / MeteoAlarm – indépendante de l'intervalle de mise à jour météo",
     "warnNotifyLift": "Notifier lorsqu'une alerte est levée",

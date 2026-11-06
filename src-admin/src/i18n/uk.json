@@ -24,6 +24,8 @@
 	"warnExcludeKeywords": "Виключені ключові слова",
 	"warnExcludeKeywordsPlaceholder": "Мороз, Туман, Сніг",
 	"warnExcludeKeywordsHelp": "Слова через кому – попередження з такими словами не надсилатимуть сповіщення",
+	"warnExcludeDisplay": "Приховувати виключені попередження також у віджетах і заставці",
+	"warnExcludeDisplayHelp": "Попередження з виключальним словом не показуються у значку віджетів і в заставці. У точках даних вони залишаються.",
 	"widgetVariant": "Тип",
 	"widgetVariantSimple": "Простий",
 	"widgetVariantDetailed": "Детальний",

@@ -31,6 +31,12 @@ const WarningsPanel: React.FC<Props> = ({
 	const update = (field: keyof OpenMeteoConfig, value: any): void => {
 		onChange({ ...native, [field]: value });
 	};
+	// Frostschwelle: Text statt type="number" mit eigenem Entwurf - sonst verwirft das Feld
+	// ein einzelnes "-" (noch keine Zahl) sofort und negative Werte lassen sich nicht tippen.
+	const [frostDraft, setFrostDraft] = React.useState<string | null>(null);
+	const frostValue = native.warnFrostThreshold ?? 0;
+	const frostInvalid =
+		(frostDraft !== null && isNaN(parseFloat(frostDraft.replace(",", ".")))) || frostValue < -20 || frostValue > 5;
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -157,6 +163,27 @@ const WarningsPanel: React.FC<Props> = ({
 							size="small"
 						/>
 					)}
+					{native.warnOfficial && (
+						<Box sx={{ ml: 2 }}>
+							<FormControlLabel
+								control={
+									<Switch
+										checked={!!native.warnExcludeDisplay}
+										onChange={e => update("warnExcludeDisplay", e.target.checked)}
+									/>
+								}
+								label={I18n.t("warnExcludeDisplay")}
+							/>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								display="block"
+								sx={{ ml: 4 }}
+							>
+								{I18n.t("warnExcludeDisplayHelp")}
+							</Typography>
+						</Box>
+					)}
 				</Box>
 			</Box>
 
@@ -244,16 +271,18 @@ const WarningsPanel: React.FC<Props> = ({
 					{native.warnFrost && (
 						<TextField
 							label={I18n.t("warnFrostThreshold")}
-							type="number"
-							value={native.warnFrostThreshold ?? 0}
-							inputProps={{ min: -20, max: 5, step: 0.5 }}
-							onChange={e => update("warnFrostThreshold", parseFloat(e.target.value))}
-							error={(native.warnFrostThreshold ?? 0) < -20 || (native.warnFrostThreshold ?? 0) > 5}
-							helperText={
-								(native.warnFrostThreshold ?? 0) < -20 || (native.warnFrostThreshold ?? 0) > 5
-									? I18n.t("validRange", "−20–5")
-									: I18n.t("warnFrostThresholdHelp")
-							}
+							value={frostDraft ?? String(frostValue)}
+							onChange={e => {
+								const text = e.target.value;
+								setFrostDraft(text);
+								const n = parseFloat(text.replace(",", "."));
+								if (!isNaN(n)) {
+									update("warnFrostThreshold", n);
+								}
+							}}
+							onBlur={() => setFrostDraft(null)}
+							error={frostInvalid}
+							helperText={frostInvalid ? I18n.t("validRange", "−20–5") : I18n.t("warnFrostThresholdHelp")}
 							sx={{ width: 200, mt: 1, ml: 2 }}
 						/>
 					)}

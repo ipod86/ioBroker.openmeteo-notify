@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "Exclude keywords",
     "warnExcludeKeywordsPlaceholder": "Frost, Fog, Snow",
     "warnExcludeKeywordsHelp": "Comma-separated keywords – warnings containing any of these will not trigger a notification",
+    "warnExcludeDisplay": "Also hide excluded warnings in widgets and screensaver",
+    "warnExcludeDisplayHelp": "Warnings containing an exclude keyword are then left out of the widgets' warning badge and the screensaver. They stay in the datapoints.",
     "warnIntervalMinutes": "Check interval for official warnings",
     "warnIntervalMinutesHelp": "How often DWD / MeteoAlarm is queried – independent of the weather update interval",
     "warnNotifyLift": "Notify when warning is lifted",

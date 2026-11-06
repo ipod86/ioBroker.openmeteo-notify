@@ -99,6 +99,8 @@ The adapter integrates official weather warnings from national meteorological se
 
 Warnings are stored under `location.warnings.*` regardless of the source. A `warnings.source` data point shows `"DWD"` or `"MeteoAlarm"`.
 
+**Exclude keywords** (e.g. `Frost, Fog`) suppress matching warnings as notifications. With **"Also hide excluded warnings in widgets and screensaver"** they are also left out of the widgets' warning badge and the screensaver banner; the data points always keep every warning.
+
 ## Installation
 
 Install via the ioBroker Admin interface (search for "openmeteo-notify").
@@ -307,6 +309,8 @@ This adapter is an independent community project and is not affiliated with or e
 ### **WORK IN PROGRESS**
 * (ipod86) chore: clearer adapter title ("Open-Meteo Weather & Severe Weather Alerts") and npm keywords
 * (ipod86) docs: widget overview and animated icon set images in the README
+* (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
+* (ipod86) fix: negative frost threshold can be typed in the settings
 
 ### 0.4.1 (2026-10-22)
 * (ipod86) feat: short-range forecast in all widgets (text line, precipitation strip, "15 min" chart view) and as `minutely.text` – widget size unchanged

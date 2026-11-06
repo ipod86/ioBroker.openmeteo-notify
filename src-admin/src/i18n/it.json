@@ -24,6 +24,8 @@
 	"warnExcludeKeywords": "Parole chiave escluse",
 	"warnExcludeKeywordsPlaceholder": "Gelo, Nebbia, Neve",
 	"warnExcludeKeywordsHelp": "Parole separate da virgole – gli avvisi contenenti una di esse non invieranno notifiche",
+	"warnExcludeDisplay": "Nascondi gli avvisi esclusi anche nei widget e nel salvaschermo",
+	"warnExcludeDisplayHelp": "Gli avvisi che contengono una parola esclusa non compaiono nel badge dei widget né nel salvaschermo. Restano nei datapoint.",
 	"widgetVariant": "Tipo",
 	"widgetVariantSimple": "Semplice",
 	"widgetVariantDetailed": "Dettagliato",

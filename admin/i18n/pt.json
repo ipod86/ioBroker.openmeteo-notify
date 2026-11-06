@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "Palavras-chave excluídas",
     "warnExcludeKeywordsPlaceholder": "Geada, Nevoeiro, Neve",
     "warnExcludeKeywordsHelp": "Palavras separadas por vírgulas – alertas com alguma delas não enviarão notificação",
+    "warnExcludeDisplay": "Ocultar também os avisos excluídos nos widgets e na proteção de ecrã",
+    "warnExcludeDisplayHelp": "Avisos que contêm uma palavra excluída deixam de aparecer no distintivo dos widgets e na proteção de ecrã. Permanecem nos pontos de dados.",
     "warnIntervalMinutes": "Intervalo de verificação para alertas oficiais",
     "warnIntervalMinutesHelp": "Com que frequência o DWD / MeteoAlarm é consultado – independente do intervalo de atualização meteorológica",
     "warnNotifyLift": "Notificar quando um aviso é levantado",

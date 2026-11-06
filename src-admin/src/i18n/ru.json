@@ -24,6 +24,8 @@
 	"warnExcludeKeywords": "Исключаемые ключевые слова",
 	"warnExcludeKeywordsPlaceholder": "Мороз, Туман, Снег",
 	"warnExcludeKeywordsHelp": "Слова через запятую – предупреждения с такими словами не будут отправлять уведомление",
+	"warnExcludeDisplay": "Скрывать исключённые предупреждения также в виджетах и заставке",
+	"warnExcludeDisplayHelp": "Предупреждения с исключающим словом не показываются в значке виджетов и в заставке. В точках данных они сохраняются.",
 	"widgetVariant": "Тип",
 	"widgetVariantSimple": "Простой",
 	"widgetVariantDetailed": "Подробный",

@@ -30,6 +30,8 @@
 	"warnExcludeKeywords": "Ausschluss-Stichwörter",
 	"warnExcludeKeywordsPlaceholder": "Frost, Glätte, Nebel",
 	"warnExcludeKeywordsHelp": "Kommagetrennte Begriffe – Meldungen die einen dieser Begriffe enthalten werden nicht benachrichtigt",
+	"warnExcludeDisplay": "Ausgeschlossene Warnungen auch in Widgets und Bildschirmschoner ausblenden",
+	"warnExcludeDisplayHelp": "Warnungen mit einem Ausschluss-Stichwort erscheinen dann nicht im Warn-Badge der Widgets und nicht im Bildschirmschoner. In den Datenpunkten bleiben sie erhalten.",
 	"warnIntervalMinutes": "Prüfintervall für amtliche Warnungen",
 	"warnIntervalMinutesHelp": "Wie oft DWD / MeteoAlarm abgefragt wird – unabhängig vom Wetter-Aktualisierungsintervall",
 	"widgetVariant": "Variante",

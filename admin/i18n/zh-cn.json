@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "排除关键词",
     "warnExcludeKeywordsPlaceholder": "霜冻, 大雾, 降雪",
     "warnExcludeKeywordsHelp": "逗号分隔的关键词 – 包含这些词的警报不会触发通知",
+    "warnExcludeDisplay": "在小部件和屏保中也隐藏已排除的警告",
+    "warnExcludeDisplayHelp": "包含排除关键词的警告将不再显示在小部件的警告徽章和屏保中，但仍保留在数据点中。",
     "warnIntervalMinutes": "官方预警检查间隔",
     "warnIntervalMinutesHelp": "DWD / MeteoAlarm 的查询频率 – 与天气更新间隔无关",
     "warnNotifyLift": "警告解除时通知",

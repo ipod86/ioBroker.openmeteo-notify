@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "Uitsluitingszoekwoorden",
     "warnExcludeKeywordsPlaceholder": "Vorst, Mist, Sneeuw",
     "warnExcludeKeywordsHelp": "Door komma's gescheiden woorden – waarschuwingen met een van deze woorden sturen geen melding",
+    "warnExcludeDisplay": "Uitgesloten waarschuwingen ook in widgets en screensaver verbergen",
+    "warnExcludeDisplayHelp": "Waarschuwingen met een uitsluitingswoord verschijnen dan niet in de waarschuwingsbadge van de widgets en niet in de screensaver. Ze blijven in de datapunten staan.",
     "warnIntervalMinutes": "Controle-interval voor officiële waarschuwingen",
     "warnIntervalMinutesHelp": "Hoe vaak DWD / MeteoAlarm wordt bevraagd – onafhankelijk van het weerupdate-interval",
     "warnNotifyLift": "Melding bij opheffing van een waarschuwing",

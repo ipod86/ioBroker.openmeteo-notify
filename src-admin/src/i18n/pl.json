@@ -24,6 +24,8 @@
 	"warnExcludeKeywords": "Wykluczone słowa kluczowe",
 	"warnExcludeKeywordsPlaceholder": "Mróz, Mgła, Śnieg",
 	"warnExcludeKeywordsHelp": "Słowa oddzielone przecinkami – ostrzeżenia zawierające któreś z nich nie wyślą powiadomienia",
+	"warnExcludeDisplay": "Ukryj wykluczone ostrzeżenia także w widżetach i wygaszaczu ekranu",
+	"warnExcludeDisplayHelp": "Ostrzeżenia zawierające wykluczone słowo nie pojawiają się w plakietce widżetów ani w wygaszaczu ekranu. Pozostają w punktach danych.",
 	"widgetVariant": "Typ",
 	"widgetVariantSimple": "Prosty",
 	"widgetVariantDetailed": "Szczegółowy",

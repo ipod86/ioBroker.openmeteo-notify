@@ -99,6 +99,8 @@ Der Adapter integriert amtliche Warnungen nationaler Wetterdienste. Aktivierung 
 
 Warnungen werden unabhängig vom Dienst unter `standort.warnings.*` gespeichert. Ein Datenpunkt `warnings.source` zeigt `"DWD"` oder `"MeteoAlarm"`.
 
+**Ausschluss-Stichwörter** (z. B. `Frost, Nebel`) unterdrücken passende Warnungen als Benachrichtigung. Mit **„Ausgeschlossene Warnungen auch in Widgets und Bildschirmschoner ausblenden“** fehlen sie zusätzlich im Warn-Badge der Widgets und im Banner des Bildschirmschoners; die Datenpunkte enthalten immer alle Warnungen.
+
 ## Installation
 
 Adapter über die ioBroker-Admin-Oberfläche installieren (nach „openmeteo-notify" suchen).

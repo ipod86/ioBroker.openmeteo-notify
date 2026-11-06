@@ -47,6 +47,8 @@
     "warnExcludeKeywords": "Palabras clave excluidas",
     "warnExcludeKeywordsPlaceholder": "Helada, Niebla, Nieve",
     "warnExcludeKeywordsHelp": "Palabras separadas por comas – las alertas que contengan alguna de ellas no generarán notificación",
+    "warnExcludeDisplay": "Ocultar también las alertas excluidas en widgets y salvapantallas",
+    "warnExcludeDisplayHelp": "Las alertas que contienen una palabra excluida no aparecen en el distintivo de los widgets ni en el salvapantallas. Se mantienen en los puntos de datos.",
     "warnIntervalMinutes": "Intervalo de comprobación para avisos oficiales",
     "warnIntervalMinutesHelp": "Con qué frecuencia se consulta DWD / MeteoAlarm, independientemente del intervalo de actualización meteorológica",
     "warnNotifyLift": "Notificar cuando se levante una advertencia",
