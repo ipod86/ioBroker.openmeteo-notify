@@ -18,6 +18,6 @@
     },
     "scripts": {
         "start": "vite",
-        "build": "vite build && mv ../admin/index.html ../admin/index_m.html"
+        "build": "node -e \"const fs=require('fs');const d='../admin/assets';if(fs.existsSync(d))for(const f of fs.readdirSync(d))if(/^index-.*\\.js$/.test(f))fs.unlinkSync(d+'/'+f)\" && vite build && mv ../admin/index.html ../admin/index_m.html"
     }
 }
