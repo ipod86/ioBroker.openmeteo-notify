@@ -307,7 +307,7 @@ This adapter is an independent community project and is not affiliated with or e
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (ipod86) chore: clearer adapter title ("Open-Meteo Weather & Severe Weather Alerts") and npm keywords
+* (ipod86) chore: clearer adapter title ("Open-Meteo Weather & Severe Weather Alerts") and keywords for existing features (pollen, air quality, UV, astronomy, no API key)
 * (ipod86) docs: widget overview and animated icon set images in the README
 * (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
 * (ipod86) fix: negative frost threshold can be typed in the settings
