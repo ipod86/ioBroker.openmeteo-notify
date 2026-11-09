@@ -161,6 +161,16 @@ class OpenMeteoWidget extends IobWebComponent {
 			`<style>:host{display:block;width:100%;height:100%;overflow:hidden;color:inherit;font:inherit}` +
 			`.wrap{width:100%;container-type:inline-size;margin:0 auto;${this.editMode ? "pointer-events:none;" : ""}}` +
 			`.msg{padding:12px;opacity:.7;font-size:14px}</style><div class="wrap">${body}</div>`;
+		// erneut einpassen, sobald Bilder geladen sind und sich der Inhalt ändert
+		const wrap = this.shadowRoot.querySelector(".wrap");
+		if (wrap && this._ro) {
+			this._ro.observe(wrap);
+		}
+		for (const img of this.shadowRoot.querySelectorAll("img")) {
+			if (!img.complete) {
+				img.addEventListener("load", () => this._fit(), { once: true });
+			}
+		}
 		this._fit();
 	}
 
