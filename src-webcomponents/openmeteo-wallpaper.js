@@ -1,3 +1,4 @@
+/* global document */
 /* Web-Komponente <iob-openmeteo-wallpaper>: der animierte Wetter-Bildschirmschoner von openmeteo-notify
    als Kachel oder Vollbild in Aura, vis-2 und devices. Die Seite baut der Adapter (sendTo "renderWallpaper"),
    sie läuft in einem abgeschotteten iframe; neue Werte schickt die Komponente per postMessage hinein. */
