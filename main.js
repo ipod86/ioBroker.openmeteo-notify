@@ -19,7 +19,7 @@ const {
 	I18N_WARNINGS,
 	I18N_CHART,
 } = require("./lib/i18n");
-const { buildChartWidget } = require("./lib/chart-widget");
+const { buildChartWidget, hasLightText } = require("./lib/chart-widget");
 const { buildNowcast, isSnow, THUNDER_LP } = require("./lib/nowcast");
 
 const ICONS = {
@@ -2926,7 +2926,7 @@ class Openmeteo extends utils.Adapter {
 		const isBasmilius = _iconSet.startsWith("basmilius");
 		const isWmoSvg = _iconSet === "wmo_svg";
 		const mainIconCqw = ch(isAmcharts ? 95 : isBasmilius ? 82 : 75);
-		const wmoSvgFilter = isWmoSvg ? (isLight ? "filter:invert(1);" : "") : "";
+		const wmoSvgFilter = isWmoSvg && hasLightText(widget) ? "filter:invert(1);" : "";
 		const imgScale = isAmcharts
 			? "transform:scale(1.6);transform-origin:center;"
 			: isBasmilius
@@ -3267,7 +3267,7 @@ ${(() => {
 		const isAmcharts = _iconSet.startsWith("amcharts");
 		const isBasmilius = _iconSet.startsWith("basmilius");
 		const isWmoSvg = _iconSet === "wmo_svg";
-		const wmoSvgFilter = isWmoSvg ? (isLight ? "filter:invert(1);" : "") : "";
+		const wmoSvgFilter = isWmoSvg && hasLightText(widget) ? "filter:invert(1);" : "";
 		const imgScale = isAmcharts
 			? "transform:scale(1.5);transform-origin:center;"
 			: isBasmilius
