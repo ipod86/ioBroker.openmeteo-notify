@@ -1315,9 +1315,10 @@ class Openmeteo extends utils.Adapter {
 			if (!attrs.length) {
 				attrs = ATTRS;
 			}
+			const locCfg = (this.config.locations || []).find(l => normalizeId(l.name || "") === locId);
 			widget = {
 				id: "wc",
-				locationName: locId,
+				locationName: locCfg ? locCfg.name : locId,
 				days: [5, 7, 14].includes(Number(w.days)) ? Number(w.days) : 7,
 				variant: ["simple", "detailed", "chart"].includes(w.variant) ? w.variant : "simple",
 				theme: ["light", "dark", "custom"].includes(w.theme) ? w.theme : "dark",
