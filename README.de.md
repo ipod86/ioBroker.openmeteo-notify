@@ -46,6 +46,13 @@ Der Adapter erzeugt pro Standort ein eigenständiges, animiertes Wetter-Wallpape
 - Konfigurierbar über einen eigenen **Admin-Tab „Wallpaper"** (Position, Farben, Schriftgrößen, Uhr, Warnungen) mit Live-Vorschau, die gängige Bildschirmauflösungen simuliert
 - Direkt als URL je Web-Instanz erreichbar (`current.wallpaper_url_<instance>`) — keine VIS-Einbindung nötig
 
+### Web-Komponenten für AURA, vis-2 und devices
+Das Wetter-Widget und der Bildschirmschoner gibt es auch als Web-Komponenten (`@iobroker/web-components`). AURA, vis-2 (ab 2.20.7) und der Geräte-Adapter devices (ab 4.3.0) bieten sie in ihrer Widget-Auswahl an – ohne HTML-Bindung.
+- **Open-Meteo Wetter** – entweder ein Widget aus den Adapter-Einstellungen oder direkt in der Visualisierung eingestellt: Ort, Variante (einfach/erweitert/Chart), Tage, Icon-Set, Farben, Größen und Chart-Optionen
+- übernimmt auf Wunsch die Textfarbe aus dem Theme der Visualisierung
+- passt sich in die Kachel ein, statt zu scrollen
+- **Open-Meteo Bildschirmschoner** – die animierte Wetterszene als Kachel oder Vollbild (z. B. eine Ansicht für den Bildschirmschoner von AURA), mit Info-Anzeige, Uhr und Warnungen wie in der Instanz oder eigenen Einstellungen, und optional einem Hintergrundbild aus dem ioBroker-Dateisystem (z. B. `/0_userdata.0/bilder/garten.jpg`)
+
 ### Volltextsuche für Adressen
 Standorte müssen nicht als reine Koordinaten eingegeben werden. Die Einstellungs-UI bietet eine **freie Adresssuche** — einfach Stadt, Adresse oder Region eingeben, die Koordinaten werden automatisch aufgelöst. Für jeden Standort wird eine OpenStreetMap-Vorschau angezeigt. Mehrere Standorte können parallel konfiguriert werden.
 
@@ -313,6 +320,14 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### **WORK IN PROGRESS**
 * (ipod86) chore: verständlicherer Adapter-Titel („Open-Meteo Wetter & Unwetterwarnungen“) und npm-Keywords
 * (ipod86) docs: Widget-Übersicht und animierte Icon-Set-Übersicht in der README
+* (ipod86) feat: Option, ausgeschlossene amtliche Warnungen auch in Widgets und Bildschirmschoner auszublenden (Datenpunkte unverändert)
+* (ipod86) fix: negative Frostschwelle lässt sich in den Einstellungen eingeben
+* (ipod86) fix: ausgeschlossene amtliche Warnungen senden keine „aufgehoben“- oder Änderungsmeldungen mehr
+* (ipod86) feat: Web-Komponenten für AURA, vis-2 und devices – Wetter-Widget und Bildschirmschoner
+* (ipod86) feat: eigenes Icon-Set pro Widget (Web-Komponente)
+* (ipod86) fix: ein Widget zeigt nie mehr Tage, als die Vorhersage hat (leere zweite Zeile)
+* (ipod86) fix: WMO-Symbole hell auf dunklem Hintergrund bei eigener Textfarbe
+* (ipod86) fix: Wind-Diagramm zeigte NaN, wenn eine Ansicht keine Böenwerte hat
 
 ### 0.4.1 (2026-10-22)
 * (ipod86) feat: Kurzfristvorhersage in allen Widgets (Textzeile, Niederschlagsstreifen, Diagramm-Ansicht „15 Min.“) und als `minutely.text` – Widget-Größe unverändert

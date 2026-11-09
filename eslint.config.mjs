@@ -15,6 +15,7 @@ export default [
 			'build',
 			'dist',
 			'admin/assets/**',
+			'admin/webcomponents/**',
 			'admin/words.js',
 			'admin/admin.d.ts',
 			'admin/blockly.js',

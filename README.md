@@ -46,6 +46,13 @@ The adapter generates a self-contained, animated weather wallpaper per location 
 - Configurable via a dedicated **admin "Wallpaper" tab** (position, colors, font sizes, clock, warnings) with a live preview that simulates common screen resolutions
 - Reachable directly as a URL per web instance (`current.wallpaper_url_<instance>`) — no VIS binding required
 
+### Web components for AURA, vis-2 and devices
+The weather widget and the screensaver are also available as web components (`@iobroker/web-components`). AURA, vis-2 (2.20.7+) and the devices adapter (4.3.0+) list them in their widget palette — no HTML binding needed.
+- **Open-Meteo weather** — either a widget from the adapter settings, or set up right in the visualization: location, variant (simple/detailed/chart), days, icon set, colors, sizes and chart options
+- optionally takes the text color of the visualization's theme
+- shrinks to fit its tile instead of scrolling
+- **Open-Meteo screensaver** — the animated weather scene as a tile or full screen (e.g. a view for AURA's screensaver), with the overlay, clock and warnings of the instance or its own, and an optional background image from the ioBroker file system (e.g. `/0_userdata.0/images/garden.jpg`)
+
 ### Full-text address search
 Locations do not have to be entered as raw coordinates. The settings UI offers a **free-text address search** — just type a city, address or region and the coordinates are resolved automatically. An OpenStreetMap preview is shown for each location. Multiple locations can be configured in parallel.
 
@@ -312,6 +319,11 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
 * (ipod86) fix: negative frost threshold can be typed in the settings
 * (ipod86) fix: excluded official warnings no longer send "lifted" or update messages
+* (ipod86) feat: web components for AURA, vis-2 and devices – weather widget and screensaver
+* (ipod86) feat: own icon set per widget (web component)
+* (ipod86) fix: a widget never draws more days than the forecast has (empty second row)
+* (ipod86) fix: WMO symbols light on dark backgrounds with an own text color
+* (ipod86) fix: wind chart showed NaN where a view has no gust values
 
 ### 0.4.1 (2026-10-22)
 * (ipod86) feat: short-range forecast in all widgets (text line, precipitation strip, "15 min" chart view) and as `minutely.text` – widget size unchanged
