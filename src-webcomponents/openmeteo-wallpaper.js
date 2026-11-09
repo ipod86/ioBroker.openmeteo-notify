@@ -68,7 +68,7 @@ class OpenMeteoWallpaper extends IobWebComponent {
 		const msg = this._message(withHtml);
 		const instance = msg.location.split(".").slice(0, 2).join(".");
 		if (!this.socket || !instance) {
-			return;
+			return false;
 		}
 		const seq = withHtml ? ++this._seq : this._seq;
 		this.socket
@@ -95,6 +95,7 @@ class OpenMeteoWallpaper extends IobWebComponent {
 					seq === this._seq &&
 					this._msg(`${this.text(TXT.error)}: ${e && e.message ? e.message : e}`),
 			);
+		return true;
 	}
 
 	render() {
@@ -108,12 +109,14 @@ class OpenMeteoWallpaper extends IobWebComponent {
 		const key = JSON.stringify(this._message(true));
 		const updated = this.states[`${loc}.widgetUpdated`]?.val;
 		if (key !== this._key) {
-			this._key = key;
-			this._updated = updated;
 			if (!this.shadowRoot.querySelector("iframe")) {
 				this._msg(this.text(TXT.loading));
 			}
-			this._request(true);
+			// erst merken, wenn wirklich gefragt wurde - ohne Verbindung beim nächsten render() erneut
+			if (this._request(true)) {
+				this._key = key;
+				this._updated = updated;
+			}
 		} else if (updated !== this._updated) {
 			this._updated = updated;
 			this._request(false);
