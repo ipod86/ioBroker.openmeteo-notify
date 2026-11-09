@@ -86,6 +86,7 @@ class OpenMeteoWidget extends IobWebComponent {
 			const widget = {
 				variant: s.variant,
 				days: s.days,
+				iconSet: s.iconSet || undefined,
 				theme: s.theme,
 				textBase: s.textBase,
 				bgColor: s.bgColor,

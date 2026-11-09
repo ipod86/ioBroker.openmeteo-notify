@@ -783,6 +783,15 @@ const AMCHARTS_MAP = {
 	99: { day: "thunder", night: "thunder" },
 };
 
+const WIDGET_ICON_SETS = [
+	"basmilius",
+	"basmilius_animated",
+	"amcharts_animated",
+	"amcharts_static",
+	"wmo_svg",
+	"custom",
+];
+
 function weatherIconUrl(code, iconSet, isDay) {
 	const padded = String(code).padStart(2, "0");
 	if (iconSet === "basmilius" || iconSet === "basmilius_animated") {
@@ -1338,6 +1347,9 @@ class Openmeteo extends utils.Adapter {
 				chartView: ["daily", "hourly", "dailyOnly"].includes(w.chartView) ? w.chartView : "daily",
 				chartAttrs: attrs,
 			};
+			if (WIDGET_ICON_SETS.includes(w.iconSet)) {
+				widget.iconSet = w.iconSet;
+			}
 		}
 		if (!locId || !locations.includes(locId)) {
 			throw new Error("location not found");
@@ -1566,6 +1578,45 @@ class Openmeteo extends utils.Adapter {
 			return;
 		}
 		this.customNightIcons = new Set(entries.filter(e => !e.isDir && e.file.endsWith("n.svg")).map(e => e.file));
+	}
+
+	/**
+	 * Icon set of a widget: its own choice (web component) or the one of the instance.
+	 *
+	 * @param {object} widget - Widget settings
+	 * @returns {string} Icon set
+	 */
+	_widgetIconSet(widget) {
+		const own = widget && widget.iconSet;
+		return own && WIDGET_ICON_SETS.includes(own) ? own : this.config.iconSet || "basmilius";
+	}
+
+	/**
+	 * Wraps a state getter so that the weather icon of a widget with its own icon set is
+	 * built from the weather code instead of the stored icon_url of the instance set.
+	 *
+	 * @param {object} widget - Widget settings
+	 * @param {(id: string) => Promise<any>} get - Original getter
+	 * @returns {(id: string) => Promise<any>} Getter
+	 */
+	_iconSetGetter(widget, get) {
+		const set = this._widgetIconSet(widget);
+		if (set === (this.config.iconSet || "basmilius")) {
+			return get;
+		}
+		return async id => {
+			const m = /^(.*\.(?:current|day\d+(?:\.hourly\.h\d+)?))\.icon_url$/.exec(id);
+			if (!m) {
+				return get(id);
+			}
+			const code = (await this.getStateAsync(`${m[1]}.weathercode`))?.val;
+			if (code === null || code === undefined || code === "") {
+				return get(id);
+			}
+			// day icons are always drawn as day icons, like the stored ones
+			const isDay = /\.day\d+$/.test(m[1]) ? true : (await this.getStateAsync(`${m[1]}.is_day`))?.val;
+			return this._weatherIconUrl(Number(code), set, isDay === true || isDay === 1 || isDay === "1");
+		};
 	}
 
 	_weatherIconUrl(code, iconSet, isDay) {
@@ -2870,7 +2921,7 @@ class Openmeteo extends utils.Adapter {
 			iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
 		}
 
-		const _iconSet = this.config.iconSet || "basmilius";
+		const _iconSet = this._widgetIconSet(widget);
 		const isAmcharts = _iconSet.startsWith("amcharts");
 		const isBasmilius = _iconSet.startsWith("basmilius");
 		const isWmoSvg = _iconSet === "wmo_svg";
@@ -2894,7 +2945,7 @@ class Openmeteo extends utils.Adapter {
 			rain: "M6,14.03A1,1 0 0,1 7,15.03C7,15.58 6.55,16.03 6,16.03C3.24,16.03 1,13.79 1,11.03C1,8.27 3.24,6.03 6,6.03C7,3.68 9.3,2.03 12,2.03C15.43,2.03 18.24,4.69 18.5,8.06L19,8.03A4,4 0 0,1 23,12.03C23,14.23 21.21,16.03 19,16.03H18C17.45,16.03 17,15.58 17,15.03C17,14.47 17.45,14.03 18,14.03H19A2,2 0 0,0 21,12.03A2,2 0 0,0 19,10.03H17V9.03C17,6.27 14.76,4.03 12,4.03C9.5,4.03 7.45,5.84 7.06,8.21C6.73,8.09 6.37,8.03 6,8.03A3,3 0 0,0 3,11.03A3,3 0 0,0 6,14.03M12,14.15C12.18,14.39 12.37,14.66 12.56,14.94C13,15.56 14,17.03 14,18C14,19.11 13.1,20 12,20A2,2 0 0,1 10,18C10,17.03 11,15.56 11.44,14.94C11.63,14.66 11.82,14.4 12,14.15M12,11.03L11.5,11.59C11.5,11.59 10.65,12.55 9.79,13.81C8.93,15.06 8,16.56 8,18A4,4 0 0,0 12,22A4,4 0 0,0 16,18C16,16.56 15.07,15.06 14.21,13.81C13.35,12.55 12.5,11.59 12.5,11.59",
 		};
 
-		const gs = async id => (await this.getStateAsync(id))?.val ?? "";
+		const gs = this._iconSetGetter(widget, async id => (await this.getStateAsync(id))?.val ?? "");
 
 		// For custom icons: resolve /files/ URLs to base64 data URLs so they work
 		// outside admin context (VIS, jarvis, etc. don't have access to /files/).
@@ -3165,12 +3216,12 @@ ${(() => {
 		return buildChartWidget({
 			widget,
 			locId,
-			getVal: async id => {
+			getVal: this._iconSetGetter(widget, async id => {
 				const st = await this.getStateAsync(id);
 				return st ? st.val : null;
-			},
+			}),
 			resolveIcon: this._makeIconResolver(),
-			config: this.config,
+			config: { ...this.config, iconSet: this._widgetIconSet(widget) },
 			lang,
 			nowcast: await this.widgetNowcast(widget, locId),
 			warningHtml: widget.showWarnBadge !== false ? this.buildWarningOverlay(activeWarnings, widget.id) : "",
@@ -3212,7 +3263,7 @@ ${(() => {
 			iconColor = isLight ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)";
 		}
 
-		const _iconSet = this.config.iconSet || "basmilius";
+		const _iconSet = this._widgetIconSet(widget);
 		const isAmcharts = _iconSet.startsWith("amcharts");
 		const isBasmilius = _iconSet.startsWith("basmilius");
 		const isWmoSvg = _iconSet === "wmo_svg";
@@ -3243,7 +3294,7 @@ ${(() => {
 			return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:${c(size)};height:${c(size)};vertical-align:middle;display:inline-block;transform:rotate(${deg}deg);fill:${iconColor};"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>`;
 		};
 
-		const gs = async id => (await this.getStateAsync(id))?.val ?? "";
+		const gs = this._iconSetGetter(widget, async id => (await this.getStateAsync(id))?.val ?? "");
 
 		const resolveIcon = this._makeIconResolver();
 
