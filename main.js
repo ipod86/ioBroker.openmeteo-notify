@@ -2942,7 +2942,8 @@ class Openmeteo extends utils.Adapter {
 		const sunset = sunsetRaw ? String(sunsetRaw).split("T")[1]?.substring(0, 5) || "" : "";
 		const curIcon = await resolveIcon(curIconRaw);
 
-		const days = Math.min(widget.days ?? 5, 14);
+		// Never more days than are fetched – a 14-day widget on a 7-day forecast drew a second row without values
+		const days = Math.min(widget.days ?? 5, 14, Math.min(Math.max(1, this.config.daysCount ?? 7), 16));
 
 		// Fetch day data in parallel, then resolve custom icon URLs
 		const dayDataRaw = await Promise.all(
@@ -3263,7 +3264,7 @@ ${(() => {
 		const sunrise = sunriseRaw ? String(sunriseRaw).split("T")[1]?.substring(0, 5) || "" : "";
 		const sunset = sunsetRaw ? String(sunsetRaw).split("T")[1]?.substring(0, 5) || "" : "";
 
-		const days = Math.min(widget.days ?? 7, 14);
+		const days = Math.min(widget.days ?? 7, 14, Math.min(Math.max(1, this.config.daysCount ?? 7), 16));
 
 		// ── Fetch daily data ─────────────────────────────────────────────────────
 		const dayDataRaw = await Promise.all(
