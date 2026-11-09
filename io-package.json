@@ -178,7 +178,8 @@
     ],
     "messagebox": true,
     "webComponents": [
-      "webcomponents/openmeteo-widget.json"
+      "webcomponents/openmeteo-widget.json",
+      "webcomponents/openmeteo-wallpaper.json"
     ]
   },
   "native": {

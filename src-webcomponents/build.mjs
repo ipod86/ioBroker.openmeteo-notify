@@ -5,19 +5,21 @@ import { checkManifest } from "@iobroker/web-components";
 
 const out = "../admin/webcomponents";
 mkdirSync(out, { recursive: true });
-await build({
-	entryPoints: ["openmeteo-widget.js"],
-	bundle: true,
-	format: "esm",
-	minify: true,
-	target: "es2020",
-	outfile: `${out}/openmeteo-widget.js`,
-});
-const manifest = JSON.parse(readFileSync("openmeteo-widget.json", "utf8"));
-const problems = checkManifest(manifest);
-if (problems && (Array.isArray(problems) ? problems.length : Object.keys(problems).length)) {
-	console.error("Manifest:", problems);
-	process.exit(1);
+for (const name of ["openmeteo-widget", "openmeteo-wallpaper"]) {
+	await build({
+		entryPoints: [`${name}.js`],
+		bundle: true,
+		format: "esm",
+		minify: true,
+		target: "es2020",
+		outfile: `${out}/${name}.js`,
+	});
+	const manifest = JSON.parse(readFileSync(`${name}.json`, "utf8"));
+	const problems = checkManifest(manifest);
+	if (problems && (Array.isArray(problems) ? problems.length : Object.keys(problems).length)) {
+		console.error(`${name}.json:`, problems);
+		process.exit(1);
+	}
+	copyFileSync(`${name}.json`, `${out}/${name}.json`);
 }
-copyFileSync("openmeteo-widget.json", `${out}/openmeteo-widget.json`);
 console.log("ok");

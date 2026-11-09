@@ -774,7 +774,17 @@
         console.error('Wallpaper-Daten konnten nicht aktualisiert werden:', e);
       }
     }
-    setInterval(refreshWallpaperData, WALLPAPER_REFRESH_MINUTES * 60 * 1000);
+    // Eingebettet in die Web-Komponente (leerer Dateiname): keine eigenen Abrufe - die
+    // Komponente holt die Werte beim Adapter und schickt sie per postMessage herein.
+    if (currentDataFilename) {
+      setInterval(refreshWallpaperData, WALLPAPER_REFRESH_MINUTES * 60 * 1000);
+    } else {
+      window.addEventListener('message', e => {
+        if (e.source === window.parent && e.data && e.data.type === 'omn-wallpaper' && e.data.values) {
+          applyWallpaperValues(e.data.values);
+        }
+      });
+    }
 
     // ---- Karussell zwischen mehreren Orten (optional, Admin-Tab "Wallpaper") ----
     // Manifest liegt im selben Ordner (_locations.json, von main.js bei jedem vollen

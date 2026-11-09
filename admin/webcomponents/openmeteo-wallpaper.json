@@ -1,0 +1,343 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ioBroker/web-components/main/schemas/manifest.json",
+  "manifestVersion": 1,
+  "tag": "iob-openmeteo-wallpaper",
+  "name": {
+    "en": "Open-Meteo screensaver",
+    "de": "Open-Meteo Bildschirmschoner"
+  },
+  "description": {
+    "en": "Animated weather scene of openmeteo-notify, as a tile or full screen",
+    "de": "Animierte Wetterszene von openmeteo-notify, als Kachel oder Vollbild"
+  },
+  "icon": "../openmeteo-notify.png",
+  "module": "openmeteo-wallpaper.js",
+  "size": {
+    "width": 800,
+    "height": 450
+  },
+  "settings": {
+    "type": "panel",
+    "items": {
+      "location": {
+        "type": "objectId",
+        "types": "channel",
+        "root": "openmeteo-notify",
+        "label": {
+          "en": "Location",
+          "de": "Ort"
+        },
+        "help": {
+          "en": "Choose the location channel, e.g. openmeteo-notify.0.berlin",
+          "de": "Kanal des Ortes wählen, z. B. openmeteo-notify.0.berlin"
+        }
+      },
+      "bgPath": {
+        "type": "text",
+        "label": {
+          "en": "Background image (optional)",
+          "de": "Hintergrundbild (optional)"
+        },
+        "help": {
+          "en": "Path in the ioBroker file system, e.g. /0_userdata.0/images/garden.jpg - empty: the photo of the location",
+          "de": "Pfad im ioBroker-Dateisystem, z. B. /0_userdata.0/bilder/garten.jpg – leer: das Foto des Ortes"
+        }
+      },
+      "own": {
+        "type": "checkbox",
+        "label": {
+          "en": "Own display settings",
+          "de": "Eigene Anzeige-Einstellungen"
+        },
+        "default": false,
+        "help": {
+          "en": "Off: like the Wallpaper tab of the instance",
+          "de": "Aus: wie im Tab „Wallpaper“ der Instanz"
+        }
+      },
+      "hInfo": {
+        "type": "header",
+        "text": {
+          "en": "Info",
+          "de": "Info-Anzeige"
+        },
+        "size": 5,
+        "hidden": "!data.own"
+      },
+      "showLocation": {
+        "type": "checkbox",
+        "label": {
+          "en": "Location",
+          "de": "Ort"
+        },
+        "default": true,
+        "hidden": "!data.own"
+      },
+      "showTemperature": {
+        "type": "checkbox",
+        "label": {
+          "en": "Temperature",
+          "de": "Temperatur"
+        },
+        "default": true,
+        "hidden": "!data.own"
+      },
+      "showWindDirection": {
+        "type": "checkbox",
+        "label": {
+          "en": "Wind direction",
+          "de": "Windrichtung"
+        },
+        "default": false,
+        "hidden": "!data.own"
+      },
+      "showWindSpeed": {
+        "type": "checkbox",
+        "label": {
+          "en": "Wind speed",
+          "de": "Windgeschwindigkeit"
+        },
+        "default": false,
+        "hidden": "!data.own"
+      },
+      "position": {
+        "type": "select",
+        "label": {
+          "en": "Position",
+          "de": "Position"
+        },
+        "default": "bottom-left",
+        "options": [
+          {
+            "value": "top-left",
+            "label": {
+              "en": "top left",
+              "de": "oben links"
+            }
+          },
+          {
+            "value": "top-right",
+            "label": {
+              "en": "top right",
+              "de": "oben rechts"
+            }
+          },
+          {
+            "value": "bottom-left",
+            "label": {
+              "en": "bottom left",
+              "de": "unten links"
+            }
+          },
+          {
+            "value": "bottom-right",
+            "label": {
+              "en": "bottom right",
+              "de": "unten rechts"
+            }
+          }
+        ],
+        "hidden": "!data.own"
+      },
+      "fontSize": {
+        "type": "number",
+        "label": {
+          "en": "Font size (px)",
+          "de": "Schriftgröße (px)"
+        },
+        "default": 17,
+        "min": 10,
+        "max": 100,
+        "hidden": "!data.own"
+      },
+      "textColor": {
+        "type": "color",
+        "label": {
+          "en": "Text color",
+          "de": "Textfarbe"
+        },
+        "default": "#ffffff",
+        "hidden": "!data.own"
+      },
+      "bgColor": {
+        "type": "color",
+        "label": {
+          "en": "Background",
+          "de": "Hintergrund"
+        },
+        "default": "#0f172a",
+        "hidden": "!data.own"
+      },
+      "bgOpacity": {
+        "type": "slider",
+        "label": {
+          "en": "Background opacity (%)",
+          "de": "Deckkraft Hintergrund (%)"
+        },
+        "default": 55,
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "hidden": "!data.own"
+      },
+      "edgeMargin": {
+        "type": "number",
+        "label": {
+          "en": "Distance from the edge (px)",
+          "de": "Abstand zum Rand (px)"
+        },
+        "default": 12,
+        "min": 0,
+        "max": 100,
+        "hidden": "!data.own"
+      },
+      "hTime": {
+        "type": "header",
+        "text": {
+          "en": "Clock",
+          "de": "Uhrzeit"
+        },
+        "size": 5,
+        "hidden": "!data.own"
+      },
+      "timeEnabled": {
+        "type": "checkbox",
+        "label": {
+          "en": "Show clock",
+          "de": "Uhrzeit anzeigen"
+        },
+        "default": false,
+        "hidden": "!data.own"
+      },
+      "timePosition": {
+        "type": "select",
+        "label": {
+          "en": "Position",
+          "de": "Position"
+        },
+        "default": "top-left",
+        "options": [
+          {
+            "value": "top-left",
+            "label": {
+              "en": "top left",
+              "de": "oben links"
+            }
+          },
+          {
+            "value": "top-right",
+            "label": {
+              "en": "top right",
+              "de": "oben rechts"
+            }
+          },
+          {
+            "value": "bottom-left",
+            "label": {
+              "en": "bottom left",
+              "de": "unten links"
+            }
+          },
+          {
+            "value": "bottom-right",
+            "label": {
+              "en": "bottom right",
+              "de": "unten rechts"
+            }
+          }
+        ],
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "timeFontSize": {
+        "type": "number",
+        "label": {
+          "en": "Font size (px)",
+          "de": "Schriftgröße (px)"
+        },
+        "default": 24,
+        "min": 10,
+        "max": 100,
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "timeTextColor": {
+        "type": "color",
+        "label": {
+          "en": "Text color",
+          "de": "Textfarbe"
+        },
+        "default": "#ffffff",
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "timeBgColor": {
+        "type": "color",
+        "label": {
+          "en": "Background",
+          "de": "Hintergrund"
+        },
+        "default": "#0f172a",
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "timeBgOpacity": {
+        "type": "slider",
+        "label": {
+          "en": "Background opacity (%)",
+          "de": "Deckkraft Hintergrund (%)"
+        },
+        "default": 55,
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "timeEdgeMargin": {
+        "type": "number",
+        "label": {
+          "en": "Distance from the edge (px)",
+          "de": "Abstand zum Rand (px)"
+        },
+        "default": 12,
+        "min": 0,
+        "max": 100,
+        "hidden": "!data.own || !data.timeEnabled"
+      },
+      "hWarn": {
+        "type": "header",
+        "text": {
+          "en": "Warnings",
+          "de": "Warnungen"
+        },
+        "size": 5,
+        "hidden": "!data.own"
+      },
+      "warnEnabled": {
+        "type": "checkbox",
+        "label": {
+          "en": "Show official warnings",
+          "de": "Amtliche Warnungen anzeigen"
+        },
+        "default": true,
+        "hidden": "!data.own"
+      },
+      "warnFontSize": {
+        "type": "number",
+        "label": {
+          "en": "Font size (px)",
+          "de": "Schriftgröße (px)"
+        },
+        "default": 20,
+        "min": 10,
+        "max": 100,
+        "hidden": "!data.own || !data.warnEnabled"
+      },
+      "warnTextColor": {
+        "type": "color",
+        "label": {
+          "en": "Text color",
+          "de": "Textfarbe"
+        },
+        "default": "#ff5252",
+        "hidden": "!data.own || !data.warnEnabled"
+      }
+    }
+  }
+}

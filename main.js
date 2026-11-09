@@ -201,6 +201,8 @@ function wallpaperTimeOfDayValue(sunriseIso, sunsetIso, utcOffsetSeconds) {
 
 // Muss zu WallpaperConfig in src-admin/src/types.ts passen (Defaults dort und in
 // io-package.json native.wallpaper identisch halten).
+const WALLPAPER_POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
 const DEFAULT_WALLPAPER_CONFIG = {
 	position: "bottom-left",
 	showLocation: true,
@@ -1276,14 +1278,140 @@ class Openmeteo extends utils.Adapter {
 			return;
 		}
 		const reply = res => obj.callback && this.sendTo(obj.from, obj.command, res, obj.callback);
-		if (obj.command !== "renderWidget") {
+		const handlers = {
+			renderWidget: m => this.renderWidgetForComponent(m),
+			renderWallpaper: m => this.renderWallpaperForComponent(m),
+		};
+		const handler = handlers[obj.command];
+		if (!handler) {
 			return reply({ error: `unknown command ${obj.command}` });
 		}
 		try {
-			reply(await this.renderWidgetForComponent(obj.message || {}));
+			reply(await handler(obj.message || {}));
 		} catch (err) {
-			this.log.debug(`renderWidget: ${err.message}`);
+			this.log.debug(`${obj.command}: ${err.message}`);
 			reply({ error: err.message });
+		}
+	}
+
+	/**
+	 * Screensaver (wallpaper) for the web component: the animation of the wallpaper page with
+	 * the overlay, clock and warnings of the instance or of the widget, and an own background
+	 * image from the ioBroker file system if wanted. The page comes back as HTML (for the iframe
+	 * of the component, without a web server); later updates only send `values`.
+	 *
+	 * @param {{location?: string, settings?: object, withHtml?: boolean}} msg - message of the component
+	 * @returns {Promise<{html?: string, values: object}>} page and current values
+	 */
+	async renderWallpaperForComponent(msg) {
+		const ns = `${this.namespace}.`;
+		const locId = String(msg.location || "").startsWith(ns) ? String(msg.location).slice(ns.length) : "";
+		if (!locId || !(this.config.locations || []).some(l => normalizeId(l.name || "") === locId)) {
+			throw new Error("location not found");
+		}
+		const loc = (this.config.locations || []).find(l => normalizeId(l.name) === locId);
+		let base;
+		try {
+			const file = await this.readFileAsync(this.namespace, `wallpapers/${locId}-data.json`);
+			base = JSON.parse(String(file.file));
+		} catch {
+			throw new Error("no wallpaper data yet");
+		}
+		// eigene Einstellungen des Widgets ueber die der Instanz legen - nur bekannte Felder
+		const own = msg.settings && typeof msg.settings === "object" ? msg.settings : null;
+		const cfg = { ...DEFAULT_WALLPAPER_CONFIG, ...(this.config.wallpaper || {}) };
+		if (own) {
+			for (const [k, def] of Object.entries(DEFAULT_WALLPAPER_CONFIG)) {
+				if (k === "carouselEnabled" || own[k] === undefined || own[k] === null || own[k] === "") {
+					continue;
+				}
+				if (typeof def === "boolean") {
+					cfg[k] = own[k] === true || own[k] === "true";
+				} else if (typeof def === "number") {
+					const n = Number(own[k]);
+					if (Number.isFinite(n)) {
+						cfg[k] = n;
+					}
+				} else if (k.endsWith("osition")) {
+					if (WALLPAPER_POSITIONS.includes(own[k])) {
+						cfg[k] = own[k];
+					}
+				} else if (/^#[0-9a-f]{6}$/i.test(String(own[k]))) {
+					cfg[k] = own[k];
+				}
+			}
+		}
+		const gv = async id => (await this.getStateAsync(`${locId}.${id}`))?.val ?? null;
+		const windDeg = await gv("current.winddirection");
+		const windSpeed = await gv("current.windspeed");
+		const wsu = this.config.windspeedUnit || "kmh";
+		const windUnit = wsu === "ms" ? "m/s" : wsu === "mph" ? "mph" : wsu === "kn" ? "kn" : "km/h";
+		const name = loc ? loc.name : locId;
+		const values = {
+			...base,
+			overlayHtml: buildWallpaperOverlayHtml(
+				cfg,
+				name,
+				base.tempText || "",
+				windDeg !== null ? degreesToCompass(windDeg) : "",
+				windSpeed !== null ? `${Math.round(windSpeed)} ${windUnit}` : "",
+			),
+			clockHtml: buildWallpaperClockHtml(cfg),
+			warningHtml: buildWallpaperWarningHtml(cfg, await this.getActiveWarnings(locId), this._systemLang),
+			carouselEnabled: false,
+		};
+		if (!msg.withHtml) {
+			return { values };
+		}
+		const bg = await this._wallpaperBackground(locId, own && own.bgPath);
+		// leerer Dateiname = eingebettet: keine eigenen Abrufe, Werte kommen per postMessage
+		return { html: buildWallpaperHtml(name, locId, "", bg || "data:,", values), values };
+	}
+
+	/**
+	 * Background photo of a screensaver widget as data URL - an image of the ioBroker file
+	 * system ("/0_userdata.0/bilder/garten.jpg") or the photo of the location.
+	 *
+	 * @param {string} locId - location
+	 * @param {string} [bgPath] - own image, "/<adapter or folder>/<path>"
+	 * @returns {Promise<string>} data URL or ""
+	 */
+	async _wallpaperBackground(locId, bgPath) {
+		const types = {
+			jpg: "image/jpeg",
+			jpeg: "image/jpeg",
+			png: "image/png",
+			webp: "image/webp",
+			gif: "image/gif",
+			svg: "image/svg+xml",
+		};
+		const read = async (adapter, file) => {
+			const ext = String(file).split(".").pop().toLowerCase();
+			if (!types[ext]) {
+				throw new Error(`not an image: ${file}`);
+			}
+			const res = await this.readFileAsync(adapter, file);
+			const buf = Buffer.isBuffer(res.file) ? res.file : Buffer.from(res.file);
+			return `data:${types[ext]};base64,${buf.toString("base64")}`;
+		};
+		const own = String(bgPath || "")
+			.trim()
+			.replace(/^\/+/, "")
+			.replace(/^files\//, "");
+		if (own && !own.includes("..")) {
+			const slash = own.indexOf("/");
+			if (slash > 0) {
+				try {
+					return await read(own.slice(0, slash), own.slice(slash + 1));
+				} catch (e) {
+					this.log.debug(`Screensaver-Hintergrund ${own} nicht lesbar: ${e.message}`);
+				}
+			}
+		}
+		try {
+			return await read(this.namespace, `wallpapers/${locId}.jpg`);
+		} catch {
+			return "";
 		}
 	}
 
