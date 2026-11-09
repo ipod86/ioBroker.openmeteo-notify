@@ -317,7 +317,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.5.0 (2026-11-09)
 * (ipod86) chore: verständlicherer Adapter-Titel („Open-Meteo Wetter & Unwetterwarnungen“) und npm-Keywords
 * (ipod86) docs: Widget-Übersicht und animierte Icon-Set-Übersicht in der README
 * (ipod86) feat: Option, ausgeschlossene amtliche Warnungen auch in Widgets und Bildschirmschoner auszublenden (Datenpunkte unverändert)
@@ -348,13 +348,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 ### 0.3.0 (2026-10-17)
 * (ipod86) feat: neue Widget-Variante „Diagramm“ (Tages-/Stundenvorhersage als Diagramm mit wählbaren Werten)
 * (ipod86) fix: Widget-Datenpunkte werden nur noch geschrieben, wenn sich das HTML wirklich geändert hat (kein Neuzeichnen bei jedem Warnungs-Check)
-
-### 0.2.1 (2026-09-16)
-* (ipod86) fix: Tag/Nacht-Helligkeit im Wallpaper wurde in der Zeitzone des Host-Systems statt der des Ortes berechnet - zeigte noch Stunden nach echtem Sonnenaufgang volle Nacht, wenn beide Zeitzonen voneinander abweichen
-* (ipod86) fix: Wallpaper-Helligkeit verlief wie eine Kurve über den ganzen Tag statt eines kurzen Übergangs bei Dämmerung - blieb dadurch künstlich 1-2 Stunden nach echtem Sonnenaufgang dunkel
-* (ipod86) fix: kaputte `npm install` in der Admin-Oberfläche behoben (react/mui waren auf Versionen abgedriftet, die nicht mit `@iobroker/adapter-react-v5` kompatibel sind)
-
-Ältere Einträge: [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
 ## Lizenz
 

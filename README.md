@@ -313,7 +313,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.5.0 (2026-11-09)
 * (ipod86) chore: clearer adapter title ("Open-Meteo Weather & Severe Weather Alerts") and keywords for existing features (pollen, air quality, UV, astronomy, no API key)
 * (ipod86) docs: widget overview and animated icon set images in the README
 * (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
@@ -344,11 +344,6 @@ This adapter is an independent community project and is not affiliated with or e
 ### 0.3.0 (2026-10-17)
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
 * (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)
-
-### 0.2.1 (2026-09-16)
-* (ipod86) fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ
-* (ipod86) fix: wallpaper brightness ramped up/down like a full-day curve instead of a short dawn/dusk transition, staying artificially dark for 1-2 hours after real sunrise
-* (ipod86) fix: resolve broken `npm install` in the admin UI (react/mui had drifted to versions incompatible with `@iobroker/adapter-react-v5`)
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
