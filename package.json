@@ -72,7 +72,8 @@
     "test": "npm run test:js && npm run test:package",
     "lint": "eslint -c eslint.config.mjs .",
     "translate": "translate-adapter",
-    "release": "release-script"
+    "release": "release-script",
+    "build-wc": "cd src-webcomponents && npm install --no-audit --no-fund && npm run build"
   },
   "bugs": {
     "url": "https://github.com/ipod86/ioBroker.openmeteo-notify/issues"

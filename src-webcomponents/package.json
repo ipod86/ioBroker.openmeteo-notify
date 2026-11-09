@@ -1,0 +1,12 @@
+{
+	"name": "openmeteo-notify-webcomponents",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "node build.mjs"
+	},
+	"devDependencies": {
+		"@iobroker/web-components": "^0.6.0",
+		"esbuild": "^0.25.0"
+	}
+}

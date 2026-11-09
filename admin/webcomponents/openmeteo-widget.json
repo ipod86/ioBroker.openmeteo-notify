@@ -1,0 +1,478 @@
+{
+ "$schema": "https://raw.githubusercontent.com/ioBroker/web-components/main/schemas/manifest.json",
+ "manifestVersion": 1,
+ "tag": "iob-openmeteo-widget",
+ "name": {
+  "en": "Open-Meteo weather",
+  "de": "Open-Meteo Wetter"
+ },
+ "description": {
+  "en": "Weather widget of openmeteo-notify: from the adapter settings or set up here",
+  "de": "Wetter-Widget von openmeteo-notify: aus den Adapter-Einstellungen oder hier eingestellt"
+ },
+ "icon": "../openmeteo-notify.png",
+ "module": "openmeteo-widget.js",
+ "size": {
+  "width": 450,
+  "height": 360
+ },
+ "settings": {
+  "type": "panel",
+  "items": {
+   "mode": {
+    "type": "select",
+    "label": {
+     "en": "Source",
+     "de": "Quelle"
+    },
+    "default": "adapter",
+    "options": [
+     {
+      "value": "adapter",
+      "label": {
+       "en": "Widget from the adapter settings",
+       "de": "Widget aus den Adapter-Einstellungen"
+      }
+     },
+     {
+      "value": "custom",
+      "label": {
+       "en": "Own settings here",
+       "de": "Eigene Einstellungen hier"
+      }
+     }
+    ]
+   },
+   "widget": {
+    "type": "objectId",
+    "types": "state",
+    "root": "openmeteo-notify",
+    "label": {
+     "en": "Widget",
+     "de": "Widget"
+    },
+    "help": {
+     "en": "The widget data point, e.g. openmeteo-notify.0.berlin.widget.main",
+     "de": "Datenpunkt des Widgets, z. B. openmeteo-notify.0.berlin.widget.main"
+    },
+    "hidden": "data.mode === 'custom'"
+   },
+   "location": {
+    "type": "objectId",
+    "types": "channel",
+    "root": "openmeteo-notify",
+    "label": {
+     "en": "Location",
+     "de": "Ort"
+    },
+    "help": {
+     "en": "Choose the location channel, e.g. openmeteo-notify.0.berlin",
+     "de": "Kanal des Ortes wählen, z. B. openmeteo-notify.0.berlin"
+    },
+    "hidden": "data.mode !== 'custom'"
+   },
+   "follow": {
+    "type": "checkbox",
+    "label": {
+     "en": "Use the colors of the visualization",
+     "de": "Farben der Visualisierung übernehmen"
+    },
+    "default": false,
+    "help": {
+     "en": "Text color from the theme, transparent background",
+     "de": "Textfarbe aus dem Theme, Hintergrund durchsichtig"
+    }
+   },
+   "hLook": {
+    "type": "header",
+    "text": {
+     "en": "Appearance",
+     "de": "Darstellung"
+    },
+    "size": 5,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "variant": {
+    "type": "select",
+    "label": {
+     "en": "Variant",
+     "de": "Variante"
+    },
+    "default": "simple",
+    "hidden": "data.mode !== 'custom'",
+    "options": [
+     {
+      "value": "simple",
+      "label": {
+       "en": "Simple",
+       "de": "Einfach"
+      }
+     },
+     {
+      "value": "detailed",
+      "label": {
+       "en": "Detailed",
+       "de": "Detailliert"
+      }
+     },
+     {
+      "value": "chart",
+      "label": {
+       "en": "Chart",
+       "de": "Diagramm"
+      }
+     }
+    ]
+   },
+   "days": {
+    "type": "select",
+    "label": {
+     "en": "Days",
+     "de": "Tage"
+    },
+    "default": "7",
+    "hidden": "data.mode !== 'custom'",
+    "options": [
+     {
+      "value": "5",
+      "label": "5"
+     },
+     {
+      "value": "7",
+      "label": "7"
+     },
+     {
+      "value": "14",
+      "label": "14"
+     }
+    ]
+   },
+   "theme": {
+    "type": "select",
+    "label": {
+     "en": "Theme",
+     "de": "Design"
+    },
+    "default": "dark",
+    "hidden": "data.mode !== 'custom' || data.follow",
+    "options": [
+     {
+      "value": "dark",
+      "label": {
+       "en": "Dark text (for light backgrounds)",
+       "de": "Dunkle Schrift (für helle Hintergründe)"
+      }
+     },
+     {
+      "value": "light",
+      "label": {
+       "en": "Light text (for dark backgrounds)",
+       "de": "Helle Schrift (für dunkle Hintergründe)"
+      }
+     },
+     {
+      "value": "custom",
+      "label": {
+       "en": "Own colors",
+       "de": "Eigene Farben"
+      }
+     }
+    ]
+   },
+   "textBase": {
+    "type": "color",
+    "label": {
+     "en": "Text color",
+     "de": "Textfarbe"
+    },
+    "default": "#000000",
+    "hidden": "data.mode !== 'custom' || data.follow || data.theme !== 'custom'"
+   },
+   "bgColor": {
+    "type": "color",
+    "label": {
+     "en": "Background color",
+     "de": "Hintergrundfarbe"
+    },
+    "default": "#ffffff",
+    "hidden": "data.mode !== 'custom' || data.follow || data.theme !== 'custom'"
+   },
+   "scaleHeader": {
+    "type": "slider",
+    "label": {
+     "en": "Font size header",
+     "de": "Schriftgröße Kopf"
+    },
+    "min": -5,
+    "max": 5,
+    "step": 1,
+    "default": 0,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "scaleDetails": {
+    "type": "slider",
+    "label": {
+     "en": "Font size details",
+     "de": "Schriftgröße Details"
+    },
+    "min": -5,
+    "max": 5,
+    "step": 1,
+    "default": 0,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "scaleForecast": {
+    "type": "slider",
+    "label": {
+     "en": "Font size forecast",
+     "de": "Schriftgröße Vorhersage"
+    },
+    "min": -5,
+    "max": 5,
+    "step": 1,
+    "default": 0,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "hContent": {
+    "type": "header",
+    "text": {
+     "en": "Content",
+     "de": "Inhalt"
+    },
+    "size": 5,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "hourlyRange": {
+    "type": "number",
+    "label": {
+     "en": "Hours shown",
+     "de": "Stunden anzeigen"
+    },
+    "min": 2,
+    "max": 48,
+    "default": 20,
+    "hidden": "data.mode !== 'custom' || data.variant === 'simple'"
+   },
+   "hourlyStep": {
+    "type": "number",
+    "label": {
+     "en": "Step (hours)",
+     "de": "Schritt (Stunden)"
+    },
+    "min": 1,
+    "max": 6,
+    "default": 2,
+    "hidden": "data.mode !== 'custom' || data.variant === 'simple'"
+   },
+   "showWarnBadge": {
+    "type": "checkbox",
+    "label": {
+     "en": "Badge for official warnings",
+     "de": "Hinweis auf amtliche Warnungen"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "showMoon": {
+    "type": "checkbox",
+    "label": {
+     "en": "Moon phase on night icons",
+     "de": "Mondphase bei Nacht-Symbolen"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "nowcast": {
+    "type": "checkbox",
+    "label": {
+     "en": "Short-range forecast (15 min)",
+     "de": "Kurzfristvorhersage (15 min)"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom'"
+   },
+   "hChart": {
+    "type": "header",
+    "text": {
+     "en": "Chart",
+     "de": "Diagramm"
+    },
+    "size": 5,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "chartView": {
+    "type": "select",
+    "label": {
+     "en": "Start view",
+     "de": "Startansicht"
+    },
+    "default": "daily",
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'",
+    "options": [
+     {
+      "value": "daily",
+      "label": {
+       "en": "Days",
+       "de": "Tage"
+      }
+     },
+     {
+      "value": "hourly",
+      "label": {
+       "en": "Hours",
+       "de": "Stunden"
+      }
+     },
+     {
+      "value": "dailyOnly",
+      "label": {
+       "en": "Days only",
+       "de": "Nur Tage"
+      }
+     }
+    ]
+   },
+   "chartShowDetails": {
+    "type": "checkbox",
+    "label": {
+     "en": "Details below the header",
+     "de": "Details unter dem Kopf"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "chartShowWind": {
+    "type": "checkbox",
+    "label": {
+     "en": "Wind row",
+     "de": "Windzeile"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "chartStart": {
+    "type": "select",
+    "label": {
+     "en": "Start value",
+     "de": "Startwert"
+    },
+    "default": "temp",
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'",
+    "options": [
+     {
+      "value": "temp",
+      "label": {
+       "en": "Temperature",
+       "de": "Temperatur"
+      }
+     },
+     {
+      "value": "feels",
+      "label": {
+       "en": "Feels like",
+       "de": "Gefühlt"
+      }
+     },
+     {
+      "value": "prob",
+      "label": {
+       "en": "Precipitation probability",
+       "de": "Regenwahrscheinlichkeit"
+      }
+     },
+     {
+      "value": "wind",
+      "label": {
+       "en": "Wind",
+       "de": "Wind"
+      }
+     },
+     {
+      "value": "hum",
+      "label": {
+       "en": "Humidity",
+       "de": "Luftfeuchte"
+      }
+     },
+     {
+      "value": "press",
+      "label": {
+       "en": "Air pressure",
+       "de": "Luftdruck"
+      }
+     },
+     {
+      "value": "uv",
+      "label": {
+       "en": "UV index",
+       "de": "UV-Index"
+      }
+     }
+    ]
+   },
+   "attr_temp": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Temperature",
+     "de": "Anbieten: Temperatur"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_feels": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Feels like",
+     "de": "Anbieten: Gefühlt"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_prob": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Precipitation probability",
+     "de": "Anbieten: Regenwahrscheinlichkeit"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_wind": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Wind",
+     "de": "Anbieten: Wind"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_hum": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Humidity",
+     "de": "Anbieten: Luftfeuchte"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_press": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: Air pressure",
+     "de": "Anbieten: Luftdruck"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   },
+   "attr_uv": {
+    "type": "checkbox",
+    "label": {
+     "en": "Offer: UV index",
+     "de": "Anbieten: UV-Index"
+    },
+    "default": true,
+    "hidden": "data.mode !== 'custom' || data.variant !== 'chart'"
+   }
+  }
+ }
+}

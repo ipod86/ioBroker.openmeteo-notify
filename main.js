@@ -1249,8 +1249,121 @@ class Openmeteo extends utils.Adapter {
 		this._jitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for sub-daily intervals
 		this._dailyJitterMs = Math.floor(Math.random() * 300_000); // up to 5 min for daily interval
 		this._warnJitterMs = Math.floor(Math.random() * 60_000); // up to 1 min for warn interval
+		this._widgetRenderCache = new Map(); // Web-Komponente: gerenderte Widgets je Ort und Einstellungen
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+		this.on("message", this.onMessage.bind(this));
+	}
+
+	/**
+	 * Messages via sendTo. "renderWidget" is used by the web component (admin/webcomponents):
+	 * it renders a widget with the same functions as the HTML widget data points, either a
+	 * widget from the adapter settings or settings chosen in the visualization.
+	 *
+	 * @param {ioBroker.Message} obj - message
+	 */
+	async onMessage(obj) {
+		if (!obj || !obj.command) {
+			return;
+		}
+		const reply = res => obj.callback && this.sendTo(obj.from, obj.command, res, obj.callback);
+		if (obj.command !== "renderWidget") {
+			return reply({ error: `unknown command ${obj.command}` });
+		}
+		try {
+			reply(await this.renderWidgetForComponent(obj.message || {}));
+		} catch (err) {
+			this.log.debug(`renderWidget: ${err.message}`);
+			reply({ error: err.message });
+		}
+	}
+
+	/**
+	 * Renders a widget for the web component.
+	 *
+	 * @param {object} msg - { widgetId?: string, location?: string, widget?: object, follow?: { text: string } }
+	 * @returns {Promise<{html: string, updated: number}>} rendered HTML
+	 */
+	async renderWidgetForComponent(msg) {
+		const ns = `${this.namespace}.`;
+		const strip = id => (typeof id === "string" && id.startsWith(ns) ? id.slice(ns.length) : String(id || ""));
+		const locations = (this.config.locations || []).map(l => normalizeId(l.name || ""));
+		const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
+		let widget;
+		let locId;
+		if (msg.widgetId) {
+			// "<loc>.widget.<id>" – a widget from the adapter settings
+			const m = /^([^.]+)\.widget\.([^.]+)$/.exec(strip(msg.widgetId));
+			if (!m) {
+				throw new Error("widget not found");
+			}
+			locId = m[1];
+			widget = widgets.find(w => normalizeId(w.locationName || "") === locId && normalizeId(w.id || "") === m[2]);
+			if (!widget) {
+				throw new Error("widget not found");
+			}
+			widget = { ...widget };
+		} else {
+			locId = strip(msg.location).split(".")[0];
+			const w = msg.widget && typeof msg.widget === "object" ? msg.widget : {};
+			const num = (v, d, min, max) => {
+				const n = Number(v);
+				return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : d;
+			};
+			const ATTRS = ["temp", "feels", "prob", "wind", "hum", "press", "uv"];
+			let attrs = Array.isArray(w.chartAttrs) ? w.chartAttrs.filter(a => ATTRS.includes(a)) : ATTRS;
+			if (!attrs.length) {
+				attrs = ATTRS;
+			}
+			widget = {
+				id: "wc",
+				locationName: locId,
+				days: [5, 7, 14].includes(Number(w.days)) ? Number(w.days) : 7,
+				variant: ["simple", "detailed", "chart"].includes(w.variant) ? w.variant : "simple",
+				theme: ["light", "dark", "custom"].includes(w.theme) ? w.theme : "dark",
+				width: 450,
+				bgColor: /^#[0-9a-f]{6}$/i.test(w.bgColor || "") ? w.bgColor : "transparent",
+				textBase: /^#[0-9a-f]{6}$/i.test(w.textBase || "") ? w.textBase : "#000000",
+				hourlyRange: num(w.hourlyRange, 20, 2, 48),
+				hourlyStep: num(w.hourlyStep, 2, 1, 6),
+				scaleHeader: num(w.scaleHeader, 0, -5, 5),
+				scaleDetails: num(w.scaleDetails, 0, -5, 5),
+				scaleForecast: num(w.scaleForecast, 0, -5, 5),
+				showWarnBadge: w.showWarnBadge !== false,
+				showMoon: w.showMoon !== false,
+				nowcast: w.nowcast !== false,
+				chartShowDetails: w.chartShowDetails !== false,
+				chartShowWind: w.chartShowWind !== false,
+				chartView: ["daily", "hourly", "dailyOnly"].includes(w.chartView) ? w.chartView : "daily",
+				chartAttrs: attrs,
+			};
+		}
+		if (!locId || !locations.includes(locId)) {
+			throw new Error("location not found");
+		}
+		// Farben der Visualisierung übernehmen: Textfarbe aus dem Theme, Hintergrund durchsichtig
+		if (msg.follow && /^#[0-9a-f]{6}$/i.test(msg.follow.text || "")) {
+			widget.theme = "custom";
+			widget.textBase = msg.follow.text;
+			widget.bgColor = "transparent";
+		}
+		const key = `${locId}|${JSON.stringify(widget)}`;
+		const cached = this._widgetRenderCache.get(key);
+		if (cached) {
+			return cached;
+		}
+		const html =
+			widget.variant === "detailed"
+				? await this.buildDetailedWidgetHtml(widget, locId)
+				: widget.variant === "chart"
+					? await this.buildChartWidgetHtml(widget, locId)
+					: await this.buildWidgetHtml(widget, locId);
+		const res = { html, updated: Date.now() };
+		if (this._widgetRenderCache.size > 200) {
+			this._widgetRenderCache.clear();
+		}
+		this._widgetRenderCache.set(key, res);
+		return res;
 	}
 
 	/**
@@ -2120,6 +2233,17 @@ class Openmeteo extends utils.Adapter {
 	 * @param {string} reason - for the log
 	 */
 	async rebuildWidgets(locId, reason) {
+		// Web-Komponente: zwischengespeicherte Widgets dieses Ortes verwerfen und Aktualisierung melden
+		for (const k of this._widgetRenderCache.keys()) {
+			if (k.startsWith(`${locId}|`)) {
+				this._widgetRenderCache.delete(k);
+			}
+		}
+		await this.setDP(`${locId}.widgetUpdated`, Date.now(), {
+			name: "Widget data updated (for the web component)",
+			type: "number",
+			role: "date",
+		});
 		const widgets = Array.isArray(this.config.widgets) ? this.config.widgets : [];
 		for (const widget of widgets) {
 			const safeWId = normalizeId(widget.id || "");
