@@ -1,3 +1,4 @@
+/* global getComputedStyle, ResizeObserver */
 /* Web-Komponente <iob-openmeteo-widget>: zeigt ein Wetter-Widget von openmeteo-notify in Aura, vis-2,
    devices und admin. Gerendert wird immer im Adapter (dieselben Funktionen wie die HTML-Datenpunkte):
    - Modus "adapter": ein in den Adapter-Einstellungen angelegtes Widget (Datenpunkt <ort>.widget.<id>)
@@ -157,9 +158,49 @@ class OpenMeteoWidget extends IobWebComponent {
 			? `<div class="msg">${msg.replace(/[<>&]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[c])}</div>`
 			: html;
 		this.shadowRoot.innerHTML =
-			`<style>:host{display:block;width:100%;height:100%;overflow:auto;color:inherit;font:inherit}` +
-			`.wrap{width:100%;min-height:100%;container-type:inline-size;${this.editMode ? "pointer-events:none;" : ""}}` +
+			`<style>:host{display:block;width:100%;height:100%;overflow:hidden;color:inherit;font:inherit}` +
+			`.wrap{width:100%;container-type:inline-size;margin:0 auto;${this.editMode ? "pointer-events:none;" : ""}}` +
 			`.msg{padding:12px;opacity:.7;font-size:14px}</style><div class="wrap">${body}</div>`;
+		this._fit();
+	}
+
+	// Das Widget skaliert mit der Breite. Ist es dadurch höher als die Kachel, wird es als Ganzes
+	// verkleinert, statt einen Scrollbalken zu zeigen.
+	_fit() {
+		const wrap = this.shadowRoot.querySelector(".wrap");
+		if (!wrap) {
+			return;
+		}
+		wrap.style.zoom = "";
+		const top = wrap.getBoundingClientRect().top;
+		let bottom = 0;
+		for (const el of wrap.querySelectorAll("*")) {
+			const r = el.getBoundingClientRect();
+			if (r.height && getComputedStyle(el).display !== "none") {
+				bottom = Math.max(bottom, r.bottom - top);
+			}
+		}
+		const avail = this.getBoundingClientRect().height;
+		if (bottom > avail + 1 && avail > 20) {
+			wrap.style.zoom = String(Math.max(0.5, avail / bottom));
+		}
+	}
+
+	connectedCallback() {
+		super.connectedCallback && super.connectedCallback();
+		if (!this._ro && typeof ResizeObserver !== "undefined") {
+			let t = null;
+			this._ro = new ResizeObserver(() => {
+				clearTimeout(t);
+				t = setTimeout(() => this._fit(), 50);
+			});
+		}
+		this._ro && this._ro.observe(this);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback && super.disconnectedCallback();
+		this._ro && this._ro.disconnect();
 	}
 }
 
