@@ -1281,6 +1281,10 @@ class Openmeteo extends utils.Adapter {
 		const handlers = {
 			renderWidget: m => this.renderWidgetForComponent(m),
 			renderWallpaper: m => this.renderWallpaperForComponent(m),
+			// Auswahllisten fuer die Web-Komponenten (selectSendTo): value = volle Objekt-ID wie bei der
+			// bisherigen Objektauswahl, damit eingerichtete Widgets gueltig bleiben
+			getLocations: () => this.locationOptions(),
+			getWidgets: () => this.widgetOptions(),
 		};
 		const handler = handlers[obj.command];
 		if (!handler) {
@@ -1292,6 +1296,42 @@ class Openmeteo extends utils.Adapter {
 			this.log.debug(`${obj.command}: ${err.message}`);
 			reply({ error: err.message });
 		}
+	}
+
+	/**
+	 * Options for a selectSendTo setting of the web components: the configured locations.
+	 *
+	 * @returns {{value: string, label: string}[]} value = channel id of the location
+	 */
+	locationOptions() {
+		const seen = new Set();
+		const out = [];
+		for (const l of Array.isArray(this.config.locations) ? this.config.locations : []) {
+			const id = normalizeId(l.name || "");
+			if (id && !seen.has(id)) {
+				seen.add(id);
+				out.push({ value: `${this.namespace}.${id}`, label: String(l.name) });
+			}
+		}
+		return out;
+	}
+
+	/**
+	 * Options for a selectSendTo setting of the web components: the configured HTML widgets.
+	 *
+	 * @returns {{value: string, label: string}[]} value = state id of the widget
+	 */
+	widgetOptions() {
+		const locs = new Set(this.locationOptions().map(o => o.value));
+		const out = [];
+		for (const w of Array.isArray(this.config.widgets) ? this.config.widgets : []) {
+			const wid = normalizeId(w.id || "");
+			const locId = normalizeId(w.locationName || "");
+			if (wid && locId && locs.has(`${this.namespace}.${locId}`)) {
+				out.push({ value: `${this.namespace}.${locId}.widget.${wid}`, label: `${w.locationName} – ${w.id}` });
+			}
+		}
+		return out;
 	}
 
 	/**

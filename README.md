@@ -314,6 +314,9 @@ This adapter is an independent community project and is not affiliated with or e
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (ipod86) feat: messages `getLocations` and `getWidgets` for the web components (prepares dropdowns instead of the object browser)
+
+### **WORK IN PROGRESS**
 * (ipod86) chore: description and keywords mention the widgets for vis-2 and AURA
 
 ### 0.5.1 (2026-11-12)
