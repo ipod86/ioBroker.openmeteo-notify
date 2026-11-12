@@ -317,6 +317,9 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.5.1 (2026-11-12)
+* (ipod86) fix: Build-Skript der Web-Komponenten wirft einen Fehler statt process.exit (Repochecker E5050)
+
 ### 0.5.0 (2026-11-09)
 * (ipod86) chore: verständlicherer Adapter-Titel („Open-Meteo Wetter & Unwetterwarnungen“) und npm-Keywords
 * (ipod86) docs: Widget-Übersicht und animierte Icon-Set-Übersicht in der README

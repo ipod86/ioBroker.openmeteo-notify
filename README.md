@@ -313,6 +313,9 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) fix: build script of the web components throws instead of process.exit (repochecker E5050)
+
 ### 0.5.0 (2026-11-09)
 * (ipod86) chore: clearer adapter title ("Open-Meteo Weather & Severe Weather Alerts") and keywords for existing features (pollen, air quality, UV, astronomy, no API key)
 * (ipod86) docs: widget overview and animated icon set images in the README
