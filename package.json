@@ -1,7 +1,7 @@
 {
   "name": "iobroker.openmeteo-notify",
   "version": "0.5.1",
-  "description": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm",
+  "description": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm – with widgets for vis-2 and AURA",
   "author": {
     "name": "ipod86",
     "email": "david@graef.email"
@@ -31,7 +31,11 @@
     "astronomy",
     "moon",
     "widget",
-    "no api key"
+    "no api key",
+    "vis-2",
+    "aura",
+    "web component",
+    "dashboard"
   ],
   "repository": {
     "type": "git",

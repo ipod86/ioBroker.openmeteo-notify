@@ -313,6 +313,9 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) chore: description and keywords mention the widgets for vis-2 and AURA
+
 ### 0.5.1 (2026-11-12)
 * (ipod86) fix: build script of the web components throws instead of process.exit (repochecker E5050)
 

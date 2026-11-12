@@ -317,6 +317,9 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) chore: Beschreibung und Suchbegriffe nennen die Widgets für vis-2 und AURA
+
 ### 0.5.1 (2026-11-12)
 * (ipod86) fix: Build-Skript der Web-Komponenten wirft einen Fehler statt process.exit (Repochecker E5050)
 
