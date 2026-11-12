@@ -100,6 +100,10 @@
 
 ### 0.0.1
 * Initial release
+## 0.3.0 (2026-10-17)
+* (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
+* (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)
+
 ## 0.2.1 (2026-09-16)
 * (ipod86) fix: wallpaper day/night brightness was calculated in the host system's timezone instead of the location's, showing full night hours after real sunrise if the two differ
 * (ipod86) fix: wallpaper brightness ramped up/down like a full-day curve instead of a short dawn/dusk transition, staying artificially dark for 1-2 hours after real sunrise
