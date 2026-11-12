@@ -17,8 +17,7 @@ for (const name of ["openmeteo-widget", "openmeteo-wallpaper"]) {
 	const manifest = JSON.parse(readFileSync(`${name}.json`, "utf8"));
 	const problems = checkManifest(manifest);
 	if (problems && (Array.isArray(problems) ? problems.length : Object.keys(problems).length)) {
-		console.error(`${name}.json:`, problems);
-		process.exit(1);
+		throw new Error(`${name}.json: ${JSON.stringify(problems)}`);
 	}
 	copyFileSync(`${name}.json`, `${out}/${name}.json`);
 }
