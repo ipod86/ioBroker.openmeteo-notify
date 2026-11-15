@@ -6,7 +6,7 @@
 		"build": "node build.mjs"
 	},
 	"devDependencies": {
-		"@iobroker/web-components": "^0.6.0",
+		"@iobroker/web-components": "^0.7.0",
 		"esbuild": "^0.25.0"
 	}
 }
