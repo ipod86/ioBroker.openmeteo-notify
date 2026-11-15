@@ -46,8 +46,8 @@ The adapter generates a self-contained, animated weather wallpaper per location 
 - Configurable via a dedicated **admin "Wallpaper" tab** (position, colors, font sizes, clock, warnings) with a live preview that simulates common screen resolutions
 - Reachable directly as a URL per web instance (`current.wallpaper_url_<instance>`) — no VIS binding required
 
-### Web components for AURA, vis-2 and devices
-The weather widget and the screensaver are also available as web components (`@iobroker/web-components`). AURA (0.106.0+, 0.112.0+ recommended), vis-2 (2.20.7+) and the devices adapter (4.3.0+) list them in their widget palette — no HTML binding needed.
+### Widgets (web components) for AURA, vis-2, devices and other visualisations
+The weather widget and the screensaver are also available as web components (`@iobroker/web-components`). AURA (0.106.0+, 0.112.0+ recommended), vis-2 (2.20.7+), the devices adapter (4.3.0+) and every other visualisation that supports web components list them in their widget palette — no HTML binding needed.
 - **Open-Meteo weather** — either a widget from the adapter settings, or set up right in the visualization: location, variant (simple/detailed/chart), days, icon set, colors, sizes and chart options
 - optionally takes the text color of the visualization's theme
 - shrinks to fit its tile instead of scrolling
@@ -317,7 +317,7 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) feat: messages `getLocations` and `getWidgets` for the web components (prepares dropdowns instead of the object browser)
 
 ### **WORK IN PROGRESS**
-* (ipod86) chore: description and keywords mention the widgets for vis-2 and AURA
+* (ipod86) chore: description and keywords mention the widgets for vis-2, AURA and other visualisations
 
 ### 0.5.1 (2026-11-12)
 * (ipod86) fix: build script of the web components throws instead of process.exit (repochecker E5050)
@@ -328,7 +328,7 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) feat: option to hide excluded official warnings in widgets and screensaver too (data points unchanged)
 * (ipod86) fix: negative frost threshold can be typed in the settings
 * (ipod86) fix: excluded official warnings no longer send "lifted" or update messages
-* (ipod86) feat: web components for AURA (0.106.0+), vis-2 (2.20.7+) and devices (4.3.0+) – weather widget and screensaver
+* (ipod86) feat: widgets (web components) for AURA (0.106.0+), vis-2 (2.20.7+), devices (4.3.0+) and other visualisations – weather widget and screensaver
 * (ipod86) feat: own icon set per widget (web component)
 * (ipod86) fix: a widget never draws more days than the forecast has (empty second row)
 * (ipod86) fix: WMO symbols light on dark backgrounds with an own text color
