@@ -109,17 +109,17 @@
       "zh-cn": "Open-Meteo 天气与恶劣天气预警"
     },
     "desc": {
-      "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm – with widgets for vis-2 and AURA",
-      "de": "Wettervorhersage und amtliche Unwetterwarnungen über Open-Meteo, DWD und MeteoAlarm – mit Widgets für vis-2 und AURA",
-      "ru": "Прогноз погоды и официальные предупреждения о погоде через Open-Meteo, DWD и MeteoAlarm – с виджетами для vis-2 и AURA",
-      "pt": "Previsão do tempo e avisos meteorológicos oficiais via Open-Meteo, DWD e MeteoAlarm – com widgets para vis-2 e AURA",
-      "nl": "Weersvoorspelling en officiële weerwaarschuwingen via Open-Meteo, DWD en MeteoAlarm – met widgets voor vis-2 en AURA",
-      "fr": "Prévisions météo et alertes météo officielles via Open-Meteo, DWD et MeteoAlarm – avec des widgets pour vis-2 et AURA",
-      "it": "Previsioni meteo e allerte meteo ufficiali tramite Open-Meteo, DWD e MeteoAlarm – con widget per vis-2 e AURA",
-      "es": "Pronóstico del tiempo y avisos meteorológicos oficiales a través de Open-Meteo, DWD y MeteoAlarm – con widgets para vis-2 y AURA",
-      "pl": "Prognoza pogody i oficjalne ostrzeżenia meteorologiczne przez Open-Meteo, DWD i MeteoAlarm – z widżetami dla vis-2 i AURA",
-      "uk": "Прогноз погоди та офіційні попередження про погоду через Open-Meteo, DWD та MeteoAlarm – з віджетами для vis-2 та AURA",
-      "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警，并提供适用于 vis-2 和 AURA 的小部件"
+      "en": "Weather forecast and official weather warnings via Open-Meteo, DWD and MeteoAlarm – with widgets for vis-2, AURA and other visualisations",
+      "de": "Wettervorhersage und amtliche Unwetterwarnungen über Open-Meteo, DWD und MeteoAlarm – mit Widgets für vis-2, AURA und andere Visualisierungen",
+      "ru": "Прогноз погоды и официальные предупреждения о погоде через Open-Meteo, DWD и MeteoAlarm – с виджетами для vis-2, AURA и других визуализаций",
+      "pt": "Previsão do tempo e avisos meteorológicos oficiais via Open-Meteo, DWD e MeteoAlarm – com widgets para vis-2, AURA e outras visualizações",
+      "nl": "Weersvoorspelling en officiële weerwaarschuwingen via Open-Meteo, DWD en MeteoAlarm – met widgets voor vis-2, AURA en andere visualisaties",
+      "fr": "Prévisions météo et alertes météo officielles via Open-Meteo, DWD et MeteoAlarm – avec des widgets pour vis-2, AURA et d’autres visualisations",
+      "it": "Previsioni meteo e allerte meteo ufficiali tramite Open-Meteo, DWD e MeteoAlarm – con widget per vis-2, AURA e altre visualizzazioni",
+      "es": "Pronóstico del tiempo y avisos meteorológicos oficiales a través de Open-Meteo, DWD y MeteoAlarm – con widgets para vis-2, AURA y otras visualizaciones",
+      "pl": "Prognoza pogody i oficjalne ostrzeżenia meteorologiczne przez Open-Meteo, DWD i MeteoAlarm – z widżetami dla vis-2, AURA i innych wizualizacji",
+      "uk": "Прогноз погоди та офіційні попередження про погоду через Open-Meteo, DWD та MeteoAlarm – з віджетами для vis-2, AURA та інших візуалізацій",
+      "zh-cn": "通过 Open-Meteo、DWD 和 MeteoAlarm 提供天气预报和官方气象预警，并提供适用于 vis-2、AURA 及其他可视化界面的小部件"
     },
     "authors": [
       "ipod86 <david@graef.email>"

@@ -319,8 +319,6 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 -->
 ### **WORK IN PROGRESS**
 * (ipod86) feat: Nachrichten `getLocations` und `getWidgets` für die Web-Komponenten (Vorbereitung für Auswahllisten statt Objektbaum)
-
-### **WORK IN PROGRESS**
 * (ipod86) chore: Beschreibung und Suchbegriffe nennen die Widgets für vis-2, AURA und andere Visualisierungen
 
 ### 0.5.1 (2026-11-12)
