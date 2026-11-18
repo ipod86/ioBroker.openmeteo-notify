@@ -100,6 +100,12 @@
 
 ### 0.0.1
 * Initial release
+## 0.3.1 (2026-10-21)
+* (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
+* (ipod86) fix: warning badge could not be opened when a dashboard card displays the widget in a shadow DOM
+* (ipod86) feat: warning window: heading and dates in the system language, scrolling stays inside the window on mobile
+* (ipod86) feat: screensaver warning banner: identical warnings combined, highest level first, at most 2 lines with "+N more"
+
 ## 0.3.0 (2026-10-17)
 * (ipod86) feat: new widget variant "chart" (daily/hourly forecast chart with selectable values)
 * (ipod86) fix: widget data points are only written when the HTML actually changed (no re-render every warning check)

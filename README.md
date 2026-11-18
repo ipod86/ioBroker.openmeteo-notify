@@ -313,7 +313,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.6.0 (2026-11-18)
 * (ipod86) feat: notifications also directly to messengers (Telegram, e-mail, Pushover, Pushsafer, WhatsApp/Signal cmb and every adapter that receives ioBroker notifications); the notification system stays on by default and can be switched off
 * (ipod86) feat: messages `getLocations` and `getWidgets` for the web components (prepares dropdowns instead of the object browser)
 * (ipod86) chore: description and keywords mention the widgets for vis-2, AURA and other visualisations
@@ -342,12 +342,6 @@ This adapter is an independent community project and is not affiliated with or e
 * (ipod86) fix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)
 * (ipod86) fix: wallpaper URL data points of removed web instances are deleted
 * (ipod86) feat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast
-
-### 0.3.1 (2026-10-21)
-* (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
-* (ipod86) fix: warning badge could not be opened when a dashboard card displays the widget in a shadow DOM
-* (ipod86) feat: warning window: heading and dates in the system language, scrolling stays inside the window on mobile
-* (ipod86) feat: screensaver warning banner: identical warnings combined, highest level first, at most 2 lines with "+N more"
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
