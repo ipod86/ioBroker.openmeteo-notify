@@ -317,7 +317,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.6.1 (2026-11-18)
 * (ipod86) Neu: direkt im eigenen Format zusätzlich an Gotify, SMS (gsmsms, seven.io), Discord, MAX, ioBroker Visu App und Synology Chat; wählbar sind nur unterstützte und installierte Messenger, jeweils mit eigenen Feldern
 * (ipod86) Geändert: kein allgemeines Benachrichtigungsformat und keine freie Instanzeingabe mehr – andere Messenger über den Benachrichtigungsmanager
 
