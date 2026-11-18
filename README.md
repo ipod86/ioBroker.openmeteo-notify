@@ -314,6 +314,7 @@ This adapter is an independent community project and is not affiliated with or e
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (ipod86) feat: notifications also directly to messengers (Telegram, e-mail, Pushover, Pushsafer, WhatsApp/Signal cmb and every adapter that receives ioBroker notifications); the notification system stays on by default and can be switched off
 * (ipod86) feat: messages `getLocations` and `getWidgets` for the web components (prepares dropdowns instead of the object browser)
 * (ipod86) chore: description and keywords mention the widgets for vis-2, AURA and other visualisations
 

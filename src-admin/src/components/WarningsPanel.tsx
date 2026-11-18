@@ -14,12 +14,15 @@ import {
 } from "@mui/material";
 import { I18n } from "@iobroker/adapter-react-v5";
 import { OpenMeteoConfig } from "../types";
+import MessengersPanel from "./MessengersPanel";
 
 interface Props {
 	native: OpenMeteoConfig;
 	onChange: (newNative: OpenMeteoConfig) => void;
 	notificationManagerInstalled?: boolean;
 	notificationManagerRunning?: boolean;
+	socket: any;
+	namespace: string;
 }
 
 const WarningsPanel: React.FC<Props> = ({
@@ -27,6 +30,8 @@ const WarningsPanel: React.FC<Props> = ({
 	onChange,
 	notificationManagerInstalled,
 	notificationManagerRunning,
+	socket,
+	namespace,
 }) => {
 	const update = (field: keyof OpenMeteoConfig, value: any): void => {
 		onChange({ ...native, [field]: value });
@@ -40,15 +45,15 @@ const WarningsPanel: React.FC<Props> = ({
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-			{notificationManagerInstalled === false && (
-				<Alert severity="warning">{I18n.t("notificationManagerMissingHint")}</Alert>
-			)}
-			{notificationManagerInstalled === true && notificationManagerRunning === false && (
-				<Alert severity="warning">{I18n.t("notificationManagerNotRunningHint")}</Alert>
-			)}
-			{notificationManagerInstalled === true && notificationManagerRunning === true && (
-				<Alert severity="info">{I18n.t("notificationManagerFoundHint")}</Alert>
-			)}
+			<MessengersPanel
+				native={native}
+				onChange={onChange}
+				socket={socket}
+				namespace={namespace}
+				notificationManagerInstalled={notificationManagerInstalled}
+				notificationManagerRunning={notificationManagerRunning}
+			/>
+			<Divider />
 			{/* Official warnings */}
 			<Box>
 				<Typography

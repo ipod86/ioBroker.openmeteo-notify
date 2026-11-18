@@ -167,6 +167,8 @@ class App extends GenericApp<GenericAppProps, AppState> {
 									onChange={handleChange}
 									notificationManagerInstalled={(this.state as any).notificationManagerInstalled}
 									notificationManagerRunning={(this.state as any).notificationManagerRunning}
+									socket={this.socket}
+									namespace={`${(this as any).adapterName ?? "openmeteo-notify"}.${(this as any).instance ?? 0}`}
 								/>
 							)}
 							{tab === 2 && (

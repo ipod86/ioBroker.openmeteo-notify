@@ -177,5 +177,20 @@
 	"minutelyHelp": "Загружает значения с шагом 15 минут на ближайшие 1–4 часа (осадки, дождь, ливни, снег, вероятность, температура, порывы) в <location>.minutely, а также rain_starts_in и rain_ends_at. Отдельный небольшой запрос со своим интервалом.",
 	"minutelyNotifyHelp": "Уведомляет один раз за период осадков, если осадки выше порога начнутся в пределах времени упреждения. Если дождь уже идёт, уведомления нет.",
 	"widgetNowcast": "Краткосрочный прогноз (15 мин)",
-	"widgetNowcastNoMinutely": "Отображается только если в настройках включён прогноз на 15 минут."
+	"widgetNowcastNoMinutely": "Отображается только если в настройках включён прогноз на 15 минут.",
+	"messengersHeader": "Where should the notifications go?",
+	"messengersIntro": "Weather warnings and the other notifications of this adapter can go to the ioBroker notification system, directly to messengers such as Telegram or e-mail – or to both.",
+	"notifyManagerLabel": "ioBroker notification system (notification manager)",
+	"notifyManagerHelp": "As before: the notifications appear in the admin and the notification manager adapter forwards them to the messengers set up there. Switch it off if you only want the messengers below.",
+	"messengersTableHeader": "Messengers",
+	"messengersHelp": "Each row gets every notification directly. Telegram, e-mail, Pushover, Pushsafer, WhatsApp (cmb) and Signal (cmb) get the text in their own format; other adapters that receive ioBroker notifications (e.g. Gotify, Discord, ioBroker.pro app, GSM SMS) get the format of the notification manager. User and chat ID are optional, e.g. for one Telegram user only.",
+	"messengerActive": "Active",
+	"messengerInstance": "Instance",
+	"messengerUser": "User (optional)",
+	"messengerChatId": "Chat ID (optional)",
+	"messengerDelete": "Delete",
+	"messengerAdd": "Add messenger",
+	"messengersTest": "Send test message",
+	"messengersTestSent": "Test message sent to %s messenger(s) – please check whether it arrived.",
+	"messengersNoneHint": "The notification system is switched off and no messenger is active – no notifications are sent."
 }

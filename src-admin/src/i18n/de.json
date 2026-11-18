@@ -177,5 +177,20 @@
 	"minutelyHelp": "Holt für die nächsten 1–4 Stunden Werte in 15-Minuten-Schritten (Niederschlag, Regen, Schauer, Schnee, Wahrscheinlichkeit, Temperatur, Böen) unter <ort>.minutely sowie rain_starts_in und rain_ends_at. Eigener, kleiner Abruf mit eigenem Intervall.",
 	"minutelyNotifyHelp": "Meldet einmal pro Niederschlagsphase, wenn innerhalb der Vorlaufzeit Niederschlag ab der Schwelle beginnt. Regnet es bereits, gibt es keine Meldung.",
 	"widgetNowcast": "Kurzfristvorhersage (15 Min.)",
-	"widgetNowcastNoMinutely": "Wird nur angezeigt, wenn die 15-Minuten-Vorhersage in den Einstellungen aktiviert ist."
+	"widgetNowcastNoMinutely": "Wird nur angezeigt, wenn die 15-Minuten-Vorhersage in den Einstellungen aktiviert ist.",
+	"messengersHeader": "Wohin sollen die Benachrichtigungen gehen?",
+	"messengersIntro": "Wetterwarnungen und die anderen Benachrichtigungen dieses Adapters können an das ioBroker-Benachrichtigungssystem gehen, direkt an Messenger wie Telegram oder E-Mail – oder an beides.",
+	"notifyManagerLabel": "ioBroker-Benachrichtigungssystem (Benachrichtigungsmanager)",
+	"notifyManagerHelp": "Wie bisher: Die Benachrichtigungen erscheinen im Admin, und der Adapter Benachrichtigungsmanager leitet sie an die dort eingerichteten Messenger weiter. Ausschalten, wenn du nur die Messenger unten nutzen möchtest.",
+	"messengersTableHeader": "Messenger",
+	"messengersHelp": "Jede Zeile bekommt jede Benachrichtigung direkt. Telegram, E-Mail, Pushover, Pushsafer, WhatsApp (cmb) und Signal (cmb) erhalten den Text im eigenen Format; andere Adapter, die ioBroker-Benachrichtigungen empfangen (z. B. Gotify, Discord, ioBroker.pro-App, GSM-SMS), erhalten das Format des Benachrichtigungsmanagers. Benutzer und Chat-ID sind optional, z. B. nur für einen Telegram-Benutzer.",
+	"messengerActive": "Aktiv",
+	"messengerInstance": "Instanz",
+	"messengerUser": "Benutzer (optional)",
+	"messengerChatId": "Chat-ID (optional)",
+	"messengerDelete": "Löschen",
+	"messengerAdd": "Messenger hinzufügen",
+	"messengersTest": "Testnachricht senden",
+	"messengersTestSent": "Testnachricht an %s Messenger geschickt – bitte prüfen, ob sie angekommen ist.",
+	"messengersNoneHint": "Das Benachrichtigungssystem ist aus und kein Messenger aktiv – es werden keine Benachrichtigungen verschickt."
 }

@@ -1,3 +1,11 @@
+/** a messenger instance that gets the notifications (Telegram, e-mail, ... or any adapter for notifications) */
+export interface MessengerRow {
+	enabled: boolean;
+	instance: string;
+	user?: string;
+	chatId?: string;
+}
+
 export interface Location {
 	name: string;
 	lat: number;
@@ -83,6 +91,10 @@ export interface OpenMeteoConfig {
 	enableComfortHourly: boolean;
 	warnOfficialFetch: boolean;
 	warnOfficial: boolean;
+	/** send to the ioBroker notification system (notification manager); missing = on */
+	notifyManager?: boolean;
+	/** messengers that get the notifications directly */
+	messengers?: MessengerRow[];
 	warnOfficialMinLevel: number;
 	warnExcludeKeywords: string;
 	warnExcludeDisplay: boolean;

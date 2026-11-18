@@ -248,7 +248,9 @@
       "timeBgOpacity": 55,
       "timeFontSize": 24,
       "timeEdgeMargin": 12
-    }
+    },
+    "notifyManager": true,
+    "messengers": []
   },
   "notifications": [
     {

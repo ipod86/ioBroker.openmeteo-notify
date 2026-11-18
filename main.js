@@ -22,6 +22,21 @@ const {
 const { buildChartWidget, hasLightText } = require("./lib/chart-widget");
 const { buildNowcast, isSnow, THUNDER_LP } = require("./lib/nowcast");
 
+/**
+ * Messengers whose "send" command is known: they get the text in their own format. Every other instance whose
+ * adapter declares common.supportedMessages.notifications gets the "sendNotification" of the notification manager.
+ */
+const SEND_FORMAT = {
+	telegram: text => ({ text }),
+	pushover: text => ({ message: text, title: "Open-Meteo" }),
+	email: text => ({ text, subject: `Open-Meteo: ${text.substring(0, 60)}` }),
+	"whatsapp-cmb": text => ({ text }),
+	"signal-cmb": text => ({ text }),
+	pushsafer: text => ({ message: text, title: "Open-Meteo" }),
+};
+/** categories that are warnings: severity "alert" for messengers of the notification manager format */
+const ALERT_CATEGORIES = new Set(["official_warning", "storm", "thunderstorm"]);
+
 const ICONS = {
 	0: "☀️",
 	1: "🌤️",
@@ -1285,6 +1300,21 @@ class Openmeteo extends utils.Adapter {
 			// bisherigen Objektauswahl, damit eingerichtete Widgets gueltig bleiben
 			getLocations: () => this.locationOptions(),
 			getWidgets: () => this.widgetOptions(),
+			// messengers for the notifications (settings) and a test message to the chosen ones
+			getMessengers: () => this.messengerOptions(),
+			testMessengers: async m => {
+				const rows = Array.isArray(m.messengers) ? m.messengers : this.config.messengers || [];
+				const text =
+					this._systemLang === "de" ? "Open-Meteo Notify: Testnachricht" : "Open-Meteo Notify: test message";
+				let n = 0;
+				for (const row of rows) {
+					if (row && row.instance && row.enabled !== false) {
+						await this._sendToMessenger(row, "test", text);
+						n++;
+					}
+				}
+				return { result: n };
+			},
 		};
 		const handler = handlers[obj.command];
 		if (!handler) {
@@ -4251,7 +4281,99 @@ ${(() => {
 		} catch {
 			// noop — history is non-critical
 		}
-		await this.registerNotification("openmeteo-notify", category, msg);
+		// the ioBroker notification system (notification manager) - on unless switched off, as before
+		if (this.config.notifyManager !== false) {
+			await this.registerNotification("openmeteo-notify", category, msg);
+		}
+		await this._sendToMessengers(category, msg);
+	}
+
+	/**
+	 * Sends a message to the messengers chosen in the settings (in addition to or instead of the notification system)
+	 *
+	 * @param {string} category notification category
+	 * @param {string} msg message
+	 */
+	async _sendToMessengers(category, msg) {
+		for (const row of this.config.messengers || []) {
+			if (row && row.instance && row.enabled !== false) {
+				await this._sendToMessenger(row, category, msg);
+			}
+		}
+	}
+
+	/**
+	 * One messenger: known ones with "send", the others in the format of the notification manager
+	 *
+	 * @param {{instance: string, user?: string, chatId?: string}} row row of the messenger table
+	 * @param {string} category notification category
+	 * @param {string} msg message
+	 */
+	async _sendToMessenger(row, category, msg) {
+		const inst = String(row.instance).trim();
+		const format = SEND_FORMAT[inst.replace(/\.\d+$/, "")];
+		try {
+			if (format) {
+				const payload = format(msg);
+				if (row.user) {
+					payload.user = row.user;
+				}
+				if (row.chatId) {
+					payload.chatId = row.chatId;
+				}
+				this.sendTo(inst, "send", payload);
+				return;
+			}
+			const obj = await this.getForeignObjectAsync(`system.adapter.${inst}`);
+			if (!obj?.common?.supportedMessages?.notifications) {
+				// unknown adapter without notification support: try the usual "send" fields
+				this.sendTo(inst, "send", { text: msg, message: msg, title: "Open-Meteo" });
+				return;
+			}
+			const de = this._systemLang === "de";
+			const res = await this.sendToAsync(
+				inst,
+				"sendNotification",
+				{
+					host: `system.host.${this.host}`,
+					scope: { name: "Open-Meteo Notify", description: de ? "Wetter" : "Weather" },
+					category: {
+						name: de ? "Wetter" : "Weather",
+						description: "",
+						severity: ALERT_CATEGORIES.has(category) ? "alert" : "notify",
+						instances: { [this.namespace]: { messages: [{ message: msg, ts: Date.now() }] } },
+					},
+				},
+				{ timeout: 10000 },
+			);
+			if (!res || res.sent !== true) {
+				this.log.warn(`${inst} did not confirm the notification`);
+			}
+		} catch (err) {
+			this.log.warn(`Notification to ${inst} failed: ${err.message}`);
+		}
+	}
+
+	/**
+	 * Instances that can receive messages: the known messengers and every adapter that declares it receives
+	 * ioBroker notifications (like the notification manager does)
+	 *
+	 * @returns {Promise<{value: string, label: string}[]>} instances for the selection in the settings
+	 */
+	async messengerOptions() {
+		const inst = await this.getObjectViewAsync("system", "instance", {
+			startkey: "system.adapter.",
+			endkey: "system.adapter.\u9999",
+		});
+		return inst.rows
+			.filter(
+				r =>
+					!!r.value?.common?.supportedMessages?.notifications ||
+					r.id.replace("system.adapter.", "").replace(/\.\d+$/, "") in SEND_FORMAT,
+			)
+			.map(r => r.id.replace("system.adapter.", ""))
+			.filter(id => id !== this.namespace)
+			.map(id => ({ value: id, label: id }));
 	}
 
 	async _loadWarnState() {

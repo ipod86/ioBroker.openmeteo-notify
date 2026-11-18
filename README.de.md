@@ -318,6 +318,7 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (ipod86) Neu: Benachrichtigungen auch direkt an Messenger (Telegram, E-Mail, Pushover, Pushsafer, WhatsApp/Signal cmb und jeder Adapter, der ioBroker-Benachrichtigungen empfängt); das Benachrichtigungssystem bleibt standardmäßig an und lässt sich abschalten
 * (ipod86) feat: Nachrichten `getLocations` und `getWidgets` für die Web-Komponenten (Vorbereitung für Auswahllisten statt Objektbaum)
 * (ipod86) chore: Beschreibung und Suchbegriffe nennen die Widgets für vis-2, AURA und andere Visualisierungen
 
