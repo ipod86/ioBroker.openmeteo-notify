@@ -26,6 +26,7 @@ const FIELDS: Record<string, Field[]> = {
 	"whatsapp-cmb": ["phone"],
 	"signal-cmb": ["phone"],
 	gsmsms: ["phone"],
+	sevenio: ["phone"],
 	discord: ["user", "channel"],
 	max: ["user"],
 	iot: ["device"],

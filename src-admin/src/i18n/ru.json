@@ -218,6 +218,8 @@
 	"mh_synochat": "Required: the channel name as in the synochat settings (channel of type 'incoming').",
 	"messengerUnsupported": "No longer supported directly – please use it via the notification system or delete the row.",
 	"messengerNotInstalled": "This instance is not installed (any more).",
-	"messengersNoneInstalled": "No supported messenger installed. Supported are Telegram, e-mail, Pushover, Pushsafer, Gotify, WhatsApp and Signal (CallMeBot), SMS (gsmsms), Discord, MAX, the ioBroker Visu app (iot) and Synology Chat.",
-	"messengersNeedRunning": "The list of installed messengers appears when the instance is running."
+	"messengersNoneInstalled": "No supported messenger installed. Supported are Telegram, e-mail, Pushover, Pushsafer, Gotify, WhatsApp and Signal (CallMeBot), SMS (gsmsms, seven.io), Discord, MAX, the ioBroker Visu app (iot) and Synology Chat.",
+	"messengersNeedRunning": "The list of installed messengers appears when the instance is running.",
+	"mf_sevenio_phone": "Phone number or contact",
+	"mh_sevenio": "Required: number like +491701234567 or a contact name from seven.io. The SMS is sent via seven.io."
 }

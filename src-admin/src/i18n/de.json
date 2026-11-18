@@ -218,6 +218,8 @@
 	"mh_synochat": "Pflichtfeld: der Kanalname wie in den synochat-Einstellungen (Kanal vom Typ „eingehend“).",
 	"messengerUnsupported": "Wird nicht mehr direkt unterstützt – bitte über das Benachrichtigungssystem nutzen oder die Zeile löschen.",
 	"messengerNotInstalled": "Diese Instanz ist nicht (mehr) installiert.",
-	"messengersNoneInstalled": "Kein unterstützter Messenger installiert. Unterstützt werden Telegram, E-Mail, Pushover, Pushsafer, Gotify, WhatsApp und Signal (CallMeBot), SMS (gsmsms), Discord, MAX, die ioBroker Visu App (iot) und Synology Chat.",
-	"messengersNeedRunning": "Die Liste der installierten Messenger erscheint, wenn die Instanz läuft."
+	"messengersNoneInstalled": "Kein unterstützter Messenger installiert. Unterstützt werden Telegram, E-Mail, Pushover, Pushsafer, Gotify, WhatsApp und Signal (CallMeBot), SMS (gsmsms, seven.io), Discord, MAX, die ioBroker Visu App (iot) und Synology Chat.",
+	"messengersNeedRunning": "Die Liste der installierten Messenger erscheint, wenn die Instanz läuft.",
+	"mf_sevenio_phone": "Telefonnummer oder Kontakt",
+	"mh_sevenio": "Pflichtfeld: Nummer im Format +491701234567 oder ein Kontaktname aus seven.io. Die SMS geht über seven.io."
 }

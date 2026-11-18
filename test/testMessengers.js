@@ -19,8 +19,8 @@ function fakeHost() {
 const msg = { title: "Open-Meteo", text: "Sturm in Berlin", alert: true };
 
 describe("messengers", () => {
-	it("knows the 12 supported messengers", () => {
-		expect(Object.keys(MESSENGERS)).to.have.length(12);
+	it("knows the 13 supported messengers", () => {
+		expect(Object.keys(MESSENGERS)).to.have.length(13);
 	});
 	it("lists only installed supported instances", async () => {
 		const list = await listMessengers(fakeHost());
