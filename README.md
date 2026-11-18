@@ -313,7 +313,7 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.6.1 (2026-11-18)
 * (ipod86) feat: messengers sent to directly in their own format: in addition Gotify, SMS (gsmsms, seven.io), Discord, MAX, ioBroker Visu app and Synology Chat; only supported and installed messengers can be chosen, each with its own fields
 * (ipod86) change: no more generic notification format and free instance input – other messengers via the notification manager
 
@@ -339,13 +339,6 @@ This adapter is an independent community project and is not affiliated with or e
 
 ### 0.4.1 (2026-10-22)
 * (ipod86) feat: short-range forecast in all widgets (text line, precipitation strip, "15 min" chart view) and as `minutely.text` – widget size unchanged
-
-### 0.4.0 (2026-10-21)
-* (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
-* (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
-* (ipod86) fix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)
-* (ipod86) fix: wallpaper URL data points of removed web instances are deleted
-* (ipod86) feat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast
 
 Older changelogs are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

@@ -100,6 +100,13 @@
 
 ### 0.0.1
 * Initial release
+## 0.4.0 (2026-10-21)
+* (ipod86) fix: suncalc 2.1.1 – corrected moon phase, moonrise/moonset now assigned to the local calendar day
+* (ipod86) feat: optional 15-minute forecast for the next 1–4 hours with its own interval and "precipitation starts soon" notification
+* (ipod86) fix: moonrise/moonset in local time of the location like sunrise/sunset (was UTC)
+* (ipod86) fix: wallpaper URL data points of removed web instances are deleted
+* (ipod86) feat: showers (convective precipitation) also current and hourly; sunshine minutes per hour; lightning potential in the 15-minute forecast
+
 ## 0.3.1 (2026-10-21)
 * (ipod86) fix: much smaller widget data points – built-in icons are loaded via their path instead of being embedded as Base64, custom icons are embedded only once, smaller basmilius/moon PNGs (detailed widget e.g. 841 KB → 83 KB)
 * (ipod86) fix: warning badge could not be opened when a dashboard card displays the widget in a shadow DOM
