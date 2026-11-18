@@ -21,7 +21,7 @@ This adapter retrieves weather forecast data from the free [Open-Meteo API](http
 ## Highlights
 
 ### Weather notifications via ioBroker notification manager
-The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). All notification targets (Telegram, email, Pushover, …) are configured centrally via the **ioBroker notification manager** — no per-adapter setup required.
+The adapter sends individual notifications for configurable weather events — storm warnings, thunderstorm alerts, and official warnings from national meteorological services (DWD for Germany, MeteoAlarm for Europe). They go to the **ioBroker notification system** (forwarded by the notification manager) and/or directly to messengers: Telegram, e-mail, Pushover, Pushsafer, Gotify, WhatsApp and Signal (CallMeBot), SMS (gsmsms), Discord, MAX, the ioBroker Visu app (iot) and Synology Chat — each in its own format with the fields it needs (recipient, phone number, channel, …). Only installed messengers are offered; any other messenger can be used via the notification manager.
 
 ### Configurable HTML widget
 The adapter generates a ready-to-use HTML data point (`widget`) that can be embedded directly in VIS, vis-2 or any ioBroker dashboard — no external tools or manual CSS needed. Theme (light/dark), background transparency, card transparency, font size and card color are all configurable directly in the adapter settings.
@@ -313,6 +313,10 @@ This adapter is an independent community project and is not affiliated with or e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) feat: messengers sent to directly in their own format: in addition Gotify, SMS (gsmsms), Discord, MAX, ioBroker Visu app and Synology Chat; only supported and installed messengers can be chosen, each with its own fields
+* (ipod86) change: no more generic notification format and free instance input – other messengers via the notification manager
+
 ### 0.6.0 (2026-11-18)
 * (ipod86) feat: notifications also directly to messengers (Telegram, e-mail, Pushover, Pushsafer, WhatsApp/Signal cmb and every adapter that receives ioBroker notifications); the notification system stays on by default and can be switched off
 * (ipod86) feat: messages `getLocations` and `getWidgets` for the web components (prepares dropdowns instead of the object browser)

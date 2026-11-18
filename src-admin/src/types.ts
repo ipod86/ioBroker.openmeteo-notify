@@ -1,9 +1,13 @@
-/** a messenger instance that gets the notifications (Telegram, e-mail, ... or any adapter for notifications) */
+/** a messenger instance that gets the notifications directly; which fields it uses: lib/messengers.js */
 export interface MessengerRow {
 	enabled: boolean;
 	instance: string;
 	user?: string;
 	chatId?: string;
+	phone?: string;
+	to?: string;
+	device?: string;
+	channel?: string;
 }
 
 export interface Location {

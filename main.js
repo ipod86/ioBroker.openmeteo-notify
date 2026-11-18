@@ -21,20 +21,9 @@ const {
 } = require("./lib/i18n");
 const { buildChartWidget, hasLightText } = require("./lib/chart-widget");
 const { buildNowcast, isSnow, THUNDER_LP } = require("./lib/nowcast");
+const { sendToMessenger, listMessengers } = require("./lib/messengers");
 
-/**
- * Messengers whose "send" command is known: they get the text in their own format. Every other instance whose
- * adapter declares common.supportedMessages.notifications gets the "sendNotification" of the notification manager.
- */
-const SEND_FORMAT = {
-	telegram: text => ({ text }),
-	pushover: text => ({ message: text, title: "Open-Meteo" }),
-	email: text => ({ text, subject: `Open-Meteo: ${text.substring(0, 60)}` }),
-	"whatsapp-cmb": text => ({ text }),
-	"signal-cmb": text => ({ text }),
-	pushsafer: text => ({ message: text, title: "Open-Meteo" }),
-};
-/** categories that are warnings: severity "alert" for messengers of the notification manager format */
+/** categories that are warnings: higher priority for messengers that have one */
 const ALERT_CATEGORIES = new Set(["official_warning", "storm", "thunderstorm"]);
 
 const ICONS = {
@@ -1307,13 +1296,18 @@ class Openmeteo extends utils.Adapter {
 				const text =
 					this._systemLang === "de" ? "Open-Meteo Notify: Testnachricht" : "Open-Meteo Notify: test message";
 				let n = 0;
+				const errors = [];
 				for (const row of rows) {
 					if (row && row.instance && row.enabled !== false) {
-						await this._sendToMessenger(row, "test", text);
-						n++;
+						try {
+							await sendToMessenger(this, row, { title: "Open-Meteo", text, alert: false });
+							n++;
+						} catch (err) {
+							errors.push(err.message);
+						}
 					}
 				}
-				return { result: n };
+				return errors.length ? { result: n, error: errors.join("; ") } : { result: n };
 			},
 		};
 		const handler = handlers[obj.command];
@@ -4303,77 +4297,27 @@ ${(() => {
 	}
 
 	/**
-	 * One messenger: known ones with "send", the others in the format of the notification manager
+	 * One messenger, in its own format (see lib/messengers.js)
 	 *
-	 * @param {{instance: string, user?: string, chatId?: string}} row row of the messenger table
+	 * @param {import("./lib/messengers").MessengerRow} row row of the messenger table
 	 * @param {string} category notification category
 	 * @param {string} msg message
 	 */
 	async _sendToMessenger(row, category, msg) {
-		const inst = String(row.instance).trim();
-		const format = SEND_FORMAT[inst.replace(/\.\d+$/, "")];
 		try {
-			if (format) {
-				const payload = format(msg);
-				if (row.user) {
-					payload.user = row.user;
-				}
-				if (row.chatId) {
-					payload.chatId = row.chatId;
-				}
-				this.sendTo(inst, "send", payload);
-				return;
-			}
-			const obj = await this.getForeignObjectAsync(`system.adapter.${inst}`);
-			if (!obj?.common?.supportedMessages?.notifications) {
-				// unknown adapter without notification support: try the usual "send" fields
-				this.sendTo(inst, "send", { text: msg, message: msg, title: "Open-Meteo" });
-				return;
-			}
-			const de = this._systemLang === "de";
-			const res = await this.sendToAsync(
-				inst,
-				"sendNotification",
-				{
-					host: `system.host.${this.host}`,
-					scope: { name: "Open-Meteo Notify", description: de ? "Wetter" : "Weather" },
-					category: {
-						name: de ? "Wetter" : "Weather",
-						description: "",
-						severity: ALERT_CATEGORIES.has(category) ? "alert" : "notify",
-						instances: { [this.namespace]: { messages: [{ message: msg, ts: Date.now() }] } },
-					},
-				},
-				{ timeout: 10000 },
-			);
-			if (!res || res.sent !== true) {
-				this.log.warn(`${inst} did not confirm the notification`);
-			}
+			await sendToMessenger(this, row, { title: "Open-Meteo", text: msg, alert: ALERT_CATEGORIES.has(category) });
 		} catch (err) {
-			this.log.warn(`Notification to ${inst} failed: ${err.message}`);
+			this.log.warn(`Notification to ${row.instance} failed: ${err.message}`);
 		}
 	}
 
 	/**
-	 * Instances that can receive messages: the known messengers and every adapter that declares it receives
-	 * ioBroker notifications (like the notification manager does)
+	 * Installed instances of the messengers this adapter supports
 	 *
-	 * @returns {Promise<{value: string, label: string}[]>} instances for the selection in the settings
+	 * @returns {Promise<{value: string, label: string, fields: string[]}[]>} instances for the selection in the settings
 	 */
 	async messengerOptions() {
-		const inst = await this.getObjectViewAsync("system", "instance", {
-			startkey: "system.adapter.",
-			endkey: "system.adapter.\u9999",
-		});
-		return inst.rows
-			.filter(
-				r =>
-					!!r.value?.common?.supportedMessages?.notifications ||
-					r.id.replace("system.adapter.", "").replace(/\.\d+$/, "") in SEND_FORMAT,
-			)
-			.map(r => r.id.replace("system.adapter.", ""))
-			.filter(id => id !== this.namespace)
-			.map(id => ({ value: id, label: id }));
+		return listMessengers(this);
 	}
 
 	async _loadWarnState() {

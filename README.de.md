@@ -21,7 +21,7 @@ Dieser Adapter ruft Wetterdaten von der kostenlosen [Open-Meteo API](https://ope
 ## Highlights
 
 ### Wettermeldungen über den ioBroker Notification Manager
-Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Alle Benachrichtigungsziele (Telegram, E-Mail, Pushover, …) werden zentral über den **ioBroker Notification Manager** konfiguriert — keine adapterspezifische Einrichtung erforderlich.
+Der Adapter sendet individuelle Benachrichtigungen für konfigurierbare Wetterlagen — Sturmwarnungen, Gewittermeldungen und amtliche Warnungen nationaler Wetterdienste (DWD für Deutschland, MeteoAlarm für Europa). Sie gehen an das **ioBroker-Benachrichtigungssystem** (weitergeleitet vom Benachrichtigungsmanager) und/oder direkt an Messenger: Telegram, E-Mail, Pushover, Pushsafer, Gotify, WhatsApp und Signal (CallMeBot), SMS (gsmsms), Discord, MAX, die ioBroker Visu App (iot) und Synology Chat — jeweils im eigenen Format mit den Feldern, die der Messenger braucht (Empfänger, Telefonnummer, Kanal, …). Angeboten werden nur installierte Messenger; jeden anderen erreichst du über den Benachrichtigungsmanager.
 
 ### Konfigurierbares HTML-Widget
 Der Adapter erzeugt einen fertigen HTML-Datenpunkt (`widget`), der direkt in VIS, vis-2 oder jedem ioBroker-Dashboard eingebettet werden kann — ohne externe Tools oder manuelles CSS. Theme (hell/dunkel), Hintergrundtransparenz, Kartentransparenz, Schriftgröße und Kartenfarbe sind direkt in den Adaptereinstellungen konfigurierbar.
@@ -317,6 +317,10 @@ Dieser Adapter ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (ipod86) Neu: direkt im eigenen Format zusätzlich an Gotify, SMS (gsmsms), Discord, MAX, ioBroker Visu App und Synology Chat; wählbar sind nur unterstützte und installierte Messenger, jeweils mit eigenen Feldern
+* (ipod86) Geändert: kein allgemeines Benachrichtigungsformat und keine freie Instanzeingabe mehr – andere Messenger über den Benachrichtigungsmanager
+
 ### 0.6.0 (2026-11-18)
 * (ipod86) Neu: Benachrichtigungen auch direkt an Messenger (Telegram, E-Mail, Pushover, Pushsafer, WhatsApp/Signal cmb und jeder Adapter, der ioBroker-Benachrichtigungen empfängt); das Benachrichtigungssystem bleibt standardmäßig an und lässt sich abschalten
 * (ipod86) feat: Nachrichten `getLocations` und `getWidgets` für die Web-Komponenten (Vorbereitung für Auswahllisten statt Objektbaum)
